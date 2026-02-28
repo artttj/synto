@@ -3,130 +3,259 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Page Clipper — Options</title>
+  <title>AI Page Clipper — Settings</title>
   <link rel="stylesheet" href="options.css" />
 </head>
 <body>
-  <div class="page">
-    <header>
-      <h1>AI Page Clipper <span class="subtitle">Options</span></h1>
-    </header>
+  <div class="settings-layout">
 
-    <main>
-      <!-- Settings section -->
-      <section class="card">
-        <h2>Default Settings</h2>
-        <div class="field-row">
-          <label for="default-template">Default template</label>
-          <select id="default-template"></select>
+    <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="../icons/icon48.png" class="brand-icon" alt="" />
+        <div class="brand-text">
+          <div class="brand-name">AI Page Clipper</div>
+          <div class="brand-sub">Settings</div>
         </div>
-        <div class="field-row">
-          <label for="llm-provider">AI provider</label>
-          <select id="llm-provider">
-            <option value="openai">OpenAI (ChatGPT)</option>
-            <option value="gemini">Gemini (Google)</option>
-            <option value="grok">Grok (xAI)</option>
-          </select>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="general">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="10" cy="10" r="3"/>
+            <path d="M10 2v1.5m0 13V18M2 10h1.5m13 0H18M4.4 4.4l1.1 1.1m9 9 1.1 1.1M4.4 15.6l1.1-1.1m9-9 1.1-1.1"/>
+          </svg>
+          General
+        </button>
+
+        <button class="nav-item" data-tab="ai-connections">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="11" width="5" height="6" rx="1"/>
+            <rect x="8" y="6" width="5" height="11" rx="1"/>
+            <rect x="13" y="3" width="4" height="14" rx="1"/>
+          </svg>
+          AI Connections
+          <span id="nav-ai-warning" class="nav-warning hidden" title="Some API keys are not configured">!</span>
+        </button>
+
+        <button class="nav-item" data-tab="prompt-library">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4 5h12M4 9h12M4 13h7"/>
+          </svg>
+          Prompt Library
+        </button>
+      </nav>
+    </aside>
+
+    <!-- ── Content ────────────────────────────────────────────────────── -->
+    <main class="tab-content">
+
+      <!-- Tab: General -->
+      <section id="tab-general" class="tab-panel">
+        <div class="panel-header">
+          <h1>General</h1>
+          <p>Configure default behaviour when the extension opens.</p>
         </div>
-        <div class="field-row">
-          <label for="theme-toggle">Light theme</label>
-          <label class="switch">
-            <input type="checkbox" id="theme-toggle" />
-            <span class="slider"></span>
-          </label>
+
+        <div class="setting-group">
+          <div class="setting-row">
+            <div class="setting-label">
+              <div class="setting-title">Default Template</div>
+              <div class="setting-desc">Pre-selected prompt when the popup opens</div>
+            </div>
+            <select id="default-template" class="setting-select"></select>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <div class="setting-title">AI Provider</div>
+              <div class="setting-desc">Which service runs the analysis</div>
+            </div>
+            <div class="segmented" id="provider-segmented">
+              <button class="seg-btn" data-value="openai">OpenAI</button>
+              <button class="seg-btn" data-value="gemini">Gemini</button>
+              <button class="seg-btn" data-value="grok">Grok</button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <div class="setting-title">Theme</div>
+              <div class="setting-desc">Interface colour scheme</div>
+            </div>
+            <div class="segmented" id="theme-segmented">
+              <button class="seg-btn" data-value="dark">Dark</button>
+              <button class="seg-btn" data-value="light">Light</button>
+            </div>
+          </div>
         </div>
-        <div class="actions">
+
+        <div class="panel-actions">
           <button id="btn-save-settings" class="btn btn-primary">Save Settings</button>
           <span id="settings-saved" class="saved-msg hidden">&#10003; Saved</span>
         </div>
       </section>
 
-      <!-- OpenAI API key -->
-      <section class="card">
-        <h2>OpenAI Chat</h2>
-        <div class="field-col">
-          <label for="openai-key">API Key <span class="muted">(stored locally, never sent anywhere except api.openai.com)</span></label>
-          <div class="key-row">
-            <input type="password" id="openai-key" placeholder="sk-…" autocomplete="off" spellcheck="false" />
-            <button id="btn-toggle-key" class="btn btn-secondary" type="button">Show</button>
+      <!-- Tab: AI Connections -->
+      <section id="tab-ai-connections" class="tab-panel hidden">
+        <div class="panel-header">
+          <h1>AI Connections</h1>
+          <p>API keys are stored locally on your device and never shared.</p>
+        </div>
+
+        <!-- OpenAI -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">OpenAI</div>
+              <div class="provider-model">gpt-4o-mini</div>
+            </div>
+            <span id="badge-openai" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="openai-key" class="key-input" placeholder="sk-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint">Sent only to <code>api.openai.com</code> &middot; <a href="https://platform.openai.com/api-keys" target="_blank">Get key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-key" class="btn btn-primary btn-sm">Save</button>
+              <button id="btn-clear-key" class="btn btn-ghost btn-sm">Clear</button>
+              <span id="key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
           </div>
         </div>
-        <p class="hint">Model used: <code>gpt-4o-mini</code>. Get a key at <code>platform.openai.com</code>.</p>
-        <div class="actions">
-          <button id="btn-save-key" class="btn btn-primary">Save Key</button>
-          <button id="btn-clear-key" class="btn btn-secondary">Clear</button>
-          <span id="key-saved" class="saved-msg hidden">&#10003; Saved</span>
+
+        <!-- Gemini -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">Gemini</div>
+              <div class="provider-model">gemini-2.0-flash &middot; Google</div>
+            </div>
+            <span id="badge-gemini" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="gemini-key" class="key-input" placeholder="AIzaSy…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-gemini-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint">Sent only to <code>googleapis.com</code> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank">Get free key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-gemini-key" class="btn btn-primary btn-sm">Save</button>
+              <button id="btn-clear-gemini-key" class="btn btn-ghost btn-sm">Clear</button>
+              <span id="gemini-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grok -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">Grok</div>
+              <div class="provider-model">grok-3-mini &middot; xAI</div>
+            </div>
+            <span id="badge-grok" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="grok-key" class="key-input" placeholder="xai-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-grok-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint">Sent only to <code>api.x.ai</code> &middot; <a href="https://console.x.ai/" target="_blank">Get key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-grok-key" class="btn btn-primary btn-sm">Save</button>
+              <button id="btn-clear-grok-key" class="btn btn-ghost btn-sm">Clear</button>
+              <span id="grok-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Gemini API key -->
-      <section class="card">
-        <h2>Gemini (Google)</h2>
-        <div class="field-col">
-          <label for="gemini-key">API Key <span class="muted">(stored locally, never sent anywhere except generativelanguage.googleapis.com)</span></label>
-          <div class="key-row">
-            <input type="password" id="gemini-key" placeholder="AIzaSy…" autocomplete="off" spellcheck="false" />
-            <button id="btn-toggle-gemini-key" class="btn btn-secondary" type="button">Show</button>
+      <!-- Tab: Prompt Library -->
+      <section id="tab-prompt-library" class="tab-panel hidden">
+        <div class="panel-header">
+          <h1>Prompt Library</h1>
+          <p>Browse, search, and manage your prompt templates.</p>
+        </div>
+
+        <div class="library-search-row">
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="8.5" cy="8.5" r="5.5"/>
+              <path d="M15 15l3 3"/>
+            </svg>
+            <input type="search" id="template-search" class="search-input" placeholder="Search templates…" />
           </div>
         </div>
-        <p class="hint">Model used: <code>gemini-2.0-flash</code>. Get a free key at <code>aistudio.google.com</code>.</p>
-        <div class="actions">
-          <button id="btn-save-gemini-key" class="btn btn-primary">Save Key</button>
-          <button id="btn-clear-gemini-key" class="btn btn-secondary">Clear</button>
-          <span id="gemini-key-saved" class="saved-msg hidden">&#10003; Saved</span>
-        </div>
-      </section>
-
-      <!-- Grok API key -->
-      <section class="card">
-        <h2>Grok (xAI)</h2>
-        <div class="field-col">
-          <label for="grok-key">API Key <span class="muted">(stored locally, never sent anywhere except api.x.ai)</span></label>
-          <div class="key-row">
-            <input type="password" id="grok-key" placeholder="xai-…" autocomplete="off" spellcheck="false" />
-            <button id="btn-toggle-grok-key" class="btn btn-secondary" type="button">Show</button>
-          </div>
-        </div>
-        <p class="hint">Model used: <code>grok-3-mini</code>. Get a key at <code>console.x.ai</code>.</p>
-        <div class="actions">
-          <button id="btn-save-grok-key" class="btn btn-primary">Save Key</button>
-          <button id="btn-clear-grok-key" class="btn btn-secondary">Clear</button>
-          <span id="grok-key-saved" class="saved-msg hidden">&#10003; Saved</span>
-        </div>
-      </section>
-
-      <!-- Templates section -->
-      <section class="card">
-        <div class="section-header">
-          <h2>Prompt Templates</h2>
-          <button id="btn-new-template" class="btn btn-secondary">+ New Template</button>
-        </div>
-
-        <p class="hint">
-          Placeholders: <code>{content}</code>, <code>{selection}</code>,
-          <code>{title}</code>, <code>{url}</code>, <code>{excerpt}</code>, <code>{byline}</code>.
-          <code>{selection}</code> resolves to the user's highlighted text (falls back to full content).
-        </p>
 
         <div id="template-list" class="template-list"></div>
       </section>
+
     </main>
   </div>
 
-  <!-- Edit template modal -->
+  <!-- FAB — shown only on Prompt Library tab -->
+  <button id="btn-new-template" class="fab hidden" title="Add new template">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M10 4v12M4 10h12"/>
+    </svg>
+    New Template
+  </button>
+
+  <!-- Modal -->
   <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <h3 id="modal-title">Edit Template</h3>
-      <div class="field-col">
-        <label for="modal-name">Name</label>
-        <input type="text" id="modal-name" placeholder="Template name" maxlength="60" />
+      <div class="modal-head">
+        <h3 id="modal-title">New Template</h3>
+        <button id="modal-close" class="modal-close" aria-label="Close">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 5l10 10M15 5l-10 10"/>
+          </svg>
+        </button>
       </div>
-      <div class="field-col">
-        <label for="modal-prompt">Prompt</label>
-        <textarea id="modal-prompt" rows="12" placeholder="Use {content}, {title}, {url} as placeholders…"></textarea>
+
+      <div class="modal-body">
+        <div class="field-col">
+          <label for="modal-name">Name</label>
+          <input type="text" id="modal-name" placeholder="Template name" maxlength="60" />
+        </div>
+        <div class="field-col">
+          <label for="modal-prompt">Prompt</label>
+          <textarea id="modal-prompt" rows="10" placeholder="Write your prompt here…"></textarea>
+        </div>
+        <div class="placeholder-helper">
+          <div class="helper-label">Insert placeholder</div>
+          <div class="helper-chips">
+            <button class="chip" data-placeholder="{content}" type="button">{content}</button>
+            <button class="chip" data-placeholder="{selection}" type="button">{selection}</button>
+            <button class="chip" data-placeholder="{title}" type="button">{title}</button>
+            <button class="chip" data-placeholder="{url}" type="button">{url}</button>
+            <button class="chip" data-placeholder="{excerpt}" type="button">{excerpt}</button>
+            <button class="chip" data-placeholder="{byline}" type="button">{byline}</button>
+          </div>
+          <div class="helper-hint">{selection} uses highlighted text and falls back to full page content.</div>
+        </div>
       </div>
+
       <div class="modal-actions">
-        <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
         <button id="modal-save" class="btn btn-primary">Save Template</button>
       </div>
     </div>
