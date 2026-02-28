@@ -13,7 +13,7 @@ export const STORAGE_KEYS = {
   GEMINI_KEY: "apc_gemini_key",
 };
 
-export const TEMPLATE_CATEGORIES = ["General", "Engineering", "Product", "Community"];
+export const TEMPLATE_CATEGORIES = ["General", "Engineering", "Community"];
 
 export const DEFAULT_TEMPLATES = [
 
@@ -56,42 +56,31 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  // ── Engineering ────────────────────────────────────────────────────────────
-
   {
-    id: "eng-decision-brief",
-    name: "Decision Brief",
-    category: "Engineering",
+    id: "default-diet-menu",
+    name: "Dietetic Menu",
+    category: "General",
     isDefault: false,
-    prompt: `Produce a decision brief from this technical discussion. No preamble — start with the first heading.
+    prompt: `You are a nutrition expert. Based on the restaurant menu below, suggest exactly 3 dishes for a dietetic meal (e.g. starter, main, dessert — or 3 mains if that fits better).
 
-## Context
-What problem or situation triggered this discussion?
+Requirements:
+- Low carb: under 30g net carbs per dish
+- Low fat: under 15g fat per dish
+- High protein where possible
+- Only suggest dishes actually listed on the menu
 
-## Options Considered
-List each proposal or approach raised, one bullet per option with a one-line description.
+For each dish provide:
+| Dish | Est. calories | Carbs | Fat | Protein |
+|------|--------------|-------|-----|---------|
 
-## Arguments For / Against
-For the top two options, summarize the strongest arguments on each side.
-
-## Decision
-What was decided, merged, or closed? Who made the call?
-
-## Rationale
-Why was this option chosen over the others?
-
-## Consequences & Trade-offs
-What is being accepted, deferred, or sacrificed?
-
-## Open Items
-What was left unresolved or needs follow-up?
+Then add a one-line note on why this combination works dietetically.
 
 ---
 
-Source: [{title}]({url})
-
 {content}`,
   },
+
+  // ── Engineering ────────────────────────────────────────────────────────────
 
   {
     id: "eng-pr-review",
@@ -223,6 +212,18 @@ Is there a resolution, or is the debate ongoing?
 ---
 
 Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "community-rewrite-comment",
+    name: "Rewrite Comment",
+    category: "Community",
+    isDefault: false,
+    prompt: `Rewrite the following comment to be clearer, more professional, and constructive. Keep the core message intact but improve tone, clarity, and structure. Return only the rewritten comment, nothing else.
+
+---
 
 {content}`,
   },
