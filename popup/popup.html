@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Page Clipper</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <span class="logo">AI Page Clipper</span>
+    <button id="btn-options" title="Options" aria-label="Open Options">&#9881;</button>
+  </header>
+
+  <!-- Controls -->
+  <div class="controls">
+    <label for="template-select">Template</label>
+    <select id="template-select" aria-label="Select template"></select>
+  </div>
+
+  <!-- Error message -->
+  <div id="error-msg" class="status-msg error hidden" role="alert"></div>
+
+  <!-- Token estimate -->
+  <div id="token-row" class="token-row hidden">
+    Estimated tokens: <span id="token-count" class="token-count">—</span>
+  </div>
+
+  <!-- Primary action -->
+  <button id="btn-copy" class="btn-copy" disabled>Copy to Clipboard</button>
+
+  <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
+
+  <!-- Preview panel -->
+  <div id="preview-panel" class="preview-panel hidden">
+    <button id="btn-preview-toggle" class="preview-toggle">Preview <span id="preview-arrow">&#9652;</span></button>
+    <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
+  </div>
+
+  <!-- AI action -->
+  <button id="btn-process" class="btn-ask" disabled>Ask ChatGPT</button>
+
+  <!-- AI response panel (revealed on first use) -->
+  <div id="chat-panel" class="chat-panel hidden">
+    <div id="chat-no-key" class="status-msg hidden">
+      No API key set. Add it in <a id="chat-options-link" href="#">Options</a>.
+    </div>
+    <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

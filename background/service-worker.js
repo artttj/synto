@@ -1,0 +1,17 @@
+import { STORAGE_KEYS, DEFAULT_TEMPLATES } from "../shared/constants.js";
+
+// ─── Seed default templates on first install ──────────────────────────────────
+
+chrome.runtime.onInstalled.addListener(async ({ reason }) => {
+  if (reason !== "install") return;
+  try {
+    const existing = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
+    if (!existing[STORAGE_KEYS.TEMPLATES]) {
+      await chrome.storage.sync.set({
+        [STORAGE_KEYS.TEMPLATES]: DEFAULT_TEMPLATES,
+      });
+    }
+  } catch (err) {
+    console.error("[APC] onInstalled seed failed:", err);
+  }
+});

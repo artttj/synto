@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Page Clipper — Options</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>AI Page Clipper <span class="subtitle">Options</span></h1>
+    </header>
+
+    <main>
+      <!-- Settings section -->
+      <section class="card">
+        <h2>Default Settings</h2>
+        <div class="field-row">
+          <label for="default-template">Default template</label>
+          <select id="default-template"></select>
+        </div>
+        <div class="field-row">
+          <label for="llm-provider">AI provider</label>
+          <select id="llm-provider">
+            <option value="openai">OpenAI (ChatGPT)</option>
+            <option value="gemini">Gemini (Google)</option>
+            <option value="grok">Grok (xAI)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label for="theme-toggle">Light theme</label>
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="btn-save-settings" class="btn btn-primary">Save Settings</button>
+          <span id="settings-saved" class="saved-msg hidden">&#10003; Saved</span>
+        </div>
+      </section>
+
+      <!-- OpenAI API key -->
+      <section class="card">
+        <h2>OpenAI Chat</h2>
+        <div class="field-col">
+          <label for="openai-key">API Key <span class="muted">(stored locally, never sent anywhere except api.openai.com)</span></label>
+          <div class="key-row">
+            <input type="password" id="openai-key" placeholder="sk-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-key" class="btn btn-secondary" type="button">Show</button>
+          </div>
+        </div>
+        <p class="hint">Model used: <code>gpt-4o-mini</code>. Get a key at <code>platform.openai.com</code>.</p>
+        <div class="actions">
+          <button id="btn-save-key" class="btn btn-primary">Save Key</button>
+          <button id="btn-clear-key" class="btn btn-secondary">Clear</button>
+          <span id="key-saved" class="saved-msg hidden">&#10003; Saved</span>
+        </div>
+      </section>
+
+      <!-- Gemini API key -->
+      <section class="card">
+        <h2>Gemini (Google)</h2>
+        <div class="field-col">
+          <label for="gemini-key">API Key <span class="muted">(stored locally, never sent anywhere except generativelanguage.googleapis.com)</span></label>
+          <div class="key-row">
+            <input type="password" id="gemini-key" placeholder="AIzaSy…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-gemini-key" class="btn btn-secondary" type="button">Show</button>
+          </div>
+        </div>
+        <p class="hint">Model used: <code>gemini-2.0-flash</code>. Get a free key at <code>aistudio.google.com</code>.</p>
+        <div class="actions">
+          <button id="btn-save-gemini-key" class="btn btn-primary">Save Key</button>
+          <button id="btn-clear-gemini-key" class="btn btn-secondary">Clear</button>
+          <span id="gemini-key-saved" class="saved-msg hidden">&#10003; Saved</span>
+        </div>
+      </section>
+
+      <!-- Grok API key -->
+      <section class="card">
+        <h2>Grok (xAI)</h2>
+        <div class="field-col">
+          <label for="grok-key">API Key <span class="muted">(stored locally, never sent anywhere except api.x.ai)</span></label>
+          <div class="key-row">
+            <input type="password" id="grok-key" placeholder="xai-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-grok-key" class="btn btn-secondary" type="button">Show</button>
+          </div>
+        </div>
+        <p class="hint">Model used: <code>grok-3-mini</code>. Get a key at <code>console.x.ai</code>.</p>
+        <div class="actions">
+          <button id="btn-save-grok-key" class="btn btn-primary">Save Key</button>
+          <button id="btn-clear-grok-key" class="btn btn-secondary">Clear</button>
+          <span id="grok-key-saved" class="saved-msg hidden">&#10003; Saved</span>
+        </div>
+      </section>
+
+      <!-- Templates section -->
+      <section class="card">
+        <div class="section-header">
+          <h2>Prompt Templates</h2>
+          <button id="btn-new-template" class="btn btn-secondary">+ New Template</button>
+        </div>
+
+        <p class="hint">
+          Use <code>{content}</code>, <code>{title}</code>, <code>{url}</code>,
+          <code>{excerpt}</code>, <code>{byline}</code> as placeholders.
+        </p>
+
+        <div id="template-list" class="template-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Edit template modal -->
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h3 id="modal-title">Edit Template</h3>
+      <div class="field-col">
+        <label for="modal-name">Name</label>
+        <input type="text" id="modal-name" placeholder="Template name" maxlength="60" />
+      </div>
+      <div class="field-col">
+        <label for="modal-prompt">Prompt</label>
+        <textarea id="modal-prompt" rows="12" placeholder="Use {content}, {title}, {url} as placeholders…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="modal-save" class="btn btn-primary">Save Template</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
