@@ -42,7 +42,6 @@ const previewPanel     = $("preview-panel");
 const previewText      = $("preview-text");
 const btnPreviewToggle = $("btn-preview-toggle");
 const previewArrow     = $("preview-arrow");
-const actionRow        = document.querySelector(".action-row");
 const btnCopyMd        = $("btn-copy-md");
 const btnCopyPrompt    = $("btn-copy-prompt");
 const copyStatus       = $("copy-status");
@@ -156,15 +155,14 @@ async function extractContent() {
     } else {
       setError(err.message);
     }
-    disableActions("Copy Markdown");
+    disableActions();
   }
 }
 
-function disableActions(label = "Copy Markdown") {
+function disableActions() {
   btnCopyMd.disabled     = true;
   btnCopyPrompt.disabled = true;
   btnProcess.disabled    = true;
-  btnCopyMd.textContent  = label;
 }
 
 // ─── Template application ─────────────────────────────────────────────────────
@@ -191,7 +189,6 @@ function applyTemplateAndUpdate() {
   updateTokenDisplay(state.finalText);
 
   btnCopyMd.disabled     = false;
-  btnCopyMd.textContent  = "Copy Markdown";
   btnCopyPrompt.disabled = false;
   btnProcess.disabled    = false;
 

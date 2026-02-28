@@ -56,59 +56,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  {
-    id: "default-article-analysis",
-    name: "Article Analysis",
-    category: "General",
-    isDefault: false,
-    prompt: `Analyze the following article and produce a structured breakdown. No preamble — start with the first heading.
-
-## Main Thesis
-One sentence.
-
-## Key Points
-3–5 bullet points covering the core claims or findings.
-
-## Evidence & Sources
-What data, research, or examples does the author cite?
-
-## Conclusions
-What does the author recommend or conclude?
-
-## Critical Take
-What is missing, overstated, or worth questioning?
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "default-diet-menu",
-    name: "Dietetic Menu",
-    category: "General",
-    isDefault: false,
-    prompt: `You are a nutrition expert. Based on the restaurant menu below, suggest exactly 3 dishes for a dietetic meal (e.g. starter, main, dessert — or 3 mains if that fits better).
-
-Requirements:
-- Low carb: under 30g net carbs per dish
-- Low fat: under 15g fat per dish
-- High protein where possible
-- Only suggest dishes actually listed on the menu
-
-For each dish provide:
-| Dish | Est. calories | Carbs | Fat | Protein |
-|------|--------------|-------|-----|---------|
-
-Then add a one-line note on why this combination works dietetically.
-
----
-
-{content}`,
-  },
-
   // ── Engineering ────────────────────────────────────────────────────────────
 
   {
@@ -240,75 +187,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  // ── Product ────────────────────────────────────────────────────────────────
-
-  {
-    id: "product-feature-analysis",
-    name: "Feature Request Analysis",
-    category: "Product",
-    isDefault: false,
-    prompt: `Analyze this feature request or product discussion. No preamble.
-
-## What Is Being Asked For
-What is the user or stakeholder requesting? (one paragraph)
-
-## The Real Problem
-What underlying need or frustration is driving this request?
-
-## Who Is Affected
-Which user segments or personas are impacted?
-
-## Proposed Solutions
-What solutions were suggested in the discussion?
-
-## Trade-offs
-What are the costs, risks, or downsides of building this?
-
-## Alternatives
-What workarounds or alternative approaches exist?
-
-## Priority Signals
-Any data points, urgency signals, or business justifications mentioned?
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "product-user-feedback",
-    name: "User Feedback Synthesis",
-    category: "Product",
-    isDefault: false,
-    prompt: `Synthesize user feedback from this thread into a structured report. No preamble.
-
-## Dominant Themes
-The top 3–5 recurring topics or complaints. Bullet points.
-
-## Sentiment Breakdown
-Overall tone: positive / negative / mixed? Approximate ratio.
-
-## Specific Pain Points
-Concrete problems users describe, with brief representative quotes where possible.
-
-## Feature Requests
-Explicit asks or suggestions from users.
-
-## Praise & Strengths
-What users value or appreciate.
-
-## Recommended Actions
-Based on this feedback, the 3 highest-priority things to address.
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
   // ── Community ──────────────────────────────────────────────────────────────
 
   {
@@ -349,17 +227,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  {
-    id: "community-rewrite-comment",
-    name: "Rewrite Comment",
-    category: "Community",
-    isDefault: false,
-    prompt: `Rewrite the following comment to be clearer, more professional, and constructive. Keep the core message intact but improve tone, clarity, and structure. Return only the rewritten comment, nothing else.
-
----
-
-{content}`,
-  },
 ];
 
 export const TOKEN_THRESHOLDS = {

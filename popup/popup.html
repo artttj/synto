@@ -33,14 +33,19 @@
     <button id="btn-preview-toggle" class="preview-toggle">
       Preview <span id="preview-arrow">&#9652;</span>
     </button>
-    <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
+    <div class="preview-wrap">
+      <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
+      <button id="btn-copy-md" class="btn-copy-md-icon" disabled title="Copy Markdown">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <!-- Secondary action row -->
-  <div class="action-row">
-    <button id="btn-copy-md"     class="btn-secondary" disabled>Copy Markdown</button>
-    <button id="btn-copy-prompt" class="btn-secondary" disabled>Copy Prompt</button>
-  </div>
+  <!-- Copy Prompt — full width -->
+  <button id="btn-copy-prompt" class="btn-copy-prompt" disabled>Copy Prompt</button>
 
   <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
 
