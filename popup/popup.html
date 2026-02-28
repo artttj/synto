@@ -19,38 +19,43 @@
     <select id="template-select" aria-label="Select template"></select>
   </div>
 
+  <!-- Content type detection badge -->
+  <div id="content-type-row" class="content-type-row hidden">
+    Detected: <span id="content-type-badge" class="content-type-badge"></span>
+  </div>
+
   <!-- Error message -->
   <div id="error-msg" class="status-msg error hidden" role="alert"></div>
 
   <!-- Token estimate -->
   <div id="token-row" class="token-row hidden">
     <span>Tokens: <span id="token-count" class="token-count">—</span></span>
-    <span id="token-warning" class="token-warning hidden">⚠ Near model limit</span>
+    <span id="token-warning" class="token-warning hidden">&#9888; Near model limit</span>
   </div>
 
   <!-- Preview panel -->
   <div id="preview-panel" class="preview-panel hidden">
-    <button id="btn-preview-toggle" class="preview-toggle">
-      Preview <span id="preview-arrow">&#9652;</span>
-    </button>
+    <div class="preview-header">
+      <button id="btn-preview-toggle" class="preview-toggle">
+        Preview <span id="preview-arrow">&#9652;</span>
+      </button>
+      <div class="preview-tabs">
+        <button class="preview-tab active" data-tab="content" type="button">Content</button>
+        <button class="preview-tab" data-tab="prompt" type="button">Prompt</button>
+      </div>
+    </div>
     <div class="preview-wrap">
       <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
-      <button id="btn-copy-md" class="btn-copy-md-icon" disabled title="Copy Markdown">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2"/>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-        </svg>
-      </button>
     </div>
   </div>
 
-  <!-- Copy Prompt — full width -->
-  <button id="btn-copy-prompt" class="btn-copy-prompt" disabled>Copy Prompt</button>
+  <!-- Secondary: Copy Markdown -->
+  <button id="btn-copy-md" class="btn-copy-prompt" disabled>Copy Markdown</button>
 
   <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
 
-  <!-- Primary action -->
-  <button id="btn-process" class="btn-primary" disabled>Run Template</button>
+  <!-- Primary: Generate Brief -->
+  <button id="btn-process" class="btn-primary" disabled>Generate Brief</button>
 
   <!-- AI response panel (revealed on first use) -->
   <div id="chat-panel" class="chat-panel hidden">

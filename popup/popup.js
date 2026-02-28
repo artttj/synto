@@ -11,12 +11,6 @@ const PROVIDER_MODELS = {
   grok:   "grok-3-mini",
 };
 
-const PROVIDER_LABELS = {
-  openai: "Run with ChatGPT",
-  gemini: "Run with Gemini",
-  grok:   "Run with Grok",
-};
-
 // ─── State ────────────────────────────────────────────────────────────────────
 const state = {
   templates:          [],
@@ -25,6 +19,7 @@ const state = {
   rawMarkdown:        "",     // extracted.content with no template applied
   finalText:          "",     // template applied
   previewOpen:        true,
+  previewTab:         "content", // "content" | "prompt"
   chatStreaming:      false,
   llmProvider:        "openai",
 };
@@ -34,6 +29,8 @@ const $ = (id) => document.getElementById(id);
 
 const btnOptions       = $("btn-options");
 const templateSelect   = $("template-select");
+const contentTypeRow   = $("content-type-row");
+const contentTypeBadge = $("content-type-badge");
 const errorMsg         = $("error-msg");
 const tokenRow         = $("token-row");
 const tokenCount       = $("token-count");
@@ -43,7 +40,6 @@ const previewText      = $("preview-text");
 const btnPreviewToggle = $("btn-preview-toggle");
 const previewArrow     = $("preview-arrow");
 const btnCopyMd        = $("btn-copy-md");
-const btnCopyPrompt    = $("btn-copy-prompt");
 const copyStatus       = $("copy-status");
 const btnProcess       = $("btn-process");
 const chatPanel        = $("chat-panel");
@@ -59,10 +55,9 @@ async function init() {
 
   state.templates          = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id;
-  state.llmProvider = settings.llmProvider ?? "openai";
+  state.llmProvider        = settings.llmProvider ?? "openai";
 
   renderTemplateSelect();
-  updateRunButtonLabel();
 
   await extractContent();
 }
@@ -71,7 +66,6 @@ async function init() {
 function renderTemplateSelect() {
   templateSelect.innerHTML = "";
 
-  // Group templates by category; preserve declared order.
   const grouped = {};
   for (const cat of TEMPLATE_CATEGORIES) grouped[cat] = [];
 
@@ -99,7 +93,7 @@ function renderTemplateSelect() {
     templateSelect.appendChild(group);
   }
 
-  // Catch any templates with unknown/custom categories.
+  // Custom/unknown category templates
   const knownIds = new Set(state.templates.filter(t => TEMPLATE_CATEGORIES.includes(t.category ?? "General")).map(t => t.id));
   const uncategorized = state.templates.filter(t => !knownIds.has(t.id));
   if (uncategorized.length) {
@@ -122,12 +116,36 @@ templateSelect.addEventListener("change", async () => {
   applyTemplateAndUpdate();
 });
 
+// ─── Content type detection ───────────────────────────────────────────────────
+function detectContentType(content, url) {
+  const u = (url || "").toLowerCase();
+
+  // URL-based signals (most reliable)
+  if (/\/issues\/\d|\/pull\/\d/.test(u))                              return "Pull Request / Issue";
+  if (/reddit\.com\/r\/|news\.ycombinator\.com|lobste\.rs/.test(u))  return "Discussion Thread";
+  if (/docs\.|readthedocs\.|developer\.|wiki\./i.test(u))            return "Documentation";
+
+  // Content-based heuristics
+  if (/\$[\d,]+\.?\d*|€[\d,.]+|add to cart|buy now|in stock/i.test(content)) return "Product Page";
+  if (/(ingredient|tablespoon|teaspoon|cup of|preheat oven)/i.test(content))  return "Recipe";
+
+  const codeBlocks = (content.match(/```/g) || []).length;
+  if (codeBlocks >= 4) return "Documentation";
+
+  const quotedLines = (content.match(/^>/gm) || []).length;
+  const mentions    = (content.match(/@\w+/g) || []).length;
+  if (quotedLines > 4 || mentions > 6) return "Discussion Thread";
+
+  return "Article";
+}
+
 // ─── Extraction ───────────────────────────────────────────────────────────────
 async function extractContent() {
   setError(null);
-  disableActions("Extracting…");
+  disableActions();
   tokenRow.classList.add("hidden");
   previewPanel.classList.add("hidden");
+  contentTypeRow.classList.add("hidden");
 
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -147,6 +165,12 @@ async function extractContent() {
 
     state.extracted   = response;
     state.rawMarkdown = response.content;
+
+    // Content type detection
+    const ctype = detectContentType(state.rawMarkdown, response.url);
+    contentTypeBadge.textContent = ctype;
+    contentTypeRow.classList.remove("hidden");
+
     applyTemplateAndUpdate();
 
   } catch (err) {
@@ -160,9 +184,8 @@ async function extractContent() {
 }
 
 function disableActions() {
-  btnCopyMd.disabled     = true;
-  btnCopyPrompt.disabled = true;
-  btnProcess.disabled    = true;
+  btnCopyMd.disabled  = true;
+  btnProcess.disabled = true;
 }
 
 // ─── Template application ─────────────────────────────────────────────────────
@@ -188,16 +211,22 @@ function applyTemplateAndUpdate() {
   state.finalText = applyTemplate(state.extracted, state.selectedTemplateId);
   updateTokenDisplay(state.finalText);
 
-  btnCopyMd.disabled     = false;
-  btnCopyPrompt.disabled = false;
-  btnProcess.disabled    = false;
+  btnCopyMd.disabled  = false;
+  btnProcess.disabled = false;
 
-  previewText.value = state.finalText;
+  updatePreviewText();
 
   if (previewPanel.classList.contains("hidden")) {
     previewPanel.classList.remove("hidden");
     setPreviewOpen(true);
   }
+}
+
+// ─── Preview text ─────────────────────────────────────────────────────────────
+function updatePreviewText() {
+  previewText.value = state.previewTab === "prompt"
+    ? state.finalText
+    : state.rawMarkdown;
 }
 
 // ─── Preview toggle ───────────────────────────────────────────────────────────
@@ -211,6 +240,18 @@ btnPreviewToggle.addEventListener("click", () => {
   setPreviewOpen(!state.previewOpen);
 });
 
+// ─── Preview tab switching ────────────────────────────────────────────────────
+document.querySelectorAll(".preview-tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".preview-tab").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    state.previewTab = btn.dataset.tab;
+    updatePreviewText();
+    // Expand preview if collapsed
+    if (!state.previewOpen) setPreviewOpen(true);
+  });
+});
+
 // ─── Token display ────────────────────────────────────────────────────────────
 function updateTokenDisplay(text) {
   const tokens    = estimateTokens(text);
@@ -222,22 +263,16 @@ function updateTokenDisplay(text) {
   tokenCount.className   = `token-count ${tokenColorClass(tokens)}`;
   tokenRow.classList.remove("hidden");
 
-  // Model limit warning
   const model     = PROVIDER_MODELS[state.llmProvider];
   const limit     = TOKEN_THRESHOLDS.MODEL_LIMITS[model] ?? 128000;
   const nearLimit = tokens > limit * 0.85;
   tokenWarning.classList.toggle("hidden", !nearLimit);
 }
 
-// ─── Copy actions ─────────────────────────────────────────────────────────────
+// ─── Copy Markdown ────────────────────────────────────────────────────────────
 btnCopyMd.addEventListener("click", async () => {
   if (!state.rawMarkdown) return;
   await copyText(state.rawMarkdown);
-});
-
-btnCopyPrompt.addEventListener("click", async () => {
-  if (!state.finalText) return;
-  await copyText(state.finalText);
 });
 
 async function copyText(text) {
@@ -285,12 +320,8 @@ function setErrorWithReload(msg) {
   errorMsg.classList.remove("hidden");
 }
 
-// ─── Run Template (AI) ────────────────────────────────────────────────────────
+// ─── Generate Brief (AI) ──────────────────────────────────────────────────────
 btnProcess.addEventListener("click", processWithAI);
-
-function updateRunButtonLabel() {
-  btnProcess.textContent = PROVIDER_LABELS[state.llmProvider] ?? "Run Template";
-}
 
 async function processWithAI() {
   if (!state.finalText || state.chatStreaming) return;
@@ -305,8 +336,9 @@ async function processWithAI() {
 
   const bubble = appendBubble("assistant", "");
   bubble.classList.add("streaming");
-  state.chatStreaming = true;
-  btnProcess.disabled = true;
+  state.chatStreaming  = true;
+  btnProcess.disabled  = true;
+  btnProcess.textContent = "Generating…";
   btnProcess.classList.add("loading");
 
   try {
@@ -321,8 +353,9 @@ async function processWithAI() {
     bubble.remove();
     appendBubble("error", `Error: ${err.message}`);
   } finally {
-    state.chatStreaming = false;
-    btnProcess.disabled = false;
+    state.chatStreaming     = false;
+    btnProcess.disabled    = false;
+    btnProcess.textContent = "Generate Brief";
     btnProcess.classList.remove("loading");
     bubble.classList.remove("streaming");
   }
@@ -412,14 +445,14 @@ function appendBubble(role, text) {
 }
 
 // ─── Keyboard shortcuts ───────────────────────────────────────────────────────
-// Alt+Shift+C  → Copy Prompt
-// Alt+Shift+Enter → Run Template
+// Alt+Shift+C     → Copy Markdown
+// Alt+Shift+Enter → Generate Brief
 
 document.addEventListener("keydown", (e) => {
   if (!e.altKey || !e.shiftKey) return;
   if (e.key === "C") {
     e.preventDefault();
-    if (!btnCopyPrompt.disabled) btnCopyPrompt.click();
+    if (!btnCopyMd.disabled) btnCopyMd.click();
   }
   if (e.key === "Enter") {
     e.preventDefault();
