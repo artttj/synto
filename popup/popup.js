@@ -29,8 +29,6 @@ const $ = (id) => document.getElementById(id);
 
 const btnOptions       = $("btn-options");
 const templateSelect   = $("template-select");
-const contentTypeRow   = $("content-type-row");
-const contentTypeBadge = $("content-type-badge");
 const errorMsg         = $("error-msg");
 const tokenRow         = $("token-row");
 const tokenCount       = $("token-count");
@@ -116,37 +114,12 @@ templateSelect.addEventListener("change", async () => {
   applyTemplateAndUpdate();
 });
 
-// ─── Content type detection ───────────────────────────────────────────────────
-function detectContentType(content, url) {
-  const u = (url || "").toLowerCase();
-
-  // URL-based signals (most reliable)
-  if (/\/issues\/\d|\/pull\/\d/.test(u))                              return "Pull Request / Issue";
-  if (/reddit\.com\/r\/|news\.ycombinator\.com|lobste\.rs/.test(u))  return "Discussion Thread";
-  if (/docs\.|readthedocs\.|developer\.|wiki\./i.test(u))            return "Documentation";
-
-  // Content-based heuristics
-  if (/\$[\d,]+\.?\d*|€[\d,.]+|add to cart|buy now|in stock/i.test(content)) return "Product Page";
-  if (/(ingredient|tablespoon|teaspoon|cup of|preheat oven)/i.test(content))  return "Recipe";
-
-  const codeBlocks = (content.match(/```/g) || []).length;
-  if (codeBlocks >= 4) return "Documentation";
-
-  const quotedLines = (content.match(/^>/gm) || []).length;
-  const mentions    = (content.match(/@\w+/g) || []).length;
-  if (quotedLines > 4 || mentions > 6) return "Discussion Thread";
-
-  return "Article";
-}
-
 // ─── Extraction ───────────────────────────────────────────────────────────────
 async function extractContent() {
   setError(null);
   disableActions();
   tokenRow.classList.add("hidden");
   previewPanel.classList.add("hidden");
-  contentTypeRow.classList.add("hidden");
-
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -165,12 +138,6 @@ async function extractContent() {
 
     state.extracted   = response;
     state.rawMarkdown = response.content;
-
-    // Content type detection
-    const ctype = detectContentType(state.rawMarkdown, response.url);
-    contentTypeBadge.textContent = ctype;
-    contentTypeRow.classList.remove("hidden");
-
     applyTemplateAndUpdate();
 
   } catch (err) {
