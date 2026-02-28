@@ -85,30 +85,52 @@ themeToggleEl.addEventListener("change", () => {
 // ─── Template list ────────────────────────────────────────────────────────────
 function renderTemplateList() {
   templateList.innerHTML = "";
+
+  // Group templates by category in declared order; custom templates last.
+  const grouped = {};
+  for (const cat of TEMPLATE_CATEGORIES) grouped[cat] = [];
+
   templates.forEach((t) => {
-    const item = document.createElement("div");
-    item.className = "template-item";
-    item.dataset.id = t.id;
+    const cat = t.category ?? "Custom";
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(t);
+  });
 
-    const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === t.id);
-    const previewText = t.prompt.replace(/\n/g, " ").slice(0, 80) + (t.prompt.length > 80 ? "…" : "");
-    const category = t.category ?? "";
+  const allCats = [...TEMPLATE_CATEGORIES, "Custom"];
 
-    item.innerHTML = `
-      <div class="template-item-info">
-        <div class="template-name">
-          ${escHtml(t.name)}
-          ${category ? `<span class="template-badge">${escHtml(category)}</span>` : ""}
-          ${isBuiltin ? '<span class="template-badge">built-in</span>' : ""}
+  allCats.forEach((cat) => {
+    const list = grouped[cat];
+    if (!list?.length) return;
+
+    // Category heading
+    const heading = document.createElement("div");
+    heading.className = "template-category-heading";
+    heading.textContent = cat;
+    templateList.appendChild(heading);
+
+    list.forEach((t) => {
+      const item = document.createElement("div");
+      item.className = "template-item";
+      item.dataset.id = t.id;
+
+      const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === t.id);
+      const previewText = t.prompt.replace(/\n/g, " ").slice(0, 80) + (t.prompt.length > 80 ? "…" : "");
+
+      item.innerHTML = `
+        <div class="template-item-info">
+          <div class="template-name">
+            ${escHtml(t.name)}
+            ${isBuiltin ? '<span class="template-badge">built-in</span>' : ""}
+          </div>
+          <div class="template-preview">${escHtml(previewText)}</div>
         </div>
-        <div class="template-preview">${escHtml(previewText)}</div>
-      </div>
-      <div class="template-actions">
-        <button class="btn btn-secondary btn-edit" data-id="${t.id}">Edit</button>
-        <button class="btn btn-danger btn-delete" data-id="${t.id}">Delete</button>
+        <div class="template-actions">
+          <button class="btn btn-secondary btn-edit" data-id="${t.id}">Edit</button>
+          <button class="btn btn-danger btn-delete" data-id="${t.id}">Delete</button>
       </div>
     `;
-    templateList.appendChild(item);
+      templateList.appendChild(item);
+    });
   });
 
   templateList.querySelectorAll(".btn-edit").forEach((btn) => {

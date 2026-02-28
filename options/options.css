@@ -314,6 +314,17 @@ header h1 {
 ═══════════════════════════════════════════════════════════════════════════ */
 .template-list { display: flex; flex-direction: column; gap: 6px; }
 
+.template-category-heading {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-3);
+  padding: 10px 2px 4px;
+  margin-top: 4px;
+}
+.template-category-heading:first-child { margin-top: 0; padding-top: 4px; }
+
 .template-item {
   display: flex;
   align-items: center;
