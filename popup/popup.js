@@ -191,9 +191,9 @@ function applyTemplateAndUpdate() {
 
 // ─── Preview text ─────────────────────────────────────────────────────────────
 function updatePreviewText() {
-  previewText.value = state.previewTab === "prompt"
-    ? state.finalText
-    : state.rawMarkdown;
+  const isPrompt = state.previewTab === "prompt";
+  previewText.value  = isPrompt ? state.finalText : state.rawMarkdown;
+  btnCopyMd.textContent = isPrompt ? "Copy Prompt" : "Copy Markdown";
 }
 
 // ─── Preview toggle ───────────────────────────────────────────────────────────
@@ -236,10 +236,11 @@ function updateTokenDisplay(text) {
   tokenWarning.classList.toggle("hidden", !nearLimit);
 }
 
-// ─── Copy Markdown ────────────────────────────────────────────────────────────
+// ─── Copy button ──────────────────────────────────────────────────────────────
 btnCopyMd.addEventListener("click", async () => {
-  if (!state.rawMarkdown) return;
-  await copyText(state.rawMarkdown);
+  const text = state.previewTab === "prompt" ? state.finalText : state.rawMarkdown;
+  if (!text) return;
+  await copyText(text);
 });
 
 async function copyText(text) {
