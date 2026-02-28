@@ -13,7 +13,7 @@ export const STORAGE_KEYS = {
   GEMINI_KEY: "apc_gemini_key",
 };
 
-export const TEMPLATE_CATEGORIES = ["General", "Engineering", "Community"];
+export const TEMPLATE_CATEGORIES = ["General", "Engineering", "Community", "Lifestyle"];
 
 export const DEFAULT_TEMPLATES = [
 
@@ -52,30 +52,6 @@ What could go wrong? What assumptions are being made?
 ---
 
 Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "default-diet-menu",
-    name: "Dietetic Menu",
-    category: "General",
-    isDefault: false,
-    prompt: `You are a nutrition expert. Based on the restaurant menu below, suggest exactly 3 dishes for a dietetic meal (e.g. starter, main, dessert — or 3 mains if that fits better).
-
-Requirements:
-- Low carb: under 30g net carbs per dish
-- Low fat: under 15g fat per dish
-- High protein where possible
-- Only suggest dishes actually listed on the menu
-
-For each dish provide:
-| Dish | Est. calories | Carbs | Fat | Protein |
-|------|--------------|-------|-----|---------|
-
-Then add a one-line note on why this combination works dietetically.
-
----
 
 {content}`,
   },
@@ -212,6 +188,87 @@ Is there a resolution, or is the debate ongoing?
 ---
 
 Source: [{title}]({url})
+
+{content}`,
+  },
+
+  // ── Lifestyle ──────────────────────────────────────────────────────────────
+
+  {
+    id: "lifestyle-diet-menu",
+    name: "Dietetic Menu",
+    category: "Lifestyle",
+    isDefault: false,
+    prompt: `You are a nutrition expert. Based on the restaurant menu below, suggest exactly 3 dishes for a dietetic meal (e.g. starter, main, dessert — or 3 mains if that fits better).
+
+Requirements:
+- Low carb: under 30g net carbs per dish
+- Low fat: under 15g fat per dish
+- High protein where possible
+- Only suggest dishes actually listed on the menu
+
+For each dish provide:
+| Dish | Est. calories | Carbs | Fat | Protein |
+|------|--------------|-------|-----|---------|
+
+Then add a one-line note on why this combination works dietetically.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "lifestyle-recipe-card",
+    name: "Recipe Card",
+    category: "Lifestyle",
+    isDefault: false,
+    prompt: `Extract and format this recipe as a clean, printable card. No preamble.
+
+## {title}
+
+**Prep time / Cook time / Servings** — fill from the page if available.
+
+## Ingredients
+Bullet list. Group by section (e.g. Sauce, Dough) if the recipe does.
+
+## Instructions
+Numbered steps. Keep each step to one action. Trim filler text.
+
+## Notes & Tips
+Any substitutions, storage advice, or variations mentioned.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "lifestyle-buy-decision",
+    name: "Buy Decision",
+    category: "Lifestyle",
+    isDefault: false,
+    prompt: `Help me decide whether to buy this product. Analyze the page and any reviews. No preamble.
+
+## What It Is
+One sentence: product name, category, price if listed.
+
+## Top Pros
+The 3–5 strongest reasons to buy, drawn from the description and reviews.
+
+## Top Cons
+The 3–5 most common complaints or weaknesses from reviews.
+
+## Who It's For
+What type of user or use case is this best suited for?
+
+## Red Flags
+Any quality issues, misleading claims, or recurring problems worth knowing.
+
+## Verdict
+Buy / Skip / Wait for better price — with a one-sentence reason.
+
+---
 
 {content}`,
   },
