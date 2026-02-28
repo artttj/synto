@@ -1,4 +1,4 @@
-import { DEFAULT_TEMPLATES } from "../shared/constants.js";
+import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from "../shared/constants.js";
 import { getTemplates, saveTemplates, getSettings, saveSettings, getOpenAIKey, saveOpenAIKey, getGrokKey, saveGrokKey, getGeminiKey, saveGeminiKey } from "../shared/storage.js";
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -43,12 +43,28 @@ function renderSettingsForm() {
 
 function renderDefaultTemplateSelect() {
   defaultTplEl.innerHTML = "";
+
+  const grouped = {};
+  for (const cat of TEMPLATE_CATEGORIES) grouped[cat] = [];
   templates.forEach((t) => {
-    const opt = document.createElement("option");
-    opt.value = t.id;
-    opt.textContent = t.name;
-    if (t.id === settings.defaultTemplateId) opt.selected = true;
-    defaultTplEl.appendChild(opt);
+    const cat = t.category ?? "General";
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(t);
+  });
+
+  [...TEMPLATE_CATEGORIES, "Custom"].forEach((cat) => {
+    const list = grouped[cat];
+    if (!list?.length) return;
+    const group = document.createElement("optgroup");
+    group.label = cat;
+    list.forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.name;
+      if (t.id === settings.defaultTemplateId) opt.selected = true;
+      group.appendChild(opt);
+    });
+    defaultTplEl.appendChild(group);
   });
 }
 
@@ -76,11 +92,13 @@ function renderTemplateList() {
 
     const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === t.id);
     const previewText = t.prompt.replace(/\n/g, " ").slice(0, 80) + (t.prompt.length > 80 ? "…" : "");
+    const category = t.category ?? "";
 
     item.innerHTML = `
       <div class="template-item-info">
         <div class="template-name">
           ${escHtml(t.name)}
+          ${category ? `<span class="template-badge">${escHtml(category)}</span>` : ""}
           ${isBuiltin ? '<span class="template-badge">built-in</span>' : ""}
         </div>
         <div class="template-preview">${escHtml(previewText)}</div>

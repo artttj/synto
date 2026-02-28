@@ -7,15 +7,34 @@
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
+
   <header>
     <span class="logo">AI Page Clipper</span>
     <button id="btn-options" title="Options" aria-label="Open Options">&#9881;</button>
   </header>
 
-  <!-- Controls -->
+  <!-- Template select -->
   <div class="controls">
     <label for="template-select">Template</label>
     <select id="template-select" aria-label="Select template"></select>
+  </div>
+
+  <!-- Toggles -->
+  <div class="toggles-row">
+    <label class="toggle-label" title="Prepend author names to comments in extracted content">
+      <input type="checkbox" id="chk-source-anchoring" />
+      <span class="toggle-text">Source refs</span>
+    </label>
+    <label class="toggle-label" title="Merge content from multiple open tabs">
+      <input type="checkbox" id="chk-merge-mode" />
+      <span class="toggle-text">Merge tabs</span>
+    </label>
+  </div>
+
+  <!-- Merge tab list (revealed when merge mode is on) -->
+  <div id="merge-panel" class="merge-panel hidden">
+    <div class="merge-panel-label">Select tabs to merge</div>
+    <div id="merge-tab-list" class="merge-tab-list"></div>
   </div>
 
   <!-- Error message -->
@@ -23,22 +42,28 @@
 
   <!-- Token estimate -->
   <div id="token-row" class="token-row hidden">
-    Estimated tokens: <span id="token-count" class="token-count">—</span>
+    <span>Tokens: <span id="token-count" class="token-count">—</span></span>
+    <span id="token-warning" class="token-warning hidden">⚠ Near model limit</span>
   </div>
-
-  <!-- Primary action -->
-  <button id="btn-copy" class="btn-copy" disabled>Copy to Clipboard</button>
-
-  <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
 
   <!-- Preview panel -->
   <div id="preview-panel" class="preview-panel hidden">
-    <button id="btn-preview-toggle" class="preview-toggle">Preview <span id="preview-arrow">&#9652;</span></button>
+    <button id="btn-preview-toggle" class="preview-toggle">
+      Preview <span id="preview-arrow">&#9652;</span>
+    </button>
     <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
   </div>
 
-  <!-- AI action -->
-  <button id="btn-process" class="btn-ask" disabled>Ask ChatGPT</button>
+  <!-- Secondary action row -->
+  <div class="action-row">
+    <button id="btn-copy-md"     class="btn-secondary" disabled>Copy Markdown</button>
+    <button id="btn-copy-prompt" class="btn-secondary" disabled>Copy Prompt</button>
+  </div>
+
+  <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
+
+  <!-- Primary action -->
+  <button id="btn-process" class="btn-primary" disabled>Run Template</button>
 
   <!-- AI response panel (revealed on first use) -->
   <div id="chat-panel" class="chat-panel hidden">

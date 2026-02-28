@@ -28,7 +28,7 @@
   --c-text-2: #BEBEBE;
   --c-text-3: #666666;
 
-  /* Semantic — keep real colors for status only */
+  /* Semantic — real colors for status only */
   --c-success:   #4CAF7D;
   --c-warn:      #C9874D;
   --c-error:     #E05E5E;
@@ -80,6 +80,8 @@ html[data-theme="light"] {
   --c-error:     #C43434;
   --c-error-bg:  rgba(196,52,52,0.06);
   --c-error-bd:  rgba(196,52,52,0.22);
+
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.18);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -164,6 +166,92 @@ header {
 .controls select:focus { border-color: var(--c-border-hi); }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   TOGGLES ROW
+═══════════════════════════════════════════════════════════════════════════ */
+.toggles-row {
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px 0;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--c-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle-text {
+  font-size: 11px;
+  color: var(--c-text-2);
+  transition: color var(--t) var(--ease);
+}
+.toggle-label:has(input:checked) .toggle-text { color: var(--c-text); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MERGE PANEL
+═══════════════════════════════════════════════════════════════════════════ */
+.merge-panel {
+  margin: 8px 16px 0;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  overflow: hidden;
+}
+
+.merge-panel-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--c-text-3);
+  padding: 7px 10px 5px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.merge-tab-list {
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+.merge-tab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background var(--t) var(--ease);
+}
+.merge-tab-item:hover { background: var(--c-elevated); }
+.merge-tab-item input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--c-accent);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.merge-tab-item label {
+  font-size: 11px;
+  color: var(--c-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+.merge-tab-item.current label { color: var(--c-text); font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
    STATUS MESSAGES
 ═══════════════════════════════════════════════════════════════════════════ */
 .status-msg {
@@ -193,83 +281,23 @@ header {
    TOKEN ROW
 ═══════════════════════════════════════════════════════════════════════════ */
 .token-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 8px 16px 0;
   font-size: 11px;
   color: var(--c-text-2);
-  letter-spacing: 0.01em;
 }
-.token-count { font-weight: 600; }
-.token-count.green  { color: var(--c-success); }
-.token-count.yellow { color: var(--c-warn); }
-.token-count.red    { color: var(--c-error); }
+.token-count          { font-weight: 600; }
+.token-count.green    { color: var(--c-success); }
+.token-count.yellow   { color: var(--c-warn); }
+.token-count.red      { color: var(--c-error); }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   COPY BUTTON
-═══════════════════════════════════════════════════════════════════════════ */
-.btn-copy {
-  display: block;
-  width: calc(100% - 32px);
-  margin: 12px 16px 0;
-  padding: 10px;
-  background: var(--c-btn-bg);
-  color: var(--c-btn-text);
-  border: none;
-  border-radius: var(--r-lg);
-  font-size: 14px;
+.token-warning {
+  font-size: 10px;
   font-weight: 500;
-  font-family: var(--font);
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  transition:
-    opacity var(--t) var(--ease),
-    filter var(--t) var(--ease);
-}
-.btn-copy:hover:not(:disabled)  { filter: brightness(0.92); }
-.btn-copy:active:not(:disabled) { filter: brightness(0.84); }
-.btn-copy:disabled { opacity: 0.28; cursor: not-allowed; }
-.btn-copy.loading  { animation: btn-pulse 1s ease-in-out infinite; }
-@keyframes btn-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.72; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ASK AI BUTTON
-═══════════════════════════════════════════════════════════════════════════ */
-.btn-ask {
-  display: block;
-  width: calc(100% - 32px);
-  margin: 0 16px 14px;
-  padding: 9px;
-  background: var(--c-elevated);
-  color: var(--c-text);
-  border: 1px solid var(--c-border-hi);
-  border-radius: var(--r-lg);
-  font-size: 13px;
-  font-weight: 500;
-  font-family: var(--font);
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  transition:
-    filter var(--t) var(--ease),
-    border-color var(--t) var(--ease);
-}
-.btn-ask:hover:not(:disabled)  { filter: brightness(1.14); }
-.btn-ask:active:not(:disabled) { filter: brightness(0.90); }
-.btn-ask:disabled { opacity: 0.28; cursor: not-allowed; }
-.btn-ask.loading  { animation: btn-pulse 1s ease-in-out infinite; }
-
-.copy-status {
-  display: block;
-  padding: 5px 16px 0;
-  color: var(--c-success);
-  font-size: 12px;
-  font-weight: 500;
-  animation: fadeIn 0.2s var(--ease);
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(2px); }
-  to   { opacity: 1; transform: translateY(0); }
+  color: var(--c-warn);
+  letter-spacing: 0.02em;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -278,6 +306,7 @@ header {
 .preview-panel {
   border-top: 1px solid var(--c-border);
   padding: 8px 16px 12px;
+  margin-top: 10px;
 }
 
 .preview-toggle {
@@ -300,11 +329,11 @@ header {
 .preview-toggle:hover { color: var(--c-text); }
 
 .preview-panel.collapsed .preview-toggle { padding-bottom: 0; }
-.preview-panel.collapsed #preview-text  { display: none; }
+.preview-panel.collapsed #preview-text   { display: none; }
 
 #preview-text {
   width: 100%;
-  height: 180px;
+  height: 160px;
   background: var(--c-elevated);
   border: 1px solid var(--c-border);
   border-radius: var(--r-md);
@@ -318,6 +347,81 @@ header {
   transition: border-color var(--t) var(--ease);
 }
 #preview-text:focus { border-color: var(--c-border-hi); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACTION ROW — secondary buttons side by side
+═══════════════════════════════════════════════════════════════════════════ */
+.action-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px 0;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 8px;
+  background: var(--c-elevated);
+  color: var(--c-text);
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-lg);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  transition:
+    filter var(--t) var(--ease),
+    border-color var(--t) var(--ease);
+}
+.btn-secondary:hover:not(:disabled)  { filter: brightness(1.12); }
+.btn-secondary:active:not(:disabled) { filter: brightness(0.90); }
+.btn-secondary:disabled { opacity: 0.28; cursor: not-allowed; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COPY STATUS
+═══════════════════════════════════════════════════════════════════════════ */
+.copy-status {
+  display: block;
+  padding: 5px 16px 0;
+  color: var(--c-success);
+  font-size: 12px;
+  font-weight: 500;
+  animation: fadeIn 0.2s var(--ease);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRIMARY BUTTON — Run Template
+═══════════════════════════════════════════════════════════════════════════ */
+.btn-primary {
+  display: block;
+  width: calc(100% - 32px);
+  margin: 8px 16px 14px;
+  padding: 10px;
+  background: var(--c-btn-bg);
+  color: var(--c-btn-text);
+  border: none;
+  border-radius: var(--r-lg);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition:
+    opacity var(--t) var(--ease),
+    filter var(--t) var(--ease);
+}
+.btn-primary:hover:not(:disabled)  { filter: brightness(0.92); }
+.btn-primary:active:not(:disabled) { filter: brightness(0.84); }
+.btn-primary:disabled { opacity: 0.28; cursor: not-allowed; }
+.btn-primary.loading  { animation: btn-pulse 1s ease-in-out infinite; }
+
+@keyframes btn-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CHAT PANEL
@@ -338,7 +442,7 @@ header {
   gap: 10px;
   scroll-behavior: smooth;
 }
-.chat-messages::-webkit-scrollbar { width: 3px; }
+.chat-messages::-webkit-scrollbar       { width: 3px; }
 .chat-messages::-webkit-scrollbar-track { background: transparent; }
 .chat-messages::-webkit-scrollbar-thumb { background: var(--c-border-hi); border-radius: 2px; }
 
@@ -364,7 +468,7 @@ header {
   white-space: pre-wrap;
 }
 .chat-bubble.assistant strong { font-weight: 600; }
-.chat-bubble.assistant em { font-style: italic; color: var(--c-text-2); }
+.chat-bubble.assistant em     { font-style: italic; color: var(--c-text-2); }
 .chat-bubble.assistant code {
   background: var(--c-elevated);
   border-radius: 4px;

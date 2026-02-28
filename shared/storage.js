@@ -60,9 +60,10 @@ export async function saveTemplates(templates) {
 export async function getSettings() {
   const result = await chrome.storage.sync.get(STORAGE_KEYS.SETTINGS);
   return {
-    defaultTemplateId: "default-clean",
+    defaultTemplateId: "default-structured-brief",
     theme: "dark",
     llmProvider: "openai",
+    sourceAnchoring: false,
     ...result[STORAGE_KEYS.SETTINGS],
   };
 }

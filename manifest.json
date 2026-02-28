@@ -1,14 +1,14 @@
 {
   "manifest_version": 3,
   "name": "AI Page Clipper",
-  "version": "1.0.0",
-  "description": "Smart article extraction with AI-optimized, token-efficient Markdown output and Chrome Built-in AI summarization.",
+  "version": "2.0.0",
+  "description": "Structured sense-making for engineers, PMs, and founders. Smart extraction, opinionated templates, multi-tab merge. No backend.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["activeTab", "storage", "clipboardWrite", "scripting"],
+  "permissions": ["activeTab", "tabs", "storage", "clipboardWrite", "scripting"],
   "host_permissions": [
     "https://api.openai.com/*",
     "https://api.x.ai/*",
@@ -41,9 +41,9 @@
     "_execute_action": {
       "suggested_key": {
         "default": "Alt+Shift+C",
-        "mac": "Alt+Shift+C"
+        "mac":     "Alt+Shift+C"
       },
-      "description": "Open AI Page Clipper popup"
+      "description": "Open AI Page Clipper"
     }
   },
   "options_ui": {
