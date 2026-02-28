@@ -63,7 +63,6 @@ export async function getSettings() {
     defaultTemplateId: "default-structured-brief",
     theme: "dark",
     llmProvider: "openai",
-    sourceAnchoring: false,
     ...result[STORAGE_KEYS.SETTINGS],
   };
 }

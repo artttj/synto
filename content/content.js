@@ -50,42 +50,6 @@
     "#related", "#secondary",
   ].join(",");
 
-  // ─── Comment thread detection ────────────────────────────────────────────────
-  // Used for source anchoring: annotate comment containers with their author.
-
-  const COMMENT_CONTAINER_SELECTORS = [
-    // Generic class-name patterns (broadest net)
-    '[class*="comment"]:not([class*="comment-count"]):not([class*="no-comment"])',
-    '[class*="Comment"]:not([class*="CommentCount"])',
-    '[class*="reply"]:not([class*="reply-count"])',
-    // Hacker News
-    ".comtr",
-    // GitHub PR / Issues
-    ".review-comment", ".timeline-comment",
-    // Stack Overflow / Stack Exchange
-    ".answer", ".comment",
-    // Reddit (new and old)
-    ".thing.comment",
-  ].join(",");
-
-  const AUTHOR_INNER_SELECTORS = [
-    "[data-author]",
-    ".author",
-    ".comment-author",
-    ".author-link",
-    ".username",
-    ".user-name",
-    // Hacker News
-    ".hnuser",
-    // Reddit (new)
-    "[data-testid*='comment_author']",
-    // Generic fallback: a link pointing to a user profile
-    "a[href*='/user/']",
-    "a[href*='/u/']",
-    "a[href*='/users/']",
-    "a[href*='/profile/']",
-  ];
-
   // ─── Main content selectors ──────────────────────────────────────────────────
   // Tried in order; first match with enough text wins.
 
@@ -117,9 +81,7 @@
     if (message.type !== MSG_EXTRACT) return;
 
     try {
-      const result = extractContent(message.mode ?? "markdown", {
-        sourceAnchoring: !!message.sourceAnchoring,
-      });
+      const result = extractContent(message.mode ?? "markdown");
       sendResponse(result);
     } catch (err) {
       sendResponse({ success: false, error: err.message });
@@ -130,7 +92,7 @@
 
   // ─── Dispatcher ──────────────────────────────────────────────────────────────
 
-  function extractContent(mode, opts) {
+  function extractContent(mode) {
     if (mode === "html") {
       return {
         success: true,
@@ -157,7 +119,7 @@
       };
     }
 
-    return extractBody(opts);
+    return extractBody();
   }
 
   // ─── Selection ───────────────────────────────────────────────────────────────
@@ -180,17 +142,11 @@
 
   // ─── Body extraction ─────────────────────────────────────────────────────────
 
-  function extractBody(opts) {
+  function extractBody() {
     const mainEl = findMainContent();
     const root   = mainEl ?? document.body;
 
     const clone = root.cloneNode(true);
-
-    // Annotate comment authors BEFORE stripping (author els may be in stripped nodes).
-    if (opts.sourceAnchoring) {
-      annotateAuthors(clone);
-    }
-
     clone.querySelectorAll(STRIP_SELECTORS).forEach((el) => el.remove());
 
     let markdown = toMarkdown(clone.innerHTML);
@@ -198,7 +154,6 @@
     // Retry with full body if the narrowed element yielded too little.
     if ((!markdown || markdown.trim().length < 20) && mainEl) {
       const bodyClone = document.body.cloneNode(true);
-      if (opts.sourceAnchoring) annotateAuthors(bodyClone);
       bodyClone.querySelectorAll(STRIP_SELECTORS).forEach((el) => el.remove());
       markdown = toMarkdown(bodyClone.innerHTML);
     }
@@ -230,58 +185,6 @@
       if (el && el.textContent.trim().length > 150) return el;
     }
     return null;
-  }
-
-  // ─── Source anchoring ────────────────────────────────────────────────────────
-  // Prepend "@author:" labels to comment containers in the clone so Turndown
-  // preserves author attribution in the markdown output.
-
-  function annotateAuthors(rootClone) {
-    let containers;
-    try {
-      containers = rootClone.querySelectorAll(COMMENT_CONTAINER_SELECTORS);
-    } catch (_) {
-      return; // selector may be invalid on some pages
-    }
-
-    const annotated = new WeakSet();
-
-    containers.forEach((commentEl) => {
-      if (annotated.has(commentEl)) return;
-
-      // Find the author element — must belong to THIS comment, not a nested one.
-      let authorName = "";
-      for (const aSel of AUTHOR_INNER_SELECTORS) {
-        let authorEl;
-        try { authorEl = commentEl.querySelector(aSel); } catch (_) { continue; }
-        if (!authorEl) continue;
-
-        // Ensure the found author element is not inside a deeper nested comment.
-        const nestedParent = authorEl.parentElement?.closest(COMMENT_CONTAINER_SELECTORS);
-        if (nestedParent && nestedParent !== commentEl) continue;
-
-        const raw = (authorEl.getAttribute("data-author") || authorEl.textContent || "").trim();
-        if (raw && raw.length < 80) {
-          authorName = raw;
-          break;
-        }
-      }
-
-      if (!authorName) return;
-      annotated.add(commentEl);
-
-      // Escape to prevent HTML injection via author names.
-      const safe = authorName
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-
-      const badge = document.createElement("p");
-      badge.innerHTML = `<strong>@${safe}:</strong>`;
-      badge.className = "apc-author-badge";
-      commentEl.insertBefore(badge, commentEl.firstChild);
-    });
   }
 
   // ─── HTML → Markdown ─────────────────────────────────────────────────────────

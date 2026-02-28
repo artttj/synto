@@ -27,9 +27,6 @@ const state = {
   previewOpen:        true,
   chatStreaming:      false,
   llmProvider:        "openai",
-  sourceAnchoring:    false,
-  mergeMode:          false,
-  allTabs:            [],     // [{id, title, url, active}] for merge list
 };
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
@@ -37,10 +34,6 @@ const $ = (id) => document.getElementById(id);
 
 const btnOptions       = $("btn-options");
 const templateSelect   = $("template-select");
-const chkSourceAnch    = $("chk-source-anchoring");
-const chkMergeMode     = $("chk-merge-mode");
-const mergePanel       = $("merge-panel");
-const mergeTabList     = $("merge-tab-list");
 const errorMsg         = $("error-msg");
 const tokenRow         = $("token-row");
 const tokenCount       = $("token-count");
@@ -67,10 +60,8 @@ async function init() {
 
   state.templates          = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id;
-  state.llmProvider        = settings.llmProvider ?? "openai";
-  state.sourceAnchoring    = settings.sourceAnchoring ?? false;
+  state.llmProvider = settings.llmProvider ?? "openai";
 
-  chkSourceAnch.checked = state.sourceAnchoring;
   renderTemplateSelect();
   updateRunButtonLabel();
 
@@ -132,130 +123,8 @@ templateSelect.addEventListener("change", async () => {
   applyTemplateAndUpdate();
 });
 
-// ─── Source anchoring toggle ──────────────────────────────────────────────────
-chkSourceAnch.addEventListener("change", async () => {
-  state.sourceAnchoring = chkSourceAnch.checked;
-  await saveSettings({ sourceAnchoring: state.sourceAnchoring });
-  // Re-extract so author annotations are applied (or removed).
-  await extractContent();
-});
-
-// ─── Merge mode toggle ────────────────────────────────────────────────────────
-chkMergeMode.addEventListener("change", async () => {
-  state.mergeMode = chkMergeMode.checked;
-  if (state.mergeMode) {
-    await loadMergeTabs();
-    mergePanel.classList.remove("hidden");
-  } else {
-    mergePanel.classList.add("hidden");
-    // Revert to single-tab extraction.
-    await extractContent();
-  }
-});
-
-async function loadMergeTabs() {
-  const tabs = await chrome.tabs.query({ currentWindow: true });
-  state.allTabs = tabs.filter(
-    (t) => t.url && !t.url.startsWith("chrome://") && !t.url.startsWith("chrome-extension://")
-  );
-
-  mergeTabList.innerHTML = "";
-  state.allTabs.forEach((tab) => {
-    const item = document.createElement("div");
-    item.className = "merge-tab-item" + (tab.active ? " current" : "");
-
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    cb.id = `merge-tab-${tab.id}`;
-    cb.value = String(tab.id);
-    cb.checked = tab.active; // pre-check current tab
-    cb.addEventListener("change", onMergeSelectionChange);
-
-    const lbl = document.createElement("label");
-    lbl.htmlFor = cb.id;
-    lbl.textContent = tab.title || tab.url || `Tab ${tab.id}`;
-    lbl.title = tab.url || "";
-
-    item.appendChild(cb);
-    item.appendChild(lbl);
-    mergeTabList.appendChild(item);
-  });
-
-  await extractMerged();
-}
-
-async function onMergeSelectionChange() {
-  await extractMerged();
-}
-
-async function extractMerged() {
-  setError(null);
-  disableActions("Merging…");
-  previewPanel.classList.add("hidden");
-  tokenRow.classList.add("hidden");
-
-  const checkedIds = [...mergeTabList.querySelectorAll("input:checked")]
-    .map((cb) => parseInt(cb.value));
-
-  if (!checkedIds.length) {
-    setError("Select at least one tab to merge.");
-    return;
-  }
-
-  const results = await Promise.allSettled(
-    checkedIds.map(async (tabId) => {
-      const tab = state.allTabs.find((t) => t.id === tabId);
-      const res = await chrome.tabs.sendMessage(tabId, {
-        type: MSG.EXTRACT_CONTENT,
-        mode: "markdown",
-        sourceAnchoring: state.sourceAnchoring,
-      }).catch(() => null);
-      return { tab, res };
-    })
-  );
-
-  const sections = [];
-  const errors   = [];
-
-  results.forEach((outcome, i) => {
-    if (outcome.status === "rejected") { errors.push(`Tab ${checkedIds[i]}: failed`); return; }
-    const { tab, res } = outcome.value;
-    if (!res?.success) {
-      errors.push(`"${tab?.title ?? "?"}": ${res?.error ?? "no content script"}`);
-      return;
-    }
-    const label = tab?.title || tab?.url || `Source ${i + 1}`;
-    sections.push(`## Source ${sections.length + 1}: ${label}\n\n${res.content}`);
-  });
-
-  if (!sections.length) {
-    setError("Could not extract any content.\n" + errors.join("\n"));
-    return;
-  }
-
-  const merged = sections.join("\n\n---\n\n");
-  // Build a synthetic extracted object for template application.
-  const firstTab = state.allTabs.find((t) => checkedIds.includes(t.id));
-  state.extracted = {
-    content:  merged,
-    selection: "",
-    title:    firstTab?.title ?? "Merged tabs",
-    url:      firstTab?.url ?? "",
-    excerpt: "", byline: "", siteName: "",
-  };
-  state.rawMarkdown = merged;
-
-  if (errors.length) {
-    setError(`Some tabs failed: ${errors.join("; ")}`);
-  }
-
-  applyTemplateAndUpdate();
-}
-
-// ─── Single-tab extraction ────────────────────────────────────────────────────
+// ─── Extraction ───────────────────────────────────────────────────────────────
 async function extractContent() {
-  if (state.mergeMode) return; // merge mode has its own path
-
   setError(null);
   disableActions("Extracting…");
   tokenRow.classList.add("hidden");
@@ -271,7 +140,6 @@ async function extractContent() {
     const response = await chrome.tabs.sendMessage(tab.id, {
       type: MSG.EXTRACT_CONTENT,
       mode: "markdown",
-      sourceAnchoring: state.sourceAnchoring,
     });
 
     if (!response?.success) {
