@@ -6,8 +6,8 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
 
 <table>
   <tr>
-    <td width="50%" align="center"><img src="docs/synto_1.png" alt="Clip any page to Markdown" width="100%" /><br/><sub><b>Clip any page and ask ChatGPT right in the sidebar</b></sub></td>
-    <td width="50%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Pick the best product from any list, ask right in the sidebar</b></sub></td>
+    <td width="50%" align="center"><img src="docs/synto_1.png" alt="Clip any page to Markdown" width="100%" /><br/><sub><b>Clip any page to Markdown and paste into Claude, ChatGPT, or any AI tool</b></sub></td>
+    <td width="50%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Or ask right in the sidebar, no copy-paste needed</b></sub></td>
   </tr>
   <tr>
     <td width="50%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub><b>Get a structured PR review with changes, concerns and next steps</b></sub></td>
