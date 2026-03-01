@@ -144,13 +144,6 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 2. Open Synto → select **Ticket Analysis**
 3. Click **Ask ChatGPT** for an in-panel analysis, or **Copy Markdown** to paste the prompt into Claude or another tool
 
-### Community: make sense of a Reddit thread
-
-1. Open a Reddit thread and scroll through it so the comments load
-2. Highlight a comment you want to rewrite, or leave nothing selected to clip the whole thread
-3. Open Synto → select **Structured Brief** to summarise the debate, or **Rewrite Comment** to polish a specific reply
-4. Click **Ask ChatGPT** → get the result streamed in the panel
-
 ### Decision: evaluate a feature request
 
 1. Open the GitHub issue or internal doc
