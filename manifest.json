@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Synto",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Artem Iagovdik (artyom.yagovdik@gmail.com)",
   "description": "Clip any web page to Markdown, apply a prompt template, and send to OpenAI, Gemini, or Grok for instant AI briefs. No backend — API keys stay on your device.",
   "homepage_url": "https://github.com/artttj/synto",
