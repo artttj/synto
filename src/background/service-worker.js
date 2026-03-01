@@ -1,17 +1,20 @@
-import { STORAGE_KEYS, DEFAULT_TEMPLATES } from "../shared/constants.js";
+import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants.js';
 
-// ─── Seed default templates on first install ──────────────────────────────────
 
 // ─── Open side panel on toolbar icon click ────────────────────────────────────
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((err) => console.error("[Synto] setPanelBehavior failed:", err));
+  .catch((err) => {
+    console.error('[Synto] setPanelBehavior failed:', err);
+  });
+
 
 // ─── Seed default templates on first install ──────────────────────────────────
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
-  if (reason !== "install") return;
+  if (reason !== 'install') return;
+
   try {
     const existing = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
     if (!existing[STORAGE_KEYS.TEMPLATES]) {
@@ -20,6 +23,6 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
       });
     }
   } catch (err) {
-    console.error("[Synto] onInstalled seed failed:", err);
+    console.error('[Synto] onInstalled seed failed:', err);
   }
 });

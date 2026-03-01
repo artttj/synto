@@ -150,11 +150,10 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 ## Setup
 
 1. Clone or download this repository
-2. Open `chrome://extensions`
-3. Enable **Developer mode**
-4. Click **Load unpacked** → select the project folder
-5. Click the Synto icon in the toolbar to open the side panel
-6. Open **Options** (gear icon) and add your API key for your preferred provider
+2. Install and build: `npm install && npm run build`
+3. Open `chrome://extensions` → enable **Developer mode**
+4. Click **Load unpacked** → choose the **`dist`** folder (inside this repo)
+5. Use the Synto icon to open the side panel; open **Options** (gear) to add an API key
 
 ### API Keys
 | Provider | Model | Where to get a key |
@@ -167,27 +166,21 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ## Project Structure
 
+**Best-practice layout:** all source in **`src/`**; **`npm run build`** produces **`dist/`**. You load **`dist/`** in Chrome (Load unpacked). The repo root stays source + tooling only; the extension artifact is only in `dist/`.
+
 ```
 synto/
-├── manifest.json
-├── background/
-│   └── service-worker.js       # Seeds default templates, registers side panel behaviour
-├── content/
-│   └── content.js              # Extraction pipeline (selection → smart extract → Turndown)
-├── popup/
-│   ├── popup.html              # Side panel UI
-│   ├── popup.css
-│   └── popup.js                # Main UI logic, streaming, conversation history
-├── options/
-│   ├── options.html
-│   ├── options.css
-│   └── options.js              # Settings, API keys, template CRUD
-├── shared/
-│   ├── constants.js            # Templates, storage keys, token thresholds
-│   └── storage.js              # Typed storage helpers
-└── lib/
-    ├── turndown.js
-    └── turndown-plugin-gfm.js
+├── manifest.json         # Manifest (copied into dist/)
+├── src/                  # Source — edit only here
+│   ├── background/       # Service worker
+│   ├── content/          # Content script (bundled to dist/content/content.js)
+│   ├── popup/            # Side panel
+│   ├── options/          # Options page
+│   └── shared/           # constants.js, storage.js
+├── scripts/build.js      # Build: src/ + lib/ + icons/ → dist/
+├── lib/                  # Turndown (third-party)
+├── icons/                # Extension icons
+└── dist/                 # Built extension — load this folder in Chrome
 ```
 
 ---
@@ -197,5 +190,5 @@ synto/
 - **No backend** — all processing is in-browser
 - **No user accounts** — no registration, no login
 - **No tracking** — no analytics, no telemetry
-- **Vanilla JS only** — no build step, no bundler, no framework
+- **ES modules + single build step** — `npm run build` bundles the content script and copies assets to `dist/`
 - **Manifest V3** — service worker, side panel API

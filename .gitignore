@@ -1,2 +1,9 @@
-.DS_Store
-*.DS_Store
+node_modules/
+dist/
+
+# Build output if written to root by mistake
+/background/
+/popup/
+/options/
+/shared/
+/content/

@@ -1,19 +1,19 @@
 export const MSG = {
-  EXTRACT_CONTENT: "EXTRACT_CONTENT",
-  COPY_TO_CLIPBOARD: "COPY_TO_CLIPBOARD",
-  GET_TEMPLATES: "GET_TEMPLATES",
-  SAVE_TEMPLATES: "SAVE_TEMPLATES",
+  EXTRACT_CONTENT: 'EXTRACT_CONTENT',
+  COPY_TO_CLIPBOARD: 'COPY_TO_CLIPBOARD',
+  GET_TEMPLATES: 'GET_TEMPLATES',
+  SAVE_TEMPLATES: 'SAVE_TEMPLATES',
 };
 
 export const STORAGE_KEYS = {
-  TEMPLATES: "apc_templates",
-  SETTINGS:  "apc_settings",
-  OPENAI_KEY: "apc_openai_key",
-  GROK_KEY:   "apc_grok_key",
-  GEMINI_KEY: "apc_gemini_key",
+  TEMPLATES: 'apc_templates',
+  SETTINGS:  'apc_settings',
+  OPENAI_KEY: 'apc_openai_key',
+  GROK_KEY:   'apc_grok_key',
+  GEMINI_KEY: 'apc_gemini_key',
 };
 
-export const TEMPLATE_CATEGORIES = ["General", "Engineering", "Community", "Lifestyle"];
+export const TEMPLATE_CATEGORIES = ['General', 'Engineering', 'Community', 'Lifestyle'];
 
 export const DEFAULT_TEMPLATES = [
 
@@ -291,11 +291,12 @@ export const TOKEN_THRESHOLDS = {
   GREEN:  4000,
   YELLOW: 16000,
   MODEL_LIMITS: {
-    "gpt-4o-mini":        128000,
-    "gemini-2.0-flash": 1048576,
-    "grok-3-mini":        131072,
+    'gpt-4o-mini':        128000,
+    'gemini-2.0-flash': 1048576,
+    'grok-3-mini':        131072,
   },
 };
+
 
 /**
  * Rough token estimate: ~4 characters per token.
@@ -306,13 +307,18 @@ export function estimateTokens(text) {
   return Math.ceil(text.length / 4);
 }
 
+
 /**
  * Returns a CSS color class based on token count.
  * @param {number} tokens
  * @returns {"green"|"yellow"|"red"}
  */
 export function tokenColorClass(tokens) {
-  if (tokens < TOKEN_THRESHOLDS.GREEN)  return "green";
-  if (tokens < TOKEN_THRESHOLDS.YELLOW) return "yellow";
-  return "red";
+  if (tokens < TOKEN_THRESHOLDS.GREEN) {
+    return 'green';
+  }
+  if (tokens < TOKEN_THRESHOLDS.YELLOW) {
+    return 'yellow';
+  }
+  return 'red';
 }

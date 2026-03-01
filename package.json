@@ -1,0 +1,19 @@
+{
+  "name": "synto",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "Artem Iagovdik <artyom.yagovdik@gmail.com> (https://github.com/artttj)",
+  "repository": "github.com/artttj/synto",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0"
+  }
+}
