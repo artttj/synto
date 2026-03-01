@@ -33,8 +33,6 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": [
-        "lib/turndown.js",
-        "lib/turndown-plugin-gfm.js",
         "content/content.js"
       ],
       "run_at": "document_idle"
