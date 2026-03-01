@@ -1,8 +1,8 @@
 # Synto
 
-A Chrome extension. 
+Turn messy tickets, PRs, and docs into structured AI briefs — in one click, from a Chrome side panel.
 
-Clip any web page to Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok for instant AI briefs. No backend — API keys stay on your device.
+Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok. No backend. No accounts. API keys stay on your device.
 
 <table>
   <tr>
@@ -15,22 +15,31 @@ Clip any web page to Markdown, apply a prompt template, and send to ChatGPT, Gem
   </tr>
 </table>
 
-Built for **engineers, PMs, and founders** who need to skip the copy-paste-summarize loop and get straight to actionable insights.
+Built for **engineers, PMs, and founders** who are tired of the copy-paste-summarize loop — skip the prep work and get straight to insights you can act on.
 
+- [Why Synto?](#why-synto)
 - [Features](#features)
 - [Templates](#template-library)
-- [Privacy](#privacy--data)
+- [Workflow Examples](#workflow-examples)
+- [Privacy & Data](#privacy--data)
 - [Setup](#setup)
-
-No backend. No accounts. No tracking. Fully client-side.
 
 ---
 
-## The Problem vs. The Solution
+## Why Synto?
 
-**Before:** You copy a messy 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a paragraph that misses all the technical nuances.
+- **Context-aware extraction** — tuned for Jira, GitHub, GitLab, and Bitbucket
+- **Templates by intent** — structured prompts for analysis, decisions, and action items
+- **Multi-AI support** — ChatGPT, Gemini, and Grok in one place
+- **Fully client-side** — no backend, no tracking; API keys never leave your device
 
-**After:** Open Synto, select **Ticket Analysis**, click **Ask ChatGPT**, and get the analysis streamed directly in the sidebar:
+---
+
+## Before & After
+
+**Without Synto:** Copy a 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a generic paragraph that misses the technical nuances.
+
+**With Synto:** Open the side panel, select **Ticket Analysis**, click **Ask ChatGPT** (or **Ask Gemini** / **Ask Grok**), and get a structured brief streamed in seconds:
 
 ```
 ## Summary
@@ -50,7 +59,7 @@ Auth service timeout caused by Redis connection pool exhaustion.
 2. @devops: Check current Redis maxclients value.
 ```
 
-Or click **Copy Markdown** to paste the formatted prompt into Claude, Gemini, or any other tool you already use.
+**Ask ChatGPT / Gemini / Grok** streams the response in the panel. **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or any other tool you already use.
 
 ---
 
@@ -73,21 +82,26 @@ Templates are grouped by intent and support `{content}`, `{selection}`, `{title}
 
 ### Smart Extraction
 
+Synto knows where the real content lives on Jira, GitHub, GitLab, and more.
+
 - **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), and more
 - **Clean Markdown:** strips navigation, footers, ads, and banners via [Turndown](https://github.com/mixmark-io/turndown) + GFM tables/code blocks; diff tables converted to readable `<pre>` blocks
 - **Selection awareness:** highlight text before opening the panel and Synto uses that as `{selection}`
 
 ### Integrated Experience
 
-- **Native side panel:** stays open as you navigate — no tab switching, no lost conversation
+Everything happens in a persistent side panel — no tab switching, no lost context.
+
 - **Multi-model AI:** stream responses from **GPT-4o-mini**, **Gemini 2.0 Flash**, or **Grok-3-mini** directly in the panel, with full follow-up conversation
 - **Live preview:** toggle between the **Content tab** (raw extracted Markdown) and **Prompt tab** (final merged string), with a token counter that warns as you approach model limits
-- **Copy Markdown:** copies the formatted prompt to clipboard to use in Claude, ChatGPT web, or any other tool
+- **Two outputs:** **Ask ChatGPT / Gemini / Grok** streams the response in-panel; **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or other tools
 
 ### Keyboard shortcuts
 
-- **⌥ ⇧ C** — Open Synto (side panel) from any tab
-- **⌥ ⇧ ↩** — Ask AI (when the panel is focused) — sends to ChatGPT, Gemini, or Grok per your selection
+| Action | macOS | Windows/Linux |
+| --- | --- | --- |
+| Open Synto | ⌥⇧C | Alt+Shift+C |
+| Ask ChatGPT / Gemini / Grok (when panel is focused) | ⌥⇧↩ | Alt+Shift+Enter |
 
 ---
 
@@ -104,7 +118,7 @@ Templates are grouped by intent and support `{content}`, `{selection}`, `{title}
 
 1. Open a Jira ticket with discussion
 2. Open Synto → select **Ticket Analysis**
-3. Click **Ask ChatGPT** to get the analysis in the panel, or **Copy Markdown** to paste the prompt into Claude Code or another tool
+3. Click **Ask ChatGPT** for an in-panel analysis, or **Copy Markdown** to paste the prompt into Claude or another tool
 
 ### Decision: evaluate a feature request
 
@@ -126,11 +140,14 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ## Setup
 
-1. Clone or download this repository
-2. Run `npm install && npm run build`
-3. Open `chrome://extensions` → enable **Developer mode**
-4. Click **Load unpacked** → select the `dist/` folder
-5. Open **Options** (gear icon) to add an API key
+Up and running in under two minutes.
+
+1. `git clone https://github.com/artttj/synto.git && cd synto`
+2. `npm install && npm run build`
+3. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
+4. Click the **Synto** icon → open **Options** → add your API key → start clipping
+
+> **Tip:** If the extension doesn't load, make sure you selected the `dist/` folder (the build output), not the project root.
 
 ### API Keys
 
@@ -139,6 +156,8 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 | OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
 | Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier available) |
 | Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
+
+*Model names may change over time; check **Options** for the current list.*
 
 ### Project Structure
 
