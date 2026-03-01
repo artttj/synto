@@ -28,7 +28,6 @@ export const DEPRECATED_TEMPLATE_IDS = new Set([
   'extract-key-questions',
   'lifestyle-recipe-card',
   'lifestyle-buy-decision',
-  'lifestyle-smart-choice',
 ]);
 
 export const DEFAULT_TEMPLATES = [
@@ -289,6 +288,35 @@ Source: [{title}]({url})
 ---
 
 Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "lifestyle-smart-choice",
+    name: "Smart Choice",
+    label: "Recommend",
+    description: "Options, trade-offs, quick verdict",
+    category: "Act",
+    isDefault: false,
+    prompt: `Score and decide between the options in the content below. Use a weighted scorecard. Output ONLY this structure — nothing before or after:
+
+## Criteria (total weight 100)
+- Criterion 1 – weight %
+(4–6 criteria)
+
+## Scorecard
+| Option | Crit 1 | Crit 2 | Crit 3 | Crit 4 | Total (weighted) |
+|--------|--------|--------|--------|--------|------------------|
+| …      | …      | …      | …      | …      | …                |
+
+## Winner
+[Option name] — two-sentence explanation why it leads.
+
+## Communication Snippet
+Two sentences to tell stakeholders: benefit + immediate next step.
+
+---
 
 {content}`,
   },
