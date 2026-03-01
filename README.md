@@ -90,7 +90,7 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 | Category | Templates (button label) | Purpose |
 | --- | --- | --- |
-| Understand | Brief, Ticket, PR | Key points, conclusions, technical risks |
+| Understand | Brief, Ticket, Code Review | Key points, conclusions, technical risks |
 | Decide | Decision, Feature | Trade-offs and a clear recommendation |
 | Act | Actions, Risks, Recommend | Turn discussions into tasks and surface blockers |
 | Compose | Reply, Rewrite, Email | Professional replies or rewrites |
@@ -132,7 +132,7 @@ Everything lives in a persistent side panel. No tab switching, no lost context.
 ### Engineering: Code review
 
 1. Open a GitHub PR with 40+ review comments
-2. Open Synto, click Understand, pick PR
+2. Open Synto, click Understand, pick Code Review
 3. Click Ask ChatGPT. You get a structured brief: what changed, who's blocking, what needs fixing
 4. Ask follow-up questions in the panel
 
@@ -142,7 +142,7 @@ Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's
 
 1. Open the PR, go to Files changed, scroll to the bottom so all files load
 2. Press Ctrl+A (⌘A on Mac) to select the page
-3. Open Synto, click Understand, pick PR, click Ask AI
+3. Open Synto, click Understand, pick Code Review, click Ask AI
 
 Synto uses your selection instead of re-extracting.
 

@@ -76,7 +76,7 @@ Ticket: [{title}]({url})
   {
     id: "eng-pr-review",
     name: "PR Review",
-    label: "PR",
+    label: "Code Review",
     description: "Changes, concerns, approvals, status",
     category: "Understand",
     isDefault: false,
