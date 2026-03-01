@@ -148,7 +148,7 @@ Synto uses your selection instead of re-extracting.
 
 ### Shopping: compare products and pick one
 
-Smart Choice uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
+Recommend uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
 
 1. Open an Amazon search results page, or select content from a few product pages with Ctrl+A
 2. Open Synto, click Act, pick Recommend
