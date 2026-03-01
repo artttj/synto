@@ -130,14 +130,14 @@ Everything lives in a persistent side panel. No tab switching, no lost context.
 
 ## Workflow Examples
 
-### Engineering: PR review
+### Engineering: Code review
 
 1. Open a GitHub PR with 40+ review comments
-2. Open Synto and select PR Review
+2. Open Synto, select PR Review
 3. Click Ask ChatGPT. You get a structured brief: what changed, who's blocking, what needs fixing
 4. Ask follow-up questions in the panel
 
-### Engineering: Bitbucket PR diff
+### Engineering: Bitbucket code review
 
 Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's on screen. Workaround:
 
