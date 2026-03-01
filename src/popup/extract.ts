@@ -71,7 +71,10 @@ export async function extractContent(): Promise<void> {
         });
         await sendExtract(tab.id);
       } catch {
-        setError('Could not reach the page. Click ↻ to try again.');
+        setError(
+          'Could not reach the page.',
+          'Could not reach the page. <a href="#" id="err-reload">Reload the page</a> and try again.'
+        );
         disableActions();
       }
     } else {

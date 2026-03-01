@@ -140,7 +140,6 @@ header {
   gap: 2px;
 }
 
-#btn-reload,
 #btn-options,
 #btn-help {
   color: var(--c-text-2);
@@ -155,7 +154,6 @@ header {
   transition: color var(--t) var(--ease), background var(--t) var(--ease);
 }
 #btn-options { font-size: 22px; line-height: 1; padding: 2px 4px; }
-#btn-reload:hover,
 #btn-options:hover,
 #btn-help:hover { color: var(--c-text); background: var(--c-elevated); }
 
