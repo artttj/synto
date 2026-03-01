@@ -6,12 +6,12 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/synto_1.png" alt="Synto demo 1" width="100%" /></td>
-    <td width="50%"><img src="docs/synto_2.png" alt="Synto demo 2" width="100%" /></td>
+    <td width="50%" align="center"><img src="docs/synto_1.png" alt="Clip any page to Markdown" width="100%" /><br/><sub>Clip any page to Markdown — paste into ChatGPT, Claude, or any AI tool</sub></td>
+    <td width="50%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub>Stop reading 400 reviews — get the best Amazon pick in seconds</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/synto_3.png" alt="Synto demo 3" width="100%" /></td>
-    <td width="50%"><img src="docs/synto_4.png" alt="Synto demo 4" width="100%" /></td>
+    <td width="50%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub>Review a GitHub PR — changes, concerns, and next steps, structured</sub></td>
+    <td width="50%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub>Open a restaurant menu — ask what's actually worth ordering</sub></td>
   </tr>
 </table>
 
