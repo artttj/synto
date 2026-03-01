@@ -6,12 +6,12 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
 
 <table>
   <tr>
-    <td width="50%" align="center"><img src="docs/synto_1.png" alt="Clip any page to Markdown" width="100%" /><br/><sub>Clip any page and send to ChatGPT, Claude, or any AI tool</sub></td>
-    <td width="50%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub>Find the best product without reading 400 reviews</sub></td>
+    <td width="50%" align="center"><img src="docs/synto_1.png" alt="Clip any page to Markdown" width="100%" /><br/><sub><b>Clip any page and send to ChatGPT, Claude, or any AI tool</b></sub></td>
+    <td width="50%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Find the best product without reading 400 reviews</b></sub></td>
   </tr>
   <tr>
-    <td width="50%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub>Get a structured PR review with changes, concerns and next steps</sub></td>
-    <td width="50%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub>Open any menu and ask what's worth ordering</sub></td>
+    <td width="50%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub><b>Get a structured PR review with changes, concerns and next steps</b></sub></td>
+    <td width="50%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub><b>Open any menu and ask what's worth ordering</b></sub></td>
   </tr>
 </table>
 
