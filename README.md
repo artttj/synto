@@ -80,7 +80,7 @@ Auth service timeout caused by Redis connection pool exhaustion.
 2. @devops: Check current Redis maxclients value.
 ```
 
-Ask streams the response in the panel. Copy Markdown copies the prompt to your clipboard for Claude, ChatGPT web, or any other tool.
+"Ask" streams the response in the panel. "Copy Markdown" copies the prompt to your clipboard for Claude, ChatGPT web, or any other tool.
 
 ---
 
@@ -117,7 +117,7 @@ Everything lives in a persistent side panel. No tab switching, no lost context.
 
 - Multi-model: stream from GPT-4o-mini, Gemini 2.0 Flash, or Grok-3-mini with full follow-up conversation.
 - Live preview: switch between the Content tab (extracted Markdown) and the Prompt tab (final merged string). A token counter warns you when you're near model limits.
-- Two output modes: Ask streams in the panel. Copy Markdown (or Copy Prompt) puts the prompt on your clipboard for Claude, ChatGPT web, or anything else.
+- Two output modes: "Ask" streams in the panel. "Copy Markdown" (or "Copy Prompt") puts the prompt on your clipboard for Claude, ChatGPT web, or anything else.
 
 ### Keyboard Shortcuts
 
