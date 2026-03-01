@@ -33,14 +33,13 @@ You'll need an API key from one of these providers:
 | Google Gemini | [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
 | Grok (xAI) | [console.x.ai](https://console.x.ai/) |
 
-
 ---
 
 Built for **engineers, PMs, and founders** who are tired of the copy-paste-summarize loop — skip the prep work and get straight to insights you can act on.
 
 - [Why Synto?](#why-synto)
-- [Features](#features)
 - [Templates](#template-library)
+- [Features](#features)
 - [Workflow Examples](#workflow-examples)
 - [Privacy & Data](#privacy--data)
 - [Setup](#setup)
@@ -135,20 +134,28 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 1. Open a GitHub PR with 40+ review comments
 2. Open Synto → select **PR Review**
-3. Click **Ask ChatGPT** → get a structured brief: what changed, who is blocking, what they want fixed
+3. Click **Ask ChatGPT** → get a structured brief: what changed, who is blocking, what needs fixing
 4. Ask follow-up questions directly in the panel
 
-### Product: Jira ticket into a shareable brief
+### Shopping: pick the right product
 
-1. Open a Jira ticket with discussion
+1. Open any product page or Amazon listing
+2. Open Synto → select **Smart Choice**
+3. Click **Ask ChatGPT** → get pros, cons, who it's for, and a clear verdict
+
+### Writing: draft a reply in seconds
+
+1. Open a long email thread, GitHub issue, or any message
+2. Optionally highlight just the part you're replying to
+3. Open Synto → select **Draft Reply**
+4. Click **Ask ChatGPT** → get a ready-to-send reply
+
+### Support: get up to speed on a ticket thread
+
+1. Open a long Zendesk, Intercom, or GitHub issue thread
 2. Open Synto → select **Ticket Analysis**
-3. Click **Ask ChatGPT** for an in-panel analysis, or **Copy Markdown** to paste the prompt into Claude or another tool
-
-### Decision: evaluate a feature request
-
-1. Open the GitHub issue or internal doc
-2. Open Synto → select **Feature Request Analysis**
-3. Click **Ask ChatGPT** → get problem framing, trade-offs, and alternatives
+3. Click **Ask ChatGPT** → get a summary of the problem, what's been tried, and the current status
+4. Ask follow-up questions without re-reading the whole thread
 
 ---
 
