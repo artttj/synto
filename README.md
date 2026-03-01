@@ -7,6 +7,10 @@ A Chrome extension. Clip any web page to Markdown, apply a prompt template, and 
     <td width="50%"><img src="docs/synto_1.png" alt="Synto demo 1" width="100%" /></td>
     <td width="50%"><img src="docs/synto_2.png" alt="Synto demo 2" width="100%" /></td>
   </tr>
+  <tr>
+    <td width="50%"><img src="docs/synto_3.png" alt="Synto demo 3" width="100%" /></td>
+    <td width="50%"><img src="docs/synto_4.png" alt="Synto demo 4" width="100%" /></td>
+  </tr>
 </table>
 
 Built for **engineers, PMs, and founders** who need to skip the copy-paste-summarize loop and get straight to actionable insights.
