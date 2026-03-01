@@ -1,9 +1,9 @@
 /**
- * HTML → Markdown via TurndownService (loaded as global before this bundle).
+ * HTML → Markdown via TurndownService (bundled via npm).
  */
 
-const TurndownService = globalThis.TurndownService;
-const turndownPluginGfm = globalThis.turndownPluginGfm;
+import TurndownService from 'turndown';
+import { gfm } from 'turndown-plugin-gfm';
 
 
 export function toMarkdown(html) {
@@ -18,9 +18,7 @@ export function toMarkdown(html) {
     linkStyle: 'inlined',
   });
 
-  if (typeof turndownPluginGfm !== 'undefined') {
-    td.use(turndownPluginGfm.gfm);
-  }
+  td.use(gfm);
 
   td.keep(['sup', 'sub', 'mark']);
 
