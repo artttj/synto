@@ -64,19 +64,10 @@ export async function extractContent(): Promise<void> {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     if (message?.includes('Receiving end does not exist')) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['content/content.js'],
-        });
-        await sendExtract(tab.id);
-      } catch (retryErr: unknown) {
-        setError(retryErr instanceof Error ? retryErr.message : String(retryErr));
-        disableActions();
-      }
+      setError('Could not reach the page. Try refreshing and reopening Synto.');
     } else {
       setError(message);
-      disableActions();
     }
+    disableActions();
   }
 }
