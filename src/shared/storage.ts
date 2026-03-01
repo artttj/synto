@@ -8,7 +8,7 @@ import { STORAGE_KEYS, DEFAULT_TEMPLATES, DEPRECATED_TEMPLATE_IDS } from './cons
 export interface Template {
   id: string;
   name: string;
-  label?: string;       // short display label for compact controls
+  label?: string;
   description?: string;
   category?: string;
   isDefault?: boolean;
@@ -20,9 +20,6 @@ export interface Settings {
   theme: string;
   llmProvider: string;
 }
-
-
-// API keys use storage.local — stay on this device only, never synced to Google.
 
 export async function getOpenAIKey(): Promise<string> {
   const result = await chrome.storage.local.get(STORAGE_KEYS.OPENAI_KEY);
@@ -51,9 +48,6 @@ export async function saveGeminiKey(key: string): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.GEMINI_KEY]: key });
 }
 
-
-// Merges new built-in templates into saved ones so new defaults appear without reinstall.
-// Also back-fills category/description for built-in IDs saved before those fields existed.
 export async function getTemplates(): Promise<Template[]> {
   const result = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
   const saved = result[STORAGE_KEYS.TEMPLATES] as Template[] | undefined;
@@ -63,12 +57,7 @@ export async function getTemplates(): Promise<Template[]> {
   }
 
   const defaultsById = new Map(DEFAULT_TEMPLATES.map((t) => [t.id, t]));
-
-  // Drop deprecated built-in IDs; keep all user-created templates.
   const active = saved.filter((t) => !DEPRECATED_TEMPLATE_IDS.has(t.id));
-
-  // Always use canonical metadata for remaining built-in templates,
-  // so renames/recategorisations take effect without a reinstall.
   const merged = active.map((t) => {
     const def = defaultsById.get(t.id);
     if (!def) return t;

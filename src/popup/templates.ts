@@ -178,7 +178,6 @@ function selectCard(templateId: string): void {
   localStorage.setItem('synto_intent_sel_' + activeIntent, templateId);
   updateCardSelection();
 
-  // Debounce save + apply to prevent rapid-fire calls on quick switching
   if (switchDebounce !== null) clearTimeout(switchDebounce);
   switchDebounce = setTimeout(() => {
     void saveSettings({ defaultTemplateId: templateId });

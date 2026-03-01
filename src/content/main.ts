@@ -4,17 +4,28 @@
  */
 
 import { MSG_EXTRACT } from './selectors';
-import { extractContent } from './extract';
+import { extractContent, expandBitbucketDiffs, isBitbucketPr } from './extract';
+
+function doExtract(mode: string) {
+  try {
+    return extractContent(mode ?? 'markdown');
+  } catch (err: unknown) {
+    return { success: false, error: err instanceof Error ? err.message : String(err) };
+  }
+}
 
 chrome.runtime.onMessage.addListener((message: { type: string; mode?: string }, _sender, sendResponse) => {
   if (message.type !== MSG_EXTRACT) return;
 
-  try {
-    const result = extractContent(message.mode ?? 'markdown');
-    sendResponse(result);
-  } catch (err: unknown) {
-    sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
+  if (isBitbucketPr()) {
+    expandBitbucketDiffs();
+    const mode = message.mode ?? 'markdown';
+    setTimeout(() => {
+      sendResponse(doExtract(mode));
+    }, 3500);
+    return true;
   }
 
+  sendResponse(doExtract(message.mode ?? 'markdown'));
   return true;
 });

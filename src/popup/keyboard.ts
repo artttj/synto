@@ -1,8 +1,6 @@
 /**
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
- *
- * In-popup shortcut: Option+Shift+Enter → Ask AI (ChatGPT / Gemini / Grok).
  */
 
 import { refs } from './dom';

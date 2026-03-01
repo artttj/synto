@@ -20,22 +20,17 @@ export const STORAGE_KEYS = {
 
 export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
 
-// IDs that no longer exist as default templates.
-// Filtered out of stored data so they don't create orphan tabs.
 export const DEPRECATED_TEMPLATE_IDS = new Set([
-  'default-structured-brief', // merged into understand-structured-brief
-  'analyze-article',           // merged into understand-structured-brief
-  'community-debate-map',      // removed
-  'default-clean',             // removed
-  'extract-key-questions',     // removed
-  'lifestyle-recipe-card',     // removed
-  'lifestyle-buy-decision',    // superseded by lifestyle-smart-choice
+  'default-structured-brief',
+  'analyze-article',
+  'community-debate-map',
+  'default-clean',
+  'extract-key-questions',
+  'lifestyle-recipe-card',
+  'lifestyle-buy-decision',
 ]);
 
 export const DEFAULT_TEMPLATES = [
-
-  // ── Understand ─────────────────────────────────────────────────────────────
-
   {
     id: "eng-ticket-analysis",
     name: "Ticket Analysis",
@@ -161,8 +156,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  // ── Decide ─────────────────────────────────────────────────────────────────
-
   {
     id: "decide-brief",
     name: "Decision Brief",
@@ -252,8 +245,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  // ── Act ────────────────────────────────────────────────────────────────────
-
   {
     id: "eng-action-items",
     name: "Extract Actions",
@@ -329,8 +320,6 @@ Two sentences to tell stakeholders: benefit + immediate next step.
 
 {content}`,
   },
-
-  // ── Compose ────────────────────────────────────────────────────────────────
 
   {
     id: "write-compose-answer",

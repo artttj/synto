@@ -37,7 +37,6 @@ function populateCategorySelect(currentCategory?: string): void {
   if (currentCategory && allCats.includes(currentCategory)) {
     sel.value = currentCategory;
   } else if (currentCategory && currentCategory !== '__new__') {
-    // Edge case: custom category not yet in state (shouldn't happen, but be safe)
     sel.value = allCats[0];
   } else {
     sel.value = allCats[0];

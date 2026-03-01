@@ -31,9 +31,9 @@ export const STRIP_SELECTORS = [
   '#related', '#secondary',
   '.pull-request-overview', "[data-qa='pr-sidebar']", "[data-testid='pullrequest-sidebar']",
   '.diff-tree-list', '.review-bar-component',
+  '.load-diff', '.load-diff-button',
 ].join(',');
 
-// Tried in order; first match with enough text wins.
 export const MAIN_SELECTORS = [
   'article', "[role='main']", 'main',
   '#main-content', '#content', '#article-body', '#story',

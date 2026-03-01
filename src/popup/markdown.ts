@@ -3,11 +3,8 @@
  * https://github.com/artttj/synto
  */
 
-// Private-use Unicode char used as placeholder during code block extraction.
-// Avoids conflicts with real content and is safe in regex character classes.
 const CODE_PLACEHOLDER = '\uE000';
 
-/** Strip repeated leading "N. " so LLM output like "1. 1. 1. text" becomes "text". */
 function stripLeadingNumber(s: string): string {
   let t = s.trim();
   let prev = '';
@@ -70,7 +67,6 @@ export function renderMarkdown(raw: string): string {
     if (ol) {
       if (inUl) { out.push('</ul>'); inUl = false; }
       if (!inOl) { out.push('<ol>'); inOl = true; }
-      // Strip repeated leading "N. " so "1. 1. 1. text" from LLM becomes "text"
       const listContent = stripLeadingNumber(ol[2]);
       out.push(`<li>${inline(listContent)}</li>`);
       continue;

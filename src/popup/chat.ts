@@ -114,7 +114,6 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
         bubble.textContent = reply;
         refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
       } catch {
-        /* partial chunk — ignore and continue */
       }
     }
   }

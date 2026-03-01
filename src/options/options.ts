@@ -94,7 +94,6 @@ async function init(): Promise<void> {
     });
   });
 
-  // Support deep-linking via hash (e.g. options.html#help)
   const hash = location.hash.replace('#', '');
   if (hash && document.querySelector(`.nav-item[data-tab="${hash}"]`)) {
     navigateToTab(hash);
