@@ -48,13 +48,7 @@ async function init(): Promise<void> {
   });
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
-
-  refs.errorMsg!.addEventListener('click', (e) => {
-    if ((e.target as HTMLElement).id === 'err-reload') {
-      e.preventDefault();
-      void chrome.tabs.reload().then(() => { void extractContent(); });
-    }
-  });
+  refs.btnReload!.addEventListener('click', () => { void extractContent(); });
 
   await extractContent();
 

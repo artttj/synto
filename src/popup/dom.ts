@@ -8,6 +8,7 @@ export const $ = (id: string): HTMLElement | null => document.getElementById(id)
 export const refs = {
   btnOptions: null as HTMLElement | null,
   btnHelp:    null as HTMLElement | null,
+  btnReload:  null as HTMLElement | null,
   intentTabs: null as HTMLElement | null,
   templateCards: null as HTMLElement | null,
   errorMsg: null as HTMLElement | null,
@@ -34,6 +35,7 @@ export const refs = {
 export function resolveRefs() {
   refs.btnOptions = $('btn-options');
   refs.btnHelp    = $('btn-help');
+  refs.btnReload  = $('btn-reload');
   refs.intentTabs    = $('intent-tabs');
   refs.templateCards = $('template-cards');
   refs.errorMsg = $('error-msg');
