@@ -108,8 +108,7 @@ Synto goes for the main content and skips the rest.
 - Any page: Jira, GitHub, GitLab, Bitbucket, Reddit, Amazon, news, docs. If it opens in Chrome, Synto clips it.
 - Semantic selectors: targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon). Skips nav, footers, ads, and banners.
 - Clean Markdown: HTML converted to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown). Diff tables show up as readable `<pre>` blocks.
-- Selection-aware: highlight any text before opening Synto and only that selection is sent.
-- Selection mode: press Ctrl+A (⌘A) to select the whole page or a section. Synto sends that instead of auto-extracting. Handy for lazy-loaded pages (e.g. Bitbucket diffs, long feeds): scroll to load everything, select all, then open Synto.
+- Selection-aware: highlight text before opening Synto and only that is sent. Press Ctrl+A (⌘A) to select the whole page. Useful for lazy-loaded pages like Bitbucket diffs — scroll to the bottom first to load all content, then select all, then open Synto.
 
 ### Integrated Experience
 
@@ -147,11 +146,13 @@ Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's
 
 Synto uses your selection instead of re-extracting.
 
-### Shopping: pick the right product
+### Shopping: compare products and pick one
 
-1. Open a product page or Amazon listing
+Smart Choice uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
+
+1. Open an Amazon search results page, or select content from a few product pages with Ctrl+A
 2. Open Synto, select Smart Choice
-3. Click Ask ChatGPT for pros, cons, who it's for, and a verdict
+3. Click Ask AI. You get a scored comparison table and a clear recommendation on which to pick
 
 ### Writing: draft a reply
 
