@@ -1,6 +1,6 @@
 # Synto
 
-**Clip any web page to Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok for instant AI briefs. No backend — API keys stay on your device.**
+A Chrome extension. Clip any web page to Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok for instant AI briefs. No backend — API keys stay on your device.
 
 <table>
   <tr>
