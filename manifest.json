@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Synto",
-  "version": "1.0.5",
+  "version": "1.0.4",
   "author": "Artem Iagovdik (artyom.yagovdik@gmail.com)",
   "description": "Turn any page into Markdown, apply a prompt template, and send to OpenAI, Gemini, or Grok. Keys stay on your device.",
   "homepage_url": "https://github.com/artttj/synto",
@@ -10,8 +10,9 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["activeTab", "storage", "clipboardWrite", "sidePanel"],
+  "permissions": ["activeTab", "storage", "clipboardWrite", "scripting", "sidePanel"],
   "host_permissions": [
+    "*://*/*",
     "https://api.openai.com/*",
     "https://api.x.ai/*",
     "https://generativelanguage.googleapis.com/*"
