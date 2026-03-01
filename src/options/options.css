@@ -296,9 +296,6 @@ body {
 
 .setting-select:focus { border-color: var(--c-border-hi); }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   ABOUT BLOCK
-═══════════════════════════════════════════════════════════════════════════ */
 .about-block {
   background: var(--c-surface);
   border: 1px solid var(--c-border);

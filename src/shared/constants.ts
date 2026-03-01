@@ -13,22 +13,14 @@ export const STORAGE_KEYS = {
   GEMINI_KEY: 'apc_gemini_key',
 };
 
-export const TEMPLATE_CATEGORIES = ['General', 'Engineering', 'Community', 'Lifestyle'];
+export const TEMPLATE_CATEGORIES = ['Analyze', 'Decide', 'Extract', 'Write'];
 
 export const DEFAULT_TEMPLATES = [
 
   {
-    id: "default-clean",
-    name: "Clean Copy",
-    category: "General",
-    isDefault: true,
-    prompt: "{content}",
-  },
-
-  {
     id: "default-structured-brief",
     name: "Structured Brief",
-    category: "General",
+    category: "Analyze",
     isDefault: true,
     prompt: `Analyze the following and produce a structured brief. Use exactly these section headings. Be concise and factual — no padding, no preamble, no meta-commentary.
 
@@ -55,41 +47,9 @@ Source: [{title}]({url})
   },
 
   {
-    id: "eng-pr-review",
-    name: "PR Review Summary",
-    category: "Engineering",
-    isDefault: false,
-    prompt: `Summarize this pull request discussion as a structured review brief. No preamble.
-
-## What This PR Does
-One paragraph: purpose, scope, approach.
-
-## Requested Changes
-Bullet list of explicit change requests from reviewers. Be specific — include file names or function names where mentioned.
-
-## Concerns Raised
-Bullet list of concerns, questions, or objections that were not explicit change requests.
-
-## Approvals & Blockers
-Who approved? Who is blocking and why?
-
-## Key Technical Decisions
-Any architectural or implementation choices debated in the review.
-
-## Status
-Open / Merged / Closed. Any conditions remaining before merge?
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
     id: "eng-ticket-analysis",
     name: "Ticket Analysis",
-    category: "Engineering",
+    category: "Analyze",
     isDefault: false,
     prompt: `Analyze this ticket and produce a structured implementation brief. No preamble.
 
@@ -122,24 +82,58 @@ Ticket: [{title}]({url})
   },
 
   {
-    id: "eng-action-items",
-    name: "Extract Action Items",
-    category: "Engineering",
+    id: "eng-pr-review",
+    name: "PR Review Summary",
+    category: "Analyze",
     isDefault: false,
-    prompt: `Extract all action items, tasks, and commitments from this discussion. No preamble.
+    prompt: `Summarize this pull request discussion as a structured review brief. No preamble.
 
-## Committed Actions
-Tasks explicitly assigned or agreed upon.
-- [ ] Action (Owner if mentioned)
+## What This PR Does
+One paragraph: purpose, scope, approach.
 
-## Implied Next Steps
-Things that logically need to happen but were not explicitly assigned.
+## Requested Changes
+Bullet list of explicit change requests from reviewers. Be specific — include file names or function names where mentioned.
 
-## Blockers
-Items that are blocked and what they are waiting on.
+## Concerns Raised
+Bullet list of concerns, questions, or objections that were not explicit change requests.
 
-## Decisions Needed
-Unresolved questions that require a decision before work can proceed.
+## Approvals & Blockers
+Who approved? Who is blocking and why?
+
+## Key Technical Decisions
+Any architectural or implementation choices debated in the review.
+
+## Status
+Open / Merged / Closed. Any conditions remaining before merge?
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "analyze-article",
+    name: "Article Analysis",
+    category: "Analyze",
+    isDefault: false,
+    prompt: `Analyze this article. No preamble.
+
+## Thesis
+What is the main claim or argument?
+
+## Key Points
+Bullet list of the main ideas and supporting points.
+
+## Evidence
+What data, examples, or sources are used?
+
+## Conclusions
+What does the author conclude or recommend?
+
+## Critical Take
+One paragraph: strengths, gaps, or counterpoints worth considering.
 
 ---
 
@@ -151,7 +145,7 @@ Source: [{title}]({url})
   {
     id: "community-debate-map",
     name: "Debate Map",
-    category: "Community",
+    category: "Analyze",
     isDefault: false,
     prompt: `Map the debate in this discussion thread. No preamble.
 
@@ -187,50 +181,59 @@ Source: [{title}]({url})
   },
 
   {
-    id: "lifestyle-diet-menu",
-    name: "Dietetic Menu",
-    category: "Lifestyle",
+    id: "decide-brief",
+    name: "Decision Brief",
+    category: "Decide",
     isDefault: false,
-    prompt: `You are a nutrition expert. Based on the restaurant menu below, suggest exactly 3 dishes for a dietetic meal (e.g. starter, main, dessert — or 3 mains if that fits better).
+    prompt: `Produce a decision brief. No preamble.
 
-Requirements:
-- Low carb: under 30g net carbs per dish
-- Low fat: under 15g fat per dish
-- High protein where possible
-- Only suggest dishes actually listed on the menu
+## Context
+What situation or problem requires a decision?
 
-For each dish provide:
-| Dish | Est. calories | Carbs | Fat | Protein |
-|------|--------------|-------|-----|---------|
+## Options
+List the main options under consideration.
 
-Then add a one-line note on why this combination works dietetically.
+## Arguments For / Against
+Key pros and cons for each option.
+
+## Decision
+Recommended decision with one-sentence rationale.
+
+## Trade-offs
+What we gain and what we give up.
 
 ---
+
+Source: [{title}]({url})
 
 {content}`,
   },
 
   {
-    id: "lifestyle-recipe-card",
-    name: "Recipe Card",
-    category: "Lifestyle",
+    id: "decide-feature-request",
+    name: "Feature Request Analysis",
+    category: "Decide",
     isDefault: false,
-    prompt: `Extract and format this recipe as a clean, printable card. No preamble.
+    prompt: `Analyze this feature request. No preamble.
 
-## {title}
+## The Real Problem
+What user need or pain does this address? (beyond the stated request)
 
-**Prep time / Cook time / Servings** — fill from the page if available.
+## Who's Affected
+Which users, teams, or use cases benefit most?
 
-## Ingredients
-Bullet list. Group by section (e.g. Sauce, Dough) if the recipe does.
+## Trade-offs
+What gets harder, slower, or more complex if we do this?
 
-## Instructions
-Numbered steps. Keep each step to one action. Trim filler text.
+## Alternatives
+Other ways to solve the same problem (simpler or already available).
 
-## Notes & Tips
-Any substitutions, storage advice, or variations mentioned.
+## Priority Signals
+What would make this higher or lower priority? Dependencies?
 
 ---
+
+Source: [{title}]({url})
 
 {content}`,
   },
@@ -238,7 +241,7 @@ Any substitutions, storage advice, or variations mentioned.
   {
     id: "lifestyle-buy-decision",
     name: "Buy Decision",
-    category: "Lifestyle",
+    category: "Decide",
     isDefault: false,
     prompt: `Help me decide whether to buy this product. Analyze the page and any reviews. No preamble.
 
@@ -266,11 +269,141 @@ Buy / Skip / Wait for better price — with a one-sentence reason.
   },
 
   {
+    id: "default-clean",
+    name: "Clean Copy",
+    category: "Extract",
+    isDefault: false,
+    prompt: "{content}",
+  },
+
+  {
+    id: "eng-action-items",
+    name: "Extract Action Items",
+    category: "Extract",
+    isDefault: false,
+    prompt: `Extract all action items, tasks, and commitments from this discussion. No preamble.
+
+## Committed Actions
+Tasks explicitly assigned or agreed upon.
+- [ ] Action (Owner if mentioned)
+
+## Implied Next Steps
+Things that logically need to happen but were not explicitly assigned.
+
+## Blockers
+Items that are blocked and what they are waiting on.
+
+## Decisions Needed
+Unresolved questions that require a decision before work can proceed.
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "extract-risks-blockers",
+    name: "Risks & Blockers",
+    category: "Extract",
+    isDefault: false,
+    prompt: `Extract risks and blockers from this content. No preamble.
+
+## Risks
+What could go wrong? Technical, product, or operational risks mentioned or implied.
+
+## Blockers
+What is currently blocked? What or who is it waiting on?
+
+## Assumptions
+Key assumptions that, if wrong, would change the picture.
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "extract-key-questions",
+    name: "Key Questions",
+    category: "Extract",
+    isDefault: false,
+    prompt: `Extract the open or unresolved questions from this content. No preamble.
+
+## Key Questions
+Numbered list of questions that need an answer (explicit or implied).
+
+## Who Can Answer
+If mentioned, who owns or could resolve each.
+
+## Why It Matters
+Brief note on impact if these remain unanswered.
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "lifestyle-recipe-card",
+    name: "Recipe Card",
+    category: "Extract",
+    isDefault: false,
+    prompt: `Extract and format this recipe as a clean, printable card. No preamble.
+
+## {title}
+
+**Prep time / Cook time / Servings** — fill from the page if available.
+
+## Ingredients
+Bullet list. Group by section (e.g. Sauce, Dough) if the recipe does.
+
+## Instructions
+Numbered steps. Keep each step to one action. Trim filler text.
+
+## Notes & Tips
+Any substitutions, storage advice, or variations mentioned.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "write-compose-answer",
+    name: "Compose Answer",
+    category: "Write",
+    isDefault: false,
+    prompt: `Using the context below, compose a clear, direct answer to the question or request. Be concise and actionable. Return only the answer, no preamble or meta-commentary.
+
+---
+
+{content}`,
+  },
+
+  {
     id: "community-rewrite-comment",
     name: "Rewrite Comment",
-    category: "Community",
+    category: "Write",
     isDefault: false,
     prompt: `Rewrite the following comment to be clearer, more professional, and constructive. Keep the core message intact but improve tone, clarity, and structure. Return only the rewritten comment, nothing else.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "write-email-helper",
+    name: "Email Helper",
+    category: "Write",
+    isDefault: false,
+    prompt: `Using the context below, draft a short professional email. Match the tone to the situation (e.g. follow-up, request, thank-you). Be clear and scannable. Return only the email body, no subject line unless one is explicitly requested.
 
 ---
 

@@ -49,42 +49,43 @@ Users hit 504s during peak hours. Root cause traced to connection pool limit of 
 
 ## Templates
 
-Templates are grouped by use case. Each produces structured output with clear section headings.
+Templates are grouped by intent: **Analyze** (understand), **Decide** (choose), **Extract** (act), **Write** (respond). Each produces structured output with clear section headings.
 
-### General
+### Analyze — help me understand what is going on
 
+| Template             | Purpose                                                                 |
+| -------------------- | ----------------------------------------------------------------------- |
+| **Structured Brief** | Problem → Arguments → Decisions → Open Questions → Risks               |
+| **Ticket Analysis**  | Summary, problem statement, acceptance criteria, risks, next steps     |
+| **PR Review Summary**| What it does, requested changes, concerns, blockers, status             |
+| **Article Analysis**| Thesis, key points, evidence, conclusions, critical take                |
+| **Debate Map**       | Central question, positions A/B, strongest arguments, common ground     |
 
-| Template             | Purpose                                                      |
-| ---------------------- | -------------------------------------------------------------- |
-| **Clean Copy**       | Raw markdown extraction, no template applied                 |
-| **Structured Brief** | Problem → Arguments → Decisions → Open Questions → Risks |
-| **Article Analysis** | Thesis, key points, evidence, conclusions, critical take     |
+### Decide — help me make a decision
 
-### Engineering
+| Template                   | Purpose                                                                 |
+| -------------------------- | ----------------------------------------------------------------------- |
+| **Decision Brief**         | Context → Options → Arguments → Decision → Trade-offs                  |
+| **Feature Request Analysis** | Real problem, who's affected, trade-offs, alternatives, priority     |
+| **Buy Decision**           | Product pros/cons, who it's for, verdict (buy/skip/wait)              |
 
+### Extract — give me what I need to act
 
-| Template                 | Purpose                                                                |
-| -------------------------- | ------------------------------------------------------------------------ |
-| **Decision Brief**       | Context → Options → Arguments → Decision → Rationale → Trade-offs |
-| **PR Review Summary**    | What it does, requested changes, concerns, blockers, status            |
-| **Ticket Analysis**      | Summary, problem statement, acceptance criteria, risks, next steps     |
-| **Extract Action Items** | Committed tasks, implied next steps, blockers, decisions needed        |
+| Template              | Purpose                                                              |
+| --------------------- | --------------------------------------------------------------------- |
+| **Clean Copy**        | Raw markdown extraction, no template applied                         |
+| **Extract Action Items** | Committed tasks, implied next steps, blockers, decisions needed    |
+| **Risks & Blockers**  | Risks, blockers, assumptions                                         |
+| **Key Questions**    | Open questions, who can answer, why it matters                        |
+| **Recipe Card**       | Ingredients, instructions, notes — printable format                  |
 
-### Product
+### Write — help me respond
 
-
-| Template                     | Purpose                                                                        |
-| ------------------------------ | -------------------------------------------------------------------------------- |
-| **Feature Request Analysis** | The real problem, who's affected, trade-offs, alternatives, priority signals   |
-| **User Feedback Synthesis**  | Dominant themes, sentiment, pain points, feature requests, recommended actions |
-
-### Community
-
-
-| Template            | Purpose                                                                     |
-| --------------------- | ----------------------------------------------------------------------------- |
-| **Debate Map**      | Central question, positions A/B, strongest arguments, common ground, status |
-| **Rewrite Comment** | Rewrites a comment to be clearer and more professional                      |
+| Template           | Purpose                                                |
+| ------------------ | ------------------------------------------------------ |
+| **Compose Answer** | Clear, direct answer from context                      |
+| **Rewrite Comment** | Clearer, more professional version of a comment        |
+| **Email Helper**    | Draft a short professional email from context          |
 
 All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholders. Custom templates can be created in Options.
 

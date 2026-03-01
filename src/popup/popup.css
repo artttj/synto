@@ -330,7 +330,6 @@ header {
   position: relative;
 }
 
-/* ── Preview hover copy button ─────────────────────────────────────────── */
 .preview-copy-hover {
   position: absolute;
   top: 6px;
