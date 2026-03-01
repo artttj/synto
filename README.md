@@ -15,7 +15,7 @@ Turn any web page into clean Markdown, choose a prompt template, and talk to Cha
   </tr>
 </table>
 
-Templates are fully customizable. You can edit them or add your own in Options.
+Templates are fully customizable. You can edit them or add your own in Settings.
 
 ---
 
@@ -95,7 +95,7 @@ Ask streams the response in the panel. Copy Markdown copies the prompt to your c
 | Act | Extract Actions, Risks & Blockers, Smart Choice | Turn discussions into tasks and surface blockers |
 | Compose | Draft Reply, Rewrite Comment, Email Helper | Professional replies or rewrites |
 
-You can add or edit templates in Options. Use them for research summaries, social posts, recipes, Reddit threads, or anything you need.
+You can add or edit templates in Settings. Use them for research summaries, social posts, recipes, Reddit threads, or anything you need.
 
 ---
 
