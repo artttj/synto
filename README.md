@@ -140,14 +140,19 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ## Setup
 
-Up and running in under two minutes.
+### No-build install (recommended for most users)
+
+1. Download **synto.zip** from the [latest release](https://github.com/artttj/synto/releases/latest) and unzip it
+2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
+3. Click the **Synto** icon → open **Options** → add your API key → start clipping
+
+### Build from source
 
 1. `git clone https://github.com/artttj/synto.git && cd synto`
 2. `npm install && npm run build`
 3. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
-4. Click the **Synto** icon → open **Options** → add your API key → start clipping
 
-> **Tip:** If the extension doesn't load, make sure you selected the `dist/` folder (the build output), not the project root.
+> **Tip:** If the extension doesn't load, make sure you selected the `dist/` folder, not the project root.
 
 ### API Keys
 
