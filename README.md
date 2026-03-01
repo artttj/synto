@@ -15,7 +15,7 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
   </tr>
 </table>
 
-> Templates are fully customizable — your imagination is the only limit.
+> Templates are fully customizable! Your imagination is the only limit.
 
 ---
 
