@@ -78,10 +78,10 @@ Templates are grouped by intent and support `{content}`, `{selection}`, `{title}
 - **Live preview:** toggle between the **Content tab** (raw extracted Markdown) and **Prompt tab** (final merged string), with a token counter that warns as you approach model limits
 - **Copy Markdown:** copies the formatted prompt to clipboard to use in Claude, ChatGPT web, or any other tool
 
-### Keyboard Shortcuts
+### Keyboard shortcuts
 
-- `⌥ ⇧ C` — open the side panel; when focused, copies preview content to clipboard
-- `⌥ ⇧ ↩` — trigger the Ask AI command
+- **⌥ ⇧ C** — Open Synto (side panel) from any tab
+- **⌥ ⇧ ↩** — Ask AI (when the panel is focused) — sends to ChatGPT, Gemini, or Grok per your selection
 
 ---
 
