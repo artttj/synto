@@ -43,7 +43,8 @@
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.40);
 
   --sidebar-w: 200px;
-  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  --font: system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", monospace;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -485,7 +486,7 @@ html[data-theme="light"] .seg-btn.active {
   font-size: 11px;
   color: var(--c-text-3);
   margin-top: 3px;
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--font-mono);
 }
 
 .status-badge {
@@ -523,7 +524,7 @@ html[data-theme="light"] .seg-btn.active {
   border-radius: var(--r-md);
   color: var(--c-text);
   font-size: 13px;
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--font-mono);
   padding: 7px 11px;
   outline: none;
   transition: border-color var(--t) var(--ease);
@@ -566,7 +567,7 @@ html[data-theme="light"] .seg-btn.active {
   border: 1px solid var(--c-border);
   border-radius: 4px;
   padding: 1px 5px;
-  font-family: "SF Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 10px;
   color: var(--c-text);
 }
@@ -862,7 +863,7 @@ html[data-theme="light"] .seg-btn.active {
 .field-col textarea:focus { border-color: var(--c-border-hi); }
 
 .field-col textarea {
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.6;
   resize: vertical;
@@ -900,7 +901,7 @@ html[data-theme="light"] .seg-btn.active {
   border-radius: 20px;
   color: var(--c-text);
   font-size: 12px;
-  font-family: "SF Mono", "Fira Code", monospace;
+  font-family: var(--font-mono);
   cursor: pointer;
   transition: border-color var(--t) var(--ease), background var(--t) var(--ease);
 }
