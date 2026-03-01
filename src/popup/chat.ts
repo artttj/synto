@@ -86,6 +86,11 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
   });
 
   if (!response.ok) {
+    if (response.status === 429) {
+      const retryAfter = response.headers.get('Retry-After');
+      const hint = retryAfter ? ` Retry after ${retryAfter}s.` : ' Wait a moment and try again.';
+      throw new Error(`Rate limited (429).${hint}`);
+    }
     const body = await response.json().catch(() => ({})) as APIErrorBody;
     throw new Error(body.error?.message ?? `HTTP ${response.status}`);
   }
