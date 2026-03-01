@@ -2,10 +2,12 @@
 
 **Turn any web page into AI-ready structured content — directly in your browser sidebar.**
 
-<p align="center">
-  <img src="docs/synto_1.png" width="50%" alt="Synto demo 1" />
-  <img src="docs/synto_2.png" width="50%" alt="Synto demo 2" />
-</p>
+<table>
+  <tr>
+    <td width="50%"><img src="docs/synto_1.png" alt="Synto demo 1" width="100%" /></td>
+    <td width="50%"><img src="docs/synto_2.png" alt="Synto demo 2" width="100%" /></td>
+  </tr>
+</table>
 
 Built for **engineers, PMs, and founders** who need to skip the copy-paste-summarize loop and get straight to actionable insights.
 
