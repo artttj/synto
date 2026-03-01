@@ -67,17 +67,17 @@ With Synto: open the side panel, pick Ticket Analysis, click Ask ChatGPT. You ge
 Auth service timeout caused by Redis connection pool exhaustion.
 
 ## Acceptance Criteria
-- Pool size configurable via env var.
-- Graceful degradation (queueing) when pool is full.
-- Load test at 500 RPS passes.
+1. Pool size configurable via env var.
+2. Graceful degradation (queueing) when pool is full.
+3. Load test at 500 RPS passes.
 
-## Risks & Edge Cases
-- Increasing pool size may exhaust Redis server connections.
-- Queue depth needs a cap to avoid memory growth.
+## Risks & Mitigations
+- Increasing pool size may exhaust Redis server connections → cap at 80% of Redis maxclients.
+- Queue depth needs a hard limit → reject with 503 above threshold.
 
-## Next Steps
-1. @backend: Spike connection pooling library options.
-2. @devops: Check current Redis maxclients value.
+## Tasks
+- Spike connection pooling library options · backend · M
+- Check current Redis maxclients value · devops · S
 ```
 
 "Ask" streams the response in the panel. "Copy Markdown" copies the prompt to your clipboard for Claude, ChatGPT web, or any other tool.
