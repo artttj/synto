@@ -62,6 +62,13 @@ async function init(): Promise<void> {
   chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.active) void extractContent();
   });
+
+  chrome.storage.onChanged.addListener((changes) => {
+    if (changes['llmProvider'] && !state.chatStreaming) {
+      state.llmProvider = String(changes['llmProvider'].newValue ?? 'openai');
+      refs.btnProcess!.textContent = getAskLabel();
+    }
+  });
 }
 
 
