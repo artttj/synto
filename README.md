@@ -1,8 +1,8 @@
-# AI Page Clipper
+# Synto
 
-A Chrome extension that turns any web page into structured, AI-ready analysis in seconds.
+A Chrome extension that turns any web page into AI-ready structured content — directly in your sidebar.
 
-Built for **engineers, PMs, and founders** who spend too much time manually copying content into AI chat windows and reformatting the output.
+Built for **engineers, PMs, and founders** who spend too much time manually copying content into AI chat windows.
 
 No backend. No accounts. No tracking. Fully client-side.
 
@@ -10,9 +10,9 @@ No backend. No accounts. No tracking. Fully client-side.
 
 ## What It Does
 
-AI Page Clipper is not a summarizer. It is a **structured thinking layer** between raw web content and your AI of choice.
+Synto is not a summarizer. It is a **structured thinking layer** between raw web content and your AI of choice.
 
-It extracts the meaningful content from a page, applies an opinionated structured template, and sends it directly to ChatGPT, Gemini, or Grok — producing output organized around decisions, arguments, risks, and next steps rather than a paragraph summary.
+It extracts the meaningful content from any page, applies a prompt template, and lets you ask GPT, Gemini, or Grok about it — streamed directly in Chrome's side panel, with full follow-up conversation.
 
 ---
 
@@ -20,7 +20,7 @@ It extracts the meaningful content from a page, applies an opinionated structure
 
 **Before:** You copy a 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a paragraph that tells you nothing actionable.
 
-**After:** You open AI Page Clipper, select "Ticket Analysis", click "Run with ChatGPT", and get:
+**After:** You open Synto, select "Ticket Analysis", click "Ask ChatGPT", and get:
 
 ```
 ## Summary
@@ -39,10 +39,6 @@ Users hit 504s during peak hours. Root cause traced to connection pool limit of 
 - Queue depth needs a cap to avoid memory growth
 - Existing tests mock Redis — need integration test
 
-## Dependencies
-- Redis 6.2+ required for client-side tracking
-- DevOps must update production Redis maxclients config
-
 ## Next Steps
 1. @backend-team: spike connection pooling library options
 2. @devops: get current Redis maxclients value
@@ -59,9 +55,8 @@ Templates are grouped by use case. Each produces structured output with clear se
 | Template | Purpose |
 |---|---|
 | **Clean Copy** | Raw markdown extraction, no template applied |
-| **Structured Brief** | Default. Problem → Arguments → Decisions → Open Questions → Risks |
+| **Structured Brief** | Problem → Arguments → Decisions → Open Questions → Risks |
 | **Article Analysis** | Thesis, key points, evidence, conclusions, critical take |
-| **Dietetic Menu** | Nutrition-optimized dish selection from restaurant menus |
 
 ### Engineering
 | Template | Purpose |
@@ -91,66 +86,64 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 
 ### Engineering: PR review in 30 seconds
 1. Open a GitHub PR with 40+ review comments
-2. Open AI Page Clipper → select **PR Review Summary**
-3. Click **Run with ChatGPT**
+2. Open Synto → select **PR Review Summary**
+3. Click **Ask ChatGPT**
 4. Get a structured brief: what changed, who is blocking, what they want fixed
+5. Ask follow-up questions directly in the panel
 
 ### Product: Jira ticket into a decision-ready brief
 1. Open a Jira ticket with discussion
-2. Open AI Page Clipper → select **Ticket Analysis**
-3. Click **Copy Prompt** → paste into your PM tool or share with team
+2. Open Synto → select **Ticket Analysis**
+3. Click **Copy Markdown** → paste into your PM tool or share with team
 
 ### Community: Map a Reddit debate
 1. Expand comments on a Reddit thread
-2. Open AI Page Clipper → select **Debate Map**
-3. Click **Run with ChatGPT**
+2. Open Synto → select **Debate Map**
+3. Click **Ask ChatGPT**
 4. Get: central question, sides, strongest arguments, common ground
-
-### Multi-source: Compare two approaches
-1. Open 3 browser tabs with competing approaches (blog posts, issues, docs)
-2. Open AI Page Clipper → enable **Merge tabs**
-3. Select the tabs you want, choose **Decision Brief**
-4. Run — the merged content includes all sources with clear separation
 
 ---
 
 ## Features
 
 ### Smart Extraction
-- Prioritizes semantic content: `<article>`, `<main>`, `[role=main]`, `#centerCol` (Amazon), `.js-discussion` (GitHub), `#issue-content` (Jira)
-- Strips navigation, footers, sidebars, cookie banners, ads, Amazon carousels, floating widgets
-- If you **select text** before opening the popup, selection is extracted as content — use `{selection}` in templates
-- Converts HTML to clean, normalized Markdown via [Turndown](https://github.com/mixmark-io/turndown) + GFM tables/code
+- Prioritizes semantic content: `<article>`, `<main>`, `[role=main]`, `#centerCol` (Amazon), `.js-discussion` (GitHub), `#issue-content` (Jira), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab)
+- Strips navigation, footers, sidebars, cookie banners, ads, and floating widgets
+- If you **select text** before opening the panel, that selection is used as content — use `{selection}` in templates
+- Converts HTML to clean, normalised Markdown via [Turndown](https://github.com/mixmark-io/turndown) + GFM tables/code blocks
+- Diff tables (Bitbucket, GitLab) are converted to readable `<pre>` blocks before conversion
 
-### Source References
-Enable the **Source refs** toggle to prepend `@author:` labels to comment threads before extraction. The AI can then reference authors by name in its output:
+### Side Panel
+- Lives in Chrome's native sidebar — stays open as you navigate
+- No tab switching, no lost conversation
+- Resizable by dragging
 
-> _"@alex raised concerns about the connection pool size. @maintainer confirmed this is the root cause (#12)."_
+### AI Conversation
+- Ask ChatGPT (gpt-4o-mini), Gemini (gemini-2.0-flash), or Grok (grok-3-mini)
+- Streamed responses rendered directly in the panel
+- Full follow-up conversation with context preserved
 
-### Multi-Tab Merge
-Enable **Merge tabs** to combine content from multiple open tabs into a single prompt. Each source is clearly labeled:
-
-```
-## Source 1: GitHub Issue #1234
-
-## Source 2: Notion Doc — Architecture Decision Record
-
-## Source 3: Stack Overflow — Redis connection pooling
-```
-
-Use with the **Decision Brief** or **Debate Map** templates for cross-source synthesis.
-
-### Three Actions
-- **Copy Markdown** — raw extracted content, no template
-- **Copy Prompt** — full template with content filled in, ready to paste anywhere
-- **Run with ChatGPT / Gemini / Grok** — streams the response directly in the popup
+### Preview
+- **Content tab** — shows the extracted Markdown before any template is applied
+- **Prompt tab** — shows the final prompt with template merged in
+- Token count badge with colour coding (muted → yellow → red as you approach limits)
 
 ### Token Estimate
-Color-coded token estimate (green < 4k / yellow < 16k / red 16k+) with a warning when approaching your selected model's limit.
+Estimates token count and warns when approaching the selected model's context limit.
 
 ### Keyboard Shortcuts
-- `Alt+Shift+C` — open popup / copy prompt (within popup)
-- `Alt+Shift+Enter` — run template (within popup)
+- `Alt+Shift+C` — copy current tab content
+- `Alt+Shift+Enter` — trigger Ask AI
+
+---
+
+## Privacy & Data
+
+API keys are stored in `chrome.storage.local` — device-only, never synced, never sent anywhere by this extension.
+
+When you use **Ask ChatGPT**, **Ask Gemini**, or **Ask Grok**, page content is transmitted directly from your browser to the selected provider. Synto has no visibility into this. You are responsible for ensuring any content you send complies with GDPR, CCPA, or other applicable regulations.
+
+Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/) · [Google AI](https://ai.google.dev/gemini-api/terms) · [xAI](https://x.ai/legal/privacy-policy/)
 
 ---
 
@@ -160,32 +153,31 @@ Color-coded token estimate (green < 4k / yellow < 16k / red 16k+) with a warning
 2. Open `chrome://extensions`
 3. Enable **Developer mode**
 4. Click **Load unpacked** → select the project folder
-5. Open **Options** (gear icon) and add your API key for your preferred provider
+5. Click the Synto icon in the toolbar to open the side panel
+6. Open **Options** (gear icon) and add your API key for your preferred provider
 
 ### API Keys
 | Provider | Model | Where to get a key |
 |---|---|---|
-| OpenAI | `gpt-4o-mini` | platform.openai.com |
-| Google Gemini | `gemini-2.0-flash` | aistudio.google.com (free tier available) |
-| Grok (xAI) | `grok-3-mini` | console.x.ai |
-
-Keys are stored in `chrome.storage.local` — device-only, never synced, never sent anywhere except the selected provider's API endpoint.
+| OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
+| Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier available) |
+| Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
 
 ---
 
 ## Project Structure
 
 ```
-ai-page-clipper/
+synto/
 ├── manifest.json
 ├── background/
-│   └── service-worker.js       # Seeds default templates on install
+│   └── service-worker.js       # Seeds default templates, registers side panel behaviour
 ├── content/
 │   └── content.js              # Extraction pipeline (selection → smart extract → Turndown)
 ├── popup/
-│   ├── popup.html
+│   ├── popup.html              # Side panel UI
 │   ├── popup.css
-│   └── popup.js                # Main UI, streaming, merge mode
+│   └── popup.js                # Main UI logic, streaming, conversation history
 ├── options/
 │   ├── options.html
 │   ├── options.css
@@ -206,14 +198,4 @@ ai-page-clipper/
 - **No user accounts** — no registration, no login
 - **No tracking** — no analytics, no telemetry
 - **Vanilla JS only** — no build step, no bundler, no framework
-- **Manifest V3** — uses service worker, not background page
-
----
-
-## Success Criteria
-
-- A 50-comment Jira ticket → structured decision brief in under 10 seconds
-- A 200-reply Reddit thread → clear debate map with positions and strongest arguments
-- A GitHub PR discussion → requested changes list with file and function references
-- It feels like a thinking assistant, not a copy utility
-- It is meaningfully faster than manually copying content into an AI chat window
+- **Manifest V3** — service worker, side panel API

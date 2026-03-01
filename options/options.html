@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Page Clipper — Settings</title>
+  <title>Synto — Settings</title>
   <link rel="stylesheet" href="options.css" />
 </head>
 <body>
@@ -12,9 +12,9 @@
     <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
     <aside class="sidebar">
       <div class="sidebar-brand">
-        <img src="../icons/icon48.png" class="brand-icon" alt="" />
+        <img src="../icons/logo.png" class="brand-icon" alt="" />
         <div class="brand-text">
-          <div class="brand-name">AI Page Clipper</div>
+          <div class="brand-name">Synto</div>
           <div class="brand-sub">Settings</div>
         </div>
       </div>
@@ -100,7 +100,31 @@
       <section id="tab-ai-connections" class="tab-panel hidden">
         <div class="panel-header">
           <h1>AI Connections</h1>
-          <p>API keys are stored locally on your device and never shared.</p>
+          <p>API keys are stored locally on your device and are never transmitted by this extension.</p>
+        </div>
+
+        <div class="privacy-notice" role="note">
+          <div class="privacy-notice-title">
+            <svg class="privacy-notice-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 2.5L1.5 17h17L10 2.5z"/>
+              <line x1="10" y1="8" x2="10" y2="12"/>
+              <circle cx="10" cy="15" r="0.6" fill="currentColor" stroke="none"/>
+            </svg>
+            Privacy &amp; Data Notice
+          </div>
+          <p>When using <strong>Ask ChatGPT</strong>, <strong>Ask Gemini</strong>, or <strong>Ask Grok</strong>, your clipped content is sent directly to your chosen AI provider. Please note:</p>
+          <ul>
+            <li><strong>No Storage:</strong> This extension stores nothing. No page content, no API keys on any server — everything stays on your device.</li>
+            <li><strong>Data Transfer:</strong> Content leaves your device and is processed by the AI provider (OpenAI, Google, or xAI).</li>
+            <li><strong>Personal Info:</strong> Avoid clipping pages with sensitive health, financial, or private credentials.</li>
+            <li><strong>Your Responsibility:</strong> You are responsible for ensuring compliance with GDPR, CCPA, and other data laws.</li>
+          </ul>
+          <p class="privacy-notice-links">
+            <strong>Privacy Policies:</strong>
+            <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener">OpenAI</a> ·
+            <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Google AI</a> ·
+            <a href="https://x.ai/legal/privacy-policy/" target="_blank" rel="noopener">xAI</a>
+          </p>
         </div>
 
         <!-- OpenAI -->

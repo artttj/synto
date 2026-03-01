@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Page Clipper</title>
+  <title>Synto</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
 
   <header>
-    <span class="logo">AI Page Clipper</span>
-    <button id="btn-options" title="Options" aria-label="Open Options">&#9881;</button>
+    <div class="logo">
+      <img src="../icons/logo.png" class="logo-icon" alt="" aria-hidden="true" />
+      <span class="logo-text">Synto</span>
+    </div>
+    <button id="btn-options" title="Settings" aria-label="Open Settings">&#9881;</button>
   </header>
 
   <!-- Template select -->
@@ -22,35 +25,40 @@
   <!-- Error message -->
   <div id="error-msg" class="status-msg error hidden" role="alert"></div>
 
-  <!-- Token estimate -->
-  <div id="token-row" class="token-row hidden">
-    <span>Tokens: <span id="token-count" class="token-count">—</span></span>
-    <span id="token-warning" class="token-warning hidden">&#9888; Near model limit</span>
-  </div>
-
   <!-- Preview panel -->
   <div id="preview-panel" class="preview-panel hidden">
     <div class="preview-header">
-      <button id="btn-preview-toggle" class="preview-toggle">
-        Preview <span id="preview-arrow">&#9652;</span>
+
+      <!-- Row 1: section label + collapse toggle -->
+      <button id="btn-preview-toggle" class="preview-toggle" aria-expanded="true" aria-label="Toggle preview">
+        <span class="preview-label">Preview</span>
+        <span id="preview-arrow" class="preview-arrow">&#9652;</span>
       </button>
-      <div class="preview-tabs">
-        <button class="preview-tab active" data-tab="content" type="button">Content</button>
-        <button class="preview-tab" data-tab="prompt" type="button">Prompt</button>
+
+      <!-- Row 2: tabs (primary) + token badge (metadata) -->
+      <div class="preview-tab-row">
+        <div class="preview-tabs" role="tablist" aria-label="Preview mode">
+          <button class="preview-tab active" data-tab="content" role="tab" aria-selected="true" type="button">Content</button>
+          <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button">Prompt</button>
+        </div>
+        <span id="token-count" class="token-count" title="Estimated token count">—</span>
       </div>
+
+      <div id="token-warning" class="token-warning hidden">Near limit</div>
+
     </div>
+
     <div class="preview-wrap">
       <textarea id="preview-text" readonly aria-label="Content preview"></textarea>
     </div>
+
+    <div class="preview-footer">
+      <button id="btn-copy-md" class="btn-copy-action" disabled>Copy Markdown</button>
+    </div>
   </div>
 
-  <!-- Secondary: Copy Markdown -->
-  <button id="btn-copy-md" class="btn-copy-prompt" disabled>Copy Markdown</button>
-
-  <span id="copy-status" class="copy-status hidden">&#10003; Copied!</span>
-
-  <!-- Primary: Generate Brief -->
-  <button id="btn-process" class="btn-primary" disabled>Generate Brief</button>
+  <!-- Ask AI -->
+  <button id="btn-process" class="btn-generate" disabled>Ask AI</button>
 
   <!-- AI response panel (revealed on first use) -->
   <div id="chat-panel" class="chat-panel hidden">
@@ -58,6 +66,15 @@
       No API key set. Add it in <a id="chat-options-link" href="#">Options</a>.
     </div>
     <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+    <div id="chat-input-row" class="chat-input-row hidden">
+      <textarea id="chat-input" class="chat-input" placeholder="Ask a follow-up…" rows="1" aria-label="Follow-up message"></textarea>
+      <button id="btn-chat-send" class="btn-chat-send" type="button" aria-label="Send message">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="10" y1="16" x2="10" y2="4"/>
+          <polyline points="5 9 10 4 15 9"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <script type="module" src="popup.js"></script>

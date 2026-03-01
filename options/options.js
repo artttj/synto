@@ -347,4 +347,4 @@ function escHtml(str) {
 }
 
 // ─── Start ────────────────────────────────────────────────────────────────────
-init().catch((err) => console.error("[APC Options] Init failed:", err));
+init().catch((err) => console.error("[Synto] Init failed:", err));

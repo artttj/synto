@@ -11,19 +11,18 @@ Amazon product pages.
 
 Instead of manually copying, cleaning, and pasting into AI, I made it one click.
 
-**AI Page Clipper** turns any webpage into clean, LLM-ready Markdown instantly.
+**Synto** clips any webpage into clean, structured Markdown — then lets you ask GPT, Gemini, or Grok about it directly in Chrome's side panel.
 
-What makes it different from typical "copy as Markdown" tools:
+What makes it different:
 
-• It reads the live DOM. Expand Jira comments, load more replies, scroll to the bottom, then clip. It sees exactly what you see.
+• Lives in the sidebar — stays open while you browse, no tab switching, no losing your conversation
+• Reads the live DOM. Scroll to load content, then clip. It sees exactly what you see.
 • Select text first and it clips precisely that.
-• Smart extraction — finds the actual article or product content, skips the nav, footer, cookie banners, and ad carousels automatically.
-• 5 built-in prompt templates — Summarize Thread, Ticket Analysis, Article Analysis, Rewrite Comment, Clean Copy. Add your own with {content}, {title}, {url} and more placeholders.
-• Token counter that warns before you hit a model limit.
-• Ask ChatGPT, Gemini, or Grok about the page — streamed answers right inside the popup, no tab switching.
-• Alt+Shift+C to clip from anywhere.
+• Smart extraction — finds the actual article or product content, skips nav, footers, cookie banners, and ads automatically.
+• Built-in prompt templates — Ticket Analysis, PR Review, Debate Map, Article Analysis, and more. Add your own with {content}, {title}, {url} placeholders.
+• Ask GPT, Gemini, or Grok — streamed answers right in the panel, then keep asking follow-ups.
+• Token counter warns before you hit a model limit.
 • Dark and light theme.
-• Copies straight to clipboard. Nothing else to do.
 
 My workflow now:
 
@@ -49,11 +48,11 @@ No half-loaded pages.
 
 Zero backend.
 Zero tracking.
-No framework. No build step.
-Vanilla JS. No dependencies beyond two vendored libraries.
+Your API keys stay on your device — nothing touches a server except the AI provider you choose.
+No framework. No build step. Vanilla JS.
 
 Open source. Link in comments.
 
 ---
 
-*Always use AI tools in accordance with your company policies and data protection regulations, including GDPR where applicable.*
+*Always use AI tools in accordance with your company's policies and applicable data protection regulations, including GDPR.*

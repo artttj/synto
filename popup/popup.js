@@ -11,6 +11,16 @@ const PROVIDER_MODELS = {
   grok:   "grok-3-mini",
 };
 
+const PROVIDER_LABELS = {
+  openai: "Ask ChatGPT",
+  gemini: "Ask Gemini",
+  grok:   "Ask Grok",
+};
+
+function getAskLabel() {
+  return PROVIDER_LABELS[state.llmProvider] ?? "Ask AI";
+}
+
 // ─── State ────────────────────────────────────────────────────────────────────
 const state = {
   templates:          [],
@@ -21,6 +31,7 @@ const state = {
   previewOpen:        true,
   previewTab:         "content", // "content" | "prompt"
   chatStreaming:      false,
+  chatHistory:        [],     // { role, content }[] — full conversation
   llmProvider:        "openai",
 };
 
@@ -30,7 +41,6 @@ const $ = (id) => document.getElementById(id);
 const btnOptions       = $("btn-options");
 const templateSelect   = $("template-select");
 const errorMsg         = $("error-msg");
-const tokenRow         = $("token-row");
 const tokenCount       = $("token-count");
 const tokenWarning     = $("token-warning");
 const previewPanel     = $("preview-panel");
@@ -38,12 +48,14 @@ const previewText      = $("preview-text");
 const btnPreviewToggle = $("btn-preview-toggle");
 const previewArrow     = $("preview-arrow");
 const btnCopyMd        = $("btn-copy-md");
-const copyStatus       = $("copy-status");
 const btnProcess       = $("btn-process");
 const chatPanel        = $("chat-panel");
 const chatNoKey        = $("chat-no-key");
 const chatOptionsLink  = $("chat-options-link");
 const chatMessages     = $("chat-messages");
+const chatInputRow     = $("chat-input-row");
+const chatInput        = $("chat-input");
+const btnChatSend      = $("btn-chat-send");
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
@@ -54,6 +66,7 @@ async function init() {
   state.templates          = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id;
   state.llmProvider        = settings.llmProvider ?? "openai";
+  btnProcess.textContent   = getAskLabel();
 
   renderTemplateSelect();
 
@@ -118,8 +131,9 @@ templateSelect.addEventListener("change", async () => {
 async function extractContent() {
   setError(null);
   disableActions();
-  tokenRow.classList.add("hidden");
   previewPanel.classList.add("hidden");
+  state.chatHistory = [];
+  chatInputRow.classList.add("hidden");
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -201,6 +215,7 @@ function setPreviewOpen(open) {
   state.previewOpen = open;
   previewPanel.classList.toggle("collapsed", !open);
   previewArrow.textContent = open ? "▴" : "▾";
+  btnPreviewToggle.setAttribute("aria-expanded", String(open));
 }
 
 btnPreviewToggle.addEventListener("click", () => {
@@ -210,8 +225,12 @@ btnPreviewToggle.addEventListener("click", () => {
 // ─── Preview tab switching ────────────────────────────────────────────────────
 document.querySelectorAll(".preview-tab").forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".preview-tab").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll(".preview-tab").forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-selected", "false");
+    });
     btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
     state.previewTab = btn.dataset.tab;
     updatePreviewText();
     // Expand preview if collapsed
@@ -228,7 +247,6 @@ function updateTokenDisplay(text) {
 
   tokenCount.textContent = `~${formatted}${srcLabel}`;
   tokenCount.className   = `token-count ${tokenColorClass(tokens)}`;
-  tokenRow.classList.remove("hidden");
 
   const model     = PROVIDER_MODELS[state.llmProvider];
   const limit     = TOKEN_THRESHOLDS.MODEL_LIMITS[model] ?? 128000;
@@ -240,26 +258,86 @@ function updateTokenDisplay(text) {
 btnCopyMd.addEventListener("click", async () => {
   const text = state.previewTab === "prompt" ? state.finalText : state.rawMarkdown;
   if (!text) return;
-  await copyText(text);
+  await copyText(text, btnCopyMd);
 });
 
-async function copyText(text) {
+async function copyText(text, btn) {
   try {
     await navigator.clipboard.writeText(text);
-    showCopySuccess();
+    showCopySuccess(btn);
   } catch (err) {
     setError(`Copy failed: ${err.message}`);
   }
 }
 
-function showCopySuccess() {
-  copyStatus.classList.remove("hidden");
-  setTimeout(() => copyStatus.classList.add("hidden"), 2500);
+function showCopySuccess(btn) {
+  const isMain = btn === btnCopyMd;
+  const originalText = isMain ? btn.textContent : null;
+  btn.classList.add("copy-success");
+  if (isMain) btn.textContent = "Copied!";
+  setTimeout(() => {
+    btn.classList.remove("copy-success");
+    if (isMain) btn.textContent = originalText;
+  }, 2000);
 }
 
 // ─── Options link ─────────────────────────────────────────────────────────────
 btnOptions.addEventListener("click", () => { chrome.runtime.openOptionsPage(); });
 chatOptionsLink.addEventListener("click", (e) => { e.preventDefault(); chrome.runtime.openOptionsPage(); });
+
+// ─── Follow-up input ──────────────────────────────────────────────────────────
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 120) + "px";
+}
+
+chatInput.addEventListener("input", () => autoResize(chatInput));
+
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendFollowUp();
+  }
+});
+
+btnChatSend.addEventListener("click", sendFollowUp);
+
+async function sendFollowUp() {
+  const text = chatInput.value.trim();
+  if (!text || state.chatStreaming) return;
+
+  chatInput.value = "";
+  autoResize(chatInput);
+
+  appendBubble("user", text);
+  state.chatHistory.push({ role: "user", content: text });
+
+  const bubble = appendBubble("assistant", "");
+  bubble.classList.add("streaming");
+  state.chatStreaming   = true;
+  btnChatSend.disabled = true;
+  btnProcess.disabled  = true;
+
+  try {
+    if (state.llmProvider === "gemini") {
+      await processWithGemini(bubble);
+    } else if (state.llmProvider === "grok") {
+      await processWithGrok(bubble);
+    } else {
+      await processWithOpenAI(bubble);
+    }
+  } catch (err) {
+    (bubble.parentElement ?? bubble).remove();
+    state.chatHistory.pop();
+    appendBubble("error", `Error: ${err.message}`);
+  } finally {
+    state.chatStreaming   = false;
+    btnChatSend.disabled = false;
+    btnProcess.disabled  = false;
+    bubble.classList.remove("streaming");
+    chatInput.focus();
+  }
+}
 
 // ─── Error display ────────────────────────────────────────────────────────────
 function setError(msg) {
@@ -288,7 +366,7 @@ function setErrorWithReload(msg) {
   errorMsg.classList.remove("hidden");
 }
 
-// ─── Generate Brief (AI) ──────────────────────────────────────────────────────
+// ─── Ask AI ───────────────────────────────────────────────────────────────────
 btnProcess.addEventListener("click", processWithAI);
 
 async function processWithAI() {
@@ -302,11 +380,13 @@ async function processWithAI() {
   if (!key) { chatNoKey.classList.remove("hidden"); return; }
   chatNoKey.classList.add("hidden");
 
+  state.chatHistory.push({ role: "user", content: state.finalText });
+
   const bubble = appendBubble("assistant", "");
   bubble.classList.add("streaming");
   state.chatStreaming  = true;
   btnProcess.disabled  = true;
-  btnProcess.textContent = "Generating…";
+  btnProcess.textContent = "Asking…";
   btnProcess.classList.add("loading");
 
   try {
@@ -317,13 +397,15 @@ async function processWithAI() {
     } else {
       await processWithOpenAI(bubble);
     }
+    chatInputRow.classList.remove("hidden");
   } catch (err) {
-    bubble.remove();
+    (bubble.parentElement ?? bubble).remove();
+    state.chatHistory.pop();
     appendBubble("error", `Error: ${err.message}`);
   } finally {
     state.chatStreaming     = false;
     btnProcess.disabled    = false;
-    btnProcess.textContent = "Generate Brief";
+    btnProcess.textContent = getAskLabel();
     btnProcess.classList.remove("loading");
     bubble.classList.remove("streaming");
   }
@@ -368,7 +450,7 @@ async function streamOpenAICompat(bubble, { url, model, key }) {
     },
     body: JSON.stringify({
       model,
-      messages: [{ role: "user", content: state.finalText }],
+      messages: state.chatHistory,
       stream: true,
     }),
   });
@@ -401,20 +483,60 @@ async function streamOpenAICompat(bubble, { url, model, key }) {
 
   bubble.classList.remove("streaming");
   bubble.innerHTML = renderMarkdown(reply);
+  state.chatHistory.push({ role: "assistant", content: reply });
+  addBubbleCopyButton(bubble, reply);
 }
 
 function appendBubble(role, text) {
+  const wrap = document.createElement("div");
+  wrap.className = `chat-bubble-wrap ${role}`;
+
   const div = document.createElement("div");
   div.className = `chat-bubble ${role}`;
   div.textContent = text;
-  chatMessages.appendChild(div);
+  wrap.appendChild(div);
+
+  chatMessages.appendChild(wrap);
   chatMessages.scrollTop = chatMessages.scrollHeight;
-  return div;
+  return div; // caller uses this for streaming
+}
+
+function addBubbleCopyButton(bubble, text) {
+  const wrap = bubble.parentElement;
+  if (!wrap) return;
+
+  const btn = document.createElement("button");
+  btn.className = "chat-bubble-copy";
+  btn.type = "button";
+  btn.title = "Copy response";
+  btn.setAttribute("aria-label", "Copy response");
+  btn.innerHTML = `
+    <svg class="icon-copy" width="11" height="11" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    <svg class="icon-check" width="11" height="11" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>`;
+
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.classList.add("copy-success");
+      setTimeout(() => btn.classList.remove("copy-success"), 2000);
+    } catch (err) {
+      setError(`Copy failed: ${err.message}`);
+    }
+  });
+
+  wrap.appendChild(btn);
 }
 
 // ─── Keyboard shortcuts ───────────────────────────────────────────────────────
 // Alt+Shift+C     → Copy Markdown
-// Alt+Shift+Enter → Generate Brief
+// Alt+Shift+Enter → Ask AI
 
 document.addEventListener("keydown", (e) => {
   if (!e.altKey || !e.shiftKey) return;
@@ -493,6 +615,6 @@ function renderMarkdown(raw) {
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 init().catch((err) => {
-  console.error("[APC] Init failed:", err);
+  console.error("[Synto] Init failed:", err);
   setError(`Initialization error: ${err.message}`);
 });
