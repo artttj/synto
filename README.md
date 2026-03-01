@@ -20,7 +20,7 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
 ## ⚡ Quick Install
 
 1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
-2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
+2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `synto/` folder
 3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → add at least one API key → **Save**
 
 You'll need an API key from one of these providers:
@@ -172,7 +172,7 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 ### No-build install
 
 1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
-2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
+2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `synto/` folder
 3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
 
 ### Build from source
@@ -182,7 +182,7 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 3. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
 4. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
 
-> **Tip:** Make sure you selected the `dist/` folder (the build output), not the project root.
+> **Tip:** Make sure you selected the `dist/` folder (the build output), not the project root. When installing from the release zip, select the `synto/` folder instead.
 
 ### API Keys
 
