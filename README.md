@@ -1,3 +1,5 @@
+<img src="docs/icon128.png" width="64" alt="Synto icon" />
+
 # Synto
 
 Turn messy tickets, PRs, and docs into structured AI briefs — in one click, from a Chrome side panel.
@@ -14,6 +16,18 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
     <td width="50%"><img src="docs/synto_4.png" alt="Synto demo 4" width="100%" /></td>
   </tr>
 </table>
+
+---
+
+## ⚡ Quick Install
+
+1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
+2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
+3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
+
+> Need a free API key? [Google AI Studio](https://aistudio.google.com/app/apikey) offers a free Gemini key with no credit card required.
+
+---
 
 Built for **engineers, PMs, and founders** who are tired of the copy-paste-summarize loop — skip the prep work and get straight to insights you can act on.
 
@@ -39,7 +53,7 @@ Built for **engineers, PMs, and founders** who are tired of the copy-paste-summa
 
 **Without Synto:** Copy a 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a generic paragraph that misses the technical nuances.
 
-**With Synto:** Open the side panel, select **Ticket Analysis**, click **Ask ChatGPT** (or **Ask Gemini** / **Ask Grok**), and get a structured brief streamed in seconds:
+**With Synto:** Open the side panel, select **Ticket Analysis**, click **Ask ChatGPT**, and get a structured brief streamed in seconds:
 
 ```
 ## Summary
@@ -94,14 +108,14 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 - **Multi-model AI:** stream responses from **GPT-4o-mini**, **Gemini 2.0 Flash**, or **Grok-3-mini** directly in the panel, with full follow-up conversation
 - **Live preview:** toggle between the **Content tab** (raw extracted Markdown) and **Prompt tab** (final merged string), with a token counter that warns as you approach model limits
-- **Two outputs:** **Ask ChatGPT / Gemini / Grok** streams the response in-panel; **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or other tools
+- **Two outputs:** **Ask** streams the response in-panel; **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or other tools
 
-### Keyboard shortcuts
+### ⌨️ Keyboard Shortcuts
 
-| Action | macOS | Windows/Linux |
+| Action | macOS | Windows / Linux |
 | --- | --- | --- |
 | Open Synto | ⌥⇧C | Alt+Shift+C |
-| Ask ChatGPT / Gemini / Grok (when panel is focused) | ⌥⇧↩ | Alt+Shift+Enter |
+| Ask AI (panel focused) | ⌥⇧↩ | Alt+Shift+Enter |
 
 ---
 
@@ -128,7 +142,7 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 ---
 
-## Privacy & Data
+## 🔒 Privacy & Data
 
 - **Local only:** API keys are stored in `chrome.storage.local` — never synced, never sent to any external server
 - **Direct connection:** page content goes straight from your browser to the AI provider; Synto has no visibility into it
@@ -140,30 +154,28 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ## Setup
 
-### No-build install (recommended for most users)
+### No-build install
 
-1. Download **synto.zip** from the [latest release](https://github.com/artttj/synto/releases/latest) and unzip it
+1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
 2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
-3. Click the **Synto** icon in the toolbar → click the **gear icon** → go to **AI Connections** → paste your API key → **Save**
+3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
 
 ### Build from source
 
 1. `git clone https://github.com/artttj/synto.git && cd synto`
 2. `npm install && npm run build`
 3. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
-4. Click the **Synto** icon in the toolbar → click the **gear icon** → go to **AI Connections** → paste your API key → **Save**
+4. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
 
-> **Tip:** If the extension doesn't load, make sure you selected the `dist/` folder, not the project root.
+> **Tip:** Make sure you selected the `dist/` folder (the build output), not the project root.
 
 ### API Keys
 
-| Provider | Model | Where to get a key |
-| --- | --- | --- |
-| OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
-| Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier available) |
-| Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
-
-*Model names may change over time; check **Options** for the current list.*
+| Provider | Model | Free tier | Where to get a key |
+| --- | --- | --- | --- |
+| Google Gemini | `gemini-2.0-flash` | ✅ Yes | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| OpenAI | `gpt-4o-mini` | ❌ Paid | [platform.openai.com](https://platform.openai.com/api-keys) |
+| Grok (xAI) | `grok-3-mini` | ❌ Paid | [console.x.ai](https://console.x.ai/) |
 
 ### Project Structure
 
