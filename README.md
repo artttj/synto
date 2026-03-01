@@ -21,9 +21,15 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
 
 1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
 2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
-3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
+3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → add at least one API key → **Save**
 
-> Need a free API key? [Google AI Studio](https://aistudio.google.com/app/apikey) offers a free Gemini key with no credit card required.
+You'll need an API key from one of these providers:
+
+| Provider | Get a key |
+| --- | --- |
+| OpenAI | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| Google Gemini | [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
+| Grok (xAI) | [console.x.ai](https://console.x.ai/) |
 
 ---
 
