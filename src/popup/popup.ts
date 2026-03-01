@@ -48,6 +48,7 @@ async function init(): Promise<void> {
   });
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
+  refs.btnReload!.addEventListener('click', () => { void extractContent(); });
 
   await extractContent();
 
