@@ -11,9 +11,11 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
   </tr>
   <tr>
     <td width="50%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub><b>Get a structured PR review with changes, concerns and next steps</b></sub></td>
-    <td width="50%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub><b>Open any menu and ask what's worth ordering</b></sub></td>
+    <td width="50%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub><b>Open any restaurant menu and ask what's worth ordering</b></sub></td>
   </tr>
 </table>
+
+> Templates are fully customizable — your imagination is the only limit.
 
 ---
 
