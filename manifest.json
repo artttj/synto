@@ -12,6 +12,7 @@
   },
   "permissions": ["activeTab", "storage", "clipboardWrite", "scripting", "sidePanel"],
   "host_permissions": [
+    "*://*/*",
     "https://api.openai.com/*",
     "https://api.x.ai/*",
     "https://generativelanguage.googleapis.com/*"
