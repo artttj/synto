@@ -20,7 +20,7 @@ It extracts the meaningful content from any page, applies a prompt template, and
 
 **Before:** You copy a 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a paragraph that tells you nothing actionable.
 
-**After:** You open Synto, select "Ticket Analysis", click "Ask ChatGPT", and get:
+**After:** You open Synto, select "Ticket Analysis", click "Ask", and get:
 
 ```
 ## Summary
@@ -49,43 +49,38 @@ Users hit 504s during peak hours. Root cause traced to connection pool limit of 
 
 ## Templates
 
-Templates are grouped by intent: **Analyze** (understand), **Decide** (choose), **Extract** (act), **Write** (respond). Each produces structured output with clear section headings.
+Templates are grouped by intent: **Understand** · **Decide** · **Act** · **Compose**. Each produces structured output with clear section headings.
 
-### Analyze — help me understand what is going on
+### Understand — help me understand what is going on
 
-| Template             | Purpose                                                                 |
-| -------------------- | ----------------------------------------------------------------------- |
-| **Structured Brief** | Problem → Arguments → Decisions → Open Questions → Risks               |
-| **Ticket Analysis**  | Summary, problem statement, acceptance criteria, risks, next steps     |
-| **PR Review Summary**| What it does, requested changes, concerns, blockers, status             |
-| **Article Analysis**| Thesis, key points, evidence, conclusions, critical take                |
-| **Debate Map**       | Central question, positions A/B, strongest arguments, common ground     |
+| Template             | Purpose                                                              |
+| -------------------- | -------------------------------------------------------------------- |
+| **Structured Brief** | Topic, key points, conclusions, open questions                       |
+| **Ticket Analysis**  | Summary, acceptance criteria, risks, next steps                      |
+| **PR Review**        | Changes, concerns, approvals, status                                 |
 
 ### Decide — help me make a decision
 
-| Template                   | Purpose                                                                 |
-| -------------------------- | ----------------------------------------------------------------------- |
-| **Decision Brief**         | Context → Options → Arguments → Decision → Trade-offs                  |
-| **Feature Request Analysis** | Real problem, who's affected, trade-offs, alternatives, priority     |
-| **Buy Decision**           | Product pros/cons, who it's for, verdict (buy/skip/wait)              |
+| Template                       | Purpose                                              |
+| ------------------------------ | ---------------------------------------------------- |
+| **Decision Brief**             | Options, trade-offs, recommendation                  |
+| **Feature Request Analysis**   | Problem, trade-offs, alternatives                    |
 
-### Extract — give me what I need to act
+### Act — give me what I need to act
 
-| Template              | Purpose                                                              |
-| --------------------- | --------------------------------------------------------------------- |
-| **Clean Copy**        | Raw markdown extraction, no template applied                         |
-| **Extract Action Items** | Committed tasks, implied next steps, blockers, decisions needed    |
-| **Risks & Blockers**  | Risks, blockers, assumptions                                         |
-| **Key Questions**    | Open questions, who can answer, why it matters                        |
-| **Recipe Card**       | Ingredients, instructions, notes — printable format                  |
+| Template              | Purpose                                              |
+| --------------------- | ---------------------------------------------------- |
+| **Extract Actions**   | Committed tasks, next steps, blockers                |
+| **Risks & Blockers**  | Risks, blockers, assumptions                         |
+| **Smart Choice**      | Options, trade-offs, quick verdict                   |
 
-### Write — help me respond
+### Compose — help me respond
 
-| Template           | Purpose                                                |
-| ------------------ | ------------------------------------------------------ |
-| **Compose Answer** | Clear, direct answer from context                      |
-| **Rewrite Comment** | Clearer, more professional version of a comment        |
-| **Email Helper**    | Draft a short professional email from context          |
+| Template              | Purpose                                              |
+| --------------------- | ---------------------------------------------------- |
+| **Draft Reply**       | Direct answer to a question or request               |
+| **Rewrite Comment**   | Professional, constructive rewrite                   |
+| **Email Helper**      | Short professional email draft                       |
 
 All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholders. Custom templates can be created in Options.
 
@@ -96,8 +91,8 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 ### Engineering: PR review in 30 seconds
 
 1. Open a GitHub PR with 40+ review comments
-2. Open Synto → select **PR Review Summary**
-3. Click **Ask ChatGPT**
+2. Open Synto → select **PR Review**
+3. Click **Ask**
 4. Get a structured brief: what changed, who is blocking, what they want fixed
 5. Ask follow-up questions directly in the panel
 
@@ -107,12 +102,11 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 2. Open Synto → select **Ticket Analysis**
 3. Click **Copy Markdown** → paste into your PM tool or share with team
 
-### Community: Map a Reddit debate
+### Decision: evaluate a feature request
 
-1. Expand comments on a Reddit thread
-2. Open Synto → select **Debate Map**
-3. Click **Ask ChatGPT**
-4. Get: central question, sides, strongest arguments, common ground
+1. Open the GitHub issue or internal doc
+2. Open Synto → select **Feature Request Analysis**
+3. Click **Ask** → get problem framing, trade-offs, and alternatives
 
 ---
 
@@ -134,7 +128,7 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 
 ### AI Conversation
 
-- Ask ChatGPT (gpt-4o-mini), Gemini (gemini-2.0-flash), or Grok (grok-3-mini)
+- Ask ChatGPT (`gpt-4o-mini`), Gemini (`gemini-2.0-flash`), or Grok (`grok-3-mini`)
 - Streamed responses rendered directly in the panel
 - Full follow-up conversation with context preserved
 
@@ -144,14 +138,10 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 - **Prompt tab** — shows the final prompt with template merged in
 - Token count badge with colour coding (muted → yellow → red as you approach limits)
 
-### Token Estimate
-
-Estimates token count and warns when approaching the selected model's context limit.
-
 ### Keyboard Shortcuts
 
-- `Alt+Shift+C` — open Synto side panel; when the panel is focused, copies preview content
-- `Alt+Shift+Enter` — trigger Ask AI (when panel is focused)
+- `⌥⇧C` — open Synto side panel; when focused, copies the preview content to clipboard
+- `⌥⇧↩` — trigger Ask AI (when panel is focused)
 
 ---
 
@@ -159,7 +149,7 @@ Estimates token count and warns when approaching the selected model's context li
 
 API keys are stored in `chrome.storage.local` — device-only, never synced, never sent anywhere by this extension.
 
-When you use **Ask ChatGPT**, **Ask Gemini**, or **Ask Grok**, page content is transmitted directly from your browser to the selected provider. Synto has no visibility into this. You are responsible for ensuring any content you send complies with GDPR, CCPA, or other applicable regulations.
+When you use **Ask**, page content is transmitted directly from your browser to the selected provider. Synto has no visibility into this. You are responsible for ensuring any content you send complies with GDPR, CCPA, or other applicable regulations.
 
 Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/) · [Google AI](https://ai.google.dev/gemini-api/terms) · [xAI](https://x.ai/legal/privacy-policy/)
 
@@ -175,9 +165,8 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ### API Keys
 
-
 | Provider      | Model              | Where to get a key                                                                  |
-| --------------- | -------------------- | ------------------------------------------------------------------------------------- |
+| ------------- | ------------------ | ----------------------------------------------------------------------------------- |
 | OpenAI        | `gpt-4o-mini`      | [platform.openai.com](https://platform.openai.com/api-keys)                         |
 | Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier available) |
 | Grok (xAI)    | `grok-3-mini`      | [console.x.ai](https://console.x.ai/)                                               |

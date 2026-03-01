@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors';
 import { preprocessDiffTables } from './diff';
 import { toMarkdown } from './turndown';

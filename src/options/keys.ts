@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import {
   getOpenAIKey,
   getGeminiKey,
@@ -65,10 +69,8 @@ export function wireKeySection({
   const clearEl = document.getElementById(clearId)!;
   const savedEl = document.getElementById(savedId)!;
 
-  getKey().then((k: string) => {
-    if (k) {
-      inputEl.value = k;
-    }
+  void getKey().then((k) => {
+    if (k) inputEl.value = k;
   });
 
   toggleEl.addEventListener('click', () => {
@@ -78,13 +80,13 @@ export function wireKeySection({
   saveEl.addEventListener('click', async () => {
     await saveKey(inputEl.value.trim());
     await loadApiKeyStatuses();
-    flash(savedEl as HTMLElement);
+    flash(savedEl);
   });
 
   clearEl.addEventListener('click', async () => {
     inputEl.value = '';
     await saveKey('');
     await loadApiKeyStatuses();
-    flash(savedEl as HTMLElement);
+    flash(savedEl);
   });
 }

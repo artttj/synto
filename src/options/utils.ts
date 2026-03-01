@@ -1,5 +1,9 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export function escHtml(str: string): string {
-  return String(str)
+  return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')

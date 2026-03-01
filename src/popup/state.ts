@@ -1,4 +1,8 @@
-import { Template } from '../shared/storage';
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
+import { type Template } from '../shared/storage';
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';

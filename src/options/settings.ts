@@ -1,5 +1,9 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { TEMPLATE_CATEGORIES } from '../shared/constants';
-import { saveSettings, Settings, Template } from '../shared/storage';
+import { saveSettings, type Settings, type Template } from '../shared/storage';
 import { state } from './state';
 import { refs } from './dom';
 
@@ -9,7 +13,7 @@ export function applyTheme(theme: string): void {
 }
 
 
-export function initSegmented(container: HTMLElement, value: string, onChange: (value: string) => void): void {
+export function initSegmented(container: HTMLElement, value: string, onChange?: (value: string) => void): void {
   container.querySelectorAll('.seg-btn').forEach((btn) => {
     if ((btn as HTMLElement).dataset.value === value) {
       btn.classList.add('active');
@@ -19,14 +23,14 @@ export function initSegmented(container: HTMLElement, value: string, onChange: (
         b.classList.remove('active');
       });
       btn.classList.add('active');
-      onChange((btn as HTMLElement).dataset.value ?? '');
+      onChange?.((btn as HTMLElement).dataset.value ?? '');
     });
   });
 }
 
 
 export function getSegmentedValue(container: HTMLElement): string | undefined {
-  return (container.querySelector('.seg-btn.active') as HTMLElement | null)?.dataset.value;
+  return container.querySelector<HTMLElement>('.seg-btn.active')?.dataset.value;
 }
 
 
@@ -39,9 +43,7 @@ export function renderDefaultTemplateSelect(): void {
   }
   state.templates.forEach((t) => {
     const cat = t.category ?? 'General';
-    if (!grouped[cat]) {
-      grouped[cat] = [];
-    }
+    if (!grouped[cat]) grouped[cat] = [];
     grouped[cat].push(t);
   });
 
@@ -55,9 +57,7 @@ export function renderDefaultTemplateSelect(): void {
       const opt = document.createElement('option');
       opt.value = t.id;
       opt.textContent = t.name;
-      if (t.id === state.settings.defaultTemplateId) {
-        opt.selected = true;
-      }
+      opt.selected = t.id === state.settings.defaultTemplateId;
       group.appendChild(opt);
     });
     refs.defaultTplEl!.appendChild(group);
@@ -67,18 +67,14 @@ export function renderDefaultTemplateSelect(): void {
 
 export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
-  initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai', () => {});
-  initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', (val) => {
-    applyTheme(val);
-  });
+  initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai');
+  initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', applyTheme);
 }
 
 
 function flash(el: HTMLElement): void {
   el.classList.remove('hidden');
-  setTimeout(() => {
-    el.classList.add('hidden');
-  }, 2000);
+  setTimeout(() => el.classList.add('hidden'), 2000);
 }
 
 

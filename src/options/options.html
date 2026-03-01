@@ -45,6 +45,15 @@
           Prompt Library
         </button>
 
+        <button class="nav-item" data-tab="help">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M7.5 7.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/>
+            <circle cx="10" cy="14.5" r="0.6" fill="currentColor" stroke="none"/>
+          </svg>
+          Help
+        </button>
+
         <button class="nav-item" data-tab="about">
           <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="10" cy="10" r="8"/>
@@ -241,6 +250,79 @@
         <div id="template-list" class="template-list"></div>
       </section>
 
+      <!-- Tab: Help -->
+      <section id="tab-help" class="tab-panel hidden">
+        <div class="panel-header">
+          <h1>Help</h1>
+          <p>How Synto works and available keyboard shortcuts.</p>
+        </div>
+
+        <div class="help-section">
+          <h2 class="help-heading">How it works</h2>
+          <ol class="help-steps">
+            <li>Open the extension on any web page — Synto clips the page content to Markdown.</li>
+            <li>Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.</li>
+            <li>The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your configured provider.</li>
+            <li>Ask follow-up questions in the chat panel below the response.</li>
+          </ol>
+        </div>
+
+        <div class="help-section">
+          <h2 class="help-heading">Template categories</h2>
+          <div class="help-categories">
+            <div class="help-cat">
+              <div class="help-cat-name">Understand</div>
+              <div class="help-cat-desc">Summarise and analyse — articles, tickets, pull requests.</div>
+            </div>
+            <div class="help-cat">
+              <div class="help-cat-name">Decide</div>
+              <div class="help-cat-desc">Weigh options, trade-offs, and recommendations.</div>
+            </div>
+            <div class="help-cat">
+              <div class="help-cat-name">Act</div>
+              <div class="help-cat-desc">Extract actions, risks, and blockers from discussions.</div>
+            </div>
+            <div class="help-cat">
+              <div class="help-cat-name">Compose</div>
+              <div class="help-cat-desc">Draft replies, emails, and rewrites.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="help-section">
+          <h2 class="help-heading">Keyboard shortcuts</h2>
+          <div class="shortcut-list">
+            <div class="shortcut-row">
+              <div class="shortcut-keys">
+                <span class="key">⌥</span>
+                <span class="key-plus">+</span>
+                <span class="key">⇧</span>
+                <span class="key-plus">+</span>
+                <span class="key">↩</span>
+              </div>
+              <div class="shortcut-info">
+                <div class="shortcut-action">Ask AI</div>
+                <div class="shortcut-label">Option + Shift + Return</div>
+              </div>
+            </div>
+            <div class="shortcut-row">
+              <div class="shortcut-keys">
+                <span class="key">⌥</span>
+                <span class="key-plus">+</span>
+                <span class="key">⇧</span>
+                <span class="key-plus">+</span>
+                <span class="key">C</span>
+              </div>
+              <div class="shortcut-info">
+                <div class="shortcut-action">Copy Markdown</div>
+                <div class="shortcut-label">Option + Shift + C</div>
+              </div>
+            </div>
+          </div>
+          <p class="help-note">⌥ is the Option key (labelled <strong>alt</strong> on Mac keyboards). Shortcuts work while the Synto popup is focused.</p>
+        </div>
+      </section>
+
       <!-- Tab: About -->
       <section id="tab-about" class="tab-panel hidden">
         <div class="panel-header">
@@ -294,6 +376,14 @@
         <div class="field-col">
           <label for="modal-name">Name</label>
           <input type="text" id="modal-name" placeholder="Template name" maxlength="60" />
+        </div>
+        <div class="field-col">
+          <label for="modal-category-select">Category</label>
+          <div class="category-combo">
+            <select id="modal-category-select"></select>
+            <input type="text" id="modal-category-input" class="hidden"
+                   placeholder="New category name" maxlength="30" autocomplete="off" />
+          </div>
         </div>
         <div class="field-col">
           <label for="modal-prompt">Prompt</label>

@@ -1,7 +1,11 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { MSG_EXTRACT } from './selectors';
 import { extractContent } from './extract';
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: { type: string; mode?: string }, _sender, sendResponse) => {
   if (message.type !== MSG_EXTRACT) return;
 
   try {

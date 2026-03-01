@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { getTemplates, getSettings } from '../shared/storage';
 import {
   getOpenAIKey,
@@ -73,23 +77,27 @@ async function init(): Promise<void> {
 
   wireTemplateList();
 
+  function navigateToTab(tabId: string) {
+    document.querySelectorAll('.nav-item').forEach((n) => n.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach((p) => p.classList.add('hidden'));
+    const navBtn = document.querySelector<HTMLElement>(`.nav-item[data-tab="${tabId}"]`);
+    if (navBtn) navBtn.classList.add('active');
+    const panel = document.getElementById(`tab-${tabId}`);
+    if (panel) panel.classList.remove('hidden');
+    refs.btnNewTemplate!.classList.toggle('hidden', tabId !== 'prompt-library');
+  }
+
   document.querySelectorAll('.nav-item').forEach((btn) => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.nav-item').forEach((n) => {
-        n.classList.remove('active');
-      });
-      document.querySelectorAll('.tab-panel').forEach((p) => {
-        p.classList.add('hidden');
-      });
-      btn.classList.add('active');
-      const tab = (btn as HTMLElement).dataset.tab;
-      document.getElementById(`tab-${tab}`)!.classList.remove('hidden');
-      refs.btnNewTemplate!.classList.toggle(
-        'hidden',
-        tab !== 'prompt-library'
-      );
+      navigateToTab((btn as HTMLElement).dataset.tab!);
     });
   });
+
+  // Support deep-linking via hash (e.g. options.html#help)
+  const hash = location.hash.replace('#', '');
+  if (hash && document.querySelector(`.nav-item[data-tab="${hash}"]`)) {
+    navigateToTab(hash);
+  }
 }
 
 

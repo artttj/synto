@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { MSG } from '../shared/constants';
 import { state } from './state';
 import { refs } from './dom';
@@ -11,11 +15,25 @@ export function disableActions(): void {
 }
 
 
+interface ExtractResponse {
+  success: boolean;
+  error?: string;
+  content: string;
+  selection?: string;
+  title: string;
+  url: string;
+  excerpt?: string;
+  byline?: string;
+  siteName?: string;
+  source?: string;
+  mode?: string;
+}
+
 async function sendExtract(tabId: number): Promise<void> {
-  const response = await chrome.tabs.sendMessage(tabId, {
+  const response = (await chrome.tabs.sendMessage(tabId, {
     type: MSG.EXTRACT_CONTENT,
     mode: 'markdown',
-  });
+  })) as unknown as ExtractResponse;
 
   if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
 

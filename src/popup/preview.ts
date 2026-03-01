@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { TOKEN_THRESHOLDS, estimateTokens, tokenColorClass } from '../shared/constants';
 import { state, PROVIDER_MODELS } from './state';
 import { refs } from './dom';

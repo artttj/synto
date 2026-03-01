@@ -1,19 +1,21 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export function preprocessDiffTables(root: HTMLElement): void {
   root.querySelectorAll('table').forEach((table) => {
     if (!looksLikeDiffTable(table)) return;
 
     const lines: string[] = [];
     table.querySelectorAll('tr').forEach((row: Element) => {
-      const cls = row.className || '';
+      const cls = row.className ?? '';
 
       if (/\b(hunk|expander|bb-udiff-hunk|line-hunk)\b/i.test(cls)) {
         const hunkCell = row.querySelector(
           "[class*='hunk'], [class*='segment'], td:last-child"
         );
-        const text = (hunkCell || row).textContent.trim();
-        if (text) {
-          lines.push(text);
-        }
+        const text = (hunkCell ?? row).textContent?.trim() ?? '';
+        if (text) lines.push(text);
         return;
       }
 
@@ -23,8 +25,8 @@ export function preprocessDiffTables(root: HTMLElement): void {
       const codeCell =
         row.querySelector(
           "td.source, td.blob-code-inner, td[class*='code'], td[class*='source'], td[class*='content']"
-        ) || cells[cells.length - 1];
-      const text = (codeCell.textContent || '').trimEnd();
+        ) ?? cells[cells.length - 1];
+      const text = (codeCell.textContent ?? '').trimEnd();
       lines.push(text);
     });
 
@@ -42,9 +44,9 @@ export function looksLikeDiffTable(table: HTMLElement): boolean {
   if (rows.length < 2) return false;
 
   const meta =
-    (table.className || '') +
-    (table.getAttribute('data-diff-type') || '') +
-    (table.getAttribute('data-qa') || '');
+    (table.className ?? '') +
+    (table.getAttribute('data-diff-type') ?? '') +
+    (table.getAttribute('data-qa') ?? '');
 
   if (/diff|hunk/i.test(meta)) return true;
 
@@ -55,7 +57,7 @@ export function looksLikeDiffTable(table: HTMLElement): boolean {
   const sample = rows.slice(0, Math.min(6, rows.length));
   return sample.some((row: Element) =>
     /\b(addition|deletion|added|removed|context|unchanged|hunk|insert|delete|bb-udiff)\b/i.test(
-      row.className || ''
+      row.className ?? ''
     )
   );
 }

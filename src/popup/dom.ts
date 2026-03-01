@@ -1,8 +1,14 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export const $ = (id: string): HTMLElement | null => document.getElementById(id);
 
 export const refs = {
   btnOptions: null as HTMLElement | null,
-  templateSelect: null as HTMLSelectElement | null,
+  btnHelp:    null as HTMLElement | null,
+  intentTabs: null as HTMLElement | null,
+  templateCards: null as HTMLElement | null,
   errorMsg: null as HTMLElement | null,
   tokenCount: null as HTMLElement | null,
   tokenWarning: null as HTMLElement | null,
@@ -25,7 +31,9 @@ export const refs = {
 
 export function resolveRefs() {
   refs.btnOptions = $('btn-options');
-  refs.templateSelect = $('template-select') as HTMLSelectElement | null;
+  refs.btnHelp    = $('btn-help');
+  refs.intentTabs    = $('intent-tabs');
+  refs.templateCards = $('template-cards');
   refs.errorMsg = $('error-msg');
   refs.tokenCount = $('token-count');
   refs.tokenWarning = $('token-warning');

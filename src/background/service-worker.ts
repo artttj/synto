@@ -1,8 +1,12 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants';
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch((err) => {
+  .catch((err: unknown) => {
     console.error('[Synto] setPanelBehavior failed:', err);
   });
 

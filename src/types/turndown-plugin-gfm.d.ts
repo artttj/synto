@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 declare module 'turndown-plugin-gfm' {
   import type TurndownService from 'turndown';
   export function gfm(service: TurndownService): void;

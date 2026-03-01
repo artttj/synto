@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export const $ = (id: string): HTMLElement | null => document.getElementById(id);
 
 export const refs: {
@@ -13,6 +17,8 @@ export const refs: {
   modalOverlay: HTMLElement | null;
   modalTitle: HTMLElement | null;
   modalName: HTMLInputElement | null;
+  modalCategorySelect: HTMLSelectElement | null;
+  modalCategoryInput: HTMLInputElement | null;
   modalPrompt: HTMLTextAreaElement | null;
   modalCancel: HTMLElement | null;
   modalClose: HTMLElement | null;
@@ -30,6 +36,8 @@ export const refs: {
   modalOverlay: null,
   modalTitle: null,
   modalName: null,
+  modalCategorySelect: null,
+  modalCategoryInput: null,
   modalPrompt: null,
   modalCancel: null,
   modalClose: null,
@@ -39,19 +47,21 @@ export const refs: {
 
 export function resolveRefs(): void {
   refs.defaultTplEl = $('default-template') as HTMLSelectElement;
-  refs.providerSeg = $('provider-segmented') as HTMLElement;
-  refs.themeSeg = $('theme-segmented') as HTMLElement;
-  refs.btnSaveSettings = $('btn-save-settings') as HTMLElement;
-  refs.settingsSaved = $('settings-saved') as HTMLElement;
-  refs.navAiWarning = $('nav-ai-warning') as HTMLElement;
+  refs.providerSeg = $('provider-segmented')!;
+  refs.themeSeg = $('theme-segmented')!;
+  refs.btnSaveSettings = $('btn-save-settings')!;
+  refs.settingsSaved = $('settings-saved')!;
+  refs.navAiWarning = $('nav-ai-warning')!;
   refs.templateSearch = $('template-search') as HTMLInputElement;
-  refs.templateList = $('template-list') as HTMLElement;
-  refs.btnNewTemplate = $('btn-new-template') as HTMLElement;
-  refs.modalOverlay = $('modal-overlay') as HTMLElement;
-  refs.modalTitle = $('modal-title') as HTMLElement;
+  refs.templateList = $('template-list')!;
+  refs.btnNewTemplate = $('btn-new-template')!;
+  refs.modalOverlay = $('modal-overlay')!;
+  refs.modalTitle = $('modal-title')!;
   refs.modalName = $('modal-name') as HTMLInputElement;
+  refs.modalCategorySelect = $('modal-category-select') as HTMLSelectElement;
+  refs.modalCategoryInput = $('modal-category-input') as HTMLInputElement;
   refs.modalPrompt = $('modal-prompt') as HTMLTextAreaElement;
-  refs.modalCancel = $('modal-cancel') as HTMLElement;
-  refs.modalClose = $('modal-close') as HTMLElement;
-  refs.modalSave = $('modal-save') as HTMLElement;
+  refs.modalCancel = $('modal-cancel')!;
+  refs.modalClose = $('modal-close')!;
+  refs.modalSave = $('modal-save')!;
 }

@@ -1,7 +1,7 @@
 /**
- * Chat panel: send to AI, stream response, follow-up input, bubbles.
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
  */
-
 import {
   getOpenAIKey,
   getGeminiKey,
@@ -13,6 +13,13 @@ import { setError } from './errors';
 import { setPreviewOpen } from './preview';
 import { renderMarkdown } from './markdown';
 
+interface SSEChunk {
+  choices?: { delta?: { content?: string } }[];
+}
+
+interface APIErrorBody {
+  error?: { message?: string };
+}
 
 export function appendBubble(role: string, text: string): HTMLDivElement {
   const wrap = document.createElement('div');
@@ -78,8 +85,8 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
   });
 
   if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message ?? `HTTP ${response.status}`);
+    const body = await response.json().catch(() => ({})) as APIErrorBody;
+    throw new Error(body.error?.message ?? `HTTP ${response.status}`);
   }
 
   let reply = '';
@@ -90,18 +97,18 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
     const { done, value } = await reader.read();
     if (done) break;
 
-    const lines = decoder.decode(value).split('\n');
-    for (const line of lines) {
+    for (const line of decoder.decode(value).split('\n')) {
       if (!line.startsWith('data: ')) continue;
       const data = line.slice(6).trim();
       if (data === '[DONE]') break;
       try {
-        const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
+        const chunk = JSON.parse(data) as SSEChunk;
+        const delta = chunk.choices?.[0]?.delta?.content ?? '';
         reply += delta;
         bubble.textContent = reply;
         refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
       } catch {
-        /* partial chunk */
+        /* partial chunk — ignore and continue */
       }
     }
   }
@@ -146,6 +153,17 @@ async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
 }
 
 
+async function dispatchToProvider(bubble: HTMLDivElement): Promise<void> {
+  if (state.llmProvider === 'gemini') {
+    await processWithGemini(bubble);
+  } else if (state.llmProvider === 'grok') {
+    await processWithGrok(bubble);
+  } else {
+    await processWithOpenAI(bubble);
+  }
+}
+
+
 export async function processWithAI(): Promise<void> {
   if (!state.finalText || state.chatStreaming) return;
 
@@ -173,13 +191,7 @@ export async function processWithAI(): Promise<void> {
   refs.btnProcess!.classList.add('loading');
 
   try {
-    if (state.llmProvider === 'gemini') {
-      await processWithGemini(bubble);
-    } else if (state.llmProvider === 'grok') {
-      await processWithGrok(bubble);
-    } else {
-      await processWithOpenAI(bubble);
-    }
+    await dispatchToProvider(bubble);
     refs.chatInputRow!.classList.remove('hidden');
   } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
@@ -197,7 +209,7 @@ export async function processWithAI(): Promise<void> {
 
 function autoResize(el: HTMLTextAreaElement): void {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
 }
 
 
@@ -218,13 +230,7 @@ export async function sendFollowUp(): Promise<void> {
   refs.btnProcess!.disabled = true;
 
   try {
-    if (state.llmProvider === 'gemini') {
-      await processWithGemini(bubble);
-    } else if (state.llmProvider === 'grok') {
-      await processWithGrok(bubble);
-    } else {
-      await processWithOpenAI(bubble);
-    }
+    await dispatchToProvider(bubble);
   } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
     state.chatHistory.pop();
@@ -239,9 +245,6 @@ export async function sendFollowUp(): Promise<void> {
 }
 
 
-/**
- * Wire chat UI: process button, input, send button. Call once after DOM ready.
- */
 export function wireChat(): void {
   refs.btnProcess!.addEventListener('click', processWithAI);
 
@@ -252,7 +255,7 @@ export function wireChat(): void {
   refs.chatInput!.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendFollowUp();
+      void sendFollowUp();
     }
   });
 

@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export const MSG = {
   EXTRACT_CONTENT: 'EXTRACT_CONTENT',
   COPY_TO_CLIPBOARD: 'COPY_TO_CLIPBOARD',
@@ -13,66 +17,58 @@ export const STORAGE_KEYS = {
   GEMINI_KEY: 'apc_gemini_key',
 };
 
-export const TEMPLATE_CATEGORIES = ['Analyze', 'Decide', 'Extract', 'Write'];
+export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
+
+// IDs that no longer exist as default templates.
+// Filtered out of stored data so they don't create orphan tabs.
+export const DEPRECATED_TEMPLATE_IDS = new Set([
+  'default-structured-brief', // merged into understand-structured-brief
+  'analyze-article',           // merged into understand-structured-brief
+  'community-debate-map',      // removed
+  'default-clean',             // removed
+  'extract-key-questions',     // removed
+  'lifestyle-recipe-card',     // removed
+  'lifestyle-buy-decision',    // superseded by lifestyle-smart-choice
+]);
 
 export const DEFAULT_TEMPLATES = [
 
-  {
-    id: "default-structured-brief",
-    name: "Structured Brief",
-    category: "Analyze",
-    isDefault: true,
-    prompt: `Analyze the following and produce a structured brief. Use exactly these section headings. Be concise and factual — no padding, no preamble, no meta-commentary.
-
-## Problem
-What is being discussed, requested, or reported?
-
-## Key Arguments
-What are the main positions, proposals, or points raised? Bullet points only.
-
-## Decisions Made
-What was agreed, merged, closed, or resolved? If none, write "None yet."
-
-## Open Questions
-What remains unanswered, blocked, or under debate?
-
-## Risks / Unknowns
-What could go wrong? What assumptions are being made?
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
+  // ── Understand ─────────────────────────────────────────────────────────────
 
   {
     id: "eng-ticket-analysis",
     name: "Ticket Analysis",
-    category: "Analyze",
+    label: "Ticket",
+    description: "Summary, criteria, risks, next steps",
+    category: "Understand",
     isDefault: false,
-    prompt: `Analyze this ticket and produce a structured implementation brief. No preamble.
+    prompt: `You are a senior product engineer. Analyze ONLY the ticket below — do not invent information. Produce a developer-ready implementation brief.
+
+Output ONLY the following markdown structure — nothing before or after:
 
 ## Summary
-What is being requested or reported? (one sentence)
+One crisp sentence: what is requested and why it matters.
 
-## Problem Statement
-What user pain, system failure, or goal does this address?
+## Goals
+- 1–3 must-achieve outcomes
 
 ## Acceptance Criteria
-List the explicit or implied conditions for this ticket to be "done."
+1. Numbered, specific, testable conditions
 
-## Risks & Edge Cases
-What could break? What inputs or states need special handling?
+## Technical Approach
+High-level plan: steps, affected modules/APIs/DB changes, external dependencies.
 
-## Dependencies
-Blockers, related tickets, external systems, or teams involved.
+## Tasks
+- Task · Role (dev/qa/ux) · Estimate (S/M/L/XL) · Dependencies
 
-## Suggested Approach
-If the discussion includes implementation hints, summarize them.
+## Risks & Mitigations
+- Risk → mitigation (top 3 only)
 
-## Next Steps
-What should happen immediately after reading this?
+## Open Questions
+- Clarifications needed from author or stakeholders
+
+## Priority
+Low / Medium / High / Critical — one-sentence rationale
 
 ---
 
@@ -83,28 +79,43 @@ Ticket: [{title}]({url})
 
   {
     id: "eng-pr-review",
-    name: "PR Review Summary",
-    category: "Analyze",
+    name: "PR Review",
+    label: "PR",
+    description: "Changes, concerns, approvals, status",
+    category: "Understand",
     isDefault: false,
-    prompt: `Summarize this pull request discussion as a structured review brief. No preamble.
+    prompt: `You are an elite code reviewer. Analyze ONLY the PR content below. Produce a concise, actionable review brief.
 
-## What This PR Does
-One paragraph: purpose, scope, approach.
+Output ONLY this exact markdown structure — nothing before or after:
 
-## Requested Changes
-Bullet list of explicit change requests from reviewers. Be specific — include file names or function names where mentioned.
+## Summary
+One paragraph: what the PR actually does and its intent.
 
-## Concerns Raised
-Bullet list of concerns, questions, or objections that were not explicit change requests.
+## Impacted Areas
+- Key files / modules / systems changed
 
-## Approvals & Blockers
-Who approved? Who is blocking and why?
+## Findings
 
-## Key Technical Decisions
-Any architectural or implementation choices debated in the review.
+**Bugs / Logic**
+- Issue · Severity (critical/high/medium/low) · Suggested fix
 
-## Status
-Open / Merged / Closed. Any conditions remaining before merge?
+**Security / Performance**
+- Issue · Severity · Suggested fix
+
+**Tests / Coverage**
+- Issue · Severity · Suggested fix
+
+**Style / Maintainability**
+- Issue · Severity · Suggested fix
+
+## Test Recommendations
+- What needs verification, missing test cases, quick smoke steps
+
+## Verdict
+Approve as-is / Approve with changes / Major rework needed / Reject — one-sentence reason.
+
+## Post-Merge Follow-ups
+- Optional cleanups / tech-debt items
 
 ---
 
@@ -114,64 +125,33 @@ Source: [{title}]({url})
   },
 
   {
-    id: "analyze-article",
-    name: "Article Analysis",
-    category: "Analyze",
-    isDefault: false,
-    prompt: `Analyze this article. No preamble.
+    id: "understand-structured-brief",
+    name: "Structured Brief",
+    label: "Brief",
+    description: "Topic, key points, conclusions, open questions",
+    category: "Understand",
+    isDefault: true,
+    prompt: `You are a senior content analyst. Create a tight briefing from ONLY the source below. Do not add external facts.
 
-## Thesis
-What is the main claim or argument?
+Output ONLY this structure — nothing before or after:
 
-## Key Points
-Bullet list of the main ideas and supporting points.
+## TL;DR
+One powerful sentence summary.
 
-## Evidence
-What data, examples, or sources are used?
+## Audience
+Who this is written for (persona, role, experience level).
+
+## Key Takeaways
+- 3–5 sharp, memorable bullets
+
+## Evidence & Context
+- 3–5 strongest claims, quotes, or data points from the source
 
 ## Conclusions
-What does the author conclude or recommend?
+What was resolved, concluded, or recommended? Write "None yet" if unclear.
 
-## Critical Take
-One paragraph: strengths, gaps, or counterpoints worth considering.
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "community-debate-map",
-    name: "Debate Map",
-    category: "Analyze",
-    isDefault: false,
-    prompt: `Map the debate in this discussion thread. No preamble.
-
-## Central Question
-What is the core disagreement or topic being debated?
-
-## Position A
-What is the first major position? Who holds it?
-
-## Position B
-What is the opposing or alternative position? Who holds it?
-
-## Additional Positions
-Any minority views, nuanced takes, or third options.
-
-## Strongest Arguments
-The single best argument made for each major side (one bullet per side).
-
-## Weakest Arguments / Fallacies
-Weak reasoning, strawmen, or logical errors in the discussion.
-
-## Common Ground
-What do all sides agree on?
-
-## Current Status
-Is there a resolution, or is the debate ongoing?
+## Open Questions
+What remains unclear, unresolved, or worth challenging?
 
 ---
 
@@ -179,28 +159,50 @@ Source: [{title}]({url})
 
 {content}`,
   },
+
+  // ── Decide ─────────────────────────────────────────────────────────────────
 
   {
     id: "decide-brief",
     name: "Decision Brief",
+    label: "Decision",
+    description: "Options, trade-offs, recommendation",
     category: "Decide",
     isDefault: false,
-    prompt: `Produce a decision brief. No preamble.
+    prompt: `You are a principal decision architect. Using ONLY the context below, produce a short, executive-ready decision document.
+
+Output ONLY the markdown below — nothing before or after:
 
 ## Context
-What situation or problem requires a decision?
-
-## Options
-List the main options under consideration.
-
-## Arguments For / Against
-Key pros and cons for each option.
+2–4 sentences of background.
 
 ## Decision
-Recommended decision with one-sentence rationale.
+One clear sentence: what exactly needs to be chosen.
 
-## Trade-offs
-What we gain and what we give up.
+## Options Compared
+
+**Option A: [name]**
+- Pros
+- Cons
+- Effort / Cost
+- Time-to-value
+
+**Option B: [name]**
+- Pros
+- Cons
+- Effort / Cost
+- Time-to-value
+
+## Evaluation Criteria
+- Criterion 1 (weight if scored)
+(4–6 total)
+
+## Recommendation
+Chosen option + 2-sentence rationale anchored to the criteria.
+
+## Next Actions
+1. Step · Owner · Due · Metric
+(3–4 items)
 
 ---
 
@@ -212,24 +214,35 @@ Source: [{title}]({url})
   {
     id: "decide-feature-request",
     name: "Feature Request Analysis",
+    label: "Feature",
+    description: "Problem, trade-offs, alternatives",
     category: "Decide",
     isDefault: false,
-    prompt: `Analyze this feature request. No preamble.
+    prompt: `You are a senior product engineer specializing in requirements distillation. Analyze ONLY the feature request below.
 
-## The Real Problem
-What user need or pain does this address? (beyond the stated request)
+Output ONLY this structure — nothing before or after:
 
-## Who's Affected
-Which users, teams, or use cases benefit most?
+## Core Problem
+One sentence: the real user pain or goal.
 
-## Trade-offs
-What gets harder, slower, or more complex if we do this?
+## User Stories
+- As a [role], I want [feature] so that [benefit]
+(3–4 stories)
 
-## Alternatives
-Other ways to solve the same problem (simpler or already available).
+## Acceptance Criteria
+1. Numbered, testable conditions
 
-## Priority Signals
-What would make this higher or lower priority? Dependencies?
+## Edge Cases & Non-Functional
+- Important boundaries, performance, security, accessibility needs
+
+## MVP Scope
+- In: …
+- Out / Later: …
+
+## Effort Sketch
+Frontend: S / M / L
+Backend: S / M / L
+Infra / Other: S / M / L
 
 ---
 
@@ -238,63 +251,23 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  {
-    id: "lifestyle-buy-decision",
-    name: "Buy Decision",
-    category: "Decide",
-    isDefault: false,
-    prompt: `Help me decide whether to buy this product. Analyze the page and any reviews. No preamble.
-
-## What It Is
-One sentence: product name, category, price if listed.
-
-## Top Pros
-The 3–5 strongest reasons to buy, drawn from the description and reviews.
-
-## Top Cons
-The 3–5 most common complaints or weaknesses from reviews.
-
-## Who It's For
-What type of user or use case is this best suited for?
-
-## Red Flags
-Any quality issues, misleading claims, or recurring problems worth knowing.
-
-## Verdict
-Buy / Skip / Wait for better price — with a one-sentence reason.
-
----
-
-{content}`,
-  },
-
-  {
-    id: "default-clean",
-    name: "Clean Copy",
-    category: "Extract",
-    isDefault: false,
-    prompt: "{content}",
-  },
+  // ── Act ────────────────────────────────────────────────────────────────────
 
   {
     id: "eng-action-items",
-    name: "Extract Action Items",
-    category: "Extract",
+    name: "Extract Actions",
+    label: "Actions",
+    description: "Actions, next steps, blockers",
+    category: "Act",
     isDefault: false,
-    prompt: `Extract all action items, tasks, and commitments from this discussion. No preamble.
+    prompt: `Extract every concrete action item from the content below. Output ONLY a numbered list — no introduction, no extra sentences.
 
-## Committed Actions
-Tasks explicitly assigned or agreed upon.
-- [ ] Action (Owner if mentioned)
-
-## Implied Next Steps
-Things that logically need to happen but were not explicitly assigned.
-
-## Blockers
-Items that are blocked and what they are waiting on.
-
-## Decisions Needed
-Unresolved questions that require a decision before work can proceed.
+Format each item:
+1. **Action**: clear verb phrase
+   **Owner**: role or person (infer if not explicit)
+   **Due**: date / ASAP / none
+   **Priority**: High / Medium / Low
+   **Evidence**: short quote supporting this action
 
 ---
 
@@ -306,18 +279,19 @@ Source: [{title}]({url})
   {
     id: "extract-risks-blockers",
     name: "Risks & Blockers",
-    category: "Extract",
+    label: "Risks",
+    description: "Risks, blockers, assumptions",
+    category: "Act",
     isDefault: false,
-    prompt: `Extract risks and blockers from this content. No preamble.
+    prompt: `Identify the most important risks and blockers from the content below. Output ONLY up to 8 items in this exact format — nothing else:
 
-## Risks
-What could go wrong? Technical, product, or operational risks mentioned or implied.
-
-## Blockers
-What is currently blocked? What or who is it waiting on?
-
-## Assumptions
-Key assumptions that, if wrong, would change the picture.
+- **Title**: short name
+  **Description**: 1–2 sentences
+  **Likelihood**: Low / Medium / High
+  **Impact**: Low / Medium / High / Critical
+  **Mitigation**: concrete next step
+  **Owner**: who should handle this
+  **Escalation**: if stalled after 3 days → who / how
 
 ---
 
@@ -327,59 +301,48 @@ Source: [{title}]({url})
   },
 
   {
-    id: "extract-key-questions",
-    name: "Key Questions",
-    category: "Extract",
+    id: "lifestyle-smart-choice",
+    name: "Smart Choice",
+    label: "Recommend",
+    description: "Options, trade-offs, quick verdict",
+    category: "Act",
     isDefault: false,
-    prompt: `Extract the open or unresolved questions from this content. No preamble.
+    prompt: `Score and decide between the options in the content below. Use a weighted scorecard. Output ONLY this structure — nothing before or after:
 
-## Key Questions
-Numbered list of questions that need an answer (explicit or implied).
+## Criteria (total weight 100)
+- Criterion 1 – weight %
+(4–6 criteria)
 
-## Who Can Answer
-If mentioned, who owns or could resolve each.
+## Scorecard
+| Option | Crit 1 | Crit 2 | Crit 3 | Crit 4 | Total (weighted) |
+|--------|--------|--------|--------|--------|------------------|
+| …      | …      | …      | …      | …      | …                |
 
-## Why It Matters
-Brief note on impact if these remain unanswered.
+## Winner
+[Option name] — two-sentence explanation why it leads.
 
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "lifestyle-recipe-card",
-    name: "Recipe Card",
-    category: "Extract",
-    isDefault: false,
-    prompt: `Extract and format this recipe as a clean, printable card. No preamble.
-
-## {title}
-
-**Prep time / Cook time / Servings** — fill from the page if available.
-
-## Ingredients
-Bullet list. Group by section (e.g. Sauce, Dough) if the recipe does.
-
-## Instructions
-Numbered steps. Keep each step to one action. Trim filler text.
-
-## Notes & Tips
-Any substitutions, storage advice, or variations mentioned.
+## Communication Snippet
+Two sentences to tell stakeholders: benefit + immediate next step.
 
 ---
 
 {content}`,
   },
+
+  // ── Compose ────────────────────────────────────────────────────────────────
 
   {
     id: "write-compose-answer",
-    name: "Compose Answer",
-    category: "Write",
+    name: "Draft Reply",
+    label: "Reply",
+    description: "Direct reply to a question or request",
+    category: "Compose",
     isDefault: false,
-    prompt: `Using the context below, compose a clear, direct answer to the question or request. Be concise and actionable. Return only the answer, no preamble or meta-commentary.
+    prompt: `Draft a short, professional-yet-friendly reply for Slack or email based ONLY on the context below. Max 5–6 sentences.
+
+Output ONLY the reply body text — no labels, no extras.
+
+Structure: Start with an acknowledgment. Then give a direct answer or next step. Then a clear call-to-action (action + owner + due if relevant). End with a warm close.
 
 ---
 
@@ -389,9 +352,19 @@ Any substitutions, storage advice, or variations mentioned.
   {
     id: "community-rewrite-comment",
     name: "Rewrite Comment",
-    category: "Write",
+    label: "Rewrite",
+    description: "Professional, constructive rewrite",
+    category: "Compose",
     isDefault: false,
-    prompt: `Rewrite the following comment to be clearer, more professional, and constructive. Keep the core message intact but improve tone, clarity, and structure. Return only the rewritten comment, nothing else.
+    prompt: `Rewrite the comment below to be professional, concise, and constructive while keeping the original meaning intact.
+
+Output ONLY:
+
+**Variant A – Short & direct**
+(1–2 sentences)
+
+**Variant B – Collaborative tone**
+(2–4 sentences, warmer)
 
 ---
 
@@ -401,9 +374,28 @@ Any substitutions, storage advice, or variations mentioned.
   {
     id: "write-email-helper",
     name: "Email Helper",
-    category: "Write",
+    label: "Email",
+    description: "Short professional email draft",
+    category: "Compose",
     isDefault: false,
-    prompt: `Using the context below, draft a short professional email. Match the tone to the situation (e.g. follow-up, request, thank-you). Be clear and scannable. Return only the email body, no subject line unless one is explicitly requested.
+    prompt: `Write a professional, friendly email using ONLY the context below.
+
+Output ONLY these four blocks — nothing before or after:
+
+**Subject**
+[6–10 words]
+
+**Body**
+(120–180 words, natural tone)
+
+**Sign-off choices**
+1. Best regards, [Name]
+2. Thanks & best, [Name]
+3. Looking forward, [Name]
+
+**Meeting proposals** (if scheduling is needed, next 1–2 business days)
+- [Day, time]
+- [Alternative day, time]
 
 ---
 

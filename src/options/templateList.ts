@@ -1,9 +1,49 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants';
-import { saveTemplates, Template } from '../shared/storage';
+import { saveTemplates, type Template } from '../shared/storage';
 import { state } from './state';
 import { refs } from './dom';
 import { escHtml } from './utils';
 import { renderDefaultTemplateSelect } from './settings';
+
+
+function populateCategorySelect(currentCategory?: string): void {
+  const sel = refs.modalCategorySelect!;
+  sel.innerHTML = '';
+
+  const known = new Set(TEMPLATE_CATEGORIES);
+  const extra = new Set<string>();
+  for (const t of state.templates) {
+    if (t.category && !known.has(t.category)) extra.add(t.category);
+  }
+
+  const allCats = [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
+  for (const cat of allCats) {
+    const opt = document.createElement('option');
+    opt.value = cat;
+    opt.textContent = cat;
+    sel.appendChild(opt);
+  }
+
+  const newOpt = document.createElement('option');
+  newOpt.value = '__new__';
+  newOpt.textContent = 'New category…';
+  sel.appendChild(newOpt);
+
+  if (currentCategory && allCats.includes(currentCategory)) {
+    sel.value = currentCategory;
+  } else if (currentCategory && currentCategory !== '__new__') {
+    // Edge case: custom category not yet in state (shouldn't happen, but be safe)
+    sel.value = allCats[0];
+  } else {
+    sel.value = allCats[0];
+  }
+
+  refs.modalCategoryInput!.classList.add('hidden');
+}
 
 
 export function openModal(templateId: string | null): void {
@@ -15,6 +55,7 @@ export function openModal(templateId: string | null): void {
   refs.modalTitle!.textContent = t ? 'Edit Template' : 'New Template';
   refs.modalName!.value = t?.name ?? '';
   refs.modalPrompt!.value = t?.prompt ?? '{content}';
+  populateCategorySelect(t?.category);
   refs.modalOverlay!.classList.remove('hidden');
   refs.modalName!.focus();
 }
@@ -122,7 +163,7 @@ export function renderTemplateList(): void {
   });
   refs.templateList!.querySelectorAll('.btn-delete').forEach((btn) => {
     btn.addEventListener('click', () => {
-      deleteTemplate((btn as HTMLElement).dataset.id!);
+      void deleteTemplate((btn as HTMLElement).dataset.id!);
     });
   });
 }
@@ -162,14 +203,20 @@ export function wireTemplateList(): void {
 
   document.querySelectorAll('.chip').forEach((chip) => {
     chip.addEventListener('click', () => {
-      const ph = (chip as HTMLElement).dataset.placeholder;
-      const start = refs.modalPrompt!.selectionStart;
-      const end = refs.modalPrompt!.selectionEnd;
+      const ph = (chip as HTMLElement).dataset.placeholder ?? '';
+      const start = refs.modalPrompt!.selectionStart ?? 0;
+      const end = refs.modalPrompt!.selectionEnd ?? 0;
       const val = refs.modalPrompt!.value;
       refs.modalPrompt!.value = val.slice(0, start) + ph + val.slice(end);
       refs.modalPrompt!.focus();
-      refs.modalPrompt!.setSelectionRange(start + ph!.length, start + ph!.length);
+      refs.modalPrompt!.setSelectionRange(start + ph.length, start + ph.length);
     });
+  });
+
+  refs.modalCategorySelect!.addEventListener('change', () => {
+    const isNew = refs.modalCategorySelect!.value === '__new__';
+    refs.modalCategoryInput!.classList.toggle('hidden', !isNew);
+    if (isNew) refs.modalCategoryInput!.focus();
   });
 
   refs.modalSave!.addEventListener('click', async () => {
@@ -185,14 +232,26 @@ export function wireTemplateList(): void {
       return;
     }
 
+    let category: string;
+    if (refs.modalCategorySelect!.value === '__new__') {
+      category = refs.modalCategoryInput!.value.trim();
+      if (!category) {
+        refs.modalCategoryInput!.focus();
+        return;
+      }
+    } else {
+      category = refs.modalCategorySelect!.value;
+    }
+
     if (state.editingId) {
       state.templates = state.templates.map((t) =>
-        t.id === state.editingId ? { ...t, name, prompt } : t
+        t.id === state.editingId ? { ...t, name, category, prompt } : t
       );
     } else {
       state.templates.push({
         id: crypto.randomUUID(),
         name,
+        category,
         prompt,
         isDefault: false,
       });

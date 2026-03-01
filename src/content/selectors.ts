@@ -1,3 +1,7 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 export const MSG_EXTRACT = 'EXTRACT_CONTENT';
 
 export const STRIP_SELECTORS = [

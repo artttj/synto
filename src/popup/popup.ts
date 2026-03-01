@@ -1,8 +1,12 @@
+/**
+ * © 2025-present Artem Iagovdik
+ * https://github.com/artttj/synto
+ */
 import { getTemplates, getSettings } from '../shared/storage';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
-import { renderTemplateSelect, wireTemplateSelect } from './templates';
+import { renderTemplateUI, wireTemplateUI } from './templates';
 import { wirePreview } from './preview';
 import { wireChat } from './chat';
 import { wireKeyboard } from './keyboard';
@@ -20,23 +24,26 @@ async function init(): Promise<void> {
   state.llmProvider = settings.llmProvider ?? 'openai';
   refs.btnProcess!.textContent = getAskLabel();
 
-  renderTemplateSelect();
-  wireTemplateSelect();
+  renderTemplateUI();
+  wireTemplateUI();
   wirePreview();
   wireChat();
   wireKeyboard();
 
-  refs.btnOptions!.addEventListener('click', () => chrome.runtime.openOptionsPage());
+  refs.btnOptions!.addEventListener('click', () => { void chrome.runtime.openOptionsPage(); });
+  refs.btnHelp!.addEventListener('click', () => {
+    void chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html') + '#help' });
+  });
   refs.chatOptionsLink!.addEventListener('click', (e) => {
     e.preventDefault();
-    chrome.runtime.openOptionsPage();
+    void chrome.runtime.openOptionsPage();
   });
 
   await extractContent();
 
-  chrome.tabs.onActivated.addListener(() => extractContent());
+  chrome.tabs.onActivated.addListener(() => { void extractContent(); });
   chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {
-    if (changeInfo.status === 'complete' && tab.active) extractContent();
+    if (changeInfo.status === 'complete' && tab.active) void extractContent();
   });
 }
 
