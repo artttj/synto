@@ -31,6 +31,7 @@ You'll need an API key from one of these providers:
 | Google Gemini | [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
 | Grok (xAI) | [console.x.ai](https://console.x.ai/) |
 
+
 ---
 
 Built for **engineers, PMs, and founders** who are tired of the copy-paste-summarize loop — skip the prep work and get straight to insights you can act on.
@@ -186,11 +187,11 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 
 ### API Keys
 
-| Provider | Model | Free tier | Where to get a key |
-| --- | --- | --- | --- |
-| Google Gemini | `gemini-2.0-flash` | ✅ Yes | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| OpenAI | `gpt-4o-mini` | ❌ Paid | [platform.openai.com](https://platform.openai.com/api-keys) |
-| Grok (xAI) | `grok-3-mini` | ❌ Paid | [console.x.ai](https://console.x.ai/) |
+| Provider | Model | Where to get a key |
+| --- | --- | --- |
+| OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
+| Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
 
 ### Project Structure
 
