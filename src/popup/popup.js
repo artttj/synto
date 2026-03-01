@@ -44,6 +44,18 @@ async function init() {
   });
 
   await extractContent();
+
+  // Re-fetch when the user switches to a different tab
+  chrome.tabs.onActivated.addListener(() => {
+    extractContent();
+  });
+
+  // Re-fetch when the active tab navigates or reloads
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status === 'complete' && tab.active) {
+      extractContent();
+    }
+  });
 }
 
 
