@@ -60,7 +60,7 @@ If you're tired of copy-pasting pages into ChatGPT and typing "summarize this," 
 
 Without Synto: copy a 200-comment Jira ticket, paste into ChatGPT, type "summarize this," get a generic paragraph that misses the technical details.
 
-With Synto: open the side panel, pick Ticket Analysis, click Ask ChatGPT. You get a structured brief like this:
+With Synto: open the side panel, click Understand, pick Ticket, click Ask ChatGPT. You get a structured brief like this:
 
 ```
 ## Summary
@@ -88,12 +88,12 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 11 built-in templates, grouped by intent. Each supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
 
-| Category | Templates | Purpose |
+| Category | Templates (button label) | Purpose |
 | --- | --- | --- |
-| Understand | Structured Brief, Ticket Analysis, PR Review | Key points, conclusions, technical risks |
-| Decide | Decision Brief, Feature Request Analysis | Trade-offs and a clear recommendation |
-| Act | Extract Actions, Risks & Blockers, Smart Choice | Turn discussions into tasks and surface blockers |
-| Compose | Draft Reply, Rewrite Comment, Email Helper | Professional replies or rewrites |
+| Understand | Brief, Ticket, PR | Key points, conclusions, technical risks |
+| Decide | Decision, Feature | Trade-offs and a clear recommendation |
+| Act | Actions, Risks, Recommend | Turn discussions into tasks and surface blockers |
+| Compose | Reply, Rewrite, Email | Professional replies or rewrites |
 
 You can add or edit templates in Settings. Use them for research summaries, social posts, recipes, Reddit threads, or anything you need.
 
@@ -132,7 +132,7 @@ Everything lives in a persistent side panel. No tab switching, no lost context.
 ### Engineering: Code review
 
 1. Open a GitHub PR with 40+ review comments
-2. Open Synto, select PR Review
+2. Open Synto, click Understand, pick PR
 3. Click Ask ChatGPT. You get a structured brief: what changed, who's blocking, what needs fixing
 4. Ask follow-up questions in the panel
 
@@ -142,7 +142,7 @@ Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's
 
 1. Open the PR, go to Files changed, scroll to the bottom so all files load
 2. Press Ctrl+A (⌘A on Mac) to select the page
-3. Open Synto, select PR Review, click Ask AI
+3. Open Synto, click Understand, pick PR, click Ask AI
 
 Synto uses your selection instead of re-extracting.
 
@@ -151,20 +151,20 @@ Synto uses your selection instead of re-extracting.
 Smart Choice uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
 
 1. Open an Amazon search results page, or select content from a few product pages with Ctrl+A
-2. Open Synto, select Smart Choice
+2. Open Synto, click Act, pick Recommend
 3. Click Ask AI. You get a scored comparison table and a clear recommendation on which to pick
 
 ### Writing: draft a reply
 
 1. Open a long email thread, GitHub issue, or message
 2. Optionally highlight the part you're replying to
-3. Open Synto, select Draft Reply
+3. Open Synto, click Compose, pick Reply
 4. Click Ask ChatGPT for a reply you can send as-is
 
 ### Support: get up to speed on a ticket
 
 1. Open a long Zendesk, Intercom, or GitHub issue thread
-2. Open Synto, select Ticket Analysis
+2. Open Synto, click Understand, pick Ticket
 3. Click Ask ChatGPT for a summary of the problem, what's been tried, and current status
 4. Ask follow-ups without re-reading the whole thread
 
