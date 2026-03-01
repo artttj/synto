@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { MSG } from '../shared/constants';
 import { state } from './state';
 import { refs } from './dom';

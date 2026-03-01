@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 export function preprocessDiffTables(root: HTMLElement): void {
   root.querySelectorAll('table').forEach((table) => {
     if (!looksLikeDiffTable(table)) return;

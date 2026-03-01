@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 export const MSG = {
   EXTRACT_CONTENT: 'EXTRACT_CONTENT',
   COPY_TO_CLIPBOARD: 'COPY_TO_CLIPBOARD',

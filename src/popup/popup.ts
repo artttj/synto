@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { getTemplates, getSettings } from '../shared/storage';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';

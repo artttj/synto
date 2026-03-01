@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { TEMPLATE_CATEGORIES } from '../shared/constants';
 import { type Template, saveSettings } from '../shared/storage';
 import { state, type ExtractedContent } from './state';

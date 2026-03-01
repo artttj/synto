@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import TurndownService from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
 

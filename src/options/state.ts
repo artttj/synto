@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { type Template, type Settings } from '../shared/storage';
 
 export const state: {

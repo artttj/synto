@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants';
 
 chrome.sidePanel

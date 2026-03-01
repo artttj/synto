@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 // Private-use Unicode char used as placeholder during code block extraction.
 // Avoids conflicts with real content and is safe in regex character classes.
 const CODE_PLACEHOLDER = '\uE000';

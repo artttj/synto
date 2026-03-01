@@ -2,6 +2,7 @@
  * © 2025-present Artem Iagovdik
  * https://github.com/artttj/synto
  */
+
 import { MSG_EXTRACT } from './selectors';
 import { extractContent } from './extract';
 
