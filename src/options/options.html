@@ -72,14 +72,14 @@
       <section id="tab-general" class="tab-panel">
         <div class="panel-header">
           <h1>General</h1>
-          <p>Configure default behaviour when the extension opens.</p>
+          <p>Defaults for when the panel opens.</p>
         </div>
 
         <div class="setting-group">
           <div class="setting-row">
             <div class="setting-label">
               <div class="setting-title">Default Template</div>
-              <div class="setting-desc">Pre-selected prompt when the popup opens</div>
+              <div class="setting-desc">Template active when the panel opens</div>
             </div>
             <select id="default-template" class="setting-select"></select>
           </div>
@@ -87,7 +87,7 @@
           <div class="setting-row">
             <div class="setting-label">
               <div class="setting-title">AI Provider</div>
-              <div class="setting-desc">Which service runs the analysis</div>
+              <div class="setting-desc">Which provider handles your requests</div>
             </div>
             <div class="segmented" id="provider-segmented">
               <button class="seg-btn" data-value="openai">OpenAI</button>
@@ -99,7 +99,7 @@
           <div class="setting-row">
             <div class="setting-label">
               <div class="setting-title">Theme</div>
-              <div class="setting-desc">Interface colour scheme</div>
+              <div class="setting-desc">Light or dark</div>
             </div>
             <div class="segmented" id="theme-segmented">
               <button class="seg-btn" data-value="dark">Dark</button>
@@ -118,7 +118,7 @@
       <section id="tab-ai-connections" class="tab-panel hidden">
         <div class="panel-header">
           <h1>AI Connections</h1>
-          <p>API keys are stored locally on your device and are never transmitted by this extension.</p>
+          <p>Keys are stored locally and never leave your device.</p>
         </div>
 
         <div class="privacy-notice" role="note">
@@ -128,17 +128,17 @@
               <line x1="10" y1="8" x2="10" y2="12"/>
               <circle cx="10" cy="15" r="0.6" fill="currentColor" stroke="none"/>
             </svg>
-            Privacy &amp; Data Notice
+            Privacy
           </div>
-          <p>When using <strong>Ask ChatGPT</strong>, <strong>Ask Gemini</strong>, or <strong>Ask Grok</strong>, your clipped content is sent directly to your chosen AI provider. Please note:</p>
+          <p>When you click Ask AI, your clipped content goes directly to the provider. No middlemen, no backend.</p>
           <ul>
-            <li><strong>No Storage:</strong> This extension stores nothing. No page content, no API keys on any server — everything stays on your device.</li>
-            <li><strong>Data Transfer:</strong> Content leaves your device and is processed by the AI provider (OpenAI, Google, or xAI).</li>
-            <li><strong>Personal Info:</strong> Avoid clipping pages with sensitive health, financial, or private credentials.</li>
-            <li><strong>Your Responsibility:</strong> You are responsible for ensuring compliance with GDPR, CCPA, and other data laws.</li>
+            <li><strong>No server storage.</strong> Page content and keys never leave your device.</li>
+            <li><strong>Data leaves your device.</strong> Content is sent to and processed by OpenAI, Google, or xAI.</li>
+            <li><strong>Sensitive content.</strong> Don't clip pages with health records, financial data, or passwords.</li>
+            <li><strong>Compliance.</strong> Make sure your use meets applicable data laws (GDPR, CCPA, etc.).</li>
           </ul>
           <p class="privacy-notice-links">
-            <strong>Privacy Policies:</strong>
+            <strong>Provider policies:</strong>
             <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener">OpenAI</a> ·
             <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Google AI</a> ·
             <a href="https://x.ai/legal/privacy-policy/" target="_blank" rel="noopener">xAI</a>
@@ -234,7 +234,7 @@
       <section id="tab-prompt-library" class="tab-panel hidden">
         <div class="panel-header">
           <h1>Prompt Library</h1>
-          <p>Browse, search, and manage your prompt templates.</p>
+          <p>Search and manage your templates.</p>
         </div>
 
         <div class="library-search-row">
@@ -254,16 +254,16 @@
       <section id="tab-help" class="tab-panel hidden">
         <div class="panel-header">
           <h1>Help</h1>
-          <p>How Synto works and keyboard shortcuts.</p>
+          <p>Quick guide and keyboard shortcuts.</p>
         </div>
 
         <div class="help-section">
           <h2 class="help-heading">How it works</h2>
           <ol class="help-steps">
-            <li>Open the extension on any web page — Synto clips the page content to Markdown.</li>
-            <li>Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.</li>
-            <li>The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your configured provider.</li>
-            <li>Ask follow-up questions in the chat panel below the response.</li>
+            <li>Open the extension on any page. Synto clips the content to Markdown.</li>
+            <li>Pick a category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then pick a template.</li>
+            <li>Check the preview, then click <strong>Ask AI</strong> to send.</li>
+            <li>Ask follow-up questions in the chat panel below.</li>
           </ol>
         </div>
 
@@ -276,7 +276,7 @@
             </div>
             <div class="help-cat">
               <div class="help-cat-name">Decide</div>
-              <div class="help-cat-desc">Weigh options, trade-offs, and recommendations.</div>
+              <div class="help-cat-desc">Trade-offs and a clear recommendation.</div>
             </div>
             <div class="help-cat">
               <div class="help-cat-name">Act</div>
@@ -292,9 +292,9 @@
         <div class="help-section">
           <h2 class="help-heading">Tips</h2>
           <ul class="help-steps">
-            <li><strong>Selection mode</strong> — highlight any text on the page before opening Synto; only that selection is sent as <code>{content}</code>. Use this to focus on one section of a long page.</li>
-            <li><strong>Lazy-loaded pages (Bitbucket, large diffs)</strong> — some pages only render content as you scroll. Scroll through the whole page first, then press <kbd>Ctrl+A</kbd> (or <kbd>⌘A</kbd>) to select everything, then open Synto — it captures the selection automatically.</li>
-            <li><strong>Refresh</strong> — the ↻ button re-clips the current page if the content changed after the panel first opened.</li>
+            <li><strong>Selection mode</strong> — highlight text before opening Synto. Only that selection is sent. Useful for focusing on one section of a long page.</li>
+            <li><strong>Lazy-loaded pages</strong> — some pages only load content as you scroll (Bitbucket diffs, for example). Scroll to the bottom first, press <kbd>Ctrl+A</kbd> (<kbd>⌘A</kbd> on Mac), then open Synto.</li>
+            <li><strong>Refresh</strong> — the ↻ button re-clips the page if content changed after the panel opened.</li>
           </ul>
         </div>
 
@@ -324,11 +324,11 @@
               </div>
               <div class="shortcut-info">
                 <div class="shortcut-action">Ask AI</div>
-                <div class="shortcut-label">Option + Shift + Return — when the panel is focused, sends to ChatGPT, Gemini, or Grok (whichever is selected)</div>
+                <div class="shortcut-label">Sends the prompt when the Synto panel has focus</div>
               </div>
             </div>
           </div>
-          <p class="help-note">⌥ is the Option key (labelled <strong>alt</strong> on some keyboards). The Ask AI shortcut works only while the Synto panel has focus.</p>
+          <p class="help-note">⌥ is the Option key (also labelled <strong>alt</strong>). The Ask AI shortcut only works when the Synto panel has focus.</p>
         </div>
       </section>
 
@@ -336,7 +336,7 @@
       <section id="tab-about" class="tab-panel hidden">
         <div class="panel-header">
           <h1>About Synto</h1>
-          <p>Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.</p>
+          <p>Clip any page to Markdown, pick a template, ask AI. No backend, no accounts, keys stay local.</p>
         </div>
 
         <div class="about-block">
@@ -408,7 +408,7 @@
             <button class="chip" data-placeholder="{excerpt}" type="button">{excerpt}</button>
             <button class="chip" data-placeholder="{byline}" type="button">{byline}</button>
           </div>
-          <div class="helper-hint">{selection} uses highlighted text and falls back to full page content.</div>
+          <div class="helper-hint">{selection} sends highlighted text if any, otherwise falls back to full page content.</div>
         </div>
       </div>
 
