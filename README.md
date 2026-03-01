@@ -107,6 +107,7 @@ Synto knows where the real content lives — and ignores everything else.
 - **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon), and more — always skips nav, footers, ads, and cookie banners
 - **Clean Markdown:** converts HTML to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown); diff tables (Bitbucket, GitLab) converted to readable `<pre>` blocks
 - **Selection-aware:** highlight any text before opening Synto — only that selection is sent, not the whole page; perfect for rewriting one comment or analysing a specific paragraph
+- **Clips what's visible:** Synto reads the live DOM — what you see is what gets clipped. Scroll through the page first to make sure all content has loaded, especially on long PRs, infinite-scroll feeds, or lazy-loaded threads
 
 ### Integrated Experience
 
@@ -142,15 +143,10 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 ### Community: make sense of a Reddit thread
 
-1. Open any Reddit thread — even a 500-comment debate
-2. Open Synto → select **Structured Brief** or **Decision Brief**
-3. Click **Ask ChatGPT** → get the central question, key positions, and what people actually agree on
-
-### Community: rewrite a specific comment
-
-1. Highlight just the comment you want to rephrase — Synto uses your selection, not the whole page
-2. Open Synto → select **Rewrite Comment**
-3. Click **Ask** → get a cleaner, more professional version ready to post
+1. Open a Reddit thread and scroll through it so the comments load
+2. Highlight a comment you want to rewrite, or leave nothing selected to clip the whole thread
+3. Open Synto → select **Structured Brief** to summarise the debate, or **Rewrite Comment** to polish a specific reply
+4. Click **Ask ChatGPT** → get the result streamed in the panel
 
 ### Decision: evaluate a feature request
 
