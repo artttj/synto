@@ -49,8 +49,19 @@ export async function saveGeminiKey(key: string): Promise<void> {
 }
 
 export async function getTemplates(): Promise<Template[]> {
-  const result = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
-  const saved = result[STORAGE_KEYS.TEMPLATES] as Template[] | undefined;
+  // Templates live in local storage (no sync quota limits).
+  // Migrate once from sync if local is empty and sync has data.
+  let localResult = await chrome.storage.local.get(STORAGE_KEYS.TEMPLATES);
+  if (!localResult[STORAGE_KEYS.TEMPLATES]) {
+    const syncResult = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
+    if (syncResult[STORAGE_KEYS.TEMPLATES]) {
+      await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATES]: syncResult[STORAGE_KEYS.TEMPLATES] });
+      await chrome.storage.sync.remove(STORAGE_KEYS.TEMPLATES);
+      localResult = { [STORAGE_KEYS.TEMPLATES]: syncResult[STORAGE_KEYS.TEMPLATES] };
+    }
+  }
+
+  const saved = localResult[STORAGE_KEYS.TEMPLATES] as Template[] | undefined;
 
   if (!saved) {
     return DEFAULT_TEMPLATES;
@@ -77,7 +88,7 @@ export async function getTemplates(): Promise<Template[]> {
 
 
 export async function saveTemplates(templates: Template[]): Promise<void> {
-  await chrome.storage.sync.set({ [STORAGE_KEYS.TEMPLATES]: templates });
+  await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATES]: templates });
 }
 
 
