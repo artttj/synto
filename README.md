@@ -1,6 +1,4 @@
-<img src="docs/icon128.png" width="64" alt="Synto icon" />
-
-# Synto
+# <img src="docs/icon128.png" width="36" alt="" valign="middle" /> Synto
 
 Turn messy tickets, PRs, and docs into structured AI briefs — in one click, from a Chrome side panel.
 
