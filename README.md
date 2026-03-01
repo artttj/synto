@@ -1,6 +1,6 @@
 # <img src="docs/icon128.png" width="36" alt="" valign="middle" /> Synto
 
-Turn messy tickets, PRs, and docs into structured AI briefs — in one click, from a Chrome side panel.
+Turn messy tickets, PRs, Reddit threads, and docs into structured AI briefs — in one click, from a Chrome side panel.
 
 Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok. Works on any page — Jira, GitHub, Reddit, news articles, docs, or anything else. No backend. No accounts. API keys stay on your device.
 
@@ -103,10 +103,10 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 Synto knows where the real content lives — and ignores everything else.
 
-- **Works anywhere:** any web page, from Jira and GitHub to Reddit threads, news articles, and documentation sites
-- **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), and more
-- **Clean Markdown:** strips navigation, footers, ads, and banners via [Turndown](https://github.com/mixmark-io/turndown) + GFM tables/code blocks; diff tables converted to readable `<pre>` blocks
-- **Selection-aware:** highlight any text on the page before opening Synto — only your selection gets sent, not the whole page; perfect for rewriting a single comment or quoting a specific paragraph
+- **Works on any page:** Jira, GitHub, GitLab, Bitbucket, Reddit, Amazon, news articles, docs — if it opens in Chrome, Synto can clip it
+- **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon), and more — always skips nav, footers, ads, and cookie banners
+- **Clean Markdown:** converts HTML to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown); diff tables (Bitbucket, GitLab) converted to readable `<pre>` blocks
+- **Selection-aware:** highlight any text before opening Synto — only that selection is sent, not the whole page; perfect for rewriting one comment or analysing a specific paragraph
 
 ### Integrated Experience
 
@@ -114,7 +114,7 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 - **Multi-model AI:** stream responses from **GPT-4o-mini**, **Gemini 2.0 Flash**, or **Grok-3-mini** directly in the panel, with full follow-up conversation
 - **Live preview:** toggle between the **Content tab** (raw extracted Markdown) and **Prompt tab** (final merged string), with a token counter that warns as you approach model limits
-- **Two outputs:** **Ask** streams the response in-panel; **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or other tools
+- **Two outputs:** **Ask** streams the response in-panel; **Copy Markdown** (or **Copy Prompt** on the Prompt tab) copies to clipboard for Claude, ChatGPT web, or other tools
 
 ### ⌨️ Keyboard Shortcuts
 
@@ -140,11 +140,17 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 2. Open Synto → select **Ticket Analysis**
 3. Click **Ask ChatGPT** for an in-panel analysis, or **Copy Markdown** to paste the prompt into Claude or another tool
 
-### Community: rewrite a Reddit comment
+### Community: make sense of a Reddit thread
 
-1. Highlight the comment text you want to rephrase
-2. Open Synto — it picks up your selection automatically
-3. Select **Rewrite Comment** → click **Ask** → get a cleaner, more professional version
+1. Open any Reddit thread — even a 500-comment debate
+2. Open Synto → select **Structured Brief** or **Decision Brief**
+3. Click **Ask ChatGPT** → get the central question, key positions, and what people actually agree on
+
+### Community: rewrite a specific comment
+
+1. Highlight just the comment you want to rephrase — Synto uses your selection, not the whole page
+2. Open Synto → select **Rewrite Comment**
+3. Click **Ask** → get a cleaner, more professional version ready to post
 
 ### Decision: evaluate a feature request
 
