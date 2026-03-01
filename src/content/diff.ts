@@ -1,9 +1,9 @@
-export function preprocessDiffTables(root) {
+export function preprocessDiffTables(root: HTMLElement): void {
   root.querySelectorAll('table').forEach((table) => {
     if (!looksLikeDiffTable(table)) return;
 
-    const lines = [];
-    table.querySelectorAll('tr').forEach((row) => {
+    const lines: string[] = [];
+    table.querySelectorAll('tr').forEach((row: Element) => {
       const cls = row.className || '';
 
       if (/\b(hunk|expander|bb-udiff-hunk|line-hunk)\b/i.test(cls)) {
@@ -37,7 +37,7 @@ export function preprocessDiffTables(root) {
 }
 
 
-export function looksLikeDiffTable(table) {
+export function looksLikeDiffTable(table: HTMLElement): boolean {
   const rows = Array.from(table.querySelectorAll('tr'));
   if (rows.length < 2) return false;
 
@@ -53,7 +53,7 @@ export function looksLikeDiffTable(table) {
   }
 
   const sample = rows.slice(0, Math.min(6, rows.length));
-  return sample.some((row) =>
+  return sample.some((row: Element) =>
     /\b(addition|deletion|added|removed|context|unchanged|hunk|insert|delete|bb-udiff)\b/i.test(
       row.className || ''
     )

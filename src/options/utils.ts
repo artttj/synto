@@ -1,4 +1,4 @@
-export function escHtml(str) {
+export function escHtml(str: string): string {
   return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')

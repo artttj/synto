@@ -2,17 +2,17 @@
 // Avoids conflicts with real content and is safe in regex character classes.
 const CODE_PLACEHOLDER = '\uE000';
 
-export function renderMarkdown(raw) {
-  const esc = (s) =>
+export function renderMarkdown(raw: string): string {
+  const esc = (s: string): string =>
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  const codeBlocks = [];
+  const codeBlocks: string[] = [];
   const text = esc(raw).replace(/```(?:\w*)\n?([\s\S]*?)```/g, (_, code) => {
     codeBlocks.push(`<pre><code>${code.trimEnd()}</code></pre>`);
     return `${CODE_PLACEHOLDER}CODE${codeBlocks.length - 1}${CODE_PLACEHOLDER}`;
   });
 
-  const inline = (s) =>
+  const inline = (s: string): string =>
     s
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
@@ -21,7 +21,7 @@ export function renderMarkdown(raw) {
       .replace(/_([^_\n]+)_/g, '<em>$1</em>');
 
   const lines = text.split('\n');
-  const out = [];
+  const out: string[] = [];
   let inUl = false;
   let inOl = false;
 

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants.js';
+import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants';
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })

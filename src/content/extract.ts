@@ -1,9 +1,9 @@
-import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors.js';
-import { preprocessDiffTables } from './diff.js';
-import { toMarkdown } from './turndown.js';
+import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors';
+import { preprocessDiffTables } from './diff';
+import { toMarkdown } from './turndown';
 
 
-export function extractContent(mode) {
+export function extractContent(mode: string) {
   if (mode === 'html') {
     return {
       success: true,
@@ -54,16 +54,16 @@ export function captureSelection() {
 function extractBody() {
   const mainEl = findMainContent();
   const root = mainEl ?? document.body;
-  const clone = root.cloneNode(true);
+  const clone = root.cloneNode(true) as HTMLElement;
 
   preprocessDiffTables(clone);
-  clone.querySelectorAll(STRIP_SELECTORS).forEach((el) => el.remove());
+  clone.querySelectorAll(STRIP_SELECTORS).forEach((el: Element) => el.remove());
   let markdown = toMarkdown(clone.innerHTML);
 
   if ((!markdown || markdown.trim().length < 20) && mainEl) {
-    const bodyClone = document.body.cloneNode(true);
+    const bodyClone = document.body.cloneNode(true) as HTMLElement;
     preprocessDiffTables(bodyClone);
-    bodyClone.querySelectorAll(STRIP_SELECTORS).forEach((el) => el.remove());
+    bodyClone.querySelectorAll(STRIP_SELECTORS).forEach((el: Element) => el.remove());
     markdown = toMarkdown(bodyClone.innerHTML);
   }
 

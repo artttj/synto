@@ -1,17 +1,17 @@
-import { MSG } from '../shared/constants.js';
-import { state } from './state.js';
-import { refs } from './dom.js';
-import { setError } from './errors.js';
-import { applyTemplateAndUpdate } from './templates.js';
+import { MSG } from '../shared/constants';
+import { state } from './state';
+import { refs } from './dom';
+import { setError } from './errors';
+import { applyTemplateAndUpdate } from './templates';
 
 
-export function disableActions() {
-  refs.btnCopyMd.disabled = true;
-  refs.btnProcess.disabled = true;
+export function disableActions(): void {
+  refs.btnCopyMd!.disabled = true;
+  refs.btnProcess!.disabled = true;
 }
 
 
-async function sendExtract(tabId) {
+async function sendExtract(tabId: number): Promise<void> {
   const response = await chrome.tabs.sendMessage(tabId, {
     type: MSG.EXTRACT_CONTENT,
     mode: 'markdown',
@@ -25,12 +25,12 @@ async function sendExtract(tabId) {
 }
 
 
-export async function extractContent() {
+export async function extractContent(): Promise<void> {
   setError(null);
   disableActions();
-  refs.previewPanel.classList.add('hidden');
+  refs.previewPanel!.classList.add('hidden');
   state.chatHistory = [];
-  refs.chatInputRow.classList.add('hidden');
+  refs.chatInputRow!.classList.add('hidden');
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -42,21 +42,21 @@ export async function extractContent() {
 
   try {
     await sendExtract(tab.id);
-  } catch (err) {
-    if (err.message?.includes('Receiving end does not exist')) {
-      // Tab was open before the extension loaded — inject content script and retry.
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message?.includes('Receiving end does not exist')) {
       try {
         await chrome.scripting.executeScript({
           target: { tabId: tab.id },
           files: ['content/content.js'],
         });
         await sendExtract(tab.id);
-      } catch (retryErr) {
-        setError(retryErr.message);
+      } catch (retryErr: unknown) {
+        setError(retryErr instanceof Error ? retryErr.message : String(retryErr));
         disableActions();
       }
     } else {
-      setError(err.message);
+      setError(message);
       disableActions();
     }
   }

@@ -6,15 +6,15 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
-} from '../shared/storage.js';
-import { state, getAskLabel } from './state.js';
-import { refs } from './dom.js';
-import { setError } from './errors.js';
-import { setPreviewOpen } from './preview.js';
-import { renderMarkdown } from './markdown.js';
+} from '../shared/storage';
+import { state, getAskLabel } from './state';
+import { refs } from './dom';
+import { setError } from './errors';
+import { setPreviewOpen } from './preview';
+import { renderMarkdown } from './markdown';
 
 
-export function appendBubble(role, text) {
+export function appendBubble(role: string, text: string): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.className = `chat-bubble-wrap ${role}`;
 
@@ -23,13 +23,13 @@ export function appendBubble(role, text) {
   div.textContent = text;
   wrap.appendChild(div);
 
-  refs.chatMessages.appendChild(wrap);
-  refs.chatMessages.scrollTop = refs.chatMessages.scrollHeight;
+  refs.chatMessages!.appendChild(wrap);
+  refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
   return div;
 }
 
 
-function addBubbleCopyButton(bubble, text) {
+function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
   const wrap = bubble.parentElement;
   if (!wrap) return;
 
@@ -54,8 +54,8 @@ function addBubbleCopyButton(bubble, text) {
       await navigator.clipboard.writeText(text);
       btn.classList.add('copy-success');
       setTimeout(() => btn.classList.remove('copy-success'), 2000);
-    } catch (err) {
-      setError(`Copy failed: ${err.message}`);
+    } catch (err: unknown) {
+      setError(`Copy failed: ${err instanceof Error ? err.message : String(err)}`);
     }
   });
 
@@ -63,7 +63,7 @@ function addBubbleCopyButton(bubble, text) {
 }
 
 
-async function streamOpenAICompat(bubble, { url, model, key }) {
+async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: { url: string; model: string; key: string }): Promise<void> {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -83,7 +83,7 @@ async function streamOpenAICompat(bubble, { url, model, key }) {
   }
 
   let reply = '';
-  const reader = response.body.getReader();
+  const reader = response.body!.getReader();
   const decoder = new TextDecoder();
 
   while (true) {
@@ -99,7 +99,7 @@ async function streamOpenAICompat(bubble, { url, model, key }) {
         const delta = JSON.parse(data).choices?.[0]?.delta?.content ?? '';
         reply += delta;
         bubble.textContent = reply;
-        refs.chatMessages.scrollTop = refs.chatMessages.scrollHeight;
+        refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
       } catch {
         /* partial chunk */
       }
@@ -113,7 +113,7 @@ async function streamOpenAICompat(bubble, { url, model, key }) {
 }
 
 
-async function processWithOpenAI(bubble) {
+async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
   const key = await getOpenAIKey();
   if (!key) throw new Error('No OpenAI API key. Add it in Options.');
   await streamOpenAICompat(bubble, {
@@ -124,7 +124,7 @@ async function processWithOpenAI(bubble) {
 }
 
 
-async function processWithGemini(bubble) {
+async function processWithGemini(bubble: HTMLDivElement): Promise<void> {
   const key = await getGeminiKey();
   if (!key) throw new Error('No Gemini API key. Add it in Options.');
   await streamOpenAICompat(bubble, {
@@ -135,7 +135,7 @@ async function processWithGemini(bubble) {
 }
 
 
-async function processWithGrok(bubble) {
+async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
   const key = await getGrokKey();
   if (!key) throw new Error('No Grok API key. Add it in Options.');
   await streamOpenAICompat(bubble, {
@@ -146,31 +146,31 @@ async function processWithGrok(bubble) {
 }
 
 
-export async function processWithAI() {
+export async function processWithAI(): Promise<void> {
   if (!state.finalText || state.chatStreaming) return;
 
-  refs.chatPanel.classList.remove('hidden');
+  refs.chatPanel!.classList.remove('hidden');
   setPreviewOpen(false);
 
-  const keyGetters = {
+  const keyGetters: Record<string, () => Promise<string>> = {
     openai: getOpenAIKey,
     gemini: getGeminiKey,
     grok: getGrokKey,
   };
   const key = await keyGetters[state.llmProvider]?.();
   if (!key) {
-    refs.chatNoKey.classList.remove('hidden');
+    refs.chatNoKey!.classList.remove('hidden');
     return;
   }
-  refs.chatNoKey.classList.add('hidden');
+  refs.chatNoKey!.classList.add('hidden');
   state.chatHistory.push({ role: 'user', content: state.finalText });
 
   const bubble = appendBubble('assistant', '');
   bubble.classList.add('streaming');
   state.chatStreaming = true;
-  refs.btnProcess.disabled = true;
-  refs.btnProcess.textContent = 'Asking…';
-  refs.btnProcess.classList.add('loading');
+  refs.btnProcess!.disabled = true;
+  refs.btnProcess!.textContent = 'Asking…';
+  refs.btnProcess!.classList.add('loading');
 
   try {
     if (state.llmProvider === 'gemini') {
@@ -180,33 +180,33 @@ export async function processWithAI() {
     } else {
       await processWithOpenAI(bubble);
     }
-    refs.chatInputRow.classList.remove('hidden');
-  } catch (err) {
+    refs.chatInputRow!.classList.remove('hidden');
+  } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
     state.chatHistory.pop();
-    appendBubble('error', `Error: ${err.message}`);
+    appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
   } finally {
     state.chatStreaming = false;
-    refs.btnProcess.disabled = false;
-    refs.btnProcess.textContent = getAskLabel();
-    refs.btnProcess.classList.remove('loading');
+    refs.btnProcess!.disabled = false;
+    refs.btnProcess!.textContent = getAskLabel();
+    refs.btnProcess!.classList.remove('loading');
     bubble.classList.remove('streaming');
   }
 }
 
 
-function autoResize(el) {
+function autoResize(el: HTMLTextAreaElement): void {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 120) + 'px';
 }
 
 
-export async function sendFollowUp() {
-  const text = refs.chatInput.value.trim();
+export async function sendFollowUp(): Promise<void> {
+  const text = refs.chatInput!.value.trim();
   if (!text || state.chatStreaming) return;
 
-  refs.chatInput.value = '';
-  autoResize(refs.chatInput);
+  refs.chatInput!.value = '';
+  autoResize(refs.chatInput!);
 
   appendBubble('user', text);
   state.chatHistory.push({ role: 'user', content: text });
@@ -214,8 +214,8 @@ export async function sendFollowUp() {
   const bubble = appendBubble('assistant', '');
   bubble.classList.add('streaming');
   state.chatStreaming = true;
-  refs.btnChatSend.disabled = true;
-  refs.btnProcess.disabled = true;
+  refs.btnChatSend!.disabled = true;
+  refs.btnProcess!.disabled = true;
 
   try {
     if (state.llmProvider === 'gemini') {
@@ -225,16 +225,16 @@ export async function sendFollowUp() {
     } else {
       await processWithOpenAI(bubble);
     }
-  } catch (err) {
+  } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
     state.chatHistory.pop();
-    appendBubble('error', `Error: ${err.message}`);
+    appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
   } finally {
     state.chatStreaming = false;
-    refs.btnChatSend.disabled = false;
-    refs.btnProcess.disabled = false;
+    refs.btnChatSend!.disabled = false;
+    refs.btnProcess!.disabled = false;
     bubble.classList.remove('streaming');
-    refs.chatInput.focus();
+    refs.chatInput!.focus();
   }
 }
 
@@ -242,19 +242,19 @@ export async function sendFollowUp() {
 /**
  * Wire chat UI: process button, input, send button. Call once after DOM ready.
  */
-export function wireChat() {
-  refs.btnProcess.addEventListener('click', processWithAI);
+export function wireChat(): void {
+  refs.btnProcess!.addEventListener('click', processWithAI);
 
-  refs.chatInput.addEventListener('input', () => {
-    autoResize(refs.chatInput);
+  refs.chatInput!.addEventListener('input', () => {
+    autoResize(refs.chatInput!);
   });
 
-  refs.chatInput.addEventListener('keydown', (e) => {
+  refs.chatInput!.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendFollowUp();
     }
   });
 
-  refs.btnChatSend.addEventListener('click', sendFollowUp);
+  refs.btnChatSend!.addEventListener('click', sendFollowUp);
 }

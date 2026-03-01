@@ -1,11 +1,11 @@
-import { TEMPLATE_CATEGORIES } from '../shared/constants.js';
-import { saveSettings } from '../shared/storage.js';
-import { state } from './state.js';
-import { refs } from './dom.js';
-import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview.js';
+import { TEMPLATE_CATEGORIES } from '../shared/constants';
+import { Template, saveSettings } from '../shared/storage';
+import { state, ExtractedContent } from './state';
+import { refs } from './dom';
+import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
 
 
-export function applyTemplate(extracted, templateId) {
+export function applyTemplate(extracted: ExtractedContent, templateId: string | null): string {
   const template = state.templates.find((t) => t.id === templateId);
   if (!template || !extracted) return '';
 
@@ -21,26 +21,26 @@ export function applyTemplate(extracted, templateId) {
 }
 
 
-export function applyTemplateAndUpdate() {
+export function applyTemplateAndUpdate(): void {
   if (!state.extracted) return;
 
   state.finalText = applyTemplate(state.extracted, state.selectedTemplateId);
   updateTokenDisplay(state.finalText);
-  refs.btnCopyMd.disabled = false;
-  refs.btnProcess.disabled = false;
+  refs.btnCopyMd!.disabled = false;
+  refs.btnProcess!.disabled = false;
   updatePreviewText();
 
-  if (refs.previewPanel.classList.contains('hidden')) {
-    refs.previewPanel.classList.remove('hidden');
+  if (refs.previewPanel!.classList.contains('hidden')) {
+    refs.previewPanel!.classList.remove('hidden');
     setPreviewOpen(true);
   }
 }
 
 
-export function renderTemplateSelect() {
-  refs.templateSelect.innerHTML = '';
+export function renderTemplateSelect(): void {
+  refs.templateSelect!.innerHTML = '';
 
-  const grouped = {};
+  const grouped: Record<string, Template[]> = {};
   for (const cat of TEMPLATE_CATEGORIES) {
     grouped[cat] = [];
   }
@@ -63,7 +63,7 @@ export function renderTemplateSelect() {
       if (t.id === state.selectedTemplateId) opt.selected = true;
       group.appendChild(opt);
     });
-    refs.templateSelect.appendChild(group);
+    refs.templateSelect!.appendChild(group);
   }
 
   const knownIds = new Set(
@@ -83,14 +83,14 @@ export function renderTemplateSelect() {
       if (t.id === state.selectedTemplateId) opt.selected = true;
       group.appendChild(opt);
     });
-    refs.templateSelect.appendChild(group);
+    refs.templateSelect!.appendChild(group);
   }
 }
 
 
-export function wireTemplateSelect() {
-  refs.templateSelect.addEventListener('change', async () => {
-    state.selectedTemplateId = refs.templateSelect.value;
+export function wireTemplateSelect(): void {
+  refs.templateSelect!.addEventListener('change', async () => {
+    state.selectedTemplateId = refs.templateSelect!.value;
     await saveSettings({ defaultTemplateId: state.selectedTemplateId });
     applyTemplateAndUpdate();
   });

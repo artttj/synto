@@ -1,35 +1,35 @@
-import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants.js';
-import { saveTemplates } from '../shared/storage.js';
-import { state } from './state.js';
-import { refs } from './dom.js';
-import { escHtml } from './utils.js';
-import { renderDefaultTemplateSelect } from './settings.js';
+import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants';
+import { saveTemplates, Template } from '../shared/storage';
+import { state } from './state';
+import { refs } from './dom';
+import { escHtml } from './utils';
+import { renderDefaultTemplateSelect } from './settings';
 
 
-export function openModal(templateId) {
+export function openModal(templateId: string | null): void {
   state.editingId = templateId;
   const t = templateId
     ? state.templates.find((x) => x.id === templateId)
     : null;
 
-  refs.modalTitle.textContent = t ? 'Edit Template' : 'New Template';
-  refs.modalName.value = t?.name ?? '';
-  refs.modalPrompt.value = t?.prompt ?? '{content}';
-  refs.modalOverlay.classList.remove('hidden');
-  refs.modalName.focus();
+  refs.modalTitle!.textContent = t ? 'Edit Template' : 'New Template';
+  refs.modalName!.value = t?.name ?? '';
+  refs.modalPrompt!.value = t?.prompt ?? '{content}';
+  refs.modalOverlay!.classList.remove('hidden');
+  refs.modalName!.focus();
 }
 
 
-export function closeModal() {
-  refs.modalOverlay.classList.add('hidden');
+export function closeModal(): void {
+  refs.modalOverlay!.classList.add('hidden');
   state.editingId = null;
 }
 
 
-export function renderTemplateList() {
-  refs.templateList.innerHTML = '';
+export function renderTemplateList(): void {
+  refs.templateList!.innerHTML = '';
   const q = state.searchQuery.toLowerCase();
-  const grouped = {};
+  const grouped: Record<string, Template[]> = {};
 
   for (const cat of TEMPLATE_CATEGORIES) {
     grouped[cat] = [];
@@ -103,7 +103,7 @@ export function renderTemplateList() {
 
     section.appendChild(toggle);
     section.appendChild(items);
-    refs.templateList.appendChild(section);
+    refs.templateList!.appendChild(section);
   });
 
   if (totalShown === 0) {
@@ -112,23 +112,23 @@ export function renderTemplateList() {
     empty.textContent = q
       ? `No templates matching "${q}"`
       : 'No templates yet.';
-    refs.templateList.appendChild(empty);
+    refs.templateList!.appendChild(empty);
   }
 
-  refs.templateList.querySelectorAll('.btn-edit').forEach((btn) => {
+  refs.templateList!.querySelectorAll('.btn-edit').forEach((btn) => {
     btn.addEventListener('click', () => {
-      openModal(btn.dataset.id);
+      openModal((btn as HTMLElement).dataset.id!);
     });
   });
-  refs.templateList.querySelectorAll('.btn-delete').forEach((btn) => {
+  refs.templateList!.querySelectorAll('.btn-delete').forEach((btn) => {
     btn.addEventListener('click', () => {
-      deleteTemplate(btn.dataset.id);
+      deleteTemplate((btn as HTMLElement).dataset.id!);
     });
   });
 }
 
 
-export async function deleteTemplate(id) {
+export async function deleteTemplate(id: string): Promise<void> {
   if (!confirm('Delete this template?')) return;
 
   state.templates = state.templates.filter((t) => t.id !== id);
@@ -138,18 +138,18 @@ export async function deleteTemplate(id) {
 }
 
 
-export function wireTemplateList() {
-  refs.templateSearch.addEventListener('input', (e) => {
-    state.searchQuery = e.target.value.trim();
+export function wireTemplateList(): void {
+  refs.templateSearch!.addEventListener('input', (e) => {
+    state.searchQuery = (e.target as HTMLInputElement).value.trim();
     renderTemplateList();
   });
 
-  refs.btnNewTemplate.addEventListener('click', () => {
+  refs.btnNewTemplate!.addEventListener('click', () => {
     openModal(null);
   });
-  refs.modalCancel.addEventListener('click', closeModal);
-  refs.modalClose.addEventListener('click', closeModal);
-  refs.modalOverlay.addEventListener('click', (e) => {
+  refs.modalCancel!.addEventListener('click', closeModal);
+  refs.modalClose!.addEventListener('click', closeModal);
+  refs.modalOverlay!.addEventListener('click', (e) => {
     if (e.target === refs.modalOverlay) {
       closeModal();
     }
@@ -162,26 +162,26 @@ export function wireTemplateList() {
 
   document.querySelectorAll('.chip').forEach((chip) => {
     chip.addEventListener('click', () => {
-      const ph = chip.dataset.placeholder;
-      const start = refs.modalPrompt.selectionStart;
-      const end = refs.modalPrompt.selectionEnd;
-      const val = refs.modalPrompt.value;
-      refs.modalPrompt.value = val.slice(0, start) + ph + val.slice(end);
-      refs.modalPrompt.focus();
-      refs.modalPrompt.setSelectionRange(start + ph.length, start + ph.length);
+      const ph = (chip as HTMLElement).dataset.placeholder;
+      const start = refs.modalPrompt!.selectionStart;
+      const end = refs.modalPrompt!.selectionEnd;
+      const val = refs.modalPrompt!.value;
+      refs.modalPrompt!.value = val.slice(0, start) + ph + val.slice(end);
+      refs.modalPrompt!.focus();
+      refs.modalPrompt!.setSelectionRange(start + ph!.length, start + ph!.length);
     });
   });
 
-  refs.modalSave.addEventListener('click', async () => {
-    const name = refs.modalName.value.trim();
-    const prompt = refs.modalPrompt.value.trim();
+  refs.modalSave!.addEventListener('click', async () => {
+    const name = refs.modalName!.value.trim();
+    const prompt = refs.modalPrompt!.value.trim();
 
     if (!name) {
-      refs.modalName.focus();
+      refs.modalName!.focus();
       return;
     }
     if (!prompt) {
-      refs.modalPrompt.focus();
+      refs.modalPrompt!.focus();
       return;
     }
 

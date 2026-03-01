@@ -290,12 +290,12 @@ export const TOKEN_THRESHOLDS = {
 };
 
 
-export function estimateTokens(text) {
+export function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4); // ~4 chars per token
 }
 
 
-export function tokenColorClass(tokens) {
+export function tokenColorClass(tokens: number): string {
   if (tokens < TOKEN_THRESHOLDS.GREEN) {
     return 'green';
   }

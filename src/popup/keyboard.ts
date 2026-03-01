@@ -1,4 +1,4 @@
-import { refs } from './dom.js';
+import { refs } from './dom';
 
 export function wireKeyboard() {
   document.addEventListener('keydown', (e) => {
@@ -6,12 +6,12 @@ export function wireKeyboard() {
 
     if (e.key === 'C') {
       e.preventDefault();
-      if (!refs.btnCopyMd.disabled) refs.btnCopyMd.click();
+      if (!refs.btnCopyMd!.disabled) refs.btnCopyMd!.click();
     }
 
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (!refs.btnProcess.disabled) refs.btnProcess.click();
+      if (!refs.btnProcess!.disabled) refs.btnProcess!.click();
     }
   });
 }

@@ -6,15 +6,20 @@
   "author": "Artem Iagovdik <artyom.yagovdik@gmail.com> (https://github.com/artttj)",
   "repository": "github.com/artttj/synto",
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "node scripts/build.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "@types/chrome": "^0.1.37",
+    "@types/turndown": "^5.0.6",
     "esbuild": "^0.24.0",
     "eslint": "^9.15.0",
-    "globals": "^15.12.0"
+    "globals": "^15.12.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
   },
   "dependencies": {
     "turndown": "^7.2.2",

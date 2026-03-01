@@ -90,25 +90,25 @@ async function main() {
   await Promise.all([
     esbuild.build({
       ...commonOpts,
-      entryPoints: [path.join(src, 'popup', 'popup.js')],
+      entryPoints: [path.join(src, 'popup', 'popup.ts')],
       format: 'iife',
       outfile: path.join(dist, 'popup', 'popup.js'),
     }),
     esbuild.build({
       ...commonOpts,
-      entryPoints: [path.join(src, 'options', 'options.js')],
+      entryPoints: [path.join(src, 'options', 'options.ts')],
       format: 'iife',
       outfile: path.join(dist, 'options', 'options.js'),
     }),
     esbuild.build({
       ...commonOpts,
-      entryPoints: [path.join(src, 'background', 'service-worker.js')],
+      entryPoints: [path.join(src, 'background', 'service-worker.ts')],
       format: 'esm',
       outfile: path.join(dist, 'background', 'service-worker.js'),
     }),
     esbuild.build({
       ...commonOpts,
-      entryPoints: [path.join(src, 'content', 'main.js')],
+      entryPoints: [path.join(src, 'content', 'main.ts')],
       format: 'iife',
       outfile: path.join(dist, 'content', 'content.js'),
     }),

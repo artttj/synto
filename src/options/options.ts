@@ -1,4 +1,4 @@
-import { getTemplates, getSettings } from '../shared/storage.js';
+import { getTemplates, getSettings } from '../shared/storage';
 import {
   getOpenAIKey,
   saveOpenAIKey,
@@ -6,22 +6,22 @@ import {
   saveGeminiKey,
   getGrokKey,
   saveGrokKey,
-} from '../shared/storage.js';
-import { resolveRefs, refs } from './dom.js';
-import { state } from './state.js';
+} from '../shared/storage';
+import { resolveRefs, refs } from './dom';
+import { state } from './state';
 import {
   applyTheme,
   renderSettingsForm,
   wireSettingsSave,
-} from './settings.js';
-import { loadApiKeyStatuses, wireKeySection } from './keys.js';
+} from './settings';
+import { loadApiKeyStatuses, wireKeySection } from './keys';
 import {
   renderTemplateList,
   wireTemplateList,
-} from './templateList.js';
+} from './templateList';
 
 
-async function init() {
+async function init(): Promise<void> {
   resolveRefs();
 
   const [templates, settings] = await Promise.all([
@@ -78,16 +78,17 @@ async function init() {
         p.classList.add('hidden');
       });
       btn.classList.add('active');
-      document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
-      refs.btnNewTemplate.classList.toggle(
+      const tab = (btn as HTMLElement).dataset.tab;
+      document.getElementById(`tab-${tab}`)!.classList.remove('hidden');
+      refs.btnNewTemplate!.classList.toggle(
         'hidden',
-        btn.dataset.tab !== 'prompt-library'
+        tab !== 'prompt-library'
       );
     });
   });
 }
 
 
-init().catch((err) => {
-  console.error('[Synto] Init failed:', err);
+init().catch((err: unknown) => {
+  console.error('[Synto] Init failed:', err instanceof Error ? err.message : String(err));
 });

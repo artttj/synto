@@ -2,11 +2,11 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
-} from '../shared/storage.js';
-import { refs } from './dom.js';
+} from '../shared/storage';
+import { refs } from './dom';
 
 
-function flash(el) {
+function flash(el: HTMLElement): void {
   el.classList.remove('hidden');
   setTimeout(() => {
     el.classList.add('hidden');
@@ -14,7 +14,7 @@ function flash(el) {
 }
 
 
-function setBadge(id, connected) {
+function setBadge(id: string, connected: boolean): void {
   const badge = document.getElementById(id);
   if (!badge) return;
 
@@ -23,7 +23,7 @@ function setBadge(id, connected) {
 }
 
 
-export async function loadApiKeyStatuses() {
+export async function loadApiKeyStatuses(): Promise<void> {
   const [oaiKey, gemKey, grkKey] = await Promise.all([
     getOpenAIKey(),
     getGeminiKey(),
@@ -33,12 +33,22 @@ export async function loadApiKeyStatuses() {
   setBadge('badge-openai', !!oaiKey);
   setBadge('badge-gemini', !!gemKey);
   setBadge('badge-grok', !!grkKey);
-  refs.navAiWarning.classList.toggle(
+  refs.navAiWarning!.classList.toggle(
     'hidden',
     !!(oaiKey && gemKey && grkKey)
   );
 }
 
+
+interface KeySectionConfig {
+  inputId: string;
+  toggleId: string;
+  saveId: string;
+  clearId: string;
+  savedId: string;
+  getKey: () => Promise<string>;
+  saveKey: (key: string) => Promise<void>;
+}
 
 export function wireKeySection({
   inputId,
@@ -48,14 +58,14 @@ export function wireKeySection({
   savedId,
   getKey,
   saveKey,
-}) {
-  const inputEl = document.getElementById(inputId);
-  const toggleEl = document.getElementById(toggleId);
-  const saveEl = document.getElementById(saveId);
-  const clearEl = document.getElementById(clearId);
-  const savedEl = document.getElementById(savedId);
+}: KeySectionConfig): void {
+  const inputEl = document.getElementById(inputId) as HTMLInputElement;
+  const toggleEl = document.getElementById(toggleId)!;
+  const saveEl = document.getElementById(saveId)!;
+  const clearEl = document.getElementById(clearId)!;
+  const savedEl = document.getElementById(savedId)!;
 
-  getKey().then((k) => {
+  getKey().then((k: string) => {
     if (k) {
       inputEl.value = k;
     }
@@ -68,13 +78,13 @@ export function wireKeySection({
   saveEl.addEventListener('click', async () => {
     await saveKey(inputEl.value.trim());
     await loadApiKeyStatuses();
-    flash(savedEl);
+    flash(savedEl as HTMLElement);
   });
 
   clearEl.addEventListener('click', async () => {
     inputEl.value = '';
     await saveKey('');
     await loadApiKeyStatuses();
-    flash(savedEl);
+    flash(savedEl as HTMLElement);
   });
 }
