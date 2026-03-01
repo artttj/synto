@@ -28,7 +28,6 @@ export const STRIP_SELECTORS = [
   "[id*='hubspot']", "[class*='chat-widget']",
   '#navFooter', '#rhf', '#nav-belt', '#nav-top',
   "[id*='-sims-']", '.a-carousel-container',
-  "[data-component-type='s-search-results']",
   '#related', '#secondary',
   '.pull-request-overview', "[data-qa='pr-sidebar']", "[data-testid='pullrequest-sidebar']",
   '.diff-tree-list', '.review-bar-component',
