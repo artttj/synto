@@ -1,8 +1,8 @@
 # <img src="docs/icon128.png" width="36" alt="" valign="middle" /> Synto
 
-Turn messy tickets, PRs, Reddit threads, and docs into structured AI briefs — in one click, from a Chrome side panel.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Latest release](https://img.shields.io/github/v/release/artttj/synto)](https://github.com/artttj/synto/releases/latest)
 
-Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok. Works on any page — Jira, GitHub, Reddit, news articles, docs, or anything else. No backend. No accounts. API keys stay on your device.
+Clip any web page to clean Markdown, pick a prompt template, and ask ChatGPT, Gemini, or Grok — all from a Chrome side panel. Works on Jira, GitHub, Reddit, Amazon, and any page you can open. No backend. No accounts. API keys stay on your device.
 
 <table>
   <tr>
@@ -15,7 +15,7 @@ Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, G
   </tr>
 </table>
 
-> Templates are fully customizable! Your imagination is the only limit.
+> Templates are fully customizable — your imagination is the only limit.
 
 ---
 
@@ -48,19 +48,19 @@ Built for **engineers, PMs, and founders** who are tired of the copy-paste-summa
 
 ## Why Synto?
 
-- **Works on any page** — Jira, GitHub, GitLab, Bitbucket, Reddit threads, news articles, documentation, or any web page you can open in Chrome
-- **Templates by intent** — structured prompts for analysis, decisions, and action items, with full support for your own custom prompts
-- **Selection-aware** — highlight just the text you care about before opening the panel; Synto uses your selection instead of the whole page
-- **Multi-AI support** — ChatGPT, Gemini, and Grok in one place, switchable in seconds
-- **Lightweight and transparent** — no background processes, no telemetry, no surprises; [open source on GitHub](https://github.com/artttj/synto)
+- **Works on any page** — Jira, GitHub, GitLab, Bitbucket, Reddit, news articles, docs, or any page you can open in Chrome
+- **Templates by intent** — structured prompts for analysis, decisions, and action items; fully customizable
+- **Selection-aware** — highlight just the text you care about; Synto sends that instead of the whole page
+- **Multi-AI** — ChatGPT, Gemini, and Grok in one panel, switchable in seconds
+- **Lightweight and transparent** — no background processes, no telemetry, no surprises; [open source](https://github.com/artttj/synto)
 
 ---
 
 ## Before & After
 
-**Without Synto:** Copy a 200-comment Jira ticket, paste it into ChatGPT, type "summarize this", and get a generic paragraph that misses the technical nuances.
+**Without Synto:** Copy a 200-comment Jira ticket, paste into ChatGPT, type "summarize this", get a generic paragraph that misses the technical nuances.
 
-**With Synto:** Open the side panel, select **Ticket Analysis**, click **Ask ChatGPT**, and get a structured brief streamed in seconds:
+**With Synto:** Open the side panel → **Ticket Analysis** → **Ask ChatGPT** → structured brief in seconds:
 
 ```
 ## Summary
@@ -80,22 +80,22 @@ Auth service timeout caused by Redis connection pool exhaustion.
 2. @devops: Check current Redis maxclients value.
 ```
 
-**Ask ChatGPT / Gemini / Grok** streams the response in the panel. **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or any other tool you already use.
+**Ask** streams the response in-panel. **Copy Markdown** copies the prompt to clipboard for Claude, ChatGPT web, or any other tool.
 
 ---
 
 ## Template Library
 
-11 built-in templates grouped by intent. Every template supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders — and you can write any prompt you can imagine in **Options → Templates**.
+11 built-in templates, grouped by intent. Every template supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
 
 | Category | Templates | Purpose |
 | --- | --- | --- |
-| **Understand** | Structured Brief, Ticket Analysis, PR Review | Identify key points, conclusions, and technical risks. |
-| **Decide** | Decision Brief, Feature Request Analysis | Weigh trade-offs and define a recommendation. |
-| **Act** | Extract Actions, Risks & Blockers, Smart Choice | Turn discussions into tasks and surface blockers. |
-| **Compose** | Draft Reply, Rewrite Comment, Email Helper | Generate professional responses or polished rewrites. |
+| **Understand** | Structured Brief · Ticket Analysis · PR Review | Surface key points, conclusions, and technical risks |
+| **Decide** | Decision Brief · Feature Request Analysis | Weigh trade-offs and define a recommendation |
+| **Act** | Extract Actions · Risks & Blockers · Smart Choice | Turn discussions into tasks and surface blockers |
+| **Compose** | Draft Reply · Rewrite Comment · Email Helper | Generate professional responses or polished rewrites |
 
-> **Custom templates:** write any prompt for any purpose — summarising research papers, drafting social posts, extracting recipes, analysing Reddit debates, rewriting a comment you highlighted — whatever your workflow needs.
+> **Custom templates:** write any prompt for any purpose — summarising research papers, drafting social posts, extracting recipes, analysing Reddit debates, rewriting a highlighted comment. Edit in **Options → Templates**.
 
 ---
 
@@ -103,21 +103,21 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 ### Smart Extraction
 
-Synto knows where the real content lives — and ignores everything else.
+Synto targets the real content and ignores everything else.
 
-- **Works on any page:** Jira, GitHub, GitLab, Bitbucket, Reddit, Amazon, news articles, docs — if it opens in Chrome, Synto can clip it
-- **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon), and more — always skips nav, footers, ads, and cookie banners
-- **Clean Markdown:** converts HTML to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown); diff tables (Bitbucket, GitLab) converted to readable `<pre>` blocks
-- **Selection-aware:** highlight any text before opening Synto — only that selection is sent, not the whole page; perfect for rewriting one comment or analysing a specific paragraph
-- **Clips what's visible:** Synto reads the live DOM — what you see is what gets clipped. Scroll through the page first to make sure all content has loaded, especially on long PRs, infinite-scroll feeds, or lazy-loaded threads
+- **Any page** — Jira, GitHub, GitLab, Bitbucket, Reddit, Amazon, news, docs; if it opens in Chrome, Synto clips it
+- **Semantic selectors** — targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon); skips nav, footers, ads, and banners
+- **Clean Markdown** — converts HTML to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown); diff tables rendered as readable `<pre>` blocks
+- **Selection-aware** — highlight any text before opening Synto; only that selection is sent
+- **Clips what's visible** — reads the live DOM; scroll to load lazy content before clipping
 
 ### Integrated Experience
 
-Everything happens in a persistent side panel — no tab switching, no lost context.
+Everything stays in a persistent side panel — no tab switching, no lost context.
 
-- **Multi-model AI:** stream responses from **GPT-4o-mini**, **Gemini 2.0 Flash**, or **Grok-3-mini** directly in the panel, with full follow-up conversation
-- **Live preview:** toggle between the **Content tab** (raw extracted Markdown) and **Prompt tab** (final merged string), with a token counter that warns as you approach model limits
-- **Two outputs:** **Ask** streams the response in-panel; **Copy Markdown** (or **Copy Prompt** on the Prompt tab) copies to clipboard for Claude, ChatGPT web, or other tools
+- **Multi-model** — stream responses from GPT-4o-mini, Gemini 2.0 Flash, or Grok-3-mini with full follow-up conversation
+- **Live preview** — toggle between the **Content tab** (extracted Markdown) and **Prompt tab** (final merged string); token counter warns as you approach model limits
+- **Two output modes** — **Ask** streams in-panel; **Copy Markdown** (or **Copy Prompt**) sends to clipboard for Claude, ChatGPT web, or any other tool
 
 ### ⌨️ Keyboard Shortcuts
 
@@ -161,31 +161,25 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 
 ## 🔒 Privacy & Data
 
-- **Local only:** API keys are stored in `chrome.storage.local` — never synced, never sent to any external server
-- **Direct connection:** page content goes straight from your browser to the AI provider; Synto has no visibility into it
-- **Zero tracking:** no analytics, no telemetry, no accounts
-- **Open source:** every line of code is [readable on GitHub](https://github.com/artttj/synto) — no black boxes
+- **Local only** — API keys stored in `chrome.storage.local`; never synced, never sent to any server
+- **Direct connection** — page content goes straight from your browser to the AI provider; Synto never sees it
+- **Zero tracking** — no analytics, no telemetry, no accounts
+- **Open source** — every line of code is [readable on GitHub](https://github.com/artttj/synto)
 
-Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/) · [Google AI](https://ai.google.dev/gemini-api/terms) · [xAI](https://x.ai/legal/privacy-policy/)
+Provider policies: [OpenAI](https://openai.com/policies/privacy-policy/) · [Google AI](https://ai.google.dev/gemini-api/terms) · [xAI](https://x.ai/legal/privacy-policy/)
 
 ---
 
 ## Setup
-
-### No-build install
-
-1. [📦 Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
-2. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `synto/` folder
-3. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
 
 ### Build from source
 
 1. `git clone https://github.com/artttj/synto.git && cd synto`
 2. `npm install && npm run build`
 3. Open `chrome://extensions` → enable **Developer mode** → **Load unpacked** → select the `dist/` folder
-4. Click the **Synto** icon → gear icon ⚙️ → **AI Connections** → paste your API key → **Save**
+4. Click the **Synto** icon → ⚙️ **AI Connections** → paste your API key → **Save**
 
-> **Tip:** Make sure you selected the `dist/` folder (the build output), not the project root. When installing from the release zip, select the `synto/` folder instead.
+> Select the `dist/` folder (build output), not the project root.
 
 ### API Keys
 
