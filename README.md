@@ -2,7 +2,7 @@
 
 Turn messy tickets, PRs, and docs into structured AI briefs — in one click, from a Chrome side panel.
 
-Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok. No backend. No accounts. API keys stay on your device.
+Clip any page to clean Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok. Works on any page — Jira, GitHub, Reddit, news articles, docs, or anything else. No backend. No accounts. API keys stay on your device.
 
 <table>
   <tr>
@@ -46,10 +46,11 @@ Built for **engineers, PMs, and founders** who are tired of the copy-paste-summa
 
 ## Why Synto?
 
-- **Context-aware extraction** — tuned for Jira, GitHub, GitLab, and Bitbucket
-- **Templates by intent** — structured prompts for analysis, decisions, and action items
-- **Multi-AI support** — ChatGPT, Gemini, and Grok in one place
-- **Fully client-side** — no backend, no tracking; API keys never leave your device
+- **Works on any page** — Jira, GitHub, GitLab, Bitbucket, Reddit threads, news articles, documentation, or any web page you can open in Chrome
+- **Templates by intent** — structured prompts for analysis, decisions, and action items, with full support for your own custom prompts
+- **Selection-aware** — highlight just the text you care about before opening the panel; Synto uses your selection instead of the whole page
+- **Multi-AI support** — ChatGPT, Gemini, and Grok in one place, switchable in seconds
+- **Lightweight and transparent** — no background processes, no telemetry, no surprises; [open source on GitHub](https://github.com/artttj/synto)
 
 ---
 
@@ -83,7 +84,7 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 ## Template Library
 
-Templates are grouped by intent and support `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
+11 built-in templates grouped by intent. Every template supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders — and you can write any prompt you can imagine in **Options → Templates**.
 
 | Category | Templates | Purpose |
 | --- | --- | --- |
@@ -92,7 +93,7 @@ Templates are grouped by intent and support `{content}`, `{selection}`, `{title}
 | **Act** | Extract Actions, Risks & Blockers, Smart Choice | Turn discussions into tasks and surface blockers. |
 | **Compose** | Draft Reply, Rewrite Comment, Email Helper | Generate professional responses or polished rewrites. |
 
-*Custom templates can be added in the **Options** menu.*
+> **Custom templates:** write any prompt for any purpose — summarising research papers, drafting social posts, extracting recipes, analysing Reddit debates, rewriting a comment you highlighted — whatever your workflow needs.
 
 ---
 
@@ -100,11 +101,12 @@ Templates are grouped by intent and support `{content}`, `{selection}`, `{title}
 
 ### Smart Extraction
 
-Synto knows where the real content lives on Jira, GitHub, GitLab, and more.
+Synto knows where the real content lives — and ignores everything else.
 
+- **Works anywhere:** any web page, from Jira and GitHub to Reddit threads, news articles, and documentation sites
 - **Semantic focus:** targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), and more
 - **Clean Markdown:** strips navigation, footers, ads, and banners via [Turndown](https://github.com/mixmark-io/turndown) + GFM tables/code blocks; diff tables converted to readable `<pre>` blocks
-- **Selection awareness:** highlight text before opening the panel and Synto uses that as `{selection}`
+- **Selection-aware:** highlight any text on the page before opening Synto — only your selection gets sent, not the whole page; perfect for rewriting a single comment or quoting a specific paragraph
 
 ### Integrated Experience
 
@@ -138,6 +140,12 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 2. Open Synto → select **Ticket Analysis**
 3. Click **Ask ChatGPT** for an in-panel analysis, or **Copy Markdown** to paste the prompt into Claude or another tool
 
+### Community: rewrite a Reddit comment
+
+1. Highlight the comment text you want to rephrase
+2. Open Synto — it picks up your selection automatically
+3. Select **Rewrite Comment** → click **Ask** → get a cleaner, more professional version
+
 ### Decision: evaluate a feature request
 
 1. Open the GitHub issue or internal doc
@@ -151,6 +159,7 @@ Everything happens in a persistent side panel — no tab switching, no lost cont
 - **Local only:** API keys are stored in `chrome.storage.local` — never synced, never sent to any external server
 - **Direct connection:** page content goes straight from your browser to the AI provider; Synto has no visibility into it
 - **Zero tracking:** no analytics, no telemetry, no accounts
+- **Open source:** every line of code is [readable on GitHub](https://github.com/artttj/synto) — no black boxes
 
 Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/) · [Google AI](https://ai.google.dev/gemini-api/terms) · [xAI](https://x.ai/legal/privacy-policy/)
 
