@@ -217,13 +217,10 @@ header {
   flex: 1;
   display: flex;
   gap: 1px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
 }
-.template-cards::-webkit-scrollbar { display: none; }
 
 .template-card {
-  flex: 1;
   padding: 4px 12px;
   border: none;
   background: none;

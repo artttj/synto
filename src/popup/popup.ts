@@ -10,6 +10,7 @@ import {
   getGeminiKey,
   getGrokKey,
 } from '../shared/storage';
+import { STORAGE_KEYS } from '../shared/constants';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
@@ -63,7 +64,13 @@ async function init(): Promise<void> {
     if (changeInfo.status === 'complete' && tab.active) void extractContent();
   });
 
-  chrome.storage.onChanged.addListener((changes) => {
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes[STORAGE_KEYS.TEMPLATES]) {
+      void getTemplates().then((templates) => {
+        state.templates = templates;
+        renderTemplateUI();
+      });
+    }
     if (changes['llmProvider'] && !state.chatStreaming) {
       state.llmProvider = String(changes['llmProvider'].newValue ?? 'openai');
       refs.btnProcess!.textContent = getAskLabel();
