@@ -86,13 +86,13 @@ Auth service timeout caused by Redis connection pool exhaustion.
 
 ## Template Library
 
-11 built-in templates, grouped by intent. Each supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
+10 built-in templates, grouped by intent. Each supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
 
 | Category | Templates (button label) | Purpose |
 | --- | --- | --- |
 | Understand | Brief, Ticket, Code Review | Key points, conclusions, technical risks |
 | Decide | Decision, Feature | Trade-offs and a clear recommendation |
-| Act | Actions, Risks, Recommend | Turn discussions into tasks and surface blockers |
+| Act | Actions, Risks | Turn discussions into tasks and surface blockers |
 | Compose | Reply, Rewrite, Email | Professional replies or rewrites |
 
 You can add or edit templates in Settings. Use them for research summaries, social posts, recipes, Reddit threads, or anything you need.
@@ -145,14 +145,6 @@ Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's
 3. Open Synto, click Understand, pick Code Review, click Ask AI
 
 Synto uses your selection instead of re-extracting.
-
-### Shopping: compare products and pick one
-
-Smart Choice uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
-
-1. Open an Amazon search results page, or select content from a few product pages with Ctrl+A
-2. Open Synto, click Act, pick Recommend
-3. Click Ask AI. You get a scored comparison table and a clear recommendation on which to pick
 
 ### Writing: draft a reply
 
