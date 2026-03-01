@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "author": "Artem Iagovdik <artyom.yagovdik@gmail.com> (https://github.com/artttj)",
   "repository": "github.com/artttj/synto",
   "scripts": {
