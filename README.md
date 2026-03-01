@@ -52,31 +52,39 @@ Users hit 504s during peak hours. Root cause traced to connection pool limit of 
 Templates are grouped by use case. Each produces structured output with clear section headings.
 
 ### General
-| Template | Purpose |
-|---|---|
-| **Clean Copy** | Raw markdown extraction, no template applied |
+
+
+| Template             | Purpose                                                      |
+| ---------------------- | -------------------------------------------------------------- |
+| **Clean Copy**       | Raw markdown extraction, no template applied                 |
 | **Structured Brief** | Problem → Arguments → Decisions → Open Questions → Risks |
-| **Article Analysis** | Thesis, key points, evidence, conclusions, critical take |
+| **Article Analysis** | Thesis, key points, evidence, conclusions, critical take     |
 
 ### Engineering
-| Template | Purpose |
-|---|---|
-| **Decision Brief** | Context → Options → Arguments → Decision → Rationale → Trade-offs |
-| **PR Review Summary** | What it does, requested changes, concerns, blockers, status |
-| **Ticket Analysis** | Summary, problem statement, acceptance criteria, risks, next steps |
-| **Extract Action Items** | Committed tasks, implied next steps, blockers, decisions needed |
+
+
+| Template                 | Purpose                                                                |
+| -------------------------- | ------------------------------------------------------------------------ |
+| **Decision Brief**       | Context → Options → Arguments → Decision → Rationale → Trade-offs |
+| **PR Review Summary**    | What it does, requested changes, concerns, blockers, status            |
+| **Ticket Analysis**      | Summary, problem statement, acceptance criteria, risks, next steps     |
+| **Extract Action Items** | Committed tasks, implied next steps, blockers, decisions needed        |
 
 ### Product
-| Template | Purpose |
-|---|---|
-| **Feature Request Analysis** | The real problem, who's affected, trade-offs, alternatives, priority signals |
-| **User Feedback Synthesis** | Dominant themes, sentiment, pain points, feature requests, recommended actions |
+
+
+| Template                     | Purpose                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------- |
+| **Feature Request Analysis** | The real problem, who's affected, trade-offs, alternatives, priority signals   |
+| **User Feedback Synthesis**  | Dominant themes, sentiment, pain points, feature requests, recommended actions |
 
 ### Community
-| Template | Purpose |
-|---|---|
-| **Debate Map** | Central question, positions A/B, strongest arguments, common ground, status |
-| **Rewrite Comment** | Rewrites a comment to be clearer and more professional |
+
+
+| Template            | Purpose                                                                     |
+| --------------------- | ----------------------------------------------------------------------------- |
+| **Debate Map**      | Central question, positions A/B, strongest arguments, common ground, status |
+| **Rewrite Comment** | Rewrites a comment to be clearer and more professional                      |
 
 All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholders. Custom templates can be created in Options.
 
@@ -85,6 +93,7 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 ## Workflow Examples
 
 ### Engineering: PR review in 30 seconds
+
 1. Open a GitHub PR with 40+ review comments
 2. Open Synto → select **PR Review Summary**
 3. Click **Ask ChatGPT**
@@ -92,11 +101,13 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 5. Ask follow-up questions directly in the panel
 
 ### Product: Jira ticket into a decision-ready brief
+
 1. Open a Jira ticket with discussion
 2. Open Synto → select **Ticket Analysis**
 3. Click **Copy Markdown** → paste into your PM tool or share with team
 
 ### Community: Map a Reddit debate
+
 1. Expand comments on a Reddit thread
 2. Open Synto → select **Debate Map**
 3. Click **Ask ChatGPT**
@@ -107,6 +118,7 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 ## Features
 
 ### Smart Extraction
+
 - Prioritizes semantic content: `<article>`, `<main>`, `[role=main]`, `#centerCol` (Amazon), `.js-discussion` (GitHub), `#issue-content` (Jira), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab)
 - Strips navigation, footers, sidebars, cookie banners, ads, and floating widgets
 - If you **select text** before opening the panel, that selection is used as content — use `{selection}` in templates
@@ -114,26 +126,31 @@ All templates support `{content}`, `{selection}`, `{title}`, `{url}` placeholder
 - Diff tables (Bitbucket, GitLab) are converted to readable `<pre>` blocks before conversion
 
 ### Side Panel
+
 - Lives in Chrome's native sidebar — stays open as you navigate
 - No tab switching, no lost conversation
 - Resizable by dragging
 
 ### AI Conversation
+
 - Ask ChatGPT (gpt-4o-mini), Gemini (gemini-2.0-flash), or Grok (grok-3-mini)
 - Streamed responses rendered directly in the panel
 - Full follow-up conversation with context preserved
 
 ### Preview
+
 - **Content tab** — shows the extracted Markdown before any template is applied
 - **Prompt tab** — shows the final prompt with template merged in
 - Token count badge with colour coding (muted → yellow → red as you approach limits)
 
 ### Token Estimate
+
 Estimates token count and warns when approaching the selected model's context limit.
 
 ### Keyboard Shortcuts
-- `Alt+Shift+C` — copy current tab content
-- `Alt+Shift+Enter` — trigger Ask AI
+
+- `Alt+Shift+C` — open Synto side panel; when the panel is focused, copies preview content
+- `Alt+Shift+Enter` — trigger Ask AI (when panel is focused)
 
 ---
 
@@ -152,33 +169,36 @@ Provider privacy policies: [OpenAI](https://openai.com/policies/privacy-policy/)
 1. Clone or download this repository
 2. Install and build: `npm install && npm run build`
 3. Open `chrome://extensions` → enable **Developer mode**
-4. Click **Load unpacked** → choose the **`dist`** folder (inside this repo)
+4. Click **Load unpacked** → choose the `dist/` folder (inside this repo)
 5. Use the Synto icon to open the side panel; open **Options** (gear) to add an API key
 
 ### API Keys
-| Provider | Model | Where to get a key |
-|---|---|---|
-| OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
+
+
+| Provider      | Model              | Where to get a key                                                                  |
+| --------------- | -------------------- | ------------------------------------------------------------------------------------- |
+| OpenAI        | `gpt-4o-mini`      | [platform.openai.com](https://platform.openai.com/api-keys)                         |
 | Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) (free tier available) |
-| Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
+| Grok (xAI)    | `grok-3-mini`      | [console.x.ai](https://console.x.ai/)                                               |
 
 ---
 
 ## Project Structure
 
-**Best-practice layout:** all source in **`src/`**; **`npm run build`** produces **`dist/`**. You load **`dist/`** in Chrome (Load unpacked). The repo root stays source + tooling only; the extension artifact is only in `dist/`.
+**Best-practice layout:** all source lives in `src/`; `npm run build` produces `dist/`. You load `dist/` in Chrome (Load unpacked). The repo root stays source + tooling only; the extension artifact is only in `dist/`.
 
 ```
 synto/
 ├── manifest.json         # Manifest (copied into dist/)
+├── package.json          # Dependencies & scripts
 ├── src/                  # Source — edit only here
 │   ├── background/       # Service worker
 │   ├── content/          # Content script (bundled to dist/content/content.js)
-│   ├── popup/            # Side panel
+│   ├── popup/            # Side panel UI
 │   ├── options/          # Options page
-│   └── shared/           # constants.js, storage.js
-├── scripts/build.js      # Build: src/ + lib/ + icons/ → dist/
-├── lib/                  # Turndown (third-party)
+│   ├── shared/           # constants.ts, storage.ts
+│   └── types/            # Type declarations
+├── scripts/build.js      # Build: src/ + icons/ → dist/
 ├── icons/                # Extension icons
 └── dist/                 # Built extension — load this folder in Chrome
 ```
@@ -192,3 +212,9 @@ synto/
 - **No tracking** — no analytics, no telemetry
 - **ES modules + single build step** — `npm run build` bundles the content script and copies assets to `dist/`
 - **Manifest V3** — service worker, side panel API
+
+---
+
+## License
+
+MIT — free to use, modify, and redistribute. Attribution required: the original copyright notice must be included in all copies or substantial portions. See [LICENSE](LICENSE) for details.
