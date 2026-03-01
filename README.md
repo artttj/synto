@@ -1,6 +1,6 @@
 # Synto
 
-**Turn any web page into AI-ready structured content — directly in your browser sidebar.**
+**Clip any web page to Markdown, apply a prompt template, and send to ChatGPT, Gemini, or Grok for instant AI briefs. No backend — API keys stay on your device.**
 
 <table>
   <tr>
@@ -11,7 +11,10 @@
 
 Built for **engineers, PMs, and founders** who need to skip the copy-paste-summarize loop and get straight to actionable insights.
 
-[Features](#features) · [Templates](#template-library) · [Privacy](#privacy--data) · [Setup](#setup)
+- [Features](#features)
+- [Templates](#template-library)
+- [Privacy](#privacy--data)
+- [Setup](#setup)
 
 No backend. No accounts. No tracking. Fully client-side.
 
