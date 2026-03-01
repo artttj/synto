@@ -1,7 +1,3 @@
-/**
- * Diff table → <pre> preprocessing for Bitbucket, GitLab, etc.
- */
-
 export function preprocessDiffTables(root) {
   root.querySelectorAll('table').forEach((table) => {
     if (!looksLikeDiffTable(table)) return;

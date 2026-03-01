@@ -31,12 +31,7 @@ export async function saveGeminiKey(key) {
 }
 
 
-/**
- * Returns saved templates, merging in any new built-in templates that are
- * not yet present in storage (identified by id). This ensures new default
- * templates added in future versions appear without requiring a reinstall.
- * @returns {Promise<Array>}
- */
+// Merges new built-in templates into saved ones so new defaults appear without reinstall.
 export async function getTemplates() {
   const result = await chrome.storage.sync.get(STORAGE_KEYS.TEMPLATES);
   const saved = result[STORAGE_KEYS.TEMPLATES];
@@ -51,20 +46,11 @@ export async function getTemplates() {
 }
 
 
-/**
- * Persists templates array.
- * @param {Array} templates
- * @returns {Promise<void>}
- */
 export async function saveTemplates(templates) {
   await chrome.storage.sync.set({ [STORAGE_KEYS.TEMPLATES]: templates });
 }
 
 
-/**
- * Returns saved settings with defaults.
- * @returns {Promise<object>}
- */
 export async function getSettings() {
   const result = await chrome.storage.sync.get(STORAGE_KEYS.SETTINGS);
   return {
@@ -76,11 +62,6 @@ export async function getSettings() {
 }
 
 
-/**
- * Merges and persists settings.
- * @param {object} partial
- * @returns {Promise<void>}
- */
 export async function saveSettings(partial) {
   const current = await getSettings();
   await chrome.storage.sync.set({

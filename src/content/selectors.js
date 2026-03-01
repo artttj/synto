@@ -1,12 +1,5 @@
-/**
- * Selectors for stripping noise and finding main content.
- * Load order: turndown.js, turndown-plugin-gfm.js, then bundled content.
- */
-
 export const MSG_EXTRACT = 'EXTRACT_CONTENT';
 
-
-/** Elements removed from the clone before Turndown runs. */
 export const STRIP_SELECTORS = [
   'script', 'style', 'noscript', 'iframe', 'canvas',
   'nav', 'footer', 'aside',
@@ -36,8 +29,7 @@ export const STRIP_SELECTORS = [
   '.diff-tree-list', '.review-bar-component',
 ].join(',');
 
-
-/** Tried in order; first match with enough text wins. */
+// Tried in order; first match with enough text wins.
 export const MAIN_SELECTORS = [
   'article', "[role='main']", 'main',
   '#main-content', '#content', '#article-body', '#story',

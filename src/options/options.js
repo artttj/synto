@@ -1,7 +1,3 @@
-/**
- * Options page entry point. Resolves refs, loads state, wires modules.
- */
-
 import { getTemplates, getSettings } from '../shared/storage.js';
 import {
   getOpenAIKey,
@@ -73,7 +69,6 @@ async function init() {
 
   wireTemplateList();
 
-  // Tab switching
   document.querySelectorAll('.nav-item').forEach((btn) => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.nav-item').forEach((n) => {

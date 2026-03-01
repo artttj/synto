@@ -1,7 +1,3 @@
-/**
- * DOM refs for the popup. Centralized so modules receive the same elements.
- */
-
 export const $ = (id) => document.getElementById(id);
 
 export const refs = {
@@ -26,9 +22,6 @@ export const refs = {
 };
 
 
-/**
- * Resolve all refs. Call once when popup loads.
- */
 export function resolveRefs() {
   refs.btnOptions = $('btn-options');
   refs.templateSelect = $('template-select');

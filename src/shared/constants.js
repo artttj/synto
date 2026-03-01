@@ -17,8 +17,6 @@ export const TEMPLATE_CATEGORIES = ['General', 'Engineering', 'Community', 'Life
 
 export const DEFAULT_TEMPLATES = [
 
-  // ── General ────────────────────────────────────────────────────────────────
-
   {
     id: "default-clean",
     name: "Clean Copy",
@@ -55,8 +53,6 @@ Source: [{title}]({url})
 
 {content}`,
   },
-
-  // ── Engineering ────────────────────────────────────────────────────────────
 
   {
     id: "eng-pr-review",
@@ -152,8 +148,6 @@ Source: [{title}]({url})
 {content}`,
   },
 
-  // ── Community ──────────────────────────────────────────────────────────────
-
   {
     id: "community-debate-map",
     name: "Debate Map",
@@ -191,8 +185,6 @@ Source: [{title}]({url})
 
 {content}`,
   },
-
-  // ── Lifestyle ──────────────────────────────────────────────────────────────
 
   {
     id: "lifestyle-diet-menu",
@@ -298,21 +290,11 @@ export const TOKEN_THRESHOLDS = {
 };
 
 
-/**
- * Rough token estimate: ~4 characters per token.
- * @param {string} text
- * @returns {number}
- */
 export function estimateTokens(text) {
-  return Math.ceil(text.length / 4);
+  return Math.ceil(text.length / 4); // ~4 chars per token
 }
 
 
-/**
- * Returns a CSS color class based on token count.
- * @param {number} tokens
- * @returns {"green"|"yellow"|"red"}
- */
 export function tokenColorClass(tokens) {
   if (tokens < TOKEN_THRESHOLDS.GREEN) {
     return 'green';

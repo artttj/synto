@@ -1,7 +1,3 @@
-/**
- * Prompt library: list, search, modal CRUD, placeholder chips.
- */
-
 import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants.js';
 import { saveTemplates } from '../shared/storage.js';
 import { state } from './state.js';
@@ -142,9 +138,6 @@ export async function deleteTemplate(id) {
 }
 
 
-/**
- * Wire template list UI: search, new button, modal, save. Call once after DOM ready.
- */
 export function wireTemplateList() {
   refs.templateSearch.addEventListener('input', (e) => {
     state.searchQuery = e.target.value.trim();

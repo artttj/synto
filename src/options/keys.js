@@ -1,7 +1,3 @@
-/**
- * API key sections: status badges, save/clear, visibility toggle.
- */
-
 import {
   getOpenAIKey,
   getGeminiKey,
@@ -44,9 +40,6 @@ export async function loadApiKeyStatuses() {
 }
 
 
-/**
- * Wire one provider's key input, toggle, save, clear.
- */
 export function wireKeySection({
   inputId,
   toggleId,

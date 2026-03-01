@@ -1,7 +1,3 @@
-/**
- * Popup UI state. Single mutable object shared by popup modules.
- */
-
 export const PROVIDER_MODELS = {
   openai: 'gpt-4o-mini',
   gemini: 'gemini-2.0-flash',
@@ -17,13 +13,13 @@ export const PROVIDER_LABELS = {
 export const state = {
   templates: [],
   selectedTemplateId: null,
-  extracted: null,   // { content, selection, title, url, ... }
+  extracted: null,        // { content, selection, title, url, … }
   rawMarkdown: '',
   finalText: '',
   previewOpen: true,
-  previewTab: 'content',   // 'content' | 'prompt'
+  previewTab: 'content', // 'content' | 'prompt'
   chatStreaming: false,
-  chatHistory: [],         // { role, content }[]
+  chatHistory: [],       // { role, content }[]
   llmProvider: 'openai',
 };
 

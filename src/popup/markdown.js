@@ -1,23 +1,10 @@
-/**
- * Simple Markdown → HTML for chat assistant bubbles (code, bold, italic, lists, headings).
- * Uses a private-use Unicode placeholder for code blocks to avoid control-character regex.
- */
-
+// Private-use Unicode char used as placeholder during code block extraction.
+// Avoids conflicts with real content and is safe in regex character classes.
 const CODE_PLACEHOLDER = '\uE000';
 
-
-/**
- * Renders raw markdown-like text to safe HTML for insertion into chat bubbles.
- * @param {string} raw - Plain text with markdown-style formatting
- * @returns {string} HTML string
- */
 export function renderMarkdown(raw) {
-  const esc = (s) => {
-    return s
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  };
+  const esc = (s) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   const codeBlocks = [];
   const text = esc(raw).replace(/```(?:\w*)\n?([\s\S]*?)```/g, (_, code) => {
@@ -25,14 +12,13 @@ export function renderMarkdown(raw) {
     return `${CODE_PLACEHOLDER}CODE${codeBlocks.length - 1}${CODE_PLACEHOLDER}`;
   });
 
-  const inline = (s) => {
-    return s
+  const inline = (s) =>
+    s
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
       .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
       .replace(/__([^_\n]+)__/g, '<strong>$1</strong>')
       .replace(/_([^_\n]+)_/g, '<em>$1</em>');
-  };
 
   const lines = text.split('\n');
   const out = [];
@@ -40,14 +26,8 @@ export function renderMarkdown(raw) {
   let inOl = false;
 
   const closeList = () => {
-    if (inUl) {
-      out.push('</ul>');
-      inUl = false;
-    }
-    if (inOl) {
-      out.push('</ol>');
-      inOl = false;
-    }
+    if (inUl) { out.push('</ul>'); inUl = false; }
+    if (inOl) { out.push('</ol>'); inOl = false; }
   };
 
   const codePlaceholderRegex = new RegExp(
@@ -64,49 +44,25 @@ export function renderMarkdown(raw) {
 
     const ul = line.match(/^[-*] (.+)$/);
     if (ul) {
-      if (inOl) {
-        out.push('</ol>');
-        inOl = false;
-      }
-      if (!inUl) {
-        out.push('<ul>');
-        inUl = true;
-      }
+      if (inOl) { out.push('</ol>'); inOl = false; }
+      if (!inUl) { out.push('<ul>'); inUl = true; }
       out.push(`<li>${inline(ul[1])}</li>`);
       continue;
     }
 
     const ol = line.match(/^(\d+)\. (.+)$/);
     if (ol) {
-      if (inUl) {
-        out.push('</ul>');
-        inUl = false;
-      }
-      if (!inOl) {
-        out.push('<ol>');
-        inOl = true;
-      }
+      if (inUl) { out.push('</ul>'); inUl = false; }
+      if (!inOl) { out.push('<ol>'); inOl = true; }
       out.push(`<li>${inline(ol[2])}</li>`);
       continue;
     }
 
     closeList();
 
-    const h3 = line.match(/^### (.+)$/);
-    if (h3) {
-      out.push(`<strong>${inline(h3[1])}</strong><br>`);
-      continue;
-    }
-
-    const h2 = line.match(/^## (.+)$/);
-    if (h2) {
-      out.push(`<strong>${inline(h2[1])}</strong><br>`);
-      continue;
-    }
-
-    const h1 = line.match(/^# (.+)$/);
-    if (h1) {
-      out.push(`<strong>${inline(h1[1])}</strong><br>`);
+    const heading = line.match(/^#{1,3} (.+)$/);
+    if (heading) {
+      out.push(`<strong>${inline(heading[1])}</strong><br>`);
       continue;
     }
 

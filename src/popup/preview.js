@@ -1,7 +1,3 @@
-/**
- * Preview panel: content/prompt tabs, token count, copy button, collapse.
- */
-
 import { TOKEN_THRESHOLDS, estimateTokens, tokenColorClass } from '../shared/constants.js';
 import { state, PROVIDER_MODELS } from './state.js';
 import { refs } from './dom.js';
@@ -25,17 +21,13 @@ export function setPreviewOpen(open) {
 
 export function updateTokenDisplay(text) {
   const tokens = estimateTokens(text);
-  const formatted = tokens.toLocaleString();
   const src = state.extracted?.source ?? '';
-  const srcLabel = src ? ` · ${src}` : '';
-
-  refs.tokenCount.textContent = `~${formatted}${srcLabel}`;
+  refs.tokenCount.textContent = `~${tokens.toLocaleString()}${src ? ` · ${src}` : ''}`;
   refs.tokenCount.className = `token-count ${tokenColorClass(tokens)}`;
 
   const model = PROVIDER_MODELS[state.llmProvider];
   const limit = TOKEN_THRESHOLDS.MODEL_LIMITS[model] ?? 128000;
-  const nearLimit = tokens > limit * 0.85;
-  refs.tokenWarning.classList.toggle('hidden', !nearLimit);
+  refs.tokenWarning.classList.toggle('hidden', tokens <= limit * 0.85);
 }
 
 
@@ -54,22 +46,15 @@ function showCopySuccess(btn) {
   const originalText = isMain ? btn.textContent : null;
 
   btn.classList.add('copy-success');
-  if (isMain) {
-    btn.textContent = 'Copied!';
-  }
+  if (isMain) btn.textContent = 'Copied!';
 
   setTimeout(() => {
     btn.classList.remove('copy-success');
-    if (isMain) {
-      btn.textContent = originalText;
-    }
+    if (isMain) btn.textContent = originalText;
   }, 2000);
 }
 
 
-/**
- * Wire preview UI: toggle, tabs, copy button. Call once after DOM ready.
- */
 export function wirePreview() {
   refs.btnPreviewToggle.addEventListener('click', () => {
     setPreviewOpen(!state.previewOpen);
@@ -85,9 +70,7 @@ export function wirePreview() {
       btn.setAttribute('aria-selected', 'true');
       state.previewTab = btn.dataset.tab;
       updatePreviewText();
-      if (!state.previewOpen) {
-        setPreviewOpen(true);
-      }
+      if (!state.previewOpen) setPreviewOpen(true);
     });
   });
 

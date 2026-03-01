@@ -1,7 +1,3 @@
-/**
- * Selection and body extraction. Dispatcher and helpers.
- */
-
 import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors.js';
 import { preprocessDiffTables } from './diff.js';
 import { toMarkdown } from './turndown.js';

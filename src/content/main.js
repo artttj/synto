@@ -1,10 +1,5 @@
-/**
- * Content script entry. Listens for extract message, runs pipeline.
- */
-
 import { MSG_EXTRACT } from './selectors.js';
 import { extractContent } from './extract.js';
-
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type !== MSG_EXTRACT) return;

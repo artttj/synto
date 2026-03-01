@@ -1,15 +1,8 @@
-/**
- * DOM refs for the options page.
- */
-
 export const $ = (id) => document.getElementById(id);
 
 export const refs = {};
 
 
-/**
- * Resolve all refs. Call once when options page loads.
- */
 export function resolveRefs() {
   refs.defaultTplEl = $('default-template');
   refs.providerSeg = $('provider-segmented');

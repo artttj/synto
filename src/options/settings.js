@@ -1,7 +1,3 @@
-/**
- * General settings: default template, provider, theme. Segmented controls.
- */
-
 import { TEMPLATE_CATEGORIES } from '../shared/constants.js';
 import { saveSettings } from '../shared/storage.js';
 import { state } from './state.js';
@@ -13,12 +9,6 @@ export function applyTheme(theme) {
 }
 
 
-/**
- * Initializes a segmented control: one active button, click calls onChange.
- * @param {HTMLElement} container - Element containing .seg-btn buttons
- * @param {string} value - Initial active value (data-value)
- * @param {(value: string) => void} onChange - Called when selection changes
- */
 export function initSegmented(container, value, onChange) {
   container.querySelectorAll('.seg-btn').forEach((btn) => {
     if (btn.dataset.value === value) {
@@ -92,9 +82,6 @@ function flash(el) {
 }
 
 
-/**
- * Wire save button and persist settings. Call once after DOM ready.
- */
 export function wireSettingsSave(getSettingsAsync) {
   refs.btnSaveSettings.addEventListener('click', async () => {
     await saveSettings({

@@ -1,16 +1,8 @@
-/**
- * Template selection and application. Fills prompt with {content}, {title}, etc.
- */
-
 import { TEMPLATE_CATEGORIES } from '../shared/constants.js';
 import { saveSettings } from '../shared/storage.js';
 import { state } from './state.js';
 import { refs } from './dom.js';
-import {
-  updatePreviewText,
-  updateTokenDisplay,
-  setPreviewOpen,
-} from './preview.js';
+import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview.js';
 
 
 export function applyTemplate(extracted, templateId) {
@@ -54,9 +46,7 @@ export function renderTemplateSelect() {
   }
   state.templates.forEach((t) => {
     const cat = t.category ?? 'General';
-    if (!grouped[cat]) {
-      grouped[cat] = [];
-    }
+    if (!grouped[cat]) grouped[cat] = [];
     grouped[cat].push(t);
   });
 
@@ -70,9 +60,7 @@ export function renderTemplateSelect() {
       const opt = document.createElement('option');
       opt.value = t.id;
       opt.textContent = t.name;
-      if (t.id === state.selectedTemplateId) {
-        opt.selected = true;
-      }
+      if (t.id === state.selectedTemplateId) opt.selected = true;
       group.appendChild(opt);
     });
     refs.templateSelect.appendChild(group);
@@ -92,9 +80,7 @@ export function renderTemplateSelect() {
       const opt = document.createElement('option');
       opt.value = t.id;
       opt.textContent = t.name;
-      if (t.id === state.selectedTemplateId) {
-        opt.selected = true;
-      }
+      if (t.id === state.selectedTemplateId) opt.selected = true;
       group.appendChild(opt);
     });
     refs.templateSelect.appendChild(group);
@@ -102,9 +88,6 @@ export function renderTemplateSelect() {
 }
 
 
-/**
- * Wire template select change. Call once after DOM ready.
- */
 export function wireTemplateSelect() {
   refs.templateSelect.addEventListener('change', async () => {
     state.selectedTemplateId = refs.templateSelect.value;

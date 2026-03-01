@@ -1,7 +1,3 @@
-/**
- * Popup entry point. Resolves DOM refs, loads state, wires modules, runs extraction.
- */
-
 import { getTemplates, getSettings } from '../shared/storage.js';
 import { state, getAskLabel } from './state.js';
 import { resolveRefs, refs } from './dom.js';
@@ -16,13 +12,9 @@ import { extractContent } from './extract.js';
 async function init() {
   resolveRefs();
 
-  const [templates, settings] = await Promise.all([
-    getTemplates(),
-    getSettings(),
-  ]);
+  const [templates, settings] = await Promise.all([getTemplates(), getSettings()]);
 
   document.documentElement.dataset.theme = settings.theme ?? 'dark';
-
   state.templates = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id ?? null;
   state.llmProvider = settings.llmProvider ?? 'openai';
@@ -34,10 +26,7 @@ async function init() {
   wireChat();
   wireKeyboard();
 
-  refs.btnOptions.addEventListener('click', () => {
-    chrome.runtime.openOptionsPage();
-  });
-
+  refs.btnOptions.addEventListener('click', () => chrome.runtime.openOptionsPage());
   refs.chatOptionsLink.addEventListener('click', (e) => {
     e.preventDefault();
     chrome.runtime.openOptionsPage();
@@ -45,16 +34,9 @@ async function init() {
 
   await extractContent();
 
-  // Re-fetch when the user switches to a different tab
-  chrome.tabs.onActivated.addListener(() => {
-    extractContent();
-  });
-
-  // Re-fetch when the active tab navigates or reloads
+  chrome.tabs.onActivated.addListener(() => extractContent());
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status === 'complete' && tab.active) {
-      extractContent();
-    }
+    if (changeInfo.status === 'complete' && tab.active) extractContent();
   });
 }
 

@@ -1,10 +1,5 @@
-/**
- * HTML → Markdown via TurndownService (bundled via npm).
- */
-
 import TurndownService from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
-
 
 export function toMarkdown(html) {
   const td = new TurndownService({

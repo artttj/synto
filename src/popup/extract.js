@@ -1,8 +1,3 @@
-/**
- * Extract page content via content script.
- * If the content script isn't injected yet, injects it on-demand and retries.
- */
-
 import { MSG } from '../shared/constants.js';
 import { state } from './state.js';
 import { refs } from './dom.js';
@@ -22,9 +17,7 @@ async function sendExtract(tabId) {
     mode: 'markdown',
   });
 
-  if (!response?.success) {
-    throw new Error(response?.error ?? 'Extraction failed.');
-  }
+  if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
 
   state.extracted = response;
   state.rawMarkdown = response.content;
@@ -41,11 +34,7 @@ export async function extractContent() {
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (
-    !tab?.id ||
-    tab.url?.startsWith('chrome://') ||
-    tab.url?.startsWith('chrome-extension://')
-  ) {
+  if (!tab?.id || tab.url?.startsWith('chrome://') || tab.url?.startsWith('chrome-extension://')) {
     setError('Cannot extract from this page type. Navigate to a regular web page.');
     disableActions();
     return;
@@ -55,8 +44,7 @@ export async function extractContent() {
     await sendExtract(tab.id);
   } catch (err) {
     if (err.message?.includes('Receiving end does not exist')) {
-      // Content script not yet injected (tab was open before extension loaded).
-      // Inject it on-demand and retry once — no reload needed.
+      // Tab was open before the extension loaded — inject content script and retry.
       try {
         await chrome.scripting.executeScript({
           target: { tabId: tab.id },

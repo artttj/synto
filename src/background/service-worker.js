@@ -1,16 +1,10 @@
 import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants.js';
 
-
-// ─── Open side panel on toolbar icon click ────────────────────────────────────
-
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((err) => {
     console.error('[Synto] setPanelBehavior failed:', err);
   });
-
-
-// ─── Seed default templates on first install ──────────────────────────────────
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (reason !== 'install') return;
