@@ -3,7 +3,13 @@
  * https://github.com/artttj/synto
  */
 
-import { getTemplates, getSettings } from '../shared/storage';
+import {
+  getTemplates,
+  getSettings,
+  getOpenAIKey,
+  getGeminiKey,
+  getGrokKey,
+} from '../shared/storage';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
@@ -37,10 +43,20 @@ async function init(): Promise<void> {
   });
   refs.chatOptionsLink!.addEventListener('click', (e) => {
     e.preventDefault();
-    void chrome.runtime.openOptionsPage();
+    void chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html#ai-connections') });
   });
 
+  refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
+
   await extractContent();
+
+  const keyGetters: Record<string, () => Promise<string>> = {
+    openai: getOpenAIKey,
+    gemini: getGeminiKey,
+    grok: getGrokKey,
+  };
+  const currentKey = await keyGetters[state.llmProvider]?.();
+  if (currentKey) refs.chatNoKey?.classList.add('hidden');
 
   chrome.tabs.onActivated.addListener(() => { void extractContent(); });
   chrome.tabs.onUpdated.addListener((_tabId, changeInfo, tab) => {

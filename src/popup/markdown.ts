@@ -7,6 +7,17 @@
 // Avoids conflicts with real content and is safe in regex character classes.
 const CODE_PLACEHOLDER = '\uE000';
 
+/** Strip repeated leading "N. " so LLM output like "1. 1. 1. text" becomes "text". */
+function stripLeadingNumber(s: string): string {
+  let t = s.trim();
+  let prev = '';
+  while (t !== prev) {
+    prev = t;
+    t = t.replace(/^\d+\.\s+/, '').trim();
+  }
+  return t || s;
+}
+
 export function renderMarkdown(raw: string): string {
   const esc = (s: string): string =>
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -59,7 +70,9 @@ export function renderMarkdown(raw: string): string {
     if (ol) {
       if (inUl) { out.push('</ul>'); inUl = false; }
       if (!inOl) { out.push('<ol>'); inOl = true; }
-      out.push(`<li>${inline(ol[2])}</li>`);
+      // Strip repeated leading "N. " so "1. 1. 1. text" from LLM becomes "text"
+      const listContent = stripLeadingNumber(ol[2]);
+      out.push(`<li>${inline(listContent)}</li>`);
       continue;
     }
 

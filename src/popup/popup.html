@@ -44,12 +44,13 @@
         <span id="preview-arrow" class="preview-arrow">&#9652;</span>
       </button>
 
-      <!-- Row 2: tabs (primary) + token badge (metadata) -->
+      <!-- Row 2: tabs (primary) + refresh CTA + token badge (metadata) -->
       <div class="preview-tab-row">
         <div class="preview-tabs" role="tablist" aria-label="Preview mode">
           <button class="preview-tab active" data-tab="content" role="tab" aria-selected="true" type="button">Content</button>
           <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button">Prompt</button>
         </div>
+        <button id="btn-refresh-content" class="preview-refresh-cta" type="button" title="Re-extract page content (e.g. after loading more)">Refresh content</button>
         <span id="token-count" class="token-count" title="Estimated token count">—</span>
       </div>
 
