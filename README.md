@@ -1,6 +1,6 @@
 # <img src="docs/icon128.png" width="36" alt="" valign="middle" /> Synto
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
 Clip any web page to clean Markdown, pick a prompt template, and ask ChatGPT, Gemini, or Grok — all from a Chrome side panel. Works on Jira, GitHub, Reddit, Amazon, and any page you can open. No backend. No accounts. API keys stay on your device.
 
