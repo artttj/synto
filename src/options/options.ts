@@ -35,6 +35,10 @@ async function init(): Promise<void> {
   applyTheme(state.settings.theme ?? 'dark');
   renderSettingsForm();
   renderTemplateList();
+
+  const manifest = chrome.runtime.getManifest();
+  const versionEl = document.getElementById('about-version');
+  if (versionEl) versionEl.textContent = manifest.version;
   await loadApiKeyStatuses();
 
   wireSettingsSave(getSettings);

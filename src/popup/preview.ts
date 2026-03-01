@@ -50,7 +50,7 @@ function showCopySuccess(btn: HTMLButtonElement): void {
 
   setTimeout(() => {
     btn.classList.remove('copy-success');
-    if (isMain) btn.textContent = originalText;
+    if (isMain && originalText) btn.textContent = originalText;
   }, 2000);
 }
 
@@ -78,5 +78,11 @@ export function wirePreview(): void {
     const text = state.previewTab === 'prompt' ? state.finalText : state.rawMarkdown;
     if (!text) return;
     await copyPreviewText(text, refs.btnCopyMd!);
+  });
+
+  refs.btnPreviewCopy!.addEventListener('click', async () => {
+    const text = state.previewTab === 'prompt' ? state.finalText : state.rawMarkdown;
+    if (!text) return;
+    await copyPreviewText(text, refs.btnPreviewCopy!);
   });
 }

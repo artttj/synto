@@ -297,6 +297,55 @@ body {
 .setting-select:focus { border-color: var(--c-border-hi); }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   ABOUT BLOCK
+═══════════════════════════════════════════════════════════════════════════ */
+.about-block {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  padding: 20px 24px;
+  max-width: 420px;
+}
+
+.about-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.about-row:last-of-type { border-bottom: none; }
+
+.about-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--c-text-2);
+  min-width: 64px;
+  flex-shrink: 0;
+}
+
+.about-value {
+  font-size: 13px;
+  color: var(--c-text);
+}
+
+.about-link {
+  font-size: 13px;
+  color: var(--c-accent);
+  text-decoration: none;
+  transition: color var(--t) var(--ease);
+}
+
+.about-link:hover { color: var(--c-accent-hi); }
+
+.about-row-actions {
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid var(--c-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    SEGMENTED CONTROL
 ═══════════════════════════════════════════════════════════════════════════ */
 .segmented {

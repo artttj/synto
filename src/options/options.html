@@ -44,6 +44,15 @@
           </svg>
           Prompt Library
         </button>
+
+        <button class="nav-item" data-tab="about">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M10 6v1.5m0 6V14"/>
+            <circle cx="10" cy="9" r="0.8" fill="currentColor"/>
+          </svg>
+          About
+        </button>
       </nav>
     </aside>
 
@@ -230,6 +239,32 @@
         </div>
 
         <div id="template-list" class="template-list"></div>
+      </section>
+
+      <!-- Tab: About -->
+      <section id="tab-about" class="tab-panel hidden">
+        <div class="panel-header">
+          <h1>About Synto</h1>
+          <p>Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.</p>
+        </div>
+
+        <div class="about-block">
+          <div class="about-row">
+            <span class="about-label">Version</span>
+            <span id="about-version" class="about-value">—</span>
+          </div>
+          <div class="about-row">
+            <span class="about-label">Author</span>
+            <a id="about-author-link" class="about-link" href="https://github.com/artttj" target="_blank" rel="noopener">Artem Iagovdik</a>
+          </div>
+          <div class="about-row">
+            <span class="about-label">License</span>
+            <span class="about-value">MIT — free to use and modify; attribution required in copies.</span>
+          </div>
+          <div class="about-row about-row-actions">
+            <a id="about-repo-link" class="btn btn-ghost btn-sm" href="https://github.com/artttj/synto" target="_blank" rel="noopener">View source on GitHub</a>
+          </div>
+        </div>
       </section>
 
     </main>
