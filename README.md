@@ -109,7 +109,7 @@ Synto targets the real content and ignores everything else.
 - **Semantic selectors** — targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon); skips nav, footers, ads, and banners
 - **Clean Markdown** — converts HTML to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown); diff tables rendered as readable `<pre>` blocks
 - **Selection-aware** — highlight any text before opening Synto; only that selection is sent
-- **Clips what's visible** — reads the live DOM; scroll to load lazy content before clipping
+- **Selection mode** — press Ctrl+A (⌘A) to select the whole page, or highlight any section; Synto sends that instead of auto-extracting. Ideal for lazy-loaded pages (Bitbucket diffs, long feeds) — scroll through first, select all, then open Synto
 
 ### Integrated Experience
 
@@ -136,6 +136,16 @@ Everything stays in a persistent side panel — no tab switching, no lost contex
 2. Open Synto → select **PR Review**
 3. Click **Ask ChatGPT** → get a structured brief: what changed, who is blocking, what needs fixing
 4. Ask follow-up questions directly in the panel
+
+### Engineering: Bitbucket PR diff review
+
+Bitbucket loads diff sections lazily as you scroll, so auto-extraction only gets the visible slice. Workaround:
+
+1. Open the PR → **Files changed** tab → scroll to the bottom to load all files
+2. Press **Ctrl+A** (⌘A on Mac) to select everything on the page
+3. Open Synto → select **PR Review** → click **Ask AI**
+
+Synto detects the selection and sends it instead of re-extracting the page.
 
 ### Shopping: pick the right product
 

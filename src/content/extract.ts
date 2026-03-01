@@ -110,24 +110,3 @@ function isDiffPage() {
     location.href
   );
 }
-
-export function isBitbucketPr(): boolean {
-  return /bitbucket\.org\/.+\/pull-requests\/\d+/i.test(location.href);
-}
-
-export function expandBitbucketDiffs(): void {
-  const clicked = new Set<Element>();
-  document.querySelectorAll('.load-diff, .load-diff-button, [class*="load-diff"]').forEach((el) => {
-    if (el instanceof HTMLElement && !clicked.has(el)) {
-      el.click();
-      clicked.add(el);
-    }
-  });
-  document.querySelectorAll('button, [role="button"]').forEach((el) => {
-    const text = (el.textContent ?? '').trim();
-    if (/load (more|diff)|show more|expand (diff|more)/i.test(text) && el instanceof HTMLElement && !clicked.has(el)) {
-      el.click();
-      clicked.add(el);
-    }
-  });
-}
