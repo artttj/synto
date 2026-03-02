@@ -163,7 +163,7 @@ Source: [{title}]({url})
     description: "Options, trade-offs, recommendation",
     category: "Decide",
     isDefault: false,
-    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
+    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid phrases like "compelling performances", "resonates with audiences", "enjoyable experience", or any generic review-speak. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
 
 If there are multiple options to compare:
 
@@ -300,7 +300,7 @@ Source: [{title}]({url})
     description: "Options, trade-offs, quick verdict",
     category: "Act",
     isDefault: false,
-    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
+    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid phrases like "compelling performances", "resonates with audiences", "enjoyable experience", or any generic review-speak. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
 
 If there are multiple options to compare:
 
