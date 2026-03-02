@@ -2,17 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
-## Why Synto?
+## Stop fighting with messy web pages.
 
-- **Synto turns messy pages into clean, structured output you can use immediately.** No tab switching, no copy paste loops, no repeating context.
+Synto is a simple browser extension that bridges the gap between the web and your favorite AI. It cuts out the "copy-paste loop" and helps you get structured work done without the clutter.
 
-- **More focused than built-in browser AI.** Tools like Gemini in Chrome process the whole page. Synto sends only what you select, so answers stay sharp and relevant.
-
-- **Made for real workflows, not endless chat.** Ticket briefs, PR reviews, action items, decision logs — ready to drop in.
-
-- **Use your own provider keys.** Connect OpenAI, Gemini, or Grok and pay them directly. No markup, no middle layer.
-
-- **No backend.** Requests go straight from your browser to the model. No relays, no tracking, no storage.
+- **Clean Markdown, instantly.** Turn messy websites into structured text you can use immediately. No more fixing weird formatting or broken tables.
+- **Focus on what matters.** Built-in browser AIs often get distracted by the whole page. Synto sends only what you select, so the answers stay sharp and relevant.
+- **Made for work, not just chat.** Skip the back-and-forth. Go straight to PR reviews, ticket briefs, or task lists that are ready to drop into your workflow.
+- **Your keys, your price.** Connect your own OpenAI, Gemini, or Grok keys. You pay the provider directly—no markups, no middleman fees, and no "pro" subscriptions.
+- **Privacy by design.** Synto has no backend. Your data goes straight from your browser to the AI provider. No tracking, no storage, and no one else watching your prompts.
 
 <table>
   <tr>
@@ -22,38 +20,52 @@
   </tr>
 </table>
 
-Templates are fully customizable. You can edit them or add your own in Settings.
-
 ---
 
-## Quick Install
+## Quick Start
 
-1. [Download synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it
-2. Open `chrome://extensions`, turn on Developer mode, click Load unpacked, and select the `synto/` folder
-3. Click the Synto icon, then the gear, then AI Connections. Add at least one API key and Save
-
-You need an API key from one of these:
+1. **Download:** [Get synto.zip](https://github.com/artttj/synto/releases/latest) and unzip it.
+2. **Install:** Open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and select the `synto/` folder.
+3. **Connect:** Click the Synto icon → Gear icon → **AI Connections**. Add your API key and save.
 
 | Provider | Get a key |
 | --- | --- |
-| OpenAI | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
-| Google Gemini | [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey) |
+| OpenAI | [platform.openai.com](https://platform.openai.com/api-keys) |
+| Google Gemini | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
 | Grok (xAI) | [console.x.ai](https://console.x.ai/) |
+
+---
+
+## Real-World Workflows
+
+### For Developers
+
+- **Review PRs:** Get a summary of changes and technical risks on a heavy GitHub PR without reading every single comment.
+- **Decode Tickets:** Turn a Jira or Linear ticket with dozens of comments into a clear list of requirements and open questions.
+
+### For Productivity
+
+- **Draft Replies:** Highlight an email thread and generate a response that actually makes sense in context.
+- **Find Action Items:** Turn long meeting notes or Notion docs into a simple list of tasks and owners.
+
+### For Daily Life
+
+- **Pick a Dish:** Open a restaurant menu and ask for the "top picks" or something specific like "best value" or "low carb."
+- **Compare Products:** Highlight a few product pages and get a scored comparison to help you choose.
+- **Decide on a Movie:** Open an IMDb page and get a quick verdict on whether it's worth your time.
 
 ---
 
 ## Template Library
 
-11 built-in templates, grouped by intent. Each supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
+Synto comes with 11 built-in templates. You can fully customize these or build your own in Settings using placeholders: `{content}`, `{selection}`, `{title}`, and `{url}`.
 
-| Category | Templates (button label) | Purpose |
-| --- | --- | --- |
-| Understand | Brief, Ticket, Code Review | Key points, conclusions, technical risks |
-| Decide | Decision, Feature | Trade-offs and a clear recommendation |
-| Act | Actions, Risks, Recommend | Turn discussions into tasks and surface blockers |
-| Compose | Reply, Rewrite, Email | Professional replies or rewrites |
-
-You can add or edit templates in Settings. Use them for research summaries, social posts, recipes, Reddit threads, or anything you need.
+| Category | Purpose |
+| --- | --- |
+| **Understand** | Key points, ticket briefs, and code reviews. |
+| **Decide** | Trade-offs, feature checks, and recommendations. |
+| **Act** | Task lists, risk assessments, and blockers. |
+| **Compose** | Professional emails, replies, and rewrites. |
 
 ---
 
@@ -74,81 +86,21 @@ Template prompts sent to AI are always in English regardless of the selected lan
 
 ---
 
-## Workflow Examples
+## Privacy & Security
 
-### Review a PR without reading every comment
-
-1. Open a PR with 20 files changed, 50 inline comments, no summary
-2. Open Synto, click Understand, pick Code Review
-3. Ask AI: you get what changed, what reviewers flagged, and what blocks merge
-4. Ask follow-ups in the panel without switching tabs
-
-### Catch up on an email thread and draft a reply
-
-1. Open a long email thread in Gmail or any webmail
-2. Highlight the last few messages you actually need to respond to
-3. Open Synto, click Compose, pick Reply
-4. Ask AI: you get a draft that fits the thread context, ready to send or tweak
-
-### Decode a ticket before picking it up
-
-1. Open a Jira or Linear ticket with 40 comments, 3 linked issues, and no clear scope
-2. Open Synto, click Understand, pick Ticket
-3. Ask AI: you get the problem, acceptance criteria, open questions, and the next step
-
-### Surface action items from a meeting doc
-
-1. Open a Confluence page, Notion doc, or shared meeting notes
-2. Open Synto, click Act, pick Actions
-3. Ask AI: you get a task list with owners and blockers pulled from the text
-
-### Compare products and pick one
-
-1. Open a search results page or press ⌘A across a few product pages
-2. Open Synto, click Act, pick Recommend
-3. Ask AI: you get a scored comparison and a single clear pick
-
-### Pick a dish from a restaurant menu
-
-1. Open any restaurant menu page
-2. Open Synto, click Act, pick Recommend
-3. Ask AI: you get the top picks with a reason — or ask for something specific like low carb, best value, or good for sharing
-
-### Decide whether a movie is worth watching
-
-1. Open any IMDb movie page
-2. Open Synto, click Act, pick Recommend
-3. Ask AI: you get a quick verdict — what it's about, who it's for, and whether it's worth your time
-
----
-
-## Privacy & Data
-
-- Local only: API keys live in `chrome.storage.local`. They are not synced or sent to any server.
-- Direct connection: page content goes from your browser to the AI provider. Synto never sees it.
-- No analytics, no telemetry, no accounts.
-- Open source: [full code on GitHub](https://github.com/artttj/synto).
+- **Local Only:** Your API keys stay on your computer (`chrome.storage.local`). They are never synced or sent to any server.
+- **Direct Connection:** Your data travels directly from your browser to your AI provider. Synto never sees your prompts.
+- **Open Source:** The [full code is on GitHub](https://github.com/artttj/synto) for you to audit.
 
 Provider policies: [OpenAI](https://openai.com/policies/privacy-policy/), [Google AI](https://ai.google.dev/gemini-api/terms), [xAI](https://x.ai/legal/privacy-policy/).
 
 ---
 
-## Setup
-
-### Build from source
+## Developer Setup
 
 1. `git clone https://github.com/artttj/synto.git && cd synto`
 2. `npm install && npm run build`
-3. Open `chrome://extensions`, turn on Developer mode, click Load unpacked, and select the `dist/` folder
-4. Click the Synto icon, then AI Connections. Paste your API key and Save
-
-### API Keys
-
-| Provider | Model | Where to get a key |
-| --- | --- | --- |
-| OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
-| Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
+3. Load the `dist/` folder as an unpacked extension in Chrome.
 
 ---
 
