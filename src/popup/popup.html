@@ -14,14 +14,14 @@
       <span class="logo-text">Synto</span>
     </div>
     <div class="header-actions">
-      <button id="btn-help" title="Help" aria-label="Open Help">
+      <button id="btn-help" data-i18n-title="options_nav_help" aria-label="Open Help">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
           <circle cx="10" cy="10" r="8"/>
           <path d="M7.5 7.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/>
           <circle cx="10" cy="14.5" r="0.6" fill="currentColor" stroke="none"/>
         </svg>
       </button>
-      <button id="btn-options" title="Settings" aria-label="Open Settings">&#9881;</button>
+      <button id="btn-options" data-i18n-title="options_brand_sub" aria-label="Open Settings">&#9881;</button>
     </div>
   </header>
 
@@ -40,21 +40,21 @@
 
       <!-- Row 1: section label + collapse toggle -->
       <button id="btn-preview-toggle" class="preview-toggle" aria-expanded="true" aria-label="Toggle preview">
-        <span class="preview-label">Preview</span>
+        <span class="preview-label" data-i18n="popup_preview">Preview</span>
         <span id="preview-arrow" class="preview-arrow">&#9652;</span>
       </button>
 
       <!-- Row 2: tabs (primary) + refresh CTA + token badge (metadata) -->
       <div class="preview-tab-row">
         <div class="preview-tabs" role="tablist" aria-label="Preview mode">
-          <button class="preview-tab active" data-tab="content" role="tab" aria-selected="true" type="button">Content</button>
-          <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button">Prompt</button>
+          <button class="preview-tab active" data-tab="content" role="tab" aria-selected="true" type="button" data-i18n="popup_content_tab">Content</button>
+          <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button" data-i18n="popup_prompt_tab">Prompt</button>
         </div>
-        <button id="btn-refresh-content" class="preview-refresh-cta" type="button" title="Re-extract page content (e.g. after loading more)">Refresh content</button>
+        <button id="btn-refresh-content" class="preview-refresh-cta" type="button" data-i18n="popup_refresh_content" data-i18n-title="popup_refresh_content">Refresh content</button>
         <span id="token-count" class="token-count" title="Estimated token count">—</span>
       </div>
 
-      <div id="token-warning" class="token-warning hidden">Near limit</div>
+      <div id="token-warning" class="token-warning hidden" data-i18n="popup_near_limit">Near limit</div>
 
     </div>
 
@@ -83,12 +83,10 @@
 
   <!-- AI response panel (revealed on first use) -->
   <div id="chat-panel" class="chat-panel hidden">
-    <div id="chat-no-key" class="status-msg hidden">
-      No API key set. Add it in <a id="chat-options-link" href="#">Options</a>.
-    </div>
+    <div id="chat-no-key" class="status-msg hidden"><span data-i18n="popup_no_key_prefix">No API key set. Add it in&#160;</span><a id="chat-options-link" href="#" data-i18n="popup_options_link">Options</a><span data-i18n="popup_no_key_suffix">.</span></div>
     <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
     <div id="chat-input-row" class="chat-input-row hidden">
-      <textarea id="chat-input" class="chat-input" placeholder="Ask a follow-up…" rows="1" aria-label="Follow-up message"></textarea>
+      <textarea id="chat-input" class="chat-input" data-i18n-placeholder="popup_chat_placeholder" placeholder="Ask a follow-up…" rows="1" aria-label="Follow-up message"></textarea>
       <button id="btn-chat-send" class="btn-chat-send" type="button" aria-label="Send message">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="10" y1="16" x2="10" y2="4"/>

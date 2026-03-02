@@ -4,6 +4,7 @@
  */
 
 import { TOKEN_THRESHOLDS, estimateTokens, tokenColorClass } from '../shared/constants';
+import { t } from '../shared/i18n';
 import { state, PROVIDER_MODELS } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
@@ -12,7 +13,7 @@ import { setError } from './errors';
 export function updatePreviewText(): void {
   const isPrompt = state.previewTab === 'prompt';
   refs.previewText!.value = isPrompt ? state.finalText : state.rawMarkdown;
-  refs.btnCopyMd!.textContent = isPrompt ? 'Copy Prompt' : 'Copy Markdown';
+  refs.btnCopyMd!.textContent = isPrompt ? t('popup_copy_prompt') : t('popup_copy_markdown');
 }
 
 
@@ -51,7 +52,7 @@ function showCopySuccess(btn: HTMLButtonElement): void {
   const originalText = isMain ? btn.textContent : null;
 
   btn.classList.add('copy-success');
-  if (isMain) btn.textContent = 'Copied!';
+  if (isMain) btn.textContent = t('popup_copied');
 
   setTimeout(() => {
     btn.classList.remove('copy-success');

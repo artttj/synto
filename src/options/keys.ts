@@ -8,6 +8,7 @@ import {
   getGeminiKey,
   getGrokKey,
 } from '../shared/storage';
+import { t } from '../shared/i18n';
 import { refs } from './dom';
 
 
@@ -23,7 +24,7 @@ function setBadge(id: string, connected: boolean): void {
   const badge = document.getElementById(id);
   if (!badge) return;
 
-  badge.textContent = connected ? 'Connected' : 'Not Configured';
+  badge.textContent = connected ? t('status_connected') : t('status_not_configured');
   badge.className = 'status-badge ' + (connected ? 'connected' : 'unconfigured');
 }
 

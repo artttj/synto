@@ -11,6 +11,7 @@ import {
   getGrokKey,
 } from '../shared/storage';
 import { STORAGE_KEYS } from '../shared/constants';
+import { setLocale, applyI18n } from '../shared/i18n';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
@@ -25,6 +26,9 @@ async function init(): Promise<void> {
   resolveRefs();
 
   const [templates, settings] = await Promise.all([getTemplates(), getSettings()]);
+
+  setLocale(settings.language ?? 'en');
+  applyI18n();
 
   document.documentElement.dataset.theme = settings.theme ?? 'dark';
   state.templates = templates;

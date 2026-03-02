@@ -8,6 +8,7 @@ import {
   getGeminiKey,
   getGrokKey,
 } from '../shared/storage';
+import { t } from '../shared/i18n';
 import { state, getAskLabel } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
@@ -127,7 +128,7 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
 
 async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
   const key = await getOpenAIKey();
-  if (!key) throw new Error('No OpenAI API key. Add it in Options.');
+  if (!key) throw new Error(t('error_no_key_openai'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.openai.com/v1/chat/completions',
     model: 'gpt-4o-mini',
@@ -138,7 +139,7 @@ async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
 
 async function processWithGemini(bubble: HTMLDivElement): Promise<void> {
   const key = await getGeminiKey();
-  if (!key) throw new Error('No Gemini API key. Add it in Options.');
+  if (!key) throw new Error(t('error_no_key_gemini'));
   await streamOpenAICompat(bubble, {
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     model: 'gemini-2.0-flash',
@@ -149,7 +150,7 @@ async function processWithGemini(bubble: HTMLDivElement): Promise<void> {
 
 async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
   const key = await getGrokKey();
-  if (!key) throw new Error('No Grok API key. Add it in Options.');
+  if (!key) throw new Error(t('error_no_key_grok'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.x.ai/v1/chat/completions',
     model: 'grok-3-mini',
@@ -192,7 +193,7 @@ export async function processWithAI(): Promise<void> {
   bubble.classList.add('streaming');
   state.chatStreaming = true;
   refs.btnProcess!.disabled = true;
-  refs.btnProcess!.textContent = 'Asking…';
+  refs.btnProcess!.textContent = t('popup_asking');
   refs.btnProcess!.classList.add('loading');
 
   try {

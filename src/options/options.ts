@@ -12,6 +12,7 @@ import {
   getGrokKey,
   saveGrokKey,
 } from '../shared/storage';
+import { setLocale, applyI18n } from '../shared/i18n';
 import { resolveRefs, refs } from './dom';
 import { state } from './state';
 import {
@@ -37,7 +38,10 @@ async function init(): Promise<void> {
   state.templates = templates;
   state.settings = settings;
 
+  setLocale(settings.language ?? 'en');
   applyTheme(state.settings.theme ?? 'dark');
+  applyI18n();
+
   renderSettingsForm();
   renderTemplateList();
 

@@ -337,9 +337,9 @@ body {
 .about-link:hover { color: var(--c-accent-hi); }
 
 .about-row-actions {
-  padding-top: 16px;
-  margin-top: 8px;
-  border-top: 1px solid var(--c-border);
+  align-items: center;
+  padding-top: 14px;
+  margin-top: 4px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

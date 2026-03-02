@@ -4,6 +4,7 @@
  */
 
 import { type Template } from '../shared/storage';
+import { t } from '../shared/i18n';
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -28,10 +29,10 @@ export const PROVIDER_MODELS: Record<string, string> = {
   grok: 'grok-3-mini',
 };
 
-export const PROVIDER_LABELS: Record<string, string> = {
-  openai: 'Ask ChatGPT',
-  gemini: 'Ask Gemini',
-  grok: 'Ask Grok',
+const PROVIDER_LABEL_KEYS: Record<string, string> = {
+  openai: 'popup_ask_chatgpt',
+  gemini: 'popup_ask_gemini',
+  grok:   'popup_ask_grok',
 };
 
 export const state: {
@@ -60,5 +61,6 @@ export const state: {
 
 
 export function getAskLabel(): string {
-  return PROVIDER_LABELS[state.llmProvider] ?? 'Ask AI';
+  const key = PROVIDER_LABEL_KEYS[state.llmProvider];
+  return key ? t(key) : t('popup_ask_ai');
 }

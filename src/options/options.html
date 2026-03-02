@@ -15,7 +15,7 @@
         <img src="../icons/logo.png" class="brand-icon" alt="" />
         <div class="brand-text">
           <div class="brand-name">Synto</div>
-          <div class="brand-sub">Settings</div>
+          <div class="brand-sub" data-i18n="options_brand_sub">Settings</div>
         </div>
       </div>
 
@@ -25,7 +25,7 @@
             <circle cx="10" cy="10" r="3"/>
             <path d="M10 2v1.5m0 13V18M2 10h1.5m13 0H18M4.4 4.4l1.1 1.1m9 9 1.1 1.1M4.4 15.6l1.1-1.1m9-9 1.1-1.1"/>
           </svg>
-          General
+          <span data-i18n="options_nav_general">General</span>
         </button>
 
         <button class="nav-item" data-tab="ai-connections">
@@ -34,7 +34,7 @@
             <rect x="8" y="6" width="5" height="11" rx="1"/>
             <rect x="13" y="3" width="4" height="14" rx="1"/>
           </svg>
-          AI Connections
+          <span data-i18n="options_nav_ai">AI Connections</span>
           <span id="nav-ai-warning" class="nav-warning hidden" title="Some API keys are not configured">!</span>
         </button>
 
@@ -42,7 +42,7 @@
           <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M4 5h12M4 9h12M4 13h7"/>
           </svg>
-          Prompt Library
+          <span data-i18n="options_nav_library">Prompt Library</span>
         </button>
 
         <button class="nav-item" data-tab="help">
@@ -51,7 +51,7 @@
             <path d="M7.5 7.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/>
             <circle cx="10" cy="14.5" r="0.6" fill="currentColor" stroke="none"/>
           </svg>
-          Help
+          <span data-i18n="options_nav_help">Help</span>
         </button>
 
         <button class="nav-item" data-tab="about">
@@ -60,7 +60,7 @@
             <path d="M10 6v1.5m0 6V14"/>
             <circle cx="10" cy="9" r="0.8" fill="currentColor"/>
           </svg>
-          About
+          <span data-i18n="options_nav_about">About</span>
         </button>
       </nav>
     </aside>
@@ -71,23 +71,23 @@
       <!-- Tab: General -->
       <section id="tab-general" class="tab-panel">
         <div class="panel-header">
-          <h1>General</h1>
-          <p>Configure default behaviour when the extension opens.</p>
+          <h1 data-i18n="options_general_heading">General</h1>
+          <p data-i18n="options_general_desc">Configure default behaviour when the extension opens.</p>
         </div>
 
         <div class="setting-group">
           <div class="setting-row">
             <div class="setting-label">
-              <div class="setting-title">Default Template</div>
-              <div class="setting-desc">Pre-selected prompt when the popup opens</div>
+              <div class="setting-title" data-i18n="options_default_template">Default Template</div>
+              <div class="setting-desc" data-i18n="options_default_template_desc">Pre-selected prompt when the popup opens</div>
             </div>
             <select id="default-template" class="setting-select"></select>
           </div>
 
           <div class="setting-row">
             <div class="setting-label">
-              <div class="setting-title">AI Provider</div>
-              <div class="setting-desc">Which service runs the analysis</div>
+              <div class="setting-title" data-i18n="options_ai_provider">AI Provider</div>
+              <div class="setting-desc" data-i18n="options_ai_provider_desc">Which service runs the analysis</div>
             </div>
             <div class="segmented" id="provider-segmented">
               <button class="seg-btn" data-value="openai">OpenAI</button>
@@ -98,27 +98,38 @@
 
           <div class="setting-row">
             <div class="setting-label">
-              <div class="setting-title">Theme</div>
-              <div class="setting-desc">Interface colour scheme</div>
+              <div class="setting-title" data-i18n="options_theme">Theme</div>
+              <div class="setting-desc" data-i18n="options_theme_desc">Interface colour scheme</div>
             </div>
             <div class="segmented" id="theme-segmented">
-              <button class="seg-btn" data-value="dark">Dark</button>
-              <button class="seg-btn" data-value="light">Light</button>
+              <button class="seg-btn" data-value="dark" data-i18n="options_theme_dark">Dark</button>
+              <button class="seg-btn" data-value="light" data-i18n="options_theme_light">Light</button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-label">
+              <div class="setting-title" data-i18n="options_language">Language</div>
+              <div class="setting-desc" data-i18n="options_language_desc">Interface language</div>
+            </div>
+            <div class="segmented" id="language-segmented">
+              <button class="seg-btn" data-value="en">English</button>
+              <button class="seg-btn" data-value="de">Deutsch</button>
             </div>
           </div>
         </div>
 
         <div class="panel-actions">
-          <button id="btn-save-settings" class="btn btn-primary">Save Settings</button>
-          <span id="settings-saved" class="saved-msg hidden">&#10003; Saved</span>
+          <button id="btn-save-settings" class="btn btn-primary" data-i18n="options_save">Save Settings</button>
+          <span id="settings-saved" class="saved-msg hidden" data-i18n="options_saved">&#10003; Saved</span>
         </div>
       </section>
 
       <!-- Tab: AI Connections -->
       <section id="tab-ai-connections" class="tab-panel hidden">
         <div class="panel-header">
-          <h1>AI Connections</h1>
-          <p>API keys are stored locally on your device and are never transmitted by this extension.</p>
+          <h1 data-i18n="options_ai_heading">AI Connections</h1>
+          <p data-i18n="options_ai_desc">API keys are stored locally on your device and are never transmitted by this extension.</p>
         </div>
 
         <div class="privacy-notice" role="note">
@@ -233,8 +244,8 @@
       <!-- Tab: Prompt Library -->
       <section id="tab-prompt-library" class="tab-panel hidden">
         <div class="panel-header">
-          <h1>Prompt Library</h1>
-          <p>Browse, search, and manage your prompt templates.</p>
+          <h1 data-i18n="options_library_heading">Prompt Library</h1>
+          <p data-i18n="options_library_desc">Browse, search, and manage your prompt templates.</p>
         </div>
 
         <div class="library-search-row">
@@ -243,7 +254,7 @@
               <circle cx="8.5" cy="8.5" r="5.5"/>
               <path d="M15 15l3 3"/>
             </svg>
-            <input type="search" id="template-search" class="search-input" placeholder="Search templates…" />
+            <input type="search" id="template-search" class="search-input" data-i18n-placeholder="options_search_placeholder" placeholder="Search templates…" />
           </div>
         </div>
 
@@ -253,8 +264,8 @@
       <!-- Tab: Help -->
       <section id="tab-help" class="tab-panel hidden">
         <div class="panel-header">
-          <h1>Help</h1>
-          <p>How Synto works and keyboard shortcuts.</p>
+          <h1 data-i18n="options_help_heading">Help</h1>
+          <p data-i18n="options_help_desc">How Synto works and keyboard shortcuts.</p>
         </div>
 
         <div class="help-section">
@@ -346,7 +357,7 @@
       <!-- Tab: About -->
       <section id="tab-about" class="tab-panel hidden">
         <div class="panel-header">
-          <h1>About Synto</h1>
+          <h1 data-i18n="options_about_heading">About Synto</h1>
           <p>Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.</p>
         </div>
 
@@ -373,11 +384,11 @@
   </div>
 
   <!-- FAB — shown only on Prompt Library tab -->
-  <button id="btn-new-template" class="fab hidden" title="Add new template">
+  <button id="btn-new-template" class="fab hidden" data-i18n-title="options_new_template_title">
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2">
       <path d="M10 4v12M4 10h12"/>
     </svg>
-    New Template
+    <span data-i18n="options_new_template">New Template</span>
   </button>
 
   <!-- Modal -->
@@ -395,7 +406,7 @@
       <div class="modal-body">
         <div class="field-col">
           <label for="modal-name">Name</label>
-          <input type="text" id="modal-name" placeholder="Template name" maxlength="60" />
+          <input type="text" id="modal-name" data-i18n-placeholder="options_template_name_placeholder" placeholder="Template name" maxlength="60" />
         </div>
         <div class="field-col">
           <label for="modal-category-select">Category</label>
@@ -407,7 +418,7 @@
         </div>
         <div class="field-col">
           <label for="modal-prompt">Prompt</label>
-          <textarea id="modal-prompt" rows="10" placeholder="Write your prompt here…"></textarea>
+          <textarea id="modal-prompt" rows="10" data-i18n-placeholder="options_template_prompt_placeholder" placeholder="Write your prompt here…"></textarea>
         </div>
         <div class="placeholder-helper">
           <div class="helper-label">Insert placeholder</div>
@@ -429,8 +440,8 @@
       </div>
 
       <div class="modal-actions">
-        <button id="modal-cancel" class="btn btn-ghost">Cancel</button>
-        <button id="modal-save" class="btn btn-primary">Save Template</button>
+        <button id="modal-cancel" class="btn btn-ghost" data-i18n="options_cancel">Cancel</button>
+        <button id="modal-save" class="btn btn-primary" data-i18n="options_save_template">Save Template</button>
       </div>
     </div>
   </div>

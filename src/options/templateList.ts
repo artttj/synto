@@ -5,6 +5,7 @@
 
 import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants';
 import { saveTemplates, type Template } from '../shared/storage';
+import { t } from '../shared/i18n';
 import { state } from './state';
 import { refs } from './dom';
 import { escHtml } from './utils';
@@ -17,21 +18,21 @@ function populateCategorySelect(currentCategory?: string): void {
 
   const known = new Set(TEMPLATE_CATEGORIES);
   const extra = new Set<string>();
-  for (const t of state.templates) {
-    if (t.category && !known.has(t.category)) extra.add(t.category);
+  for (const tpl of state.templates) {
+    if (tpl.category && !known.has(tpl.category)) extra.add(tpl.category);
   }
 
   const allCats = [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
   for (const cat of allCats) {
     const opt = document.createElement('option');
     opt.value = cat;
-    opt.textContent = cat;
+    opt.textContent = t('category_' + cat.toLowerCase()) || cat;
     sel.appendChild(opt);
   }
 
   const newOpt = document.createElement('option');
   newOpt.value = '__new__';
-  newOpt.textContent = 'New category…';
+  newOpt.textContent = t('options_new_category');
   sel.appendChild(newOpt);
 
   if (currentCategory && allCats.includes(currentCategory)) {
@@ -48,14 +49,14 @@ function populateCategorySelect(currentCategory?: string): void {
 
 export function openModal(templateId: string | null): void {
   state.editingId = templateId;
-  const t = templateId
+  const tpl = templateId
     ? state.templates.find((x) => x.id === templateId)
     : null;
 
-  refs.modalTitle!.textContent = t ? 'Edit Template' : 'New Template';
-  refs.modalName!.value = t?.name ?? '';
-  refs.modalPrompt!.value = t?.prompt ?? '{content}';
-  populateCategorySelect(t?.category);
+  refs.modalTitle!.textContent = tpl ? t('options_edit_template') : t('options_new_template');
+  refs.modalName!.value = tpl?.name ?? '';
+  refs.modalPrompt!.value = tpl?.prompt ?? '{content}';
+  populateCategorySelect(tpl?.category);
   refs.modalOverlay!.classList.remove('hidden');
   refs.modalName!.focus();
 }
@@ -75,19 +76,19 @@ export function renderTemplateList(): void {
   for (const cat of TEMPLATE_CATEGORIES) {
     grouped[cat] = [];
   }
-  state.templates.forEach((t) => {
+  state.templates.forEach((tpl) => {
     if (
       q &&
-      !t.name.toLowerCase().includes(q) &&
-      !t.prompt.toLowerCase().includes(q)
+      !tpl.name.toLowerCase().includes(q) &&
+      !tpl.prompt.toLowerCase().includes(q)
     ) {
       return;
     }
-    const cat = t.category ?? 'Custom';
+    const cat = tpl.category ?? 'Custom';
     if (!grouped[cat]) {
       grouped[cat] = [];
     }
-    grouped[cat].push(t);
+    grouped[cat].push(tpl);
   });
 
   const allCats = [...TEMPLATE_CATEGORIES, 'Custom'];
@@ -101,11 +102,12 @@ export function renderTemplateList(): void {
     const section = document.createElement('div');
     section.className = 'template-category open';
 
+    const displayCat = t('category_' + cat.toLowerCase()) || cat;
     const toggle = document.createElement('button');
     toggle.className = 'category-toggle';
     toggle.setAttribute('type', 'button');
     toggle.innerHTML = `
-      ${escHtml(cat)}
+      ${escHtml(displayCat)}
       <span class="category-count">${list.length}</span>
       <svg class="category-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M5 7.5l5 5 5-5"/>
@@ -118,25 +120,26 @@ export function renderTemplateList(): void {
     const items = document.createElement('div');
     items.className = 'category-items';
 
-    list.forEach((t) => {
-      const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === t.id);
+    list.forEach((tpl) => {
+      const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === tpl.id);
+      const displayName = t('template_name_' + tpl.id) || tpl.name;
       const previewText =
-        t.prompt.replace(/\n/g, ' ').slice(0, 90) +
-        (t.prompt.length > 90 ? '…' : '');
+        tpl.prompt.replace(/\n/g, ' ').slice(0, 90) +
+        (tpl.prompt.length > 90 ? '\u2026' : '');
 
       const item = document.createElement('div');
       item.className = 'template-item';
       item.innerHTML = `
         <div class="template-item-info">
           <div class="template-name">
-            ${escHtml(t.name)}
-            ${isBuiltin ? '<span class="template-badge">built-in</span>' : ''}
+            ${escHtml(displayName)}
+            ${isBuiltin ? `<span class="template-badge">${escHtml(t('options_builtin'))}</span>` : ''}
           </div>
           <div class="template-preview">${escHtml(previewText)}</div>
         </div>
         <div class="template-actions">
-          <button class="btn btn-ghost btn-sm btn-edit" data-id="${t.id}" type="button">Edit</button>
-          <button class="btn btn-danger btn-delete" data-id="${t.id}" type="button">Delete</button>
+          <button class="btn btn-ghost btn-sm btn-edit" data-id="${tpl.id}" type="button">${escHtml(t('options_edit'))}</button>
+          <button class="btn btn-danger btn-delete" data-id="${tpl.id}" type="button">${escHtml(t('options_delete'))}</button>
         </div>
       `;
       items.appendChild(item);
@@ -151,8 +154,8 @@ export function renderTemplateList(): void {
     const empty = document.createElement('div');
     empty.className = 'no-results';
     empty.textContent = q
-      ? `No templates matching "${q}"`
-      : 'No templates yet.';
+      ? t('options_no_results_search').replace('{q}', q)
+      : t('options_no_results');
     refs.templateList!.appendChild(empty);
   }
 
@@ -170,9 +173,9 @@ export function renderTemplateList(): void {
 
 
 export async function deleteTemplate(id: string): Promise<void> {
-  if (!confirm('Delete this template?')) return;
+  if (!confirm(t('options_delete_confirm'))) return;
 
-  state.templates = state.templates.filter((t) => t.id !== id);
+  state.templates = state.templates.filter((tpl) => tpl.id !== id);
   await saveTemplates(state.templates);
   renderTemplateList();
   renderDefaultTemplateSelect();
@@ -244,8 +247,8 @@ export function wireTemplateList(): void {
     }
 
     if (state.editingId) {
-      state.templates = state.templates.map((t) =>
-        t.id === state.editingId ? { ...t, name, category, prompt } : t
+      state.templates = state.templates.map((tpl) =>
+        tpl.id === state.editingId ? { ...tpl, name, category, prompt } : tpl
       );
     } else {
       state.templates.push({
