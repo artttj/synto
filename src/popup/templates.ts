@@ -5,13 +5,14 @@
 
 import { TEMPLATE_CATEGORIES } from '../shared/constants';
 import { type Template, saveSettings } from '../shared/storage';
+import { t } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
 import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
 
 
 export function applyTemplate(extracted: ExtractedContent, templateId: string | null): string {
-  const template = state.templates.find((t) => t.id === templateId);
+  const template = state.templates.find((tpl) => tpl.id === templateId);
   if (!template || !extracted) return '';
 
   const sel = extracted.selection ?? extracted.content ?? '';
@@ -48,19 +49,19 @@ let switchDebounce: ReturnType<typeof setTimeout> | null = null;
 function getIntentList(): string[] {
   const known = new Set(TEMPLATE_CATEGORIES);
   const extra = new Set<string>();
-  for (const t of state.templates) {
-    if (t.category && !known.has(t.category)) extra.add(t.category);
+  for (const tpl of state.templates) {
+    if (tpl.category && !known.has(tpl.category)) extra.add(tpl.category);
   }
   return [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
 }
 
 function getTemplatesForIntent(intent: string): Template[] {
-  return state.templates.filter((t) => t.category === intent);
+  return state.templates.filter((tpl) => tpl.category === intent);
 }
 
 function deriveActiveIntent(): string {
   if (state.selectedTemplateId) {
-    const tpl = state.templates.find((t) => t.id === state.selectedTemplateId);
+    const tpl = state.templates.find((tpl) => tpl.id === state.selectedTemplateId);
     if (tpl?.category) {
       const list = getIntentList();
       if (list.includes(tpl.category)) return tpl.category;
@@ -104,7 +105,7 @@ function renderIntentTabs(): void {
     btn.className = 'intent-tab' + (intent === activeIntent ? ' active' : '');
     btn.setAttribute('aria-selected', String(intent === activeIntent));
     btn.dataset.intent = intent;
-    btn.textContent = intent;
+    btn.textContent = t('category_' + intent.toLowerCase()) || intent;
     container.appendChild(btn);
   }
 }
@@ -113,17 +114,20 @@ function renderTemplateCards(): void {
   const container = refs.templateCards!;
   container.innerHTML = '';
 
-  for (const t of getTemplatesForIntent(activeIntent)) {
+  for (const tpl of getTemplatesForIntent(activeIntent)) {
+    const displayLabel = t('template_label_' + tpl.id) || tpl.label || tpl.name;
+    const displayName  = t('template_name_'  + tpl.id) || tpl.name;
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.setAttribute('role', 'option');
-    btn.setAttribute('aria-selected', String(t.id === state.selectedTemplateId));
-    btn.setAttribute('tabindex', t.id === state.selectedTemplateId ? '0' : '-1');
-    btn.setAttribute('aria-label', t.name);
-    btn.title = t.name;
-    btn.className = 'template-card' + (t.id === state.selectedTemplateId ? ' selected' : '');
-    btn.dataset.id = t.id;
-    btn.textContent = t.label ?? t.name;
+    btn.setAttribute('aria-selected', String(tpl.id === state.selectedTemplateId));
+    btn.setAttribute('tabindex', tpl.id === state.selectedTemplateId ? '0' : '-1');
+    btn.setAttribute('aria-label', displayName);
+    btn.title = displayName;
+    btn.className = 'template-card' + (tpl.id === state.selectedTemplateId ? ' selected' : '');
+    btn.dataset.id = tpl.id;
+    btn.textContent = displayLabel;
     container.appendChild(btn);
   }
 }
@@ -154,7 +158,7 @@ function switchIntent(intent: string): void {
 
   const saved = intentSelection[intent] ?? localStorage.getItem('synto_intent_sel_' + intent);
   const templates = getTemplatesForIntent(intent);
-  const targetId = saved && templates.find((t) => t.id === saved)
+  const targetId = saved && templates.find((tpl) => tpl.id === saved)
     ? saved
     : templates[0]?.id ?? null;
 

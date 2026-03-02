@@ -19,6 +19,7 @@ export interface Settings {
   defaultTemplateId: string;
   theme: string;
   llmProvider: string;
+  language: string;
 }
 
 export async function getOpenAIKey(): Promise<string> {
@@ -87,6 +88,7 @@ export async function getSettings(): Promise<Settings> {
     defaultTemplateId: 'understand-structured-brief',
     theme: 'dark',
     llmProvider: 'openai',
+    language: 'en',
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };
 }

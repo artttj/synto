@@ -9,6 +9,7 @@ export const refs: {
   defaultTplEl: HTMLSelectElement | null;
   providerSeg: HTMLElement | null;
   themeSeg: HTMLElement | null;
+  languageSeg: HTMLElement | null;
   btnSaveSettings: HTMLElement | null;
   settingsSaved: HTMLElement | null;
   navAiWarning: HTMLElement | null;
@@ -28,6 +29,7 @@ export const refs: {
   defaultTplEl: null,
   providerSeg: null,
   themeSeg: null,
+  languageSeg: null,
   btnSaveSettings: null,
   settingsSaved: null,
   navAiWarning: null,
@@ -50,6 +52,7 @@ export function resolveRefs(): void {
   refs.defaultTplEl = $('default-template') as HTMLSelectElement;
   refs.providerSeg = $('provider-segmented')!;
   refs.themeSeg = $('theme-segmented')!;
+  refs.languageSeg = $('language-segmented')!;
   refs.btnSaveSettings = $('btn-save-settings')!;
   refs.settingsSaved = $('settings-saved')!;
   refs.navAiWarning = $('nav-ai-warning')!;
