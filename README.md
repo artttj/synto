@@ -4,27 +4,17 @@
 
 ## Why Synto?
 
-**Synto turns messy web content into clean, structured outputs you can use right away.** No context switching to chat tabs, no copy paste gymnastics, no rewriting the same background over and over.
+- **Synto turns messy web content into clean, structured outputs you can use right away.** No context switching to chat tabs, no copy paste gymnastics, no rewriting the same background again and again.
 
-### Precision context control
+- **You decide exactly what the model sees.** Select the precise text you care about or clip a specific section. Only the relevant context is sent, which keeps responses sharp and focused.
 
-**You decide exactly what the model sees.** Select the precise text you care about or clip a specific section. Synto sends only what matters, so responses stay sharp and relevant.
+- **Built for real work, not open ended chat.** Generate ticket briefs, PR reviews, action items, and decision logs that are ready to drop into your workflow.
 
-### Structured output by default
+- **You own the provider relationship.** Connect OpenAI, Gemini, or Grok with your own API keys and pay them directly. No markup and no intermediary.
 
-**Built for real work, not open ended chat.** Generate ticket briefs, PR reviews, action items, and decision logs that are ready to drop into your workflow.
+- **There is no Synto backend.** Requests go straight from your browser to the AI provider. No relay servers, no tracking, no data retention.
 
-### Bring your own key
-
-**You own the provider relationship.** Connect OpenAI, Gemini, or Grok with your own API keys and pay them directly. No markup, no intermediary.
-
-### Zero relay privacy
-
-**There is no Synto backend.** Requests go straight from your browser to the AI provider. No relay servers, no tracking, no data retention.
-
-### Smarter than browser defaults
-
-**Generic browser AI sidebars process entire pages and pick up noise.** Synto focuses only on your selection, resulting in more accurate, context aware, and actionable outputs.
+- **Focused input leads to better output.** Instead of processing an entire noisy page, Synto works only with your selection, resulting in more accurate, context aware, and actionable results.
 
 <table>
   <tr>
