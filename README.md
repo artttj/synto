@@ -2,17 +2,29 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
-**Why Synto?**
+## Why Synto?
 
-**You control what gets sent.** Select text or clip a section. Only that content goes to the model.
+**Synto turns messy web content into clean, structured outputs you can use right away.** No context switching to chat tabs, no copy paste gymnastics, no rewriting the same background over and over.
 
-**Structured results, not generic chat.** Ticket briefs, PR reviews, action items, decision briefs, ready to use.
+### Precision context control
 
-**Your provider, your key.** OpenAI, Gemini, or Grok. You choose the model and pay them directly.
+**You decide exactly what the model sees.** Select the precise text you care about or clip a specific section. Synto sends only what matters, so responses stay sharp and relevant.
 
-**No relay server.** Content goes straight from your browser to the AI provider. No backend, no tracking.
+### Structured output by default
 
-**More precise than tools like Gemini in Chrome.** Instead of summarizing the whole page, Synto focuses on exactly what you select and returns structured, actionable output.
+**Built for real work, not open ended chat.** Generate ticket briefs, PR reviews, action items, and decision logs that are ready to drop into your workflow.
+
+### Bring your own key
+
+**You own the provider relationship.** Connect OpenAI, Gemini, or Grok with your own API keys and pay them directly. No markup, no intermediary.
+
+### Zero relay privacy
+
+**There is no Synto backend.** Requests go straight from your browser to the AI provider. No relay servers, no tracking, no data retention.
+
+### Smarter than browser defaults
+
+**Generic browser AI sidebars process entire pages and pick up noise.** Synto focuses only on your selection, resulting in more accurate, context aware, and actionable outputs.
 
 <table>
   <tr>
