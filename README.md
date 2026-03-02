@@ -99,7 +99,7 @@ You can add or edit templates in Settings. Use them for research summaries, soci
 ### Decide whether a movie is worth watching
 
 1. Open any IMDb movie page
-2. Open Synto, click Decide, pick Decision
+2. Open Synto, click Act, pick Recommend
 3. Ask AI: you get a quick verdict — what it's about, who it's for, and whether it's worth your time
 
 ---
