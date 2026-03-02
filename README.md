@@ -14,6 +14,8 @@ Turn any web page into clean Markdown, choose a prompt template, and talk to Cha
 
 Templates are fully customizable. You can edit them or add your own in Settings.
 
+**Why Synto?** Most AI extensions require a subscription or act as a middleman for your data. Synto is a developer-tool first: it's an open-source bridge between your browser and your own API keys.
+
 ---
 
 ## Quick Install
