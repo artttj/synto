@@ -2,14 +2,17 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
-**Why Synto?** Most AI extensions require a subscription or send your data through their own servers. Synto is different:
+**Why Synto?**
 
-- **You decide what gets sent.** Clip a section or select text — your other tabs stay out of it.
-- **Not just summaries.** Implementation briefs, PR reviews, action items, decision briefs — structured output you can act on.
-- **Your provider, your key.** OpenAI, Gemini, or Grok. You pick the model and pay the provider directly.
-- **No relay.** Page content goes straight from your browser to the AI provider. No backend, no telemetry.
+You control what gets sent. Select text or clip a section. Only that content goes to the model.
 
-Built-in AI helps you understand pages. Synto turns pages into decisions, actions, and implementation briefs.
+Structured results, not generic chat. Ticket briefs, PR reviews, action items, decision briefs, ready to use.
+
+Your provider, your key. OpenAI, Gemini, or Grok. You choose the model and pay them directly.
+
+No relay server. Content goes straight from your browser to the AI provider. No backend, no tracking.
+
+More precise than tools like Gemini in Chrome. Instead of summarizing the whole page, Synto focuses on exactly what you select and returns structured, actionable output.
 
 <table>
   <tr>
