@@ -29,8 +29,6 @@ export function extractContent(mode: string) {
       selection: selectionText,
       title: document.title,
       url: location.href,
-      excerpt: '',
-      byline: '',
       siteName: '',
     };
   }
@@ -87,8 +85,6 @@ function extractBody() {
     selection: '',
     title: document.title,
     url: location.href,
-    excerpt: '',
-    byline: '',
     siteName: '',
   };
 }

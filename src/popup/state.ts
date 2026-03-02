@@ -15,8 +15,6 @@ export interface ExtractedContent {
   selection?: string;
   title: string;
   url: string;
-  excerpt?: string;
-  byline?: string;
   siteName?: string;
   source?: string;
   success?: boolean;

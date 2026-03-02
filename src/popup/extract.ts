@@ -23,8 +23,6 @@ interface ExtractResponse {
   selection?: string;
   title: string;
   url: string;
-  excerpt?: string;
-  byline?: string;
   siteName?: string;
   source?: string;
   mode?: string;

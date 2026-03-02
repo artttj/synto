@@ -20,8 +20,6 @@ export function applyTemplate(extracted: ExtractedContent, templateId: string | 
     .replace(/\{selection\}/g, sel)
     .replace(/\{title\}/g, extracted.title ?? '')
     .replace(/\{url\}/g, extracted.url ?? '')
-    .replace(/\{excerpt\}/g, extracted.excerpt ?? '')
-    .replace(/\{byline\}/g, extracted.byline ?? '')
     .replace(/\{siteName\}/g, extracted.siteName ?? '');
 }
 
