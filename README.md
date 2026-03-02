@@ -4,17 +4,15 @@
 
 ## Why Synto?
 
-- **Synto turns messy web content into clean, structured outputs you can use right away.** No context switching to chat tabs, no copy paste gymnastics, no rewriting the same background again and again.
+- **Synto turns messy pages into clean, structured output you can use immediately.** No tab switching, no copy paste loops, no repeating context.
 
-- **You decide exactly what the model sees.** Select the precise text you care about or clip a specific section. Only the relevant context is sent, which keeps responses sharp and focused.
+- **More focused than built-in browser AI.** Tools like Gemini in Chrome process the whole page. Synto sends only what you select, so answers stay sharp and relevant.
 
-- **Built for real work, not open ended chat.** Generate ticket briefs, PR reviews, action items, and decision logs that are ready to drop into your workflow.
+- **Made for real workflows, not endless chat.** Ticket briefs, PR reviews, action items, decision logs — ready to drop in.
 
-- **You own the provider relationship.** Connect OpenAI, Gemini, or Grok with your own API keys and pay them directly. No markup and no intermediary.
+- **Use your own provider keys.** Connect OpenAI, Gemini, or Grok and pay them directly. No markup, no middle layer.
 
-- **There is no Synto backend.** Requests go straight from your browser to the AI provider. No relay servers, no tracking, no data retention.
-
-- **Focused input leads to better output.** Instead of processing an entire noisy page, Synto works only with your selection, resulting in more accurate, context aware, and actionable results.
+- **No backend.** Requests go straight from your browser to the model. No relays, no tracking, no storage.
 
 <table>
   <tr>
