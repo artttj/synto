@@ -38,17 +38,17 @@ Synto is a simple browser extension that bridges the gap between the web and you
 
 ## Real-World Workflows
 
-### For Developers
+### 🛠️ For Developers
 
 - **Review PRs:** Get a summary of changes and technical risks on a heavy GitHub PR without reading every single comment.
 - **Decode Tickets:** Turn a Jira or Linear ticket with dozens of comments into a clear list of requirements and open questions.
 
-### For Productivity
+### ✍️ For Productivity
 
 - **Draft Replies:** Highlight an email thread and generate a response that actually makes sense in context.
 - **Find Action Items:** Turn long meeting notes or Notion docs into a simple list of tasks and owners.
 
-### For Daily Life
+### 🍱 For Daily Life
 
 - **Pick a Dish:** Open a restaurant menu and ask for the "top picks" or something specific like "best value" or "low carb."
 - **Compare Products:** Highlight a few product pages and get a scored comparison to help you choose.
