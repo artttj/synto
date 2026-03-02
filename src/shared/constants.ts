@@ -299,22 +299,31 @@ Source: [{title}]({url})
     description: "Options, trade-offs, quick verdict",
     category: "Act",
     isDefault: false,
-    prompt: `Score and decide between the options in the content below. Use a weighted scorecard. Output ONLY this structure — nothing before or after:
+    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below.
+
+If there are multiple options to compare:
 
 ## Criteria (total weight 100)
-- Criterion 1 – weight %
-(4–6 criteria)
+- Criterion – weight %
+(3–5 criteria that matter for this choice)
 
 ## Scorecard
-| Option | Crit 1 | Crit 2 | Crit 3 | Crit 4 | Total (weighted) |
-|--------|--------|--------|--------|--------|------------------|
-| …      | …      | …      | …      | …      | …                |
+| Option | Crit 1 | Crit 2 | Crit 3 | Total (weighted) |
+|--------|--------|--------|--------|------------------|
 
-## Winner
-[Option name] — two-sentence explanation why it leads.
+## Pick
+[Best option] — 1–2 sentences on why it wins.
 
-## Communication Snippet
-Two sentences to tell stakeholders: benefit + immediate next step.
+If it's a single item to evaluate:
+
+## What it is
+One sentence.
+
+## Best for
+Who or what situation it fits.
+
+## Verdict
+Worth it or not — and why in one sentence.
 
 ---
 
