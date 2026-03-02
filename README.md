@@ -6,7 +6,7 @@ Turn any web page into clean Markdown, choose a prompt template, and talk to Cha
 
 <table>
   <tr>
-    <td width="33%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Clip any page to Markdown — paste into any LLM or chat in the sidebar</b></sub></td>
+    <td width="33%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Clip any page to Markdown:paste into any LLM or chat in the sidebar</b></sub></td>
     <td width="33%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub><b>Get a structured PR review with changes, concerns and next steps</b></sub></td>
     <td width="33%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub><b>Open any restaurant menu and ask what's worth ordering</b></sub></td>
   </tr>
@@ -32,55 +32,6 @@ You need an API key from one of these:
 
 ---
 
-If you're tired of copy-pasting pages into ChatGPT and typing "summarize this," Synto cuts that loop. You clip the page, pick a template, and ask. Built for engineers, PMs, and founders who want to get to the answer without the prep.
-
-- [Why Synto?](#why-synto)
-- [Templates](#template-library)
-- [Features](#features)
-- [Workflow Examples](#workflow-examples)
-- [Privacy & Data](#privacy--data)
-- [Setup](#setup)
-
----
-
-## Why Synto?
-
-- Works on any page: Jira, GitHub, GitLab, Bitbucket, Reddit, news, docs. If it opens in Chrome, Synto can clip it.
-- Templates by intent: prompts for analysis, decisions, and action items. You can change them or add your own.
-- Selection-aware: highlight the text you care about and Synto sends only that, not the whole page.
-- Multi-AI: ChatGPT, Gemini, and Grok in one panel. Switch between them in one click.
-- No background processes, no telemetry. [Open source](https://github.com/artttj/synto).
-
----
-
-## Before & After
-
-Without Synto: copy a 200-comment Jira ticket, paste into ChatGPT, type "summarize this," get a generic paragraph that misses the technical details.
-
-With Synto: open the side panel, click Understand, pick Ticket, click Ask ChatGPT. You get a structured brief like this:
-
-```
-## Summary
-Auth service timeout caused by Redis connection pool exhaustion.
-
-## Acceptance Criteria
-1. Pool size configurable via env var.
-2. Graceful degradation (queueing) when pool is full.
-3. Load test at 500 RPS passes.
-
-## Risks & Mitigations
-- Increasing pool size may exhaust Redis server connections → cap at 80% of Redis maxclients.
-- Queue depth needs a hard limit → reject with 503 above threshold.
-
-## Tasks
-- Spike connection pooling library options · backend · M
-- Check current Redis maxclients value · devops · S
-```
-
-"Ask" streams the response in the panel. "Copy Markdown" copies the prompt to your clipboard for Claude, ChatGPT web, or any other tool.
-
----
-
 ## Template Library
 
 11 built-in templates, grouped by intent. Each supports `{content}`, `{selection}`, `{title}`, and `{url}` placeholders.
@@ -96,26 +47,7 @@ You can add or edit templates in Settings. Use them for research summaries, soci
 
 ---
 
-## Features
-
-### Smart Extraction
-
-Synto goes for the main content and skips the rest.
-
-- Any page: Jira, GitHub, GitLab, Bitbucket, Reddit, Amazon, news, docs. If it opens in Chrome, Synto clips it.
-- Semantic selectors: targets `<article>`, `<main>`, `#issue-content` (Jira), `.js-discussion` (GitHub), `#pullrequest-diff` (Bitbucket), `.diff-files-holder` (GitLab), `#centerCol` (Amazon). Skips nav, footers, ads, and banners.
-- Clean Markdown: HTML converted to normalised GFM via [Turndown](https://github.com/mixmark-io/turndown). Diff tables show up as readable `<pre>` blocks.
-- Selection-aware: highlight text before opening Synto and only that is sent. Press Ctrl+A (⌘A) to select the whole page. Useful for lazy-loaded pages like Bitbucket diffs — scroll to the bottom first to load all content, then select all, then open Synto.
-
-### Integrated Experience
-
-Everything lives in a persistent side panel. No tab switching, no lost context.
-
-- Multi-model: stream from GPT-4o-mini, Gemini 2.0 Flash, or Grok-3-mini with full follow-up conversation.
-- Live preview: switch between the Content tab (extracted Markdown) and the Prompt tab (final merged string). A token counter warns you when you're near model limits.
-- Two output modes: "Ask" streams in the panel. "Copy Markdown" (or "Copy Prompt") puts the prompt on your clipboard for Claude, ChatGPT web, or anything else.
-
-### Keyboard Shortcuts
+## Keyboard Shortcuts
 
 | Action | macOS | Windows / Linux |
 | --- | --- | --- |
@@ -126,44 +58,37 @@ Everything lives in a persistent side panel. No tab switching, no lost context.
 
 ## Workflow Examples
 
-### Engineering: Code review
+### Review a PR without reading every comment
 
-1. Open a GitHub PR with 40+ review comments
+1. Open a PR with 20 files changed, 50 inline comments, no summary
 2. Open Synto, click Understand, pick Code Review
-3. Click Ask ChatGPT. You get a structured brief: what changed, who's blocking, what needs fixing
-4. Ask follow-up questions in the panel
+3. Ask AI: you get what changed, what reviewers flagged, and what blocks merge
+4. Ask follow-ups in the panel without switching tabs
 
-### Engineering: Bitbucket code review
+### Catch up on an email thread and draft a reply
 
-Bitbucket loads diff sections as you scroll, so auto-extraction only sees what's on screen. Workaround:
-
-1. Open the PR, go to Files changed, scroll to the bottom so all files load
-2. Press Ctrl+A (⌘A on Mac) to select the page
-3. Open Synto, click Understand, pick Code Review, click Ask AI
-
-Synto uses your selection instead of re-extracting.
-
-### Shopping: compare products and pick one
-
-Recommend uses a weighted scorecard to rank options. It works best when you have multiple items to compare.
-
-1. Open an Amazon search results page, or select content from a few product pages with Ctrl+A
-2. Open Synto, click Act, pick Recommend
-3. Click Ask AI. You get a scored comparison table and a clear recommendation on which to pick
-
-### Writing: draft a reply
-
-1. Open a long email thread, GitHub issue, or message
-2. Optionally highlight the part you're replying to
+1. Open a long email thread in Gmail or any webmail
+2. Highlight the last few messages you actually need to respond to
 3. Open Synto, click Compose, pick Reply
-4. Click Ask ChatGPT for a reply you can send as-is
+4. Ask AI: you get a draft that fits the thread context, ready to send or tweak
 
-### Support: get up to speed on a ticket
+### Decode a ticket before picking it up
 
-1. Open a long Zendesk, Intercom, or GitHub issue thread
+1. Open a Jira or Linear ticket with 40 comments, 3 linked issues, and no clear scope
 2. Open Synto, click Understand, pick Ticket
-3. Click Ask ChatGPT for a summary of the problem, what's been tried, and current status
-4. Ask follow-ups without re-reading the whole thread
+3. Ask AI: you get the problem, acceptance criteria, open questions, and the next step
+
+### Surface action items from a meeting doc
+
+1. Open a Confluence page, Notion doc, or shared meeting notes
+2. Open Synto, click Act, pick Actions
+3. Ask AI: you get a task list with owners and blockers pulled from the text
+
+### Compare products and pick one
+
+1. Open a search results page or press ⌘A across a few product pages
+2. Open Synto, click Act, pick Recommend
+3. Ask AI: you get a scored comparison and a single clear pick
 
 ---
 
@@ -187,8 +112,6 @@ Provider policies: [OpenAI](https://openai.com/policies/privacy-policy/), [Googl
 3. Open `chrome://extensions`, turn on Developer mode, click Load unpacked, and select the `dist/` folder
 4. Click the Synto icon, then AI Connections. Paste your API key and Save
 
-Load the `dist/` folder (the build output), not the project root.
-
 ### API Keys
 
 | Provider | Model | Where to get a key |
@@ -196,21 +119,6 @@ Load the `dist/` folder (the build output), not the project root.
 | OpenAI | `gpt-4o-mini` | [platform.openai.com](https://platform.openai.com/api-keys) |
 | Google Gemini | `gemini-2.0-flash` | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
 | Grok (xAI) | `grok-3-mini` | [console.x.ai](https://console.x.ai/) |
-
-### Project Structure
-
-```
-synto/
-├── manifest.json         # Manifest V3 (copied into dist/)
-├── src/
-│   ├── background/       # Service worker
-│   ├── content/          # Extraction logic
-│   ├── popup/            # Sidebar UI & chat
-│   ├── options/          # Options page
-│   └── shared/           # Storage & constants
-├── scripts/build.js      # Build pipeline: src/ + icons/ → dist/
-└── dist/                 # Load this folder into Chrome
-```
 
 ---
 
