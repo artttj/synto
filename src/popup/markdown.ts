@@ -33,14 +33,42 @@ export function renderMarkdown(raw: string): string {
       .replace(/__([^_\n]+)__/g, '<strong>$1</strong>')
       .replace(/_([^_\n]+)_/g, '<em>$1</em>');
 
+  const parseTableRows = (rows: string[]): string => {
+    const cells = (row: string) =>
+      row.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+    const isSep = (row: string) => /^\|?[\s|:-]+\|?$/.test(row) && row.includes('-');
+
+    const sepIdx = rows.findIndex(isSep);
+    if (sepIdx < 1) return rows.map(r => `${inline(r)}<br>`).join('');
+
+    const headers = cells(rows[0]);
+    const body = rows.slice(sepIdx + 1);
+
+    const th = headers.map(h => `<th>${inline(h)}</th>`).join('');
+    const trs = body.map(r => {
+      const tds = cells(r).map(c => `<td>${inline(c)}</td>`).join('');
+      return `<tr>${tds}</tr>`;
+    }).join('');
+
+    return `<div class="md-table-wrap"><table class="md-table"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table></div>`;
+  };
+
   const lines = text.split('\n');
   const out: string[] = [];
   let inUl = false;
   let inOl = false;
+  let tableLines: string[] = [];
 
   const closeList = () => {
     if (inUl) { out.push('</ul>'); inUl = false; }
     if (inOl) { out.push('</ol>'); inOl = false; }
+  };
+
+  const flushTable = () => {
+    if (tableLines.length) {
+      out.push(parseTableRows(tableLines));
+      tableLines = [];
+    }
   };
 
   const codePlaceholderRegex = new RegExp(
@@ -50,10 +78,19 @@ export function renderMarkdown(raw: string): string {
   for (const line of lines) {
     const codeMatch = codePlaceholderRegex.exec(line.trim());
     if (codeMatch) {
+      flushTable();
       closeList();
       out.push(codeBlocks[parseInt(codeMatch[1], 10)]);
       continue;
     }
+
+    if (/^\|.+/.test(line)) {
+      closeList();
+      tableLines.push(line);
+      continue;
+    }
+
+    flushTable();
 
     const ul = /^[-*] (.+)$/.exec(line);
     if (ul) {
@@ -88,6 +125,7 @@ export function renderMarkdown(raw: string): string {
     out.push(`${inline(line)}<br>`);
   }
 
+  flushTable();
   closeList();
   return out.join('').replace(/(<br>){3,}/g, '<br><br>');
 }

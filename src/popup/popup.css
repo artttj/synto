@@ -614,6 +614,26 @@ header {
 .chat-bubble.assistant ol { margin: 4px 0; padding-left: 18px; }
 .chat-bubble.assistant li { margin: 2px 0; }
 
+.chat-bubble.assistant .md-table-wrap {
+  overflow-x: auto;
+  margin: 6px 0;
+}
+.chat-bubble.assistant .md-table {
+  border-collapse: collapse;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.chat-bubble.assistant .md-table th,
+.chat-bubble.assistant .md-table td {
+  border: 1px solid var(--c-border-hi);
+  padding: 4px 10px;
+  text-align: left;
+}
+.chat-bubble.assistant .md-table thead tr {
+  background: var(--c-elevated);
+  font-weight: 600;
+}
+
 .chat-bubble.assistant.streaming::after {
   content: "▋";
   animation: blink 0.7s steps(1) infinite;
