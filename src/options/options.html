@@ -290,6 +290,18 @@
         </div>
 
         <div class="help-section">
+          <h2 class="help-heading">Placeholders</h2>
+          <dl class="placeholder-defs placeholder-defs--help">
+            <dt>{content}</dt>   <dd>Full page as Markdown</dd>
+            <dt>{selection}</dt> <dd>Highlighted text; falls back to full page</dd>
+            <dt>{title}</dt>     <dd>Page title</dd>
+            <dt>{url}</dt>       <dd>Page URL</dd>
+            <dt>{excerpt}</dt>   <dd>Description from page meta</dd>
+            <dt>{byline}</dt>    <dd>Author from page meta</dd>
+          </dl>
+        </div>
+
+        <div class="help-section">
           <h2 class="help-heading">Tips</h2>
           <ul class="help-steps">
             <li><strong>Selection mode</strong> — highlight any text on the page before opening Synto; only that selection is sent as <code>{content}</code>. Use this to focus on one section of a long page.</li>
@@ -408,7 +420,14 @@
             <button class="chip" data-placeholder="{excerpt}" type="button">{excerpt}</button>
             <button class="chip" data-placeholder="{byline}" type="button">{byline}</button>
           </div>
-          <div class="helper-hint">{selection} uses highlighted text and falls back to full page content.</div>
+          <dl class="placeholder-defs">
+            <dt>{content}</dt>   <dd>Full page as Markdown</dd>
+            <dt>{selection}</dt> <dd>Highlighted text; falls back to full page</dd>
+            <dt>{title}</dt>     <dd>Page title</dd>
+            <dt>{url}</dt>       <dd>Page URL</dd>
+            <dt>{excerpt}</dt>   <dd>Description from page meta</dd>
+            <dt>{byline}</dt>    <dd>Author from page meta</dd>
+          </dl>
         </div>
       </div>
 
