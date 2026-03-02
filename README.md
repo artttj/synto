@@ -49,6 +49,14 @@ You can add or edit templates in Settings. Use them for research summaries, soci
 
 ---
 
+## Languages
+
+The UI supports English and German. Switch in Settings → General → Language. The choice is stored per browser profile and applies instantly.
+
+Template prompts sent to AI are always in English regardless of the selected language.
+
+---
+
 ## Keyboard Shortcuts
 
 | Action | macOS | Windows / Linux |
