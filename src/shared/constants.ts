@@ -163,44 +163,45 @@ Source: [{title}]({url})
     description: "Options, trade-offs, recommendation",
     category: "Decide",
     isDefault: false,
-    prompt: `You are a principal decision architect. Using ONLY the context below, produce a short, executive-ready decision document.
+    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below.
 
-Output ONLY the markdown below — nothing before or after:
+If there are multiple options to compare:
 
 ## Context
-2–4 sentences of background.
+2–3 sentences of background.
 
-## Decision
-One clear sentence: what exactly needs to be chosen.
+## Options
 
-## Options Compared
-
-**Option A: [name]**
+**[Option A]**
 - Pros
 - Cons
-- Effort / Cost
-- Time-to-value
 
-**Option B: [name]**
+**[Option B]**
 - Pros
 - Cons
-- Effort / Cost
-- Time-to-value
 
-## Evaluation Criteria
-- Criterion 1 (weight if scored)
-(4–6 total)
+## Criteria
+- Criterion (weight if useful)
+(3–5 that matter for this choice)
 
 ## Recommendation
-Chosen option + 2-sentence rationale anchored to the criteria.
+Best option + 2-sentence reason.
 
-## Next Actions
-1. Step · Owner · Due · Metric
-(3–4 items)
+If it's a single item or personal decision (movie, place, product, event):
+
+## What it is
+One sentence.
+
+## Pros
+3–4 bullet points.
+
+## Cons
+2–3 bullet points.
+
+## Verdict
+Go for it or skip — and why in one sentence.
 
 ---
-
-Source: [{title}]({url})
 
 {content}`,
   },
