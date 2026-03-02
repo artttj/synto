@@ -8,7 +8,7 @@ Turn any web page into clean Markdown, choose a prompt template, and talk to Cha
 
 <table>
   <tr>
-    <td width="33%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Clip any page to Markdown:paste into any LLM or chat in the sidebar</b></sub></td>
+    <td width="33%" align="center"><img src="docs/synto_2.png" alt="Best pick from Amazon listings" width="100%" /><br/><sub><b>Clip any page to Markdown — paste into any LLM or chat in the sidebar</b></sub></td>
     <td width="33%" align="center"><img src="docs/synto_3.png" alt="Review a GitHub pull request" width="100%" /><br/><sub><b>Get a structured PR review with changes, concerns and next steps</b></sub></td>
     <td width="33%" align="center"><img src="docs/synto_4.png" alt="Best dish from a restaurant menu" width="100%" /><br/><sub><b>Open any restaurant menu and ask what's worth ordering</b></sub></td>
   </tr>
