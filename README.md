@@ -90,6 +90,18 @@ You can add or edit templates in Settings. Use them for research summaries, soci
 2. Open Synto, click Act, pick Recommend
 3. Ask AI: you get a scored comparison and a single clear pick
 
+### Pick a dish from a restaurant menu
+
+1. Open any restaurant menu page
+2. Open Synto, click Act, pick Recommend
+3. Ask AI: you get the top picks with a reason — or ask for something specific like low carb, best value, or good for sharing
+
+### Decide what to watch on IMDb
+
+1. Open an IMDb search results page, a watchlist, or a few movie pages
+2. Open Synto, click Act, pick Recommend
+3. Ask AI: you get a ranked list with a short reason for each, and a clear top pick
+
 ---
 
 ## Privacy & Data
