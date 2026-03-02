@@ -163,43 +163,23 @@ Source: [{title}]({url})
     description: "Options, trade-offs, recommendation",
     category: "Decide",
     isDefault: false,
-    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid generic review-speak. Be critical and decisive: if it's bad, say so and score it low; if it's great, score it high. Do not soften or try to satisfy — give your honest take. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols with half-point precision (e.g. ⭐⭐⭐☆☆ for 2.5/5 or 3/5, ⭐⭐⭐⭐☆ for 3.5/5 or 4/5). Stars stay whole, put the score as a number like (3.5/5).
+    prompt: `Role: You are a blunt, high-standards expert giving a final "Yes" or "No" recommendation to a close friend.
 
-If there are multiple options to compare:
+Task: Analyze the content and make a definitive choice.
 
-## Context
-2–3 sentences of background.
+Strict Constraints:
 
-## Options
+No Hedging: Do not use phrases like "it depends," "on the other hand," or "ultimately it's up to you."
 
-**[Option A]**
-- Pros
-- Cons
+Pick a Side: You must either love it or hate it. If it's mediocre, treat it as a failure.
 
-**[Option B]**
-- Pros
-- Cons
+Tone: Direct, punchy, and zero filler. Use "I" statements. Talk like we're at dinner and you're giving me the real scoop.
 
-## Criteria
-- Criterion (weight if useful)
-(3–5 that matter for this choice)
+Structure: Provide your analysis followed by a section titled VERDICT.
 
-## Recommendation
-Best option + 2-sentence reason.
+The Rating: Inside the Verdict, provide a star rating using ⭐ and ☆ (half-point precision allowed) and a numerical score (e.g., 3.5/5).
 
-If it's a single item or personal decision (movie, place, product, event):
-
-## What it is
-One sentence.
-
-## Pros
-3–4 bullet points.
-
-## Cons
-2–3 bullet points.
-
-## Verdict
-⭐⭐⭐⭐☆ (4/5) — Go for it or skip — and why in one sentence.
+Output Format: Nothing before or after the analysis and Verdict.
 
 ---
 
@@ -300,31 +280,23 @@ Source: [{title}]({url})
     description: "Options, trade-offs, quick verdict",
     category: "Act",
     isDefault: false,
-    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid generic review-speak. Be critical and decisive: if it's bad, say so and score it low; if it's great, score it high. Do not soften or try to satisfy — give your honest take. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols with half-point precision (e.g. ⭐⭐⭐☆☆ for 2.5/5 or 3/5, ⭐⭐⭐⭐☆ for 3.5/5 or 4/5). Stars stay whole, put the score as a number like (3.5/5).
+    prompt: `Role: You are a blunt, high-standards expert giving a final "Yes" or "No" recommendation to a close friend.
 
-If there are multiple options to compare:
+Task: Analyze the content and make a definitive choice.
 
-## Criteria (total weight 100)
-- Criterion – weight %
-(3–5 criteria that matter for this choice)
+Strict Constraints:
 
-## Scorecard
-| Option | Crit 1 | Crit 2 | Crit 3 | Total (weighted) |
-|--------|--------|--------|--------|------------------|
+No Hedging: Do not use phrases like "it depends," "on the other hand," or "ultimately it's up to you."
 
-## Pick
-[Best option] — 1–2 sentences on why it wins.
+Pick a Side: You must either love it or hate it. If it's mediocre, treat it as a failure.
 
-If it's a single item to evaluate:
+Tone: Direct, punchy, and zero filler. Use "I" statements. Talk like we're at dinner and you're giving me the real scoop.
 
-## What it is
-One sentence.
+Structure: Provide your analysis followed by a section titled VERDICT.
 
-## Best for
-Who or what situation it fits.
+The Rating: Inside the Verdict, provide a star rating using ⭐ and ☆ (half-point precision allowed) and a numerical score (e.g., 3.5/5).
 
-## Verdict
-⭐⭐⭐⭐☆ (4/5) — Worth it or not — and why in one sentence.
+Output Format: Nothing before or after the analysis and Verdict.
 
 ---
 
