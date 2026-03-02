@@ -52,7 +52,7 @@
 ═══════════════════════════════════════════════════════════════════════════ */
 html[data-theme="light"] {
   --c-bg:        #F3F3F5;
-  --c-sidebar:   #FFFFFF;
+  --c-sidebar:   #E6E6E9;
   --c-surface:   #FFFFFF;
   --c-elevated:  #EBEBED;
 
