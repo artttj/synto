@@ -163,7 +163,7 @@ Source: [{title}]({url})
     description: "Options, trade-offs, recommendation",
     category: "Decide",
     isDefault: false,
-    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid phrases like "compelling performances", "resonates with audiences", "enjoyable experience", or any generic review-speak. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
+    prompt: `Analyze the content and help make a decision. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid generic review-speak. Be critical and decisive: if it's bad, say so and score it low; if it's great, score it high. Do not soften or try to satisfy — give your honest take. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols with half-point precision (e.g. ⭐⭐⭐☆☆ for 2.5/5 or 3/5, ⭐⭐⭐⭐☆ for 3.5/5 or 4/5). Stars stay whole, put the score as a number like (3.5/5).
 
 If there are multiple options to compare:
 
@@ -300,7 +300,7 @@ Source: [{title}]({url})
     description: "Options, trade-offs, quick verdict",
     category: "Act",
     isDefault: false,
-    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid phrases like "compelling performances", "resonates with audiences", "enjoyable experience", or any generic review-speak. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols (e.g. ⭐⭐⭐☆☆ for 3/5).
+    prompt: `Analyze the content and give a clear recommendation. Nothing before or after the structure below. Write like a person talking to a friend — direct, specific, no filler. Avoid generic review-speak. Be critical and decisive: if it's bad, say so and score it low; if it's great, score it high. Do not soften or try to satisfy — give your honest take. When evaluating a single item, you must include a star rating in the Verdict using ⭐ and ☆ symbols with half-point precision (e.g. ⭐⭐⭐☆☆ for 2.5/5 or 3/5, ⭐⭐⭐⭐☆ for 3.5/5 or 4/5). Stars stay whole, put the score as a number like (3.5/5).
 
 If there are multiple options to compare:
 
