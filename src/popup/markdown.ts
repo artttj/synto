@@ -118,7 +118,7 @@ export function renderMarkdown(raw: string): string {
     }
 
     if (line.trim() === '') {
-      out.push('<br>');
+      if (!inUl && !inOl) out.push('<br>');
       continue;
     }
 
