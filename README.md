@@ -4,15 +4,15 @@
 
 **Why Synto?**
 
-You control what gets sent. Select text or clip a section. Only that content goes to the model.
+**You control what gets sent.** Select text or clip a section. Only that content goes to the model.
 
-Structured results, not generic chat. Ticket briefs, PR reviews, action items, decision briefs, ready to use.
+**Structured results, not generic chat.** Ticket briefs, PR reviews, action items, decision briefs, ready to use.
 
-Your provider, your key. OpenAI, Gemini, or Grok. You choose the model and pay them directly.
+**Your provider, your key.** OpenAI, Gemini, or Grok. You choose the model and pay them directly.
 
-No relay server. Content goes straight from your browser to the AI provider. No backend, no tracking.
+**No relay server.** Content goes straight from your browser to the AI provider. No backend, no tracking.
 
-More precise than tools like Gemini in Chrome. Instead of summarizing the whole page, Synto focuses on exactly what you select and returns structured, actionable output.
+**More precise than tools like Gemini in Chrome.** Instead of summarizing the whole page, Synto focuses on exactly what you select and returns structured, actionable output.
 
 <table>
   <tr>
