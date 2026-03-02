@@ -3,8 +3,12 @@
  * https://github.com/artttj/synto
  */
 
-import TurndownService from 'turndown';
+import TurndownServiceModule from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
+
+// CJS/ESM interop: bundled IIFE may get module.exports as { default } or the constructor directly
+const TurndownService =
+  (TurndownServiceModule as { default?: typeof TurndownServiceModule }).default ?? TurndownServiceModule;
 
 export function toMarkdown(html: string): string {
   const td = new TurndownService({
