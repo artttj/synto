@@ -199,7 +199,7 @@ One sentence.
 2–3 bullet points.
 
 ## Verdict
-Go for it or skip — and why in one sentence.
+⭐⭐⭐⭐☆ (4/5) — Go for it or skip — and why in one sentence.
 
 ---
 
@@ -324,7 +324,7 @@ One sentence.
 Who or what situation it fits.
 
 ## Verdict
-Worth it or not — and why in one sentence.
+⭐⭐⭐⭐☆ (4/5) — Worth it or not — and why in one sentence.
 
 ---
 
