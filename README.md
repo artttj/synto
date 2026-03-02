@@ -2,9 +2,14 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
-**Why Synto?** Most AI extensions require a subscription or act as a middleman for your data. Synto is a developer-tool first: it's an open-source bridge between your browser and your own API keys.
+**Why Synto?** Most AI extensions require a subscription or send your data through their own servers. Synto is different:
 
-Turn any web page into clean Markdown, choose a prompt template, and talk to ChatGPT, Gemini, or Grok from a Chrome side panel. Works on Jira, GitHub, Reddit, Amazon, and anything you can open. No backend, no accounts. Your API keys stay on your device.
+- **You decide what gets sent.** Clip a section or select text — your other tabs stay out of it.
+- **Not just summaries.** Implementation briefs, PR reviews, action items, decision briefs — structured output you can act on.
+- **Your provider, your key.** OpenAI, Gemini, or Grok. You pick the model and pay the provider directly.
+- **No relay.** Page content goes straight from your browser to the AI provider. No backend, no telemetry.
+
+Built-in AI helps you understand pages. Synto turns pages into decisions, actions, and implementation briefs.
 
 <table>
   <tr>
