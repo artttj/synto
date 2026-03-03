@@ -101,12 +101,16 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
   let reply = '';
   const reader = response.body!.getReader();
   const decoder = new TextDecoder();
+  let buffer = '';
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
+    buffer += decoder.decode(value, { stream: true });
 
-    for (const line of decoder.decode(value).split('\n')) {
+    const lines = buffer.split('\n');
+    buffer = lines.pop() ?? '';
+    for (const line of lines) {
       if (!line.startsWith('data: ')) continue;
       const data = line.slice(6).trim();
       if (data === '[DONE]') break;
@@ -116,6 +120,18 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
         reply += delta;
         bubble.textContent = reply;
         refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
+      } catch {
+      }
+    }
+  }
+  buffer += decoder.decode();
+  if (buffer.startsWith('data: ')) {
+    const data = buffer.slice(6).trim();
+    if (data && data !== '[DONE]') {
+      try {
+        const chunk = JSON.parse(data) as SSEChunk;
+        const delta = chunk.choices?.[0]?.delta?.content ?? '';
+        reply += delta;
       } catch {
       }
     }
@@ -303,7 +319,7 @@ function exportChat(): void {
   const date = isoString.slice(0, 10);
   const model = getActiveModel();
   const lines: string[] = [
-    `# ${state.extracted?.title || 'Chat export'}`,
+    `# ${state.extracted?.title ?? 'Chat export'}`,
     state.extracted?.url ?? '',
     `${isoString} · ${state.llmProvider} · ${model}`,
     state.selectedTemplateId ? `Template: ${state.selectedTemplateId}` : '',
@@ -318,7 +334,7 @@ function exportChat(): void {
   }
 
   const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
-  const slug = (state.extracted?.title || 'chat').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+  const slug = (state.extracted?.title ?? 'chat').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `${slug}-${date}.md`;

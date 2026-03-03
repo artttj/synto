@@ -157,9 +157,13 @@ export async function saveHistory(url: string, entry: HistoryEntry): Promise<voi
     const sorted = keys
       .map((k) => ({ k, ts: all[k][0]?.ts ?? 0 }))
       .sort((a, b) => a.ts - b.ts);
-    for (let i = 0; i < keys.length - 40; i++) {
-      delete all[sorted[i].k];
+    const keep = new Set(sorted.slice(keys.length - 40).map(({ k }) => k));
+    const trimmed: Record<string, HistoryEntry[]> = {};
+    for (const key of keys) {
+      if (keep.has(key)) trimmed[key] = all[key];
     }
+    await chrome.storage.local.set({ [STORAGE_KEYS.HISTORY]: trimmed });
+    return;
   }
 
   await chrome.storage.local.set({ [STORAGE_KEYS.HISTORY]: all });

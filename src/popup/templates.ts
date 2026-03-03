@@ -149,8 +149,8 @@ function renderTemplateCards(): void {
   container.innerHTML = '';
 
   for (const tpl of getTemplatesForIntent(activeIntent)) {
-    const displayLabel = t('template_label_' + tpl.id) || tpl.label || tpl.name;
-    const displayName  = t('template_name_'  + tpl.id) || tpl.name;
+    const displayLabel = t('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
+    const displayName  = t('template_name_'  + tpl.id) ?? tpl.name;
 
     const btn = document.createElement('button');
     btn.type = 'button';

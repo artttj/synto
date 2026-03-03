@@ -10,6 +10,10 @@ import { gfm } from 'turndown-plugin-gfm';
 const TurndownService =
   (TurndownServiceModule as { default?: typeof TurndownServiceModule }).default ?? TurndownServiceModule;
 
+function isHTMLElement(node: Node): node is HTMLElement {
+  return node instanceof HTMLElement;
+}
+
 export function toMarkdown(html: string): string {
   const td = new TurndownService({
     headingStyle: 'atx',
@@ -28,8 +32,9 @@ export function toMarkdown(html: string): string {
 
   td.addRule('img-to-alt', {
     filter: 'img',
-    replacement: (_content: string, node: TurndownService.Node) => {
-      const alt = ((node as HTMLElement).getAttribute('alt') ?? '').trim();
+    replacement: (_content: string, node: Node) => {
+      if (!isHTMLElement(node)) return '';
+      const alt = (node.getAttribute('alt') ?? '').trim();
       if (!alt || /^:[a-z_]+:$/.test(alt)) return '';
       return `[${alt}]`;
     },
@@ -38,7 +43,7 @@ export function toMarkdown(html: string): string {
   td.addRule('anchor-only-links', {
     filter: (node: HTMLElement) =>
       node.nodeName === 'A' && (node.getAttribute('href') ?? '').startsWith('#'),
-    replacement: (_content: string, node: TurndownService.Node) => (node.textContent ?? '').trim(),
+    replacement: (_content: string, node: Node) => node.textContent?.trim() ?? '',
   });
 
   const raw = td.turndown(html);

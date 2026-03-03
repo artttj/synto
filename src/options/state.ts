@@ -12,7 +12,17 @@ export const state: {
   searchQuery: string;
 } = {
   templates: [],
-  settings: { defaultTemplateId: 'default-structured-brief', theme: 'dark', llmProvider: 'openai' },
+  settings: {
+    defaultTemplateId: 'understand-structured-brief',
+    theme: 'dark',
+    llmProvider: 'openai',
+    language: 'en',
+    systemPrompt: '',
+    openaiModel: 'gpt-4o-mini',
+    geminiModel: 'gemini-2.0-flash',
+    grokModel: 'grok-3-mini',
+    pinnedTemplateIds: [],
+  },
   editingId: null,
   searchQuery: '',
 };

@@ -12,7 +12,7 @@ import {
   getHistory,
   normalizeUrl,
 } from '../shared/storage';
-import { STORAGE_KEYS } from '../shared/constants';
+import { STORAGE_KEYS, PROVIDER_MODELS } from '../shared/constants';
 import { setLocale, applyI18n, t } from '../shared/i18n';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
@@ -22,6 +22,12 @@ import { wirePreview } from './preview';
 import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
 import { extractContent } from './extract';
+
+type Provider = 'openai' | 'gemini' | 'grok';
+
+function isProvider(value: unknown): value is Provider {
+  return typeof value === 'string' && value in PROVIDER_MODELS;
+}
 
 
 async function init(): Promise<void> {
@@ -60,9 +66,9 @@ async function init(): Promise<void> {
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
 
-  const btnInfo     = document.getElementById('btn-content-info') as HTMLButtonElement;
-  const infoPopover = document.getElementById('content-info-popover') as HTMLElement;
-  const key = navigator.platform.startsWith('Mac') ? '⌘A' : 'Ctrl+A';
+  const btnInfo = document.getElementById('btn-content-info')! as HTMLButtonElement;
+  const infoPopover = document.getElementById('content-info-popover')!;
+  const key = navigator.userAgent.includes('Mac') ? '⌘A' : 'Ctrl+A';
   infoPopover.textContent = `Content not fully loaded? Press ${key} to re-extract.`;
   btnInfo.addEventListener('click', (e) => { e.stopPropagation(); infoPopover.classList.toggle('hidden'); });
   document.addEventListener('click', () => { infoPopover.classList.add('hidden'); });
@@ -110,8 +116,9 @@ async function init(): Promise<void> {
         renderTemplateUI();
       });
     }
-    if (changes['llmProvider'] && !state.chatStreaming) {
-      state.llmProvider = String(changes['llmProvider'].newValue ?? 'openai');
+    const providerChange = changes.llmProvider;
+    if (area === 'sync' && providerChange && !state.chatStreaming) {
+      state.llmProvider = isProvider(providerChange.newValue) ? providerChange.newValue : 'openai';
       refs.btnProcess!.textContent = getAskLabel();
     }
   });

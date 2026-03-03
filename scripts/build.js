@@ -37,6 +37,15 @@ function copyHtml(srcPath, destPath) {
   fs.writeFileSync(destPath, html);
 }
 
+function commandExists(cmd) {
+  try {
+    execFileSync('which', [cmd], { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function minifyCss(srcPath, destPath) {
   const css = fs.readFileSync(srcPath, 'utf8');
   const result = await esbuild.transform(css, { loader: 'css', minify: true });
@@ -57,12 +66,16 @@ async function main() {
   for (const icon of ['icon16.png', 'icon48.png', 'icon128.png', 'logo.svg']) {
     copyFile(path.join(root, 'icons', icon), path.join(dist, 'icons', icon));
   }
-  // Resize logo.png to 128×128 — source is 2560×2560, UI uses it at ≤24px
-  execFileSync('sips', [
-    '-z', '128', '128',
-    path.join(root, 'icons', 'logo.png'),
-    '--out', path.join(dist, 'icons', 'logo.png'),
-  ]);
+  // Resize logo.png to 128×128 on macOS; otherwise fall back to copying source file.
+  if (process.platform === 'darwin' && commandExists('sips')) {
+    execFileSync('sips', [
+      '-z', '128', '128',
+      path.join(root, 'icons', 'logo.png'),
+      '--out', path.join(dist, 'icons', 'logo.png'),
+    ]);
+  } else {
+    copyFile(path.join(root, 'icons', 'logo.png'), path.join(dist, 'icons', 'logo.png'));
+  }
 
   // ── HTML (strip type="module") ────────────────────────────────────────────
   copyHtml(
