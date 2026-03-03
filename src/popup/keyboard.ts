@@ -18,7 +18,8 @@ export function wireKeyboard(): void {
   document.addEventListener('keydown', (e) => {
     if (!(e.key === 'a' || e.key === 'A') || !(e.ctrlKey || e.metaKey)) return;
     const target = e.target as HTMLElement;
-    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return;
+    if (target.tagName === 'INPUT' || target.isContentEditable) return;
+    if (target.tagName === 'TEXTAREA' && !(target as HTMLTextAreaElement).readOnly) return;
     e.preventDefault();
     void extractContent();
   });
