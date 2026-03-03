@@ -53,8 +53,12 @@ async function init(): Promise<void> {
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
 
-  const isMac = navigator.platform.startsWith('Mac');
-  (document.getElementById('refresh-hint') as HTMLElement).textContent = isMac ? '⌘A' : 'Ctrl+A';
+  const btnInfo     = document.getElementById('btn-content-info') as HTMLButtonElement;
+  const infoPopover = document.getElementById('content-info-popover') as HTMLElement;
+  const key = navigator.platform.startsWith('Mac') ? '⌘A' : 'Ctrl+A';
+  infoPopover.textContent = `Press ${key} to grab full content if it didn't work at first.`;
+  btnInfo.addEventListener('click', (e) => { e.stopPropagation(); infoPopover.classList.toggle('hidden'); });
+  document.addEventListener('click', () => { infoPopover.classList.add('hidden'); });
 
   await extractContent();
 

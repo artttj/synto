@@ -9,7 +9,6 @@ const de: Record<string, string> = {
   popup_content_tab:      'Inhalt',
   popup_prompt_tab:       'Prompt',
   popup_refresh_content:  'Inhalt aktualisieren',
-  popup_refresh_content_hint: 'Seite neu laden — hilfreich wenn AJAX-Inhalte nachgeladen werden',
   popup_near_limit:       'Fast am Limit',
   popup_chat_placeholder: 'Nachfrage stellen\u2026',
   popup_no_key_prefix:    'Kein API-Schl\u00fcssel. In den\u00a0',
