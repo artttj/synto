@@ -27,8 +27,7 @@ export function setPreviewOpen(open: boolean): void {
 
 export function updateTokenDisplay(text: string): void {
   const tokens = estimateTokens(text);
-  const src = state.extracted?.source ?? '';
-  refs.tokenCount!.textContent = `~${tokens.toLocaleString()}${src ? ` · ${src}` : ''}`;
+  refs.tokenCount!.textContent = `~${tokens.toLocaleString()}`;
   refs.tokenCount!.className = `token-count ${tokenColorClass(tokens)}`;
 
   const model = PROVIDER_MODELS[state.llmProvider];
