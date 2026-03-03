@@ -3,13 +3,10 @@
  * https://github.com/artttj/synto
  */
 
-import { type Template } from '../shared/storage';
+import { type Template, type ChatMessage } from '../shared/storage';
 import { t } from '../shared/i18n';
 
-export interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-}
+export type { ChatMessage };
 
 export interface ExtractedContent {
   content: string;
@@ -23,10 +20,10 @@ export interface ExtractedContent {
   mode?: string;
 }
 
-export const PROVIDER_MODELS: Record<string, string> = {
+const DEFAULT_MODELS: Record<string, string> = {
   openai: 'gpt-4o-mini',
   gemini: 'gemini-2.0-flash',
-  grok: 'grok-3-mini',
+  grok:   'grok-3-mini',
 };
 
 const PROVIDER_LABEL_KEYS: Record<string, string> = {
@@ -46,6 +43,11 @@ export const state: {
   chatStreaming: boolean;
   chatHistory: ChatMessage[];
   llmProvider: string;
+  systemPrompt: string;
+  openaiModel: string;
+  geminiModel: string;
+  grokModel: string;
+  pinnedIds: string[];
 } = {
   templates: [],
   selectedTemplateId: null,
@@ -57,7 +59,19 @@ export const state: {
   chatStreaming: false,
   chatHistory: [],
   llmProvider: 'openai',
+  systemPrompt: '',
+  openaiModel: DEFAULT_MODELS.openai,
+  geminiModel: DEFAULT_MODELS.gemini,
+  grokModel:   DEFAULT_MODELS.grok,
+  pinnedIds: [],
 };
+
+
+export function getActiveModel(): string {
+  if (state.llmProvider === 'gemini') return state.geminiModel;
+  if (state.llmProvider === 'grok')   return state.grokModel;
+  return state.openaiModel;
+}
 
 
 export function getAskLabel(): string {

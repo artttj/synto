@@ -117,6 +117,15 @@
               <button class="seg-btn" data-value="de">Deutsch</button>
             </div>
           </div>
+
+          <div class="setting-row setting-row--stack">
+            <div class="setting-label">
+              <div class="setting-title" data-i18n="options_system_prompt">System Prompt</div>
+              <div class="setting-desc" data-i18n="options_system_prompt_desc">Prepended to every request. Leave blank to skip.</div>
+            </div>
+            <textarea id="system-prompt" class="setting-textarea" rows="3"
+              data-i18n-placeholder="options_system_prompt_placeholder"></textarea>
+          </div>
         </div>
 
         <div class="panel-actions">
@@ -161,7 +170,7 @@
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">OpenAI</div>
-              <div class="provider-model">gpt-4o-mini</div>
+              <select id="openai-model" class="provider-model-select setting-select setting-select--sm"></select>
             </div>
             <span id="badge-openai" class="status-badge unconfigured">Not Configured</span>
           </div>
@@ -189,7 +198,7 @@
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Gemini</div>
-              <div class="provider-model">gemini-2.0-flash &middot; Google</div>
+              <select id="gemini-model" class="provider-model-select setting-select setting-select--sm"></select>
             </div>
             <span id="badge-gemini" class="status-badge unconfigured">Not Configured</span>
           </div>
@@ -217,7 +226,7 @@
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Grok</div>
-              <div class="provider-model">grok-3-mini &middot; xAI</div>
+              <select id="grok-model" class="provider-model-select setting-select setting-select--sm"></select>
             </div>
             <span id="badge-grok" class="status-badge unconfigured">Not Configured</span>
           </div>

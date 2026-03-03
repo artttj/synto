@@ -25,6 +25,10 @@ export const refs: {
   modalCancel: HTMLElement | null;
   modalClose: HTMLElement | null;
   modalSave: HTMLElement | null;
+  systemPromptEl: HTMLTextAreaElement | null;
+  openaiModelEl: HTMLSelectElement | null;
+  geminiModelEl: HTMLSelectElement | null;
+  grokModelEl: HTMLSelectElement | null;
 } = {
   defaultTplEl: null,
   providerSeg: null,
@@ -45,6 +49,10 @@ export const refs: {
   modalCancel: null,
   modalClose: null,
   modalSave: null,
+  systemPromptEl: null,
+  openaiModelEl: null,
+  geminiModelEl: null,
+  grokModelEl: null,
 };
 
 
@@ -68,4 +76,8 @@ export function resolveRefs(): void {
   refs.modalCancel = $('modal-cancel')!;
   refs.modalClose = $('modal-close')!;
   refs.modalSave = $('modal-save')!;
+  refs.systemPromptEl = $('system-prompt') as HTMLTextAreaElement;
+  refs.openaiModelEl  = $('openai-model') as HTMLSelectElement;
+  refs.geminiModelEl  = $('gemini-model') as HTMLSelectElement;
+  refs.grokModelEl    = $('grok-model') as HTMLSelectElement;
 }

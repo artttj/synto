@@ -28,6 +28,12 @@ export const refs = {
   chatInputRow: null as HTMLElement | null,
   chatInput: null as HTMLTextAreaElement | null,
   btnChatSend: null as HTMLButtonElement | null,
+  chatExportRow: null as HTMLElement | null,
+  btnExportChat: null as HTMLButtonElement | null,
+  chatHistoryBanner: null as HTMLElement | null,
+  chatHistoryLabel: null as HTMLElement | null,
+  btnHistoryRestore: null as HTMLButtonElement | null,
+  btnHistoryDismiss: null as HTMLButtonElement | null,
 };
 
 
@@ -54,4 +60,10 @@ export function resolveRefs() {
   refs.chatInputRow = $('chat-input-row');
   refs.chatInput = $('chat-input') as HTMLTextAreaElement | null;
   refs.btnChatSend = $('btn-chat-send') as HTMLButtonElement | null;
+  refs.chatExportRow = $('chat-export-row');
+  refs.btnExportChat = $('btn-export-chat') as HTMLButtonElement | null;
+  refs.chatHistoryBanner = $('chat-history-banner');
+  refs.chatHistoryLabel = $('chat-history-label');
+  refs.btnHistoryRestore = $('btn-history-restore') as HTMLButtonElement | null;
+  refs.btnHistoryDismiss = $('btn-history-dismiss') as HTMLButtonElement | null;
 }

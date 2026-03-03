@@ -10,6 +10,8 @@ import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
 import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
 
+const PINNED_INTENT = '__pinned__';
+
 
 export function applyTemplate(extracted: ExtractedContent, templateId: string | null): string {
   const template = state.templates.find((tpl) => tpl.id === templateId);
@@ -52,11 +54,24 @@ function getIntentList(): string[] {
   for (const tpl of state.templates) {
     if (tpl.category && !known.has(tpl.category)) extra.add(tpl.category);
   }
-  return [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
+  const list = [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
+  if (state.pinnedIds.length > 0) list.unshift(PINNED_INTENT);
+  return list;
 }
 
 function getTemplatesForIntent(intent: string): Template[] {
-  return state.templates.filter((tpl) => tpl.category === intent);
+  if (intent === PINNED_INTENT) {
+    return state.pinnedIds
+      .map((id) => state.templates.find((t) => t.id === id))
+      .filter((t): t is Template => t !== undefined);
+  }
+  const list = state.templates.filter((tpl) => tpl.category === intent);
+  list.sort((a, b) => {
+    const aPinned = state.pinnedIds.includes(a.id) ? 0 : 1;
+    const bPinned = state.pinnedIds.includes(b.id) ? 0 : 1;
+    return aPinned - bPinned;
+  });
+  return list;
 }
 
 function deriveActiveIntent(): string {
@@ -105,10 +120,29 @@ function renderIntentTabs(): void {
     btn.className = 'intent-tab' + (intent === activeIntent ? ' active' : '');
     btn.setAttribute('aria-selected', String(intent === activeIntent));
     btn.dataset.intent = intent;
-    btn.textContent = t('category_' + intent.toLowerCase()) || intent;
+    if (intent === PINNED_INTENT) {
+      btn.textContent = t('category_pinned') || 'Pinned';
+    } else {
+      btn.textContent = t('category_' + intent.toLowerCase()) || intent;
+    }
     container.appendChild(btn);
   }
 }
+
+function makePinButton(tplId: string): HTMLButtonElement {
+  const pinned = state.pinnedIds.includes(tplId);
+  const pinBtn = document.createElement('button');
+  pinBtn.type = 'button';
+  pinBtn.className = 'card-pin-btn' + (pinned ? ' pinned' : '');
+  pinBtn.title = t('popup_pin') || 'Pin template';
+  pinBtn.setAttribute('aria-label', t('popup_pin') || 'Pin template');
+  pinBtn.setAttribute('aria-pressed', String(pinned));
+  pinBtn.innerHTML = pinned
+    ? `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+  return pinBtn;
+}
+
 
 function renderTemplateCards(): void {
   const container = refs.templateCards!;
@@ -128,6 +162,10 @@ function renderTemplateCards(): void {
     btn.className = 'template-card' + (tpl.id === state.selectedTemplateId ? ' selected' : '');
     btn.dataset.id = tpl.id;
     btn.textContent = displayLabel;
+
+    const pinBtn = makePinButton(tpl.id);
+    btn.appendChild(pinBtn);
+
     container.appendChild(btn);
   }
 }
@@ -210,6 +248,18 @@ function handleCardKeydown(e: KeyboardEvent): void {
 }
 
 
+function togglePin(tplId: string): void {
+  const idx = state.pinnedIds.indexOf(tplId);
+  if (idx === -1) {
+    state.pinnedIds = [...state.pinnedIds, tplId];
+  } else {
+    state.pinnedIds = state.pinnedIds.filter((id) => id !== tplId);
+  }
+  void saveSettings({ pinnedTemplateIds: state.pinnedIds });
+  renderTemplateUI();
+}
+
+
 export function wireTemplateUI(): void {
   refs.intentTabs!.addEventListener('click', (e) => {
     const tab = (e.target as HTMLElement).closest<HTMLElement>('.intent-tab');
@@ -218,6 +268,13 @@ export function wireTemplateUI(): void {
   });
 
   refs.templateCards!.addEventListener('click', (e) => {
+    const pinBtn = (e.target as HTMLElement).closest<HTMLElement>('.card-pin-btn');
+    if (pinBtn) {
+      e.stopPropagation();
+      const card = pinBtn.closest<HTMLElement>('.template-card');
+      if (card?.dataset.id) togglePin(card.dataset.id);
+      return;
+    }
     const card = (e.target as HTMLElement).closest<HTMLElement>('.template-card');
     if (!card?.dataset.id) return;
     selectCard(card.dataset.id);

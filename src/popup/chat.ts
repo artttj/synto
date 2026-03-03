@@ -7,9 +7,11 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
+  saveHistory,
+  normalizeUrl,
 } from '../shared/storage';
 import { t } from '../shared/i18n';
-import { state, getAskLabel } from './state';
+import { state, getAskLabel, getActiveModel, type ChatMessage } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
 import { setPreviewOpen } from './preview';
@@ -131,7 +133,7 @@ async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
   if (!key) throw new Error(t('error_no_key_openai'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.openai.com/v1/chat/completions',
-    model: 'gpt-4o-mini',
+    model: state.openaiModel,
     key,
   });
 }
@@ -142,7 +144,7 @@ async function processWithGemini(bubble: HTMLDivElement): Promise<void> {
   if (!key) throw new Error(t('error_no_key_gemini'));
   await streamOpenAICompat(bubble, {
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    model: 'gemini-2.0-flash',
+    model: state.geminiModel,
     key,
   });
 }
@@ -153,7 +155,7 @@ async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
   if (!key) throw new Error(t('error_no_key_grok'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.x.ai/v1/chat/completions',
-    model: 'grok-3-mini',
+    model: state.grokModel,
     key,
   });
 }
@@ -167,6 +169,19 @@ async function dispatchToProvider(bubble: HTMLDivElement): Promise<void> {
   } else {
     await processWithOpenAI(bubble);
   }
+}
+
+
+async function persistHistory(): Promise<void> {
+  const url = state.extracted?.url;
+  if (!url || !state.selectedTemplateId) return;
+  await saveHistory(normalizeUrl(url), {
+    ts: Date.now(),
+    templateId: state.selectedTemplateId,
+    provider: state.llmProvider,
+    model: getActiveModel(),
+    messages: state.chatHistory,
+  });
 }
 
 
@@ -187,6 +202,11 @@ export async function processWithAI(): Promise<void> {
     return;
   }
   refs.chatNoKey!.classList.add('hidden');
+
+  if (state.systemPrompt && state.chatHistory.length === 0) {
+    state.chatHistory.unshift({ role: 'system', content: state.systemPrompt });
+  }
+
   state.chatHistory.push({ role: 'user', content: state.finalText });
 
   const bubble = appendBubble('assistant', '');
@@ -199,6 +219,9 @@ export async function processWithAI(): Promise<void> {
   try {
     await dispatchToProvider(bubble);
     refs.chatInputRow!.classList.remove('hidden');
+    refs.chatExportRow!.classList.remove('hidden');
+    refs.chatHistoryBanner!.classList.add('hidden');
+    void persistHistory();
   } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
     state.chatHistory.pop();
@@ -237,6 +260,7 @@ export async function sendFollowUp(): Promise<void> {
 
   try {
     await dispatchToProvider(bubble);
+    void persistHistory();
   } catch (err: unknown) {
     (bubble.parentElement ?? bubble).remove();
     state.chatHistory.pop();
@@ -248,6 +272,58 @@ export async function sendFollowUp(): Promise<void> {
     bubble.classList.remove('streaming');
     refs.chatInput!.focus();
   }
+}
+
+
+export function restoreHistoryEntry(messages: ChatMessage[]): void {
+  refs.chatPanel!.classList.remove('hidden');
+  refs.chatHistoryBanner!.classList.add('hidden');
+  refs.chatMessages!.innerHTML = '';
+
+  for (const msg of messages) {
+    if (msg.role === 'system') continue;
+    const bubble = appendBubble(msg.role, '');
+    bubble.innerHTML = msg.role === 'assistant' ? renderMarkdown(msg.content) : '';
+    if (msg.role !== 'assistant') bubble.textContent = msg.content;
+    if (msg.role === 'assistant') addBubbleCopyButton(bubble, msg.content);
+  }
+
+  state.chatHistory = messages;
+  refs.chatInputRow!.classList.remove('hidden');
+  refs.chatExportRow!.classList.remove('hidden');
+  setPreviewOpen(false);
+}
+
+
+function exportChat(): void {
+  const messages = state.chatHistory.filter((m) => m.role !== 'system');
+  if (!messages.length) return;
+
+  const isoString = new Date().toISOString();
+  const date = isoString.slice(0, 10);
+  const model = getActiveModel();
+  const lines: string[] = [
+    `# ${state.extracted?.title || 'Chat export'}`,
+    state.extracted?.url ?? '',
+    `${isoString} · ${state.llmProvider} · ${model}`,
+    state.selectedTemplateId ? `Template: ${state.selectedTemplateId}` : '',
+    '',
+    '---',
+    '',
+  ];
+
+  for (const msg of messages) {
+    const label = msg.role === 'user' ? '**You:**' : '**AI:**';
+    lines.push(`${label}\n\n${msg.content}`, '', '---', '');
+  }
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
+  const slug = (state.extracted?.title || 'chat').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${slug}-${date}.md`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 
@@ -266,4 +342,5 @@ export function wireChat(): void {
   });
 
   refs.btnChatSend!.addEventListener('click', sendFollowUp);
+  refs.btnExportChat!.addEventListener('click', exportChat);
 }

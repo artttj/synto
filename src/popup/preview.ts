@@ -5,7 +5,7 @@
 
 import { TOKEN_THRESHOLDS, estimateTokens, tokenColorClass } from '../shared/constants';
 import { t } from '../shared/i18n';
-import { state, PROVIDER_MODELS } from './state';
+import { state, getActiveModel } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
 
@@ -30,7 +30,7 @@ export function updateTokenDisplay(text: string): void {
   refs.tokenCount!.textContent = `~${tokens.toLocaleString()}`;
   refs.tokenCount!.className = `token-count ${tokenColorClass(tokens)}`;
 
-  const model = PROVIDER_MODELS[state.llmProvider];
+  const model = getActiveModel();
   const limit = TOKEN_THRESHOLDS.MODEL_LIMITS[model as keyof typeof TOKEN_THRESHOLDS.MODEL_LIMITS] ?? 128000;
   refs.tokenWarning!.classList.toggle('hidden', tokens <= limit * 0.85);
 }

@@ -1132,3 +1132,49 @@ html[data-theme="light"] .seg-btn.active {
   color: var(--c-text-2);
   font-weight: 500;
 }
+
+.setting-row--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.setting-textarea {
+  width: 100%;
+  background: var(--c-elevated);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  color: var(--c-text);
+  font-size: 12px;
+  font-family: var(--font);
+  line-height: 1.5;
+  padding: 8px 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--t) var(--ease);
+}
+.setting-textarea:focus { border-color: var(--c-border-hi); }
+.setting-textarea::placeholder { color: var(--c-text-3); }
+
+.setting-select--sm {
+  min-width: 120px;
+  max-width: 160px;
+  font-size: 11px;
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+}
+
+.provider-model-select {
+  background: var(--c-elevated);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  color: var(--c-text-3);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  padding: 3px 6px;
+  margin-top: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--t) var(--ease);
+}
+.provider-model-select:focus { border-color: var(--c-border-hi); }

@@ -11,11 +11,18 @@ export const MSG = {
 };
 
 export const STORAGE_KEYS = {
-  TEMPLATES: 'apc_templates',
-  SETTINGS:  'apc_settings',
+  TEMPLATES:  'apc_templates',
+  SETTINGS:   'apc_settings',
   OPENAI_KEY: 'apc_openai_key',
   GROK_KEY:   'apc_grok_key',
   GEMINI_KEY: 'apc_gemini_key',
+  HISTORY:    'apc_history',
+};
+
+export const PROVIDER_MODELS: Record<string, string[]> = {
+  openai: ['gpt-4o-mini', 'gpt-4o', 'o3-mini'],
+  gemini: ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-2.5-pro'],
+  grok:   ['grok-3-mini', 'grok-3'],
 };
 
 export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
@@ -364,9 +371,14 @@ export const TOKEN_THRESHOLDS = {
   GREEN:  4000,
   YELLOW: 16000,
   MODEL_LIMITS: {
-    'gpt-4o-mini':        128000,
-    'gemini-2.0-flash': 1048576,
-    'grok-3-mini':        131072,
+    'gpt-4o-mini':         128000,
+    'gpt-4o':              128000,
+    'o3-mini':             200000,
+    'gemini-2.0-flash':  1048576,
+    'gemini-2.5-flash':  1048576,
+    'gemini-2.5-pro':    2097152,
+    'grok-3-mini':         131072,
+    'grok-3':              131072,
   },
 };
 

@@ -221,7 +221,7 @@ header {
 }
 
 .template-card {
-  padding: 4px 12px;
+  padding: 4px 20px 4px 12px;
   border: none;
   background: none;
   border-radius: var(--r-sm);
@@ -766,3 +766,72 @@ header {
 .btn-chat-send:hover:not(:disabled) { filter: brightness(0.88); }
 .btn-chat-send:disabled { opacity: 0.28; cursor: default; }
 .btn-chat-send svg { width: 13px; height: 13px; }
+
+/* ── Ghost button (shared small action style) ─────────────────────────────── */
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--c-border-hi);
+  border-radius: var(--r-sm);
+  color: var(--c-text-2);
+  font-family: var(--font);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 3px 8px;
+  transition: color var(--t) var(--ease), background var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+.btn-ghost:hover { color: var(--c-text); background: var(--c-elevated); border-color: var(--c-border-hi); }
+
+.btn-sm { padding: 3px 8px; font-size: 11px; }
+
+/* ── Chat export row ──────────────────────────────────────────────────────── */
+.chat-export-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 12px;
+}
+
+/* ── Chat history banner ──────────────────────────────────────────────────── */
+.chat-history-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 14px 0;
+  padding: 7px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border-hi);
+  background: var(--c-elevated);
+  font-size: 11px;
+  color: var(--c-text-2);
+}
+.chat-history-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Template card pin button ─────────────────────────────────────────────── */
+.template-card {
+  position: relative;
+}
+.card-pin-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 150ms var(--ease);
+  color: var(--c-text-3);
+  border-radius: 3px;
+}
+.template-card:hover .card-pin-btn { opacity: 1; }
+.card-pin-btn.pinned { opacity: 1; color: var(--c-warn); }
+.card-pin-btn svg { width: 10px; height: 10px; }

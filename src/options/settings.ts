@@ -3,7 +3,7 @@
  * https://github.com/artttj/synto
  */
 
-import { TEMPLATE_CATEGORIES } from '../shared/constants';
+import { TEMPLATE_CATEGORIES, PROVIDER_MODELS } from '../shared/constants';
 import { saveSettings, type Settings, type Template } from '../shared/storage';
 import { setLocale, applyI18n } from '../shared/i18n';
 import { state } from './state';
@@ -67,6 +67,18 @@ export function renderDefaultTemplateSelect(): void {
 }
 
 
+function populateModelSelect(el: HTMLSelectElement, provider: string, selectedModel: string): void {
+  el.innerHTML = '';
+  for (const model of (PROVIDER_MODELS[provider] ?? [])) {
+    const opt = document.createElement('option');
+    opt.value = model;
+    opt.textContent = model;
+    opt.selected = model === selectedModel;
+    el.appendChild(opt);
+  }
+}
+
+
 export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
   initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai');
@@ -76,6 +88,14 @@ export function renderSettingsForm(): void {
     applyI18n();
     void saveSettings({ language: lang });
   });
+
+  if (refs.systemPromptEl) {
+    refs.systemPromptEl.value = state.settings.systemPrompt ?? '';
+  }
+
+  populateModelSelect(refs.openaiModelEl!, 'openai', state.settings.openaiModel);
+  populateModelSelect(refs.geminiModelEl!, 'gemini', state.settings.geminiModel);
+  populateModelSelect(refs.grokModelEl!,   'grok',   state.settings.grokModel);
 }
 
 
@@ -92,6 +112,10 @@ export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): voi
       theme: getSegmentedValue(refs.themeSeg!) ?? 'dark',
       llmProvider: getSegmentedValue(refs.providerSeg!) ?? 'openai',
       language: getSegmentedValue(refs.languageSeg!) ?? 'en',
+      systemPrompt: refs.systemPromptEl?.value ?? '',
+      openaiModel: refs.openaiModelEl?.value ?? 'gpt-4o-mini',
+      geminiModel: refs.geminiModelEl?.value ?? 'gemini-2.0-flash',
+      grokModel: refs.grokModelEl?.value ?? 'grok-3-mini',
     });
     state.settings = await getSettingsAsync();
     flash(refs.settingsSaved!);

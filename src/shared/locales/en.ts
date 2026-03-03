@@ -24,6 +24,11 @@ const en: Record<string, string> = {
   popup_ask_grok:        'Ask Grok',
   popup_ask_ai:          'Ask AI',
   popup_asking:          'Asking\u2026',
+  popup_export_chat:     'Export .md',
+  popup_pin:             'Pin template',
+  popup_history_restore: 'Previous conversation on this page',
+  popup_history_yes:     'Restore',
+  popup_history_dismiss: 'Dismiss',
 
   // Options — sidebar
   options_brand_sub:    'Settings',
@@ -48,6 +53,9 @@ const en: Record<string, string> = {
   options_language_desc:         'Interface language',
   options_save:                  'Save Settings',
   options_saved:                 '\u2713 Saved',
+  options_system_prompt:         'System Prompt',
+  options_system_prompt_desc:    'Prepended to every request. Leave blank to skip.',
+  options_system_prompt_placeholder: 'You are a helpful assistant\u2026',
 
   // Options — AI Connections tab
   options_ai_heading: 'AI Connections',
@@ -96,6 +104,7 @@ const en: Record<string, string> = {
   category_act:        'Act',
   category_compose:    'Compose',
   category_custom:     'Custom',
+  category_pinned:     'Pinned',
 
   // Template labels (short button text)
   'template_label_eng-ticket-analysis':       'Ticket',

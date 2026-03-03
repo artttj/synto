@@ -24,6 +24,11 @@ const de: Record<string, string> = {
   popup_ask_grok:        'Grok fragen',
   popup_ask_ai:          'KI fragen',
   popup_asking:          'Anfrage l\u00e4uft\u2026',
+  popup_export_chat:     'Als .md exportieren',
+  popup_pin:             'Template anpinnen',
+  popup_history_restore: 'Vorherige Unterhaltung auf dieser Seite',
+  popup_history_yes:     'Wiederherstellen',
+  popup_history_dismiss: 'Schlie\u00dfen',
 
   // Options — sidebar
   options_brand_sub:    'Einstellungen',
@@ -48,6 +53,9 @@ const de: Record<string, string> = {
   options_language_desc:         'Sprache der Benutzeroberfl\u00e4che',
   options_save:                  'Einstellungen speichern',
   options_saved:                 '\u2713 Gespeichert',
+  options_system_prompt:         'System-Prompt',
+  options_system_prompt_desc:    'Wird jeder Anfrage vorangestellt. Leer lassen zum \u00dcberspringen.',
+  options_system_prompt_placeholder: 'Du bist ein hilfreicher Assistent\u2026',
 
   // Options — AI Connections tab
   options_ai_heading: 'AI-Verbindungen',
@@ -96,6 +104,7 @@ const de: Record<string, string> = {
   category_act:        'Handeln',
   category_compose:    'Verfassen',
   category_custom:     'Benutzerdefiniert',
+  category_pinned:     'Angeheftet',
 
   // Template labels (short button text)
   'template_label_eng-ticket-analysis':       'Ticket',

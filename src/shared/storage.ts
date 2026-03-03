@@ -20,6 +20,24 @@ export interface Settings {
   theme: string;
   llmProvider: string;
   language: string;
+  systemPrompt: string;
+  openaiModel: string;
+  geminiModel: string;
+  grokModel: string;
+  pinnedTemplateIds: string[];
+}
+
+export interface ChatMessage {
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+}
+
+export interface HistoryEntry {
+  ts: number;
+  templateId: string;
+  provider: string;
+  model: string;
+  messages: ChatMessage[];
 }
 
 export async function getOpenAIKey(): Promise<string> {
@@ -89,6 +107,11 @@ export async function getSettings(): Promise<Settings> {
     theme: 'dark',
     llmProvider: 'openai',
     language: 'en',
+    systemPrompt: '',
+    openaiModel: 'gpt-4o-mini',
+    geminiModel: 'gemini-2.0-flash',
+    grokModel: 'grok-3-mini',
+    pinnedTemplateIds: [],
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };
 }
@@ -99,4 +122,45 @@ export async function saveSettings(partial: Partial<Settings>): Promise<void> {
   await chrome.storage.sync.set({
     [STORAGE_KEYS.SETTINGS]: { ...current, ...partial },
   });
+}
+
+
+export function normalizeUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    u.hash = '';
+    const trackingParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid', 'ref'];
+    for (const p of trackingParams) u.searchParams.delete(p);
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
+
+export async function getHistory(url: string): Promise<HistoryEntry[]> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.HISTORY);
+  const all = (result[STORAGE_KEYS.HISTORY] ?? {}) as Record<string, HistoryEntry[]>;
+  return all[url] ?? [];
+}
+
+
+export async function saveHistory(url: string, entry: HistoryEntry): Promise<void> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.HISTORY);
+  const all = (result[STORAGE_KEYS.HISTORY] ?? {}) as Record<string, HistoryEntry[]>;
+
+  const existing = all[url] ?? [];
+  all[url] = [entry, ...existing].slice(0, 3);
+
+  const keys = Object.keys(all);
+  if (keys.length > 40) {
+    const sorted = keys
+      .map((k) => ({ k, ts: all[k][0]?.ts ?? 0 }))
+      .sort((a, b) => a.ts - b.ts);
+    for (let i = 0; i < keys.length - 40; i++) {
+      delete all[sorted[i].k];
+    }
+  }
+
+  await chrome.storage.local.set({ [STORAGE_KEYS.HISTORY]: all });
 }

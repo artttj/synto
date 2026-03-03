@@ -95,8 +95,18 @@
 
   <!-- AI response panel (revealed on first use) -->
   <div id="chat-panel" class="chat-panel hidden">
+    <div id="chat-history-banner" class="chat-history-banner hidden">
+      <span id="chat-history-label" data-i18n="popup_history_restore"></span>
+      <div class="chat-history-actions">
+        <button id="btn-history-restore" class="btn-ghost btn-sm" type="button" data-i18n="popup_history_yes">Restore</button>
+        <button id="btn-history-dismiss" class="btn-ghost btn-sm" type="button" data-i18n="popup_history_dismiss">Dismiss</button>
+      </div>
+    </div>
     <div id="chat-no-key" class="status-msg hidden"><span data-i18n="popup_no_key_prefix">No API key set. Add it in&#160;</span><a id="chat-options-link" href="#" data-i18n="popup_options_link">Options</a><span data-i18n="popup_no_key_suffix">.</span></div>
     <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+    <div id="chat-export-row" class="chat-export-row hidden">
+      <button id="btn-export-chat" class="btn-ghost btn-sm" type="button" data-i18n="popup_export_chat">Export .md</button>
+    </div>
     <div id="chat-input-row" class="chat-input-row hidden">
       <textarea id="chat-input" class="chat-input" data-i18n-placeholder="popup_chat_placeholder" placeholder="Ask a follow-up…" rows="1" aria-label="Follow-up message"></textarea>
       <button id="btn-chat-send" class="btn-chat-send" type="button" aria-label="Send message">

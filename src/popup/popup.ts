@@ -9,15 +9,17 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
+  getHistory,
+  normalizeUrl,
 } from '../shared/storage';
 import { STORAGE_KEYS } from '../shared/constants';
-import { setLocale, applyI18n } from '../shared/i18n';
+import { setLocale, applyI18n, t } from '../shared/i18n';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
 import { renderTemplateUI, wireTemplateUI } from './templates';
 import { wirePreview } from './preview';
-import { wireChat } from './chat';
+import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
 import { extractContent } from './extract';
 
@@ -34,6 +36,11 @@ async function init(): Promise<void> {
   state.templates = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id ?? null;
   state.llmProvider = settings.llmProvider ?? 'openai';
+  state.systemPrompt = settings.systemPrompt;
+  state.openaiModel  = settings.openaiModel;
+  state.geminiModel  = settings.geminiModel;
+  state.grokModel    = settings.grokModel;
+  state.pinnedIds    = settings.pinnedTemplateIds;
   refs.btnProcess!.textContent = getAskLabel();
 
   renderTemplateUI();
@@ -61,6 +68,27 @@ async function init(): Promise<void> {
   document.addEventListener('click', () => { infoPopover.classList.add('hidden'); });
 
   await extractContent();
+
+  const currentUrl = state.extracted?.url;
+  if (currentUrl) {
+    const history = await getHistory(normalizeUrl(currentUrl));
+    if (history.length > 0) {
+      const entry = history[0];
+      const date = new Date(entry.ts).toLocaleDateString();
+      refs.chatPanel!.classList.remove('hidden');
+      refs.chatHistoryBanner!.classList.remove('hidden');
+      if (refs.chatHistoryLabel) {
+        refs.chatHistoryLabel.textContent = `${t('popup_history_restore')} — ${date}`;
+      }
+      refs.btnHistoryRestore!.addEventListener('click', () => {
+        restoreHistoryEntry(entry.messages);
+      });
+      refs.btnHistoryDismiss!.addEventListener('click', () => {
+        refs.chatHistoryBanner!.classList.add('hidden');
+        refs.chatPanel!.classList.add('hidden');
+      });
+    }
+  }
 
   const keyGetters: Record<string, () => Promise<string>> = {
     openai: getOpenAIKey,

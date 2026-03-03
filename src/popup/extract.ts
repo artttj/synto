@@ -48,6 +48,8 @@ export async function extractContent(): Promise<void> {
   refs.previewPanel!.classList.add('hidden');
   state.chatHistory = [];
   refs.chatInputRow!.classList.add('hidden');
+  refs.chatExportRow!.classList.add('hidden');
+  refs.chatHistoryBanner!.classList.add('hidden');
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
