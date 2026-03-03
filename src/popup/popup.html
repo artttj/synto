@@ -51,20 +51,16 @@
           <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button" data-i18n="popup_prompt_tab">Prompt</button>
         </div>
         <div class="preview-row-end">
-          <button id="btn-content-info" class="preview-info-btn" type="button" aria-label="Content help">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true">
-              <circle cx="8" cy="8" r="6.5"/>
-              <line x1="8" y1="7.5" x2="8" y2="11"/>
-              <circle cx="8" cy="5.2" r="0.6" fill="currentColor" stroke="none"/>
-            </svg>
-          </button>
-          <button id="btn-refresh-content" class="preview-refresh-cta" type="button" data-i18n-title="popup_refresh_content" aria-label="Refresh content">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="11" height="11" aria-hidden="true">
-              <path d="M13.5 8A5.5 5.5 0 1 1 12.1 4.4"/>
-              <polyline points="12.5 2.5 12.5 5.5 9.5 5.5"/>
-            </svg>
-            <span data-i18n="popup_refresh_content">Refresh content</span>
-          </button>
+          <div class="refresh-group">
+            <button id="btn-content-info" class="preview-info-btn" type="button" aria-label="Content help">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" aria-hidden="true">
+                <circle cx="8" cy="8" r="6.5"/>
+                <line x1="8" y1="7.5" x2="8" y2="11"/>
+                <circle cx="8" cy="5.2" r="0.6" fill="currentColor" stroke="none"/>
+              </svg>
+            </button>
+            <button id="btn-refresh-content" class="preview-refresh-cta" type="button" data-i18n-title="popup_refresh_content" aria-label="Refresh content" data-i18n="popup_refresh_content">Refresh content</button>
+          </div>
           <span id="token-count" class="token-count" title="Estimated token count">—</span>
         </div>
         <div id="content-info-popover" class="info-popover hidden" role="tooltip"></div>

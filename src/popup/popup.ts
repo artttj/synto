@@ -56,7 +56,7 @@ async function init(): Promise<void> {
   const btnInfo     = document.getElementById('btn-content-info') as HTMLButtonElement;
   const infoPopover = document.getElementById('content-info-popover') as HTMLElement;
   const key = navigator.platform.startsWith('Mac') ? '⌘A' : 'Ctrl+A';
-  infoPopover.textContent = `Press ${key} to grab full content if it didn't work at first.`;
+  infoPopover.textContent = `Content not fully loaded? Press ${key} to re-extract.`;
   btnInfo.addEventListener('click', (e) => { e.stopPropagation(); infoPopover.classList.toggle('hidden'); });
   document.addEventListener('click', () => { infoPopover.classList.add('hidden'); });
 
