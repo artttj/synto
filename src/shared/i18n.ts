@@ -5,11 +5,45 @@
 
 import en from './locales/en';
 import de from './locales/de';
+import es from './locales/es';
+import fr from './locales/fr';
+import it from './locales/it';
+import pt from './locales/pt';
+import zh from './locales/zh';
+import hi from './locales/hi';
 
 let current: Record<string, string> = en;
 
 export function setLocale(lang: string): void {
-  current = lang === 'de' ? de : en;
+  if (lang === 'de') {
+    current = de;
+    return;
+  }
+  if (lang === 'es') {
+    current = es;
+    return;
+  }
+  if (lang === 'fr') {
+    current = fr;
+    return;
+  }
+  if (lang === 'it') {
+    current = it;
+    return;
+  }
+  if (lang === 'pt') {
+    current = pt;
+    return;
+  }
+  if (lang === 'zh') {
+    current = zh;
+    return;
+  }
+  if (lang === 'hi') {
+    current = hi;
+    return;
+  }
+  current = en;
 }
 
 export function t(key: string): string {

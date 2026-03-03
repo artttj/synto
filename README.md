@@ -71,7 +71,18 @@ Synto comes with 11 built-in templates. You can fully customize these or build y
 
 ## Languages
 
-The UI supports **English** and **German**. Switch in Settings → General → Language. The choice is stored per browser profile and applies instantly.
+The UI supports:
+
+- **English**
+- **German (Deutsch)**
+- **Spanish (Español)**
+- **French (Français)**
+- **Italian (Italiano)**
+- **Portuguese (Português)**
+- **Chinese (中文)**
+- **Hindi (हिन्दी)**
+
+Switch in Settings → General → Language. The choice is stored per browser profile and applies instantly.
 
 Template prompts sent to AI are always in English regardless of the selected language.
 

@@ -4,7 +4,6 @@
  */
 
 const en: Record<string, string> = {
-  // Popup — static
   popup_preview:          'Preview',
   popup_content_tab:      'Content',
   popup_prompt_tab:       'Prompt',
@@ -15,7 +14,6 @@ const en: Record<string, string> = {
   popup_options_link:     'Options',
   popup_no_key_suffix:    '.',
 
-  // Popup — dynamic (used via t() in JS)
   popup_copy_markdown:   'Copy Markdown',
   popup_copy_prompt:     'Copy Prompt',
   popup_copied:          'Copied!',
@@ -30,7 +28,6 @@ const en: Record<string, string> = {
   popup_history_yes:     'Restore',
   popup_history_dismiss: 'Dismiss',
 
-  // Options — sidebar
   options_brand_sub:    'Settings',
   options_nav_general:  'General',
   options_nav_ai:       'AI Connections',
@@ -38,7 +35,6 @@ const en: Record<string, string> = {
   options_nav_help:     'Help',
   options_nav_about:    'About',
 
-  // Options — General tab
   options_general_heading:       'General',
   options_general_desc:          'Configure default behaviour when the extension opens.',
   options_default_template:      'Default Template',
@@ -57,23 +53,18 @@ const en: Record<string, string> = {
   options_system_prompt_desc:    'Prepended to every request. Leave blank to skip.',
   options_system_prompt_placeholder: 'You are a helpful assistant\u2026',
 
-  // Options — AI Connections tab
   options_ai_heading: 'AI Connections',
   options_ai_desc:    'API keys are stored locally on your device and are never transmitted by this extension.',
 
-  // Options — Prompt Library tab
   options_library_heading:    'Prompt Library',
   options_library_desc:       'Browse, search, and manage your prompt templates.',
   options_search_placeholder: 'Search templates\u2026',
 
-  // Options — Help tab
   options_help_heading: 'Help',
   options_help_desc:    'How Synto works and keyboard shortcuts.',
 
-  // Options — About tab
   options_about_heading: 'About Synto',
 
-  // Options — template list
   options_builtin:                    'built-in',
   options_new_template:               'New Template',
   options_new_template_title:         'Add new template',
@@ -89,16 +80,13 @@ const en: Record<string, string> = {
   options_no_results:                 'No templates yet.',
   options_no_results_search:          'No templates matching\u00a0"{q}"',
 
-  // Status badges
   status_connected:       'Connected',
   status_not_configured:  'Not Configured',
 
-  // Errors
   error_no_key_openai: 'No OpenAI API key. Add it in Options.',
   error_no_key_gemini: 'No Gemini API key. Add it in Options.',
   error_no_key_grok:   'No Grok API key. Add it in Options.',
 
-  // Template categories
   category_understand: 'Understand',
   category_decide:     'Decide',
   category_act:        'Act',
@@ -106,7 +94,6 @@ const en: Record<string, string> = {
   category_custom:     'Custom',
   category_pinned:     'Pinned',
 
-  // Template labels (short button text)
   'template_label_eng-ticket-analysis':       'Ticket',
   'template_label_eng-pr-review':             'Code Review',
   'template_label_understand-structured-brief':'Brief',
@@ -119,7 +106,6 @@ const en: Record<string, string> = {
   'template_label_community-rewrite-comment': 'Rewrite',
   'template_label_write-email-helper':        'Email',
 
-  // Template names (full)
   'template_name_eng-ticket-analysis':        'Ticket Analysis',
   'template_name_eng-pr-review':              'PR Review',
   'template_name_understand-structured-brief':'Structured Brief',

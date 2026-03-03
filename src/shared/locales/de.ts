@@ -4,7 +4,6 @@
  */
 
 const de: Record<string, string> = {
-  // Popup — static
   popup_preview:          'Vorschau',
   popup_content_tab:      'Inhalt',
   popup_prompt_tab:       'Prompt',
@@ -15,7 +14,6 @@ const de: Record<string, string> = {
   popup_options_link:     'Einstellungen',
   popup_no_key_suffix:    '\u00a0hinzuf\u00fcgen.',
 
-  // Popup — dynamic
   popup_copy_markdown:   'Markdown kopieren',
   popup_copy_prompt:     'Prompt kopieren',
   popup_copied:          'Kopiert!',
@@ -30,7 +28,6 @@ const de: Record<string, string> = {
   popup_history_yes:     'Wiederherstellen',
   popup_history_dismiss: 'Schlie\u00dfen',
 
-  // Options — sidebar
   options_brand_sub:    'Einstellungen',
   options_nav_general:  'Allgemein',
   options_nav_ai:       'AI-Verbindungen',
@@ -38,7 +35,6 @@ const de: Record<string, string> = {
   options_nav_help:     'Hilfe',
   options_nav_about:    '\u00dcber',
 
-  // Options — General tab
   options_general_heading:       'Allgemein',
   options_general_desc:          'Standardverhalten beim \u00d6ffnen der Erweiterung festlegen.',
   options_default_template:      'Standard-Template',
@@ -57,23 +53,18 @@ const de: Record<string, string> = {
   options_system_prompt_desc:    'Wird jeder Anfrage vorangestellt. Leer lassen zum \u00dcberspringen.',
   options_system_prompt_placeholder: 'Du bist ein hilfreicher Assistent\u2026',
 
-  // Options — AI Connections tab
   options_ai_heading: 'AI-Verbindungen',
   options_ai_desc:    'API-Schl\u00fcssel werden lokal auf Ihrem Ger\u00e4t gespeichert und nie \u00fcbertragen.',
 
-  // Options — Prompt Library tab
   options_library_heading:    'Prompt-Bibliothek',
   options_library_desc:       'Prompt-Templates durchsuchen und verwalten.',
   options_search_placeholder: 'Templates suchen\u2026',
 
-  // Options — Help tab
   options_help_heading: 'Hilfe',
   options_help_desc:    'So funktioniert Synto und Tastaturk\u00fcrzel.',
 
-  // Options — About tab
   options_about_heading: '\u00dcber Synto',
 
-  // Options — template list
   options_builtin:                    'integriert',
   options_new_template:               'Neues Template',
   options_new_template_title:         'Neues Template hinzuf\u00fcgen',
@@ -89,16 +80,13 @@ const de: Record<string, string> = {
   options_no_results:                 'Keine Templates vorhanden.',
   options_no_results_search:          'Keine Templates f\u00fcr\u00a0"{q}"',
 
-  // Status badges
   status_connected:       'Verbunden',
   status_not_configured:  'Nicht konfiguriert',
 
-  // Errors
   error_no_key_openai: 'Kein OpenAI API-Schl\u00fcssel. Unter Einstellungen hinzuf\u00fcgen.',
   error_no_key_gemini: 'Kein Gemini API-Schl\u00fcssel. Unter Einstellungen hinzuf\u00fcgen.',
   error_no_key_grok:   'Kein Grok API-Schl\u00fcssel. Unter Einstellungen hinzuf\u00fcgen.',
 
-  // Template categories
   category_understand: 'Verstehen',
   category_decide:     'Entscheiden',
   category_act:        'Handeln',
@@ -106,7 +94,6 @@ const de: Record<string, string> = {
   category_custom:     'Benutzerdefiniert',
   category_pinned:     'Angeheftet',
 
-  // Template labels (short button text)
   'template_label_eng-ticket-analysis':       'Ticket',
   'template_label_eng-pr-review':             'Code Review',
   'template_label_understand-structured-brief':'Briefing',
@@ -119,7 +106,6 @@ const de: Record<string, string> = {
   'template_label_community-rewrite-comment': 'Umschreiben',
   'template_label_write-email-helper':        'E-Mail',
 
-  // Template names (full)
   'template_name_eng-ticket-analysis':        'Ticket-Analyse',
   'template_name_eng-pr-review':              'PR Review',
   'template_name_understand-structured-brief':'Strukturiertes Briefing',
