@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Synto",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "Artem Iagovdik (artyom.yagovdik@gmail.com)",
   "description": "Turn any page into Markdown, apply a prompt template, and send to OpenAI, Gemini, or Grok. Keys stay on your device.",
   "homepage_url": "https://github.com/artttj/synto",
@@ -10,7 +10,13 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["activeTab", "storage", "clipboardWrite", "scripting", "sidePanel"],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "clipboardWrite",
+    "scripting",
+    "sidePanel"
+  ],
   "host_permissions": [
     "*://*/*",
     "https://api.openai.com/*",
@@ -33,7 +39,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
       "js": [
         "content/content.js"
       ],
@@ -44,7 +53,7 @@
     "_execute_action": {
       "suggested_key": {
         "default": "Alt+Shift+C",
-        "mac":     "Alt+Shift+C"
+        "mac": "Alt+Shift+C"
       },
       "description": "Open Synto"
     }

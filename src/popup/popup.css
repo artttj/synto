@@ -416,6 +416,15 @@ header {
   outline-offset: 1px;
 }
 
+.refresh-hint {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--c-text-3);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Collapsed: only row 1 visible */
 .preview-panel.collapsed .preview-tab-row { display: none; }
 .preview-panel.collapsed .preview-header  { padding-bottom: 0; gap: 0; }

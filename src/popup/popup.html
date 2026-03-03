@@ -51,12 +51,13 @@
           <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button" data-i18n="popup_prompt_tab">Prompt</button>
         </div>
         <div class="preview-row-end">
-          <button id="btn-refresh-content" class="preview-refresh-cta" type="button" data-i18n-title="popup_refresh_content" aria-label="Refresh content">
+          <button id="btn-refresh-content" class="preview-refresh-cta" type="button" data-i18n-title="popup_refresh_content_hint" aria-label="Refresh content">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" aria-hidden="true">
               <path d="M13.5 8A5.5 5.5 0 1 1 12.1 4.4"/>
               <polyline points="12.5 2.5 12.5 5.5 9.5 5.5"/>
             </svg>
           </button>
+          <span id="refresh-hint" class="refresh-hint" aria-hidden="true"></span>
           <span id="token-count" class="token-count" title="Estimated token count">—</span>
         </div>
       </div>

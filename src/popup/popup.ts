@@ -53,6 +53,9 @@ async function init(): Promise<void> {
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
 
+  const isMac = navigator.platform.startsWith('Mac');
+  (document.getElementById('refresh-hint') as HTMLElement).textContent = isMac ? '⌘A' : 'Ctrl+A';
+
   await extractContent();
 
   const keyGetters: Record<string, () => Promise<string>> = {

@@ -1,6 +1,6 @@
 {
   "name": "synto",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -10,7 +10,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "zip": "node scripts/zip.js",
+    "release": "node scripts/release.js",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
