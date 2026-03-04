@@ -56,6 +56,52 @@ const hi: Record<string, string> = {
   options_search_placeholder: 'टेम्पलेट खोजें…',
   options_help_heading: 'मदद',
   options_help_desc: 'Synto कैसे काम करता है और कीबोर्ड शॉर्टकट्स।',
+
+  options_help_how_heading:   'यह कैसे काम करता है',
+  options_help_how_step_1:    'किसी भी पेज पर एक्सटेंशन खोलें। Synto सामग्री को Markdown में परिवर्तित करता है।',
+  options_help_how_step_2:    'एक टेम्पलेट श्रेणी चुनें (<strong>समझें</strong>, <strong>निर्णय लें</strong>, <strong>कार्य करें</strong> या <strong>लिखें</strong>), फिर एक प्रीसेट चुनें।',
+  options_help_how_step_3:    'पूर्वावलोकन भरा हुआ प्रॉम्प्ट दिखाता है। इसे अपने AI प्रदाता को भेजने के लिए <strong>AI से पूछें</strong> पर क्लिक करें।',
+  options_help_how_step_4:    'प्रतिक्रिया के नीचे चैट पैनल में अनुवर्ती प्रश्न पूछें।',
+
+  options_help_categories_heading:    'टेम्पलेट श्रेणियाँ',
+  options_help_cat_understand_desc:   'सारांश और विश्लेषण: लेख, टिकट, पुल रिक्वेस्ट।',
+  options_help_cat_decide_desc:       'विकल्पों, ट्रेड-ऑफ और सिफारिशों का मूल्यांकन करें।',
+  options_help_cat_act_desc:          'चर्चाओं से क्रियाएँ, जोखिम और अवरोध निकालें।',
+  options_help_cat_compose_desc:      'उत्तर, ईमेल और पुनर्लेखन का मसौदा तैयार करें।',
+
+  options_help_placeholders_heading:  'प्लेसहोल्डर',
+  options_help_ph_content:            'Markdown के रूप में पूरा पेज',
+  options_help_ph_selection:          'हाइलाइट किया गया टेक्स्ट; पूरे पेज पर वापस जाता है',
+  options_help_ph_title:              'पेज शीर्षक',
+  options_help_ph_url:                'पेज URL',
+
+  options_help_tips_heading:  'सुझाव',
+  options_help_tip_1:         '<strong>चयन मोड:</strong> Synto खोलने से पहले टेक्स्ट हाइलाइट करें। केवल वह चयन <code>{content}</code> के रूप में भेजा जाता है। लंबे पेज के एक अनुभाग पर ध्यान केंद्रित करने के लिए उपयोगी।',
+  options_help_tip_2:         '<strong>लेज़ी-लोडेड पेज (Bitbucket, बड़े diff):</strong> कुछ पेज केवल स्क्रॉल करने पर सामग्री प्रस्तुत करते हैं। पहले पेज के माध्यम से स्क्रॉल करें, फिर सब कुछ चुनने के लिए <kbd>Ctrl+A</kbd> (या <kbd>⌘A</kbd>) दबाएँ, फिर Synto खोलें। यह स्वचालित रूप से चयन को कैप्चर करता है।',
+  options_help_tip_3:         '<strong>रीफ्रेश:</strong> ↻ बटन पेज को फिर से क्लिप करता है यदि पैनल खुलने के बाद सामग्री बदल गई हो।',
+
+  options_help_shortcuts_heading:       'कीबोर्ड शॉर्टकट',
+  options_help_shortcut_open_action:    'Synto खोलें',
+  options_help_shortcut_open_label:     'किसी भी टैब से साइड पैनल खोलता है',
+  options_help_shortcut_ask_action:     'AI से पूछें',
+  options_help_shortcut_ask_label:      'जब पैनल फोकस में हो तो ChatGPT, Gemini या Grok को भेजता है',
+  options_help_shortcut_note:           '⌥ Option कुंजी है (कुछ कीबोर्ड पर alt)। AI से पूछें शॉर्टकट केवल तभी काम करता है जब पैनल फोकस में हो।',
+
+  options_about_desc:           'किसी भी वेब पेज को Markdown में क्लिप करें, एक प्रॉम्प्ट टेम्पलेट लागू करें और AI को भेजें — कोई बैकएंड नहीं, कुंजियाँ आपके डिवाइस पर रहती हैं।',
+  options_about_version_label:  'संस्करण',
+  options_about_author_label:   'लेखक',
+  options_about_license_label:  'लाइसेंस',
+  options_about_license_text:   'MIT — उपयोग और संशोधन के लिए मुफ़्त; प्रतियों में एट्रिब्यूशन आवश्यक।',
+  options_about_github:         'GitHub पर स्रोत कोड देखें',
+
+  options_key_save:   'सहेजें',
+  options_key_clear:  'साफ़ करें',
+
+  options_modal_name_label:         'नाम',
+  options_modal_category_label:     'श्रेणी',
+  options_modal_prompt_label:       'प्रॉम्प्ट',
+  options_modal_insert_placeholder: 'प्लेसहोल्डर डालें',
+
   options_about_heading: 'Synto के बारे में',
   options_builtin: 'बिल्ट-इन',
   options_new_template: 'नया टेम्पलेट',

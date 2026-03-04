@@ -56,6 +56,52 @@ const pt: Record<string, string> = {
   options_search_placeholder: 'Pesquisar templates…',
   options_help_heading: 'Ajuda',
   options_help_desc: 'Como o Synto funciona e atalhos de teclado.',
+
+  options_help_how_heading:   'Como funciona',
+  options_help_how_step_1:    'Abra a extens\u00e3o em qualquer p\u00e1gina. O Synto converte o conte\u00fado para Markdown.',
+  options_help_how_step_2:    'Escolha uma categoria de template (<strong>Entender</strong>, <strong>Decidir</strong>, <strong>Agir</strong> ou <strong>Escrever</strong>), depois selecione um preset.',
+  options_help_how_step_3:    'A pr\u00e9-visualiza\u00e7\u00e3o mostra o prompt preenchido. Clique em <strong>Perguntar \u00e0 IA</strong> para envi\u00e1-lo ao seu provedor de IA.',
+  options_help_how_step_4:    'Fa\u00e7a perguntas de acompanhamento no painel de chat abaixo da resposta.',
+
+  options_help_categories_heading:    'Categorias de templates',
+  options_help_cat_understand_desc:   'Resumir e analisar: artigos, tickets, pull requests.',
+  options_help_cat_decide_desc:       'Avaliar op\u00e7\u00f5es, trade-offs e recomenda\u00e7\u00f5es.',
+  options_help_cat_act_desc:          'Extrair a\u00e7\u00f5es, riscos e bloqueadores das discuss\u00f5es.',
+  options_help_cat_compose_desc:      'Redigir respostas, e-mails e reescritas.',
+
+  options_help_placeholders_heading:  'Marcadores',
+  options_help_ph_content:            'P\u00e1gina completa em Markdown',
+  options_help_ph_selection:          'Texto selecionado; volta para a p\u00e1gina completa',
+  options_help_ph_title:              'T\u00edtulo da p\u00e1gina',
+  options_help_ph_url:                'URL da p\u00e1gina',
+
+  options_help_tips_heading:  'Dicas',
+  options_help_tip_1:         '<strong>Modo sele\u00e7\u00e3o:</strong> selecione texto antes de abrir o Synto. Apenas essa sele\u00e7\u00e3o \u00e9 enviada como <code>{content}</code>. \u00datil para focar em uma se\u00e7\u00e3o de uma p\u00e1gina longa.',
+  options_help_tip_2:         '<strong>P\u00e1ginas com carregamento lento (Bitbucket, diffs grandes):</strong> algumas p\u00e1ginas s\u00f3 renderizam conte\u00fado conforme voc\u00ea rola. Role pela p\u00e1gina primeiro, depois pressione <kbd>Ctrl+A</kbd> (ou <kbd>\u2318A</kbd>) para selecionar tudo, depois abra o Synto. Ele captura a sele\u00e7\u00e3o automaticamente.',
+  options_help_tip_3:         '<strong>Atualizar:</strong> o bot\u00e3o \u21bb re-captura a p\u00e1gina se o conte\u00fado mudou ap\u00f3s o painel ser aberto.',
+
+  options_help_shortcuts_heading:       'Atalhos de teclado',
+  options_help_shortcut_open_action:    'Abrir Synto',
+  options_help_shortcut_open_label:     'Abre o painel lateral em qualquer aba',
+  options_help_shortcut_ask_action:     'Perguntar \u00e0 IA',
+  options_help_shortcut_ask_label:      'Envia para ChatGPT, Gemini ou Grok quando o painel est\u00e1 em foco',
+  options_help_shortcut_note:           '⌥ \u00e9 a tecla Option (alt em alguns teclados). O atalho Perguntar \u00e0 IA s\u00f3 funciona enquanto o painel est\u00e1 em foco.',
+
+  options_about_desc:           'Recorte qualquer p\u00e1gina web para Markdown, aplique um template de prompt e envie para IA \u2014 sem backend, as chaves ficam no seu dispositivo.',
+  options_about_version_label:  'Vers\u00e3o',
+  options_about_author_label:   'Autor',
+  options_about_license_label:  'Licen\u00e7a',
+  options_about_license_text:   'MIT \u2014 livre para usar e modificar; atribui\u00e7\u00e3o necess\u00e1ria nas c\u00f3pias.',
+  options_about_github:         'Ver c\u00f3digo fonte no GitHub',
+
+  options_key_save:   'Salvar',
+  options_key_clear:  'Limpar',
+
+  options_modal_name_label:         'Nome',
+  options_modal_category_label:     'Categoria',
+  options_modal_prompt_label:       'Prompt',
+  options_modal_insert_placeholder: 'Inserir marcador',
+
   options_about_heading: 'Sobre o Synto',
   options_builtin: 'integrado',
   options_new_template: 'Novo template',

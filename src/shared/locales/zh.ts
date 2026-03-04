@@ -56,6 +56,52 @@ const zh: Record<string, string> = {
   options_search_placeholder: '搜索模板…',
   options_help_heading: '帮助',
   options_help_desc: 'Synto 的工作方式与快捷键。',
+
+  options_help_how_heading:   '使用方法',
+  options_help_how_step_1:    '在任意页面打开扩展。Synto 将内容转换为 Markdown。',
+  options_help_how_step_2:    '选择模板类别（<strong>理解</strong>、<strong>决策</strong>、<strong>行动</strong>或<strong>写作</strong>），然后选择预设。',
+  options_help_how_step_3:    '预览显示填充后的提示词。点击<strong>询问 AI</strong>将其发送给 AI 提供商。',
+  options_help_how_step_4:    '在回复下方的聊天面板中提问后续问题。',
+
+  options_help_categories_heading:    '模板类别',
+  options_help_cat_understand_desc:   '摘要和分析：文章、工单、拉取请求。',
+  options_help_cat_decide_desc:       '权衡选项、利弊和建议。',
+  options_help_cat_act_desc:          '从讨论中提取行动、风险和阻碍。',
+  options_help_cat_compose_desc:      '起草回复、邮件和改写内容。',
+
+  options_help_placeholders_heading:  '占位符',
+  options_help_ph_content:            '完整页面（Markdown 格式）',
+  options_help_ph_selection:          '选中文本；未选中时回退为完整页面',
+  options_help_ph_title:              '页面标题',
+  options_help_ph_url:                '页面 URL',
+
+  options_help_tips_heading:  '使用技巧',
+  options_help_tip_1:         '<strong>选择模式：</strong>在打开 Synto 前先选中文本。仅该选中内容会作为 <code>{content}</code> 发送。适合聚焦于长页面的某一部分。',
+  options_help_tip_2:         '<strong>延迟加载页面（Bitbucket、大型 diff）：</strong>部分页面仅在滚动时渲染内容。先滚动浏览页面，然后按 <kbd>Ctrl+A</kbd>（或 <kbd>⌘A</kbd>）全选，再打开 Synto。它会自动捕获选中内容。',
+  options_help_tip_3:         '<strong>刷新：</strong>↻ 按钮在面板打开后内容发生变化时重新捕获页面。',
+
+  options_help_shortcuts_heading:       '键盘快捷键',
+  options_help_shortcut_open_action:    '打开 Synto',
+  options_help_shortcut_open_label:     '从任意标签页打开侧边面板',
+  options_help_shortcut_ask_action:     '询问 AI',
+  options_help_shortcut_ask_label:      '面板获得焦点时发送给 ChatGPT、Gemini 或 Grok',
+  options_help_shortcut_note:           '⌥ 是 Option 键（部分键盘上为 alt 键）。询问 AI 快捷键仅在面板获得焦点时有效。',
+
+  options_about_desc:           '将任意网页剪辑为 Markdown，应用提示词模板并发送给 AI — 无后端，密钥保留在您的设备上。',
+  options_about_version_label:  '版本',
+  options_about_author_label:   '作者',
+  options_about_license_label:  '许可证',
+  options_about_license_text:   'MIT — 可自由使用和修改；副本中需注明来源。',
+  options_about_github:         '在 GitHub 上查看源代码',
+
+  options_key_save:   '保存',
+  options_key_clear:  '清除',
+
+  options_modal_name_label:         '名称',
+  options_modal_category_label:     '类别',
+  options_modal_prompt_label:       '提示词',
+  options_modal_insert_placeholder: '插入占位符',
+
   options_about_heading: '关于 Synto',
   options_builtin: '内置',
   options_new_template: '新建模板',

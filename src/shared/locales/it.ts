@@ -56,6 +56,52 @@ const it: Record<string, string> = {
   options_search_placeholder: 'Cerca template…',
   options_help_heading: 'Aiuto',
   options_help_desc: 'Come funziona Synto e scorciatoie da tastiera.',
+
+  options_help_how_heading:   'Come funziona',
+  options_help_how_step_1:    "Apri l\u2019estensione su qualsiasi pagina. Synto converte il contenuto in Markdown.",
+  options_help_how_step_2:    "Scegli una categoria di template (<strong>Comprendere</strong>, <strong>Decidere</strong>, <strong>Agire</strong> o <strong>Scrivere</strong>), poi seleziona un preset.",
+  options_help_how_step_3:    "L\u2019anteprima mostra il prompt compilato. Clicca su <strong>Chiedi all\u2019IA</strong> per inviarlo al tuo provider di IA.",
+  options_help_how_step_4:    'Fai domande di approfondimento nel pannello chat sotto la risposta.',
+
+  options_help_categories_heading:    'Categorie di template',
+  options_help_cat_understand_desc:   'Riassumere e analizzare: articoli, ticket, pull request.',
+  options_help_cat_decide_desc:       'Valutare opzioni, compromessi e raccomandazioni.',
+  options_help_cat_act_desc:          'Estrarre azioni, rischi e blocchi dalle discussioni.',
+  options_help_cat_compose_desc:      'Scrivere risposte, email e riformulazioni.',
+
+  options_help_placeholders_heading:  'Segnaposto',
+  options_help_ph_content:            'Pagina intera in Markdown',
+  options_help_ph_selection:          'Testo selezionato; torna alla pagina intera',
+  options_help_ph_title:              'Titolo della pagina',
+  options_help_ph_url:                'URL della pagina',
+
+  options_help_tips_heading:  'Suggerimenti',
+  options_help_tip_1:         '<strong>Modalit\u00e0 selezione:</strong> evidenzia il testo prima di aprire Synto. Solo quella selezione viene inviata come <code>{content}</code>. Utile per concentrarsi su una sezione di una pagina lunga.',
+  options_help_tip_2:         '<strong>Pagine con caricamento differito (Bitbucket, diff grandi):</strong> alcune pagine rendono il contenuto solo durante lo scorrimento. Scorri prima la pagina, poi premi <kbd>Ctrl+A</kbd> (o <kbd>\u2318A</kbd>) per selezionare tutto, poi apri Synto. La selezione viene catturata automaticamente.',
+  options_help_tip_3:         "<strong>Aggiorna:</strong> il pulsante \u21bb ri-cattura la pagina se il contenuto \u00e8 cambiato dopo l\u2019apertura del pannello.",
+
+  options_help_shortcuts_heading:       'Scorciatoie tastiera',
+  options_help_shortcut_open_action:    'Apri Synto',
+  options_help_shortcut_open_label:     'Apre il pannello laterale da qualsiasi scheda',
+  options_help_shortcut_ask_action:     "Chiedi all\u2019IA",
+  options_help_shortcut_ask_label:      'Invia a ChatGPT, Gemini o Grok quando il pannello \u00e8 attivo',
+  options_help_shortcut_note:           "⌥ \u00e8 il tasto Option (alt su alcune tastiere). La scorciatoia Chiedi all\u2019IA funziona solo quando il pannello \u00e8 attivo.",
+
+  options_about_desc:           'Converti qualsiasi pagina web in Markdown, applica un template di prompt e invia all\u2019IA \u2014 nessun backend, le chiavi rimangono sul tuo dispositivo.',
+  options_about_version_label:  'Versione',
+  options_about_author_label:   'Autore',
+  options_about_license_label:  'Licenza',
+  options_about_license_text:   'MIT \u2014 libero di usare e modificare; attribuzione richiesta nelle copie.',
+  options_about_github:         'Vedi il codice sorgente su GitHub',
+
+  options_key_save:   'Salva',
+  options_key_clear:  'Cancella',
+
+  options_modal_name_label:         'Nome',
+  options_modal_category_label:     'Categoria',
+  options_modal_prompt_label:       'Prompt',
+  options_modal_insert_placeholder: 'Inserisci segnaposto',
+
   options_about_heading: 'Informazioni su Synto',
   options_builtin: 'integrato',
   options_new_template: 'Nuovo template',

@@ -121,6 +121,7 @@
               <option value="pt">Português</option>
               <option value="zh">中文</option>
               <option value="hi">हिन्दी</option>
+              <option value="ja">日本語</option>
             </select>
           </div>
 
@@ -192,8 +193,8 @@
           <div class="provider-footer">
             <span class="provider-hint">Sent only to <code>api.openai.com</code> &middot; <a href="https://platform.openai.com/api-keys" target="_blank">Get key ↗</a></span>
             <div class="provider-btns">
-              <button id="btn-save-key" class="btn btn-primary btn-sm">Save</button>
-              <button id="btn-clear-key" class="btn btn-ghost btn-sm">Clear</button>
+              <button id="btn-save-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
               <span id="key-saved" class="saved-msg hidden">&#10003;</span>
             </div>
           </div>
@@ -220,8 +221,8 @@
           <div class="provider-footer">
             <span class="provider-hint">Sent only to <code>googleapis.com</code> &middot; <a href="https://aistudio.google.com/app/apikey" target="_blank">Get free key ↗</a></span>
             <div class="provider-btns">
-              <button id="btn-save-gemini-key" class="btn btn-primary btn-sm">Save</button>
-              <button id="btn-clear-gemini-key" class="btn btn-ghost btn-sm">Clear</button>
+              <button id="btn-save-gemini-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-gemini-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
               <span id="gemini-key-saved" class="saved-msg hidden">&#10003;</span>
             </div>
           </div>
@@ -248,8 +249,8 @@
           <div class="provider-footer">
             <span class="provider-hint">Sent only to <code>api.x.ai</code> &middot; <a href="https://console.x.ai/" target="_blank">Get key ↗</a></span>
             <div class="provider-btns">
-              <button id="btn-save-grok-key" class="btn btn-primary btn-sm">Save</button>
-              <button id="btn-clear-grok-key" class="btn btn-ghost btn-sm">Clear</button>
+              <button id="btn-save-grok-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-grok-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
               <span id="grok-key-saved" class="saved-msg hidden">&#10003;</span>
             </div>
           </div>
@@ -284,59 +285,59 @@
         </div>
 
         <div class="help-section">
-          <h2 class="help-heading">How it works</h2>
+          <h2 class="help-heading" data-i18n="options_help_how_heading">How it works</h2>
           <ol class="help-steps">
-            <li>Open the extension on any page. Synto clips the content to Markdown.</li>
-            <li>Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.</li>
-            <li>The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.</li>
-            <li>Ask follow-up questions in the chat panel below the response.</li>
+            <li data-i18n="options_help_how_step_1">Open the extension on any page. Synto clips the content to Markdown.</li>
+            <li data-i18n-html="options_help_how_step_2">Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.</li>
+            <li data-i18n-html="options_help_how_step_3">The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.</li>
+            <li data-i18n="options_help_how_step_4">Ask follow-up questions in the chat panel below the response.</li>
           </ol>
         </div>
 
         <div class="help-section">
-          <h2 class="help-heading">Template categories</h2>
+          <h2 class="help-heading" data-i18n="options_help_categories_heading">Template categories</h2>
           <div class="help-categories">
             <div class="help-cat">
-              <div class="help-cat-name">Understand</div>
-              <div class="help-cat-desc">Summarise and analyse: articles, tickets, pull requests.</div>
+              <div class="help-cat-name" data-i18n="category_understand">Understand</div>
+              <div class="help-cat-desc" data-i18n="options_help_cat_understand_desc">Summarise and analyse: articles, tickets, pull requests.</div>
             </div>
             <div class="help-cat">
-              <div class="help-cat-name">Decide</div>
-              <div class="help-cat-desc">Weigh options, trade-offs, and recommendations.</div>
+              <div class="help-cat-name" data-i18n="category_decide">Decide</div>
+              <div class="help-cat-desc" data-i18n="options_help_cat_decide_desc">Weigh options, trade-offs, and recommendations.</div>
             </div>
             <div class="help-cat">
-              <div class="help-cat-name">Act</div>
-              <div class="help-cat-desc">Extract actions, risks, and blockers from discussions.</div>
+              <div class="help-cat-name" data-i18n="category_act">Act</div>
+              <div class="help-cat-desc" data-i18n="options_help_cat_act_desc">Extract actions, risks, and blockers from discussions.</div>
             </div>
             <div class="help-cat">
-              <div class="help-cat-name">Compose</div>
-              <div class="help-cat-desc">Draft replies, emails, and rewrites.</div>
+              <div class="help-cat-name" data-i18n="category_compose">Compose</div>
+              <div class="help-cat-desc" data-i18n="options_help_cat_compose_desc">Draft replies, emails, and rewrites.</div>
             </div>
           </div>
         </div>
 
         <div class="help-section">
-          <h2 class="help-heading">Placeholders</h2>
+          <h2 class="help-heading" data-i18n="options_help_placeholders_heading">Placeholders</h2>
           <dl class="placeholder-defs placeholder-defs--help">
-            <dt>{content}</dt>   <dd>Full page as Markdown</dd>
-            <dt>{selection}</dt> <dd>Highlighted text; falls back to full page</dd>
-            <dt>{title}</dt>     <dd>Page title</dd>
-            <dt>{url}</dt>       <dd>Page URL</dd>
+            <dt>{content}</dt>   <dd data-i18n="options_help_ph_content">Full page as Markdown</dd>
+            <dt>{selection}</dt> <dd data-i18n="options_help_ph_selection">Highlighted text; falls back to full page</dd>
+            <dt>{title}</dt>     <dd data-i18n="options_help_ph_title">Page title</dd>
+            <dt>{url}</dt>       <dd data-i18n="options_help_ph_url">Page URL</dd>
 
           </dl>
         </div>
 
         <div class="help-section">
-          <h2 class="help-heading">Tips</h2>
+          <h2 class="help-heading" data-i18n="options_help_tips_heading">Tips</h2>
           <ul class="help-steps">
-            <li><strong>Selection mode:</strong> highlight text before opening Synto. Only that selection is sent as <code>{content}</code>. Good for focusing on one section of a long page.</li>
-            <li><strong>Lazy-loaded pages (Bitbucket, large diffs):</strong> some pages only render content as you scroll. Scroll through the page first, then press <kbd>Ctrl+A</kbd> (or <kbd>⌘A</kbd>) to select all, then open Synto. It captures the selection automatically.</li>
-            <li><strong>Refresh:</strong> the ↻ button re-clips the page if the content changed after the panel opened.</li>
+            <li data-i18n-html="options_help_tip_1"><strong>Selection mode:</strong> highlight text before opening Synto. Only that selection is sent as <code>{content}</code>. Good for focusing on one section of a long page.</li>
+            <li data-i18n-html="options_help_tip_2"><strong>Lazy-loaded pages (Bitbucket, large diffs):</strong> some pages only render content as you scroll. Scroll through the page first, then press <kbd>Ctrl+A</kbd> (or <kbd>⌘A</kbd>) to select all, then open Synto. It captures the selection automatically.</li>
+            <li data-i18n-html="options_help_tip_3"><strong>Refresh:</strong> the ↻ button re-clips the page if the content changed after the panel opened.</li>
           </ul>
         </div>
 
         <div class="help-section">
-          <h2 class="help-heading">Keyboard shortcuts</h2>
+          <h2 class="help-heading" data-i18n="options_help_shortcuts_heading">Keyboard shortcuts</h2>
           <div class="shortcut-list">
             <div class="shortcut-row">
               <div class="shortcut-keys">
@@ -347,8 +348,8 @@
                 <span class="key">C</span>
               </div>
               <div class="shortcut-info">
-                <div class="shortcut-action">Open Synto</div>
-                <div class="shortcut-label">Opens the side panel from any tab</div>
+                <div class="shortcut-action" data-i18n="options_help_shortcut_open_action">Open Synto</div>
+                <div class="shortcut-label" data-i18n="options_help_shortcut_open_label">Opens the side panel from any tab</div>
               </div>
             </div>
             <div class="shortcut-row">
@@ -360,12 +361,12 @@
                 <span class="key">↩</span>
               </div>
               <div class="shortcut-info">
-                <div class="shortcut-action">Ask AI</div>
-                <div class="shortcut-label">Sends to ChatGPT, Gemini, or Grok when the panel has focus</div>
+                <div class="shortcut-action" data-i18n="options_help_shortcut_ask_action">Ask AI</div>
+                <div class="shortcut-label" data-i18n="options_help_shortcut_ask_label">Sends to ChatGPT, Gemini, or Grok when the panel has focus</div>
               </div>
             </div>
           </div>
-          <p class="help-note">⌥ is the Option key (alt on some keyboards). The Ask AI shortcut only works while the panel has focus.</p>
+          <p class="help-note" data-i18n="options_help_shortcut_note">⌥ is the Option key (alt on some keyboards). The Ask AI shortcut only works while the panel has focus.</p>
         </div>
       </section>
 
@@ -373,24 +374,24 @@
       <section id="tab-about" class="tab-panel hidden">
         <div class="panel-header">
           <h1 data-i18n="options_about_heading">About Synto</h1>
-          <p>Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.</p>
+          <p data-i18n="options_about_desc">Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.</p>
         </div>
 
         <div class="about-block">
           <div class="about-row">
-            <span class="about-label">Version</span>
+            <span class="about-label" data-i18n="options_about_version_label">Version</span>
             <span id="about-version" class="about-value">—</span>
           </div>
           <div class="about-row">
-            <span class="about-label">Author</span>
+            <span class="about-label" data-i18n="options_about_author_label">Author</span>
             <a id="about-author-link" class="about-link" href="https://github.com/artttj" target="_blank" rel="noopener">Artem Iagovdik</a>
           </div>
           <div class="about-row">
-            <span class="about-label">License</span>
-            <span class="about-value">MIT — free to use and modify; attribution required in copies.</span>
+            <span class="about-label" data-i18n="options_about_license_label">License</span>
+            <span class="about-value" data-i18n="options_about_license_text">MIT — free to use and modify; attribution required in copies.</span>
           </div>
           <div class="about-row about-row-actions">
-            <a id="about-repo-link" class="btn btn-ghost btn-sm" href="https://github.com/artttj/synto" target="_blank" rel="noopener">View source on GitHub</a>
+            <a id="about-repo-link" class="btn btn-ghost btn-sm" href="https://github.com/artttj/synto" target="_blank" rel="noopener" data-i18n="options_about_github">View source on GitHub</a>
           </div>
         </div>
       </section>
@@ -420,11 +421,11 @@
 
       <div class="modal-body">
         <div class="field-col">
-          <label for="modal-name">Name</label>
+          <label for="modal-name" data-i18n="options_modal_name_label">Name</label>
           <input type="text" id="modal-name" data-i18n-placeholder="options_template_name_placeholder" placeholder="Template name" maxlength="60" />
         </div>
         <div class="field-col">
-          <label for="modal-category-select">Category</label>
+          <label for="modal-category-select" data-i18n="options_modal_category_label">Category</label>
           <div class="category-combo">
             <select id="modal-category-select"></select>
             <input type="text" id="modal-category-input" class="hidden"
@@ -432,11 +433,11 @@
           </div>
         </div>
         <div class="field-col">
-          <label for="modal-prompt">Prompt</label>
+          <label for="modal-prompt" data-i18n="options_modal_prompt_label">Prompt</label>
           <textarea id="modal-prompt" rows="10" data-i18n-placeholder="options_template_prompt_placeholder" placeholder="Write your prompt here…"></textarea>
         </div>
         <div class="placeholder-helper">
-          <div class="helper-label">Insert placeholder</div>
+          <div class="helper-label" data-i18n="options_modal_insert_placeholder">Insert placeholder</div>
           <div class="helper-chips">
             <button class="chip" data-placeholder="{content}" type="button">{content}</button>
             <button class="chip" data-placeholder="{selection}" type="button">{selection}</button>
@@ -445,10 +446,10 @@
 
           </div>
           <dl class="placeholder-defs">
-            <dt>{content}</dt>   <dd>Full page as Markdown</dd>
-            <dt>{selection}</dt> <dd>Highlighted text; falls back to full page</dd>
-            <dt>{title}</dt>     <dd>Page title</dd>
-            <dt>{url}</dt>       <dd>Page URL</dd>
+            <dt>{content}</dt>   <dd data-i18n="options_help_ph_content">Full page as Markdown</dd>
+            <dt>{selection}</dt> <dd data-i18n="options_help_ph_selection">Highlighted text; falls back to full page</dd>
+            <dt>{title}</dt>     <dd data-i18n="options_help_ph_title">Page title</dd>
+            <dt>{url}</dt>       <dd data-i18n="options_help_ph_url">Page URL</dd>
 
           </dl>
         </div>

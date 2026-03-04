@@ -63,6 +63,51 @@ const fr: Record<string, string> = {
   options_help_heading: 'Aide',
   options_help_desc:    'Fonctionnement de Synto et raccourcis clavier.',
 
+  options_help_how_heading:   'Comment \u00e7a marche',
+  options_help_how_step_1:    "Ouvrez l\u2019extension sur n\u2019importe quelle page. Synto convertit le contenu en Markdown.",
+  options_help_how_step_2:    "Choisissez une cat\u00e9gorie de mod\u00e8le (<strong>Comprendre</strong>, <strong>D\u00e9cider</strong>, <strong>Agir</strong> ou <strong>R\u00e9diger</strong>), puis s\u00e9lectionnez un mod\u00e8le pr\u00e9d\u00e9fini.",
+  options_help_how_step_3:    "L\u2019aper\u00e7u affiche le prompt rempli. Cliquez sur <strong>Demander \u00e0 l\u2019IA</strong> pour l\u2019envoyer \u00e0 votre fournisseur d\u2019IA.",
+  options_help_how_step_4:    'Posez des questions de suivi dans le panneau de discussion sous la r\u00e9ponse.',
+
+  options_help_categories_heading:    'Cat\u00e9gories de mod\u00e8les',
+  options_help_cat_understand_desc:   'R\u00e9sumer et analyser\u00a0: articles, tickets, pull requests.',
+  options_help_cat_decide_desc:       'Peser les options, les compromis et les recommandations.',
+  options_help_cat_act_desc:          'Extraire les actions, risques et bloqueurs des discussions.',
+  options_help_cat_compose_desc:      'R\u00e9diger des r\u00e9ponses, e-mails et reformulations.',
+
+  options_help_placeholders_heading:  'Variables',
+  options_help_ph_content:            'Page enti\u00e8re en Markdown',
+  options_help_ph_selection:          'Texte s\u00e9lectionn\u00e9\u00a0; revient \u00e0 la page enti\u00e8re',
+  options_help_ph_title:              'Titre de la page',
+  options_help_ph_url:                'URL de la page',
+
+  options_help_tips_heading:  'Conseils',
+  options_help_tip_1:         '<strong>Mode s\u00e9lection\u00a0:</strong> s\u00e9lectionnez du texte avant d\u2019ouvrir Synto. Seule cette s\u00e9lection est envoy\u00e9e comme <code>{content}</code>. Utile pour se concentrer sur une section d\u2019une longue page.',
+  options_help_tip_2:         "<strong>Pages \u00e0 chargement diff\u00e9r\u00e9 (Bitbucket, grandes diffs)\u00a0:</strong> certaines pages ne rendent le contenu qu\u2019au d\u00e9filement. Faites d\u00e9filer la page d\u2019abord, puis appuyez sur <kbd>Ctrl+A</kbd> (ou <kbd>\u2318A</kbd>) pour tout s\u00e9lectionner, puis ouvrez Synto. La s\u00e9lection est captur\u00e9e automatiquement.",
+  options_help_tip_3:         "<strong>Actualiser\u00a0:</strong> le bouton \u21bb recapture la page si le contenu a chang\u00e9 apr\u00e8s l\u2019ouverture du panneau.",
+
+  options_help_shortcuts_heading:       'Raccourcis clavier',
+  options_help_shortcut_open_action:    'Ouvrir Synto',
+  options_help_shortcut_open_label:     "Ouvre le panneau lat\u00e9ral depuis n\u2019importe quel onglet",
+  options_help_shortcut_ask_action:     "Demander \u00e0 l\u2019IA",
+  options_help_shortcut_ask_label:      'Envoie \u00e0 ChatGPT, Gemini ou Grok quand le panneau est actif',
+  options_help_shortcut_note:           "⌥ est la touche Option (alt sur certains claviers). Le raccourci Demander \u00e0 l\u2019IA ne fonctionne que lorsque le panneau est actif.",
+
+  options_about_desc:           "Extrayez n\u2019importe quelle page web en Markdown, appliquez un mod\u00e8le de prompt et envoyez \u00e0 l\u2019IA \u2014 sans backend, les cl\u00e9s restent sur votre appareil.",
+  options_about_version_label:  'Version',
+  options_about_author_label:   'Auteur',
+  options_about_license_label:  'Licence',
+  options_about_license_text:   "MIT \u2014 libre d\u2019utilisation et de modification\u00a0; attribution requise dans les copies.",
+  options_about_github:         'Voir le code source sur GitHub',
+
+  options_key_save:   'Enregistrer',
+  options_key_clear:  'Effacer',
+
+  options_modal_name_label:         'Nom',
+  options_modal_category_label:     'Cat\u00e9gorie',
+  options_modal_prompt_label:       'Prompt',
+  options_modal_insert_placeholder: 'Ins\u00e9rer une variable',
+
   options_about_heading: '\u00c0 propos de Synto',
 
   options_builtin:                    'int\u00e9gr\u00e9',

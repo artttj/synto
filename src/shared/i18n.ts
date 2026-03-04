@@ -11,6 +11,7 @@ import it from './locales/it';
 import pt from './locales/pt';
 import zh from './locales/zh';
 import hi from './locales/hi';
+import ja from './locales/ja';
 
 let current: Record<string, string> = en;
 
@@ -43,6 +44,10 @@ export function setLocale(lang: string): void {
     current = hi;
     return;
   }
+  if (lang === 'ja') {
+    current = ja;
+    return;
+  }
   current = en;
 }
 
@@ -53,6 +58,9 @@ export function t(key: string): string {
 export function applyI18n(root: Document | Element = document): void {
   root.querySelectorAll('[data-i18n]').forEach((el) => {
     el.textContent = t(el.getAttribute('data-i18n')!);
+  });
+  root.querySelectorAll('[data-i18n-html]').forEach((el) => {
+    el.innerHTML = t(el.getAttribute('data-i18n-html')!);
   });
   root.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
     (el as HTMLElement).setAttribute(

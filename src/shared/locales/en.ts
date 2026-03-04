@@ -63,6 +63,51 @@ const en: Record<string, string> = {
   options_help_heading: 'Help',
   options_help_desc:    'How Synto works and keyboard shortcuts.',
 
+  options_help_how_heading:   'How it works',
+  options_help_how_step_1:    'Open the extension on any page. Synto clips the content to Markdown.',
+  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.',
+  options_help_how_step_3:    'The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.',
+  options_help_how_step_4:    'Ask follow-up questions in the chat panel below the response.',
+
+  options_help_categories_heading:    'Template categories',
+  options_help_cat_understand_desc:   'Summarise and analyse: articles, tickets, pull requests.',
+  options_help_cat_decide_desc:       'Weigh options, trade-offs, and recommendations.',
+  options_help_cat_act_desc:          'Extract actions, risks, and blockers from discussions.',
+  options_help_cat_compose_desc:      'Draft replies, emails, and rewrites.',
+
+  options_help_placeholders_heading:  'Placeholders',
+  options_help_ph_content:            'Full page as Markdown',
+  options_help_ph_selection:          'Highlighted text; falls back to full page',
+  options_help_ph_title:              'Page title',
+  options_help_ph_url:                'Page URL',
+
+  options_help_tips_heading:  'Tips',
+  options_help_tip_1:         '<strong>Selection mode:</strong> highlight text before opening Synto. Only that selection is sent as <code>{content}</code>. Good for focusing on one section of a long page.',
+  options_help_tip_2:         '<strong>Lazy-loaded pages (Bitbucket, large diffs):</strong> some pages only render content as you scroll. Scroll through the page first, then press <kbd>Ctrl+A</kbd> (or <kbd>⌘A</kbd>) to select all, then open Synto. It captures the selection automatically.',
+  options_help_tip_3:         '<strong>Refresh:</strong> the ↻ button re-clips the page if the content changed after the panel opened.',
+
+  options_help_shortcuts_heading:       'Keyboard shortcuts',
+  options_help_shortcut_open_action:    'Open Synto',
+  options_help_shortcut_open_label:     'Opens the side panel from any tab',
+  options_help_shortcut_ask_action:     'Ask AI',
+  options_help_shortcut_ask_label:      'Sends to ChatGPT, Gemini, or Grok when the panel has focus',
+  options_help_shortcut_note:           '⌥ is the Option key (alt on some keyboards). The Ask AI shortcut only works while the panel has focus.',
+
+  options_about_desc:           'Clip any web page to Markdown, apply a prompt template, and send to AI — no backend, keys stay on your device.',
+  options_about_version_label:  'Version',
+  options_about_author_label:   'Author',
+  options_about_license_label:  'License',
+  options_about_license_text:   'MIT — free to use and modify; attribution required in copies.',
+  options_about_github:         'View source on GitHub',
+
+  options_key_save:   'Save',
+  options_key_clear:  'Clear',
+
+  options_modal_name_label:         'Name',
+  options_modal_category_label:     'Category',
+  options_modal_prompt_label:       'Prompt',
+  options_modal_insert_placeholder: 'Insert placeholder',
+
   options_about_heading: 'About Synto',
 
   options_builtin:                    'built-in',

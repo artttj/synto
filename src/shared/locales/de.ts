@@ -63,6 +63,51 @@ const de: Record<string, string> = {
   options_help_heading: 'Hilfe',
   options_help_desc:    'So funktioniert Synto und Tastaturk\u00fcrzel.',
 
+  options_help_how_heading:   'So funktioniert es',
+  options_help_how_step_1:    '\u00d6ffnen Sie die Erweiterung auf einer beliebigen Seite. Synto konvertiert den Inhalt in Markdown.',
+  options_help_how_step_2:    'W\u00e4hlen Sie eine Template-Kategorie (<strong>Verstehen</strong>, <strong>Entscheiden</strong>, <strong>Handeln</strong> oder <strong>Verfassen</strong>) und dann ein Preset.',
+  options_help_how_step_3:    'Die Vorschau zeigt den ausgef\u00fcllten Prompt. Klicken Sie auf <strong>KI fragen</strong>, um ihn an Ihren KI-Anbieter zu senden.',
+  options_help_how_step_4:    'Stellen Sie Folgefragen im Chat-Bereich unterhalb der Antwort.',
+
+  options_help_categories_heading:    'Template-Kategorien',
+  options_help_cat_understand_desc:   'Zusammenfassen und analysieren: Artikel, Tickets, Pull Requests.',
+  options_help_cat_decide_desc:       'Optionen, Trade-offs und Empfehlungen abw\u00e4gen.',
+  options_help_cat_act_desc:          'Aktionen, Risiken und Blocker aus Diskussionen extrahieren.',
+  options_help_cat_compose_desc:      'Antworten, E-Mails und Umschreibungen verfassen.',
+
+  options_help_placeholders_heading:  'Platzhalter',
+  options_help_ph_content:            'Vollst\u00e4ndige Seite als Markdown',
+  options_help_ph_selection:          'Markierter Text; f\u00e4llt auf die gesamte Seite zur\u00fcck',
+  options_help_ph_title:              'Seitentitel',
+  options_help_ph_url:                'Seiten-URL',
+
+  options_help_tips_heading:  'Tipps',
+  options_help_tip_1:         '<strong>Auswahlmodus:</strong> Text vor dem \u00d6ffnen von Synto markieren. Nur diese Auswahl wird als <code>{content}</code> gesendet. Gut, um sich auf einen Abschnitt einer langen Seite zu konzentrieren.',
+  options_help_tip_2:         '<strong>Lazy-geladene Seiten (Bitbucket, gro\u00dfe Diffs):</strong> Manche Seiten rendern Inhalt erst beim Scrollen. Zuerst durch die Seite scrollen, dann <kbd>Ctrl+A</kbd> (oder <kbd>\u2318A</kbd>) dr\u00fccken um alles auszuw\u00e4hlen, dann Synto \u00f6ffnen. Die Auswahl wird automatisch erfasst.',
+  options_help_tip_3:         '<strong>Aktualisieren:</strong> Der \u21bb-Button clipped die Seite neu, wenn sich der Inhalt nach dem \u00d6ffnen des Panels ge\u00e4ndert hat.',
+
+  options_help_shortcuts_heading:       'Tastaturk\u00fcrzel',
+  options_help_shortcut_open_action:    'Synto \u00f6ffnen',
+  options_help_shortcut_open_label:     '\u00d6ffnet das Seitenpanel in jedem Tab',
+  options_help_shortcut_ask_action:     'KI fragen',
+  options_help_shortcut_ask_label:      'Sendet an ChatGPT, Gemini oder Grok, wenn das Panel den Fokus hat',
+  options_help_shortcut_note:           '⌥ ist die Option-Taste (alt auf manchen Tastaturen). Das \u201eKI fragen\u201c-K\u00fcrzel funktioniert nur, wenn das Panel den Fokus hat.',
+
+  options_about_desc:           'Beliebige Webseite in Markdown konvertieren, ein Prompt-Template anwenden und an KI senden \u2014 kein Backend, Schl\u00fcssel bleiben auf Ihrem Ger\u00e4t.',
+  options_about_version_label:  'Version',
+  options_about_author_label:   'Autor',
+  options_about_license_label:  'Lizenz',
+  options_about_license_text:   'MIT \u2014 kostenlos nutzbar und ver\u00e4nderbar; Namensnennung in Kopien erforderlich.',
+  options_about_github:         'Quellcode auf GitHub ansehen',
+
+  options_key_save:   'Speichern',
+  options_key_clear:  'L\u00f6schen',
+
+  options_modal_name_label:         'Name',
+  options_modal_category_label:     'Kategorie',
+  options_modal_prompt_label:       'Prompt',
+  options_modal_insert_placeholder: 'Platzhalter einf\u00fcgen',
+
   options_about_heading: '\u00dcber Synto',
 
   options_builtin:                    'integriert',
