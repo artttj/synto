@@ -83,7 +83,9 @@ export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
   initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai');
   initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', applyTheme);
-  initSegmented(refs.languageSeg!, state.settings.language ?? 'en', (lang) => {
+  refs.languageEl!.value = state.settings.language ?? 'en';
+  refs.languageEl!.addEventListener('change', () => {
+    const lang = refs.languageEl!.value;
     setLocale(lang);
     applyI18n();
     void saveSettings({ language: lang });
@@ -111,7 +113,7 @@ export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): voi
       defaultTemplateId: refs.defaultTplEl!.value,
       theme: getSegmentedValue(refs.themeSeg!) ?? 'dark',
       llmProvider: getSegmentedValue(refs.providerSeg!) ?? 'openai',
-      language: getSegmentedValue(refs.languageSeg!) ?? 'en',
+      language: refs.languageEl?.value ?? 'en',
       systemPrompt: refs.systemPromptEl?.value ?? '',
       openaiModel: refs.openaiModelEl?.value ?? 'gpt-4o-mini',
       geminiModel: refs.geminiModelEl?.value ?? 'gemini-2.0-flash',
