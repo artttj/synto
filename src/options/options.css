@@ -355,6 +355,11 @@ body {
   flex-shrink: 0;
 }
 
+#language-segmented {
+  flex-wrap: wrap;
+  flex-shrink: 1;
+}
+
 .seg-btn {
   padding: 5px 13px;
   border-radius: calc(var(--r-md) - 2px);
