@@ -51,6 +51,18 @@ const pt: Record<string, string> = {
   options_system_prompt_placeholder: 'Voc\u00ea \u00e9 um assistente \u00fatil…',
   options_ai_heading: 'Conex\u00f5es de IA',
   options_ai_desc: 'As chaves de API s\u00e3o armazenadas localmente no seu dispositivo e nunca s\u00e3o transmitidas por esta extens\u00e3o.',
+
+  options_ai_privacy_title:          'Aviso de privacidade e dados',
+  options_ai_privacy_intro:          'Ao usar <strong>Perguntar ao ChatGPT</strong>, <strong>Perguntar ao Gemini</strong> ou <strong>Perguntar ao Grok</strong>, seu conte\u00fado recortado \u00e9 enviado diretamente ao seu provedor de IA. Observe:',
+  options_ai_privacy_no_storage:     '<strong>Sem armazenamento:</strong> Esta extens\u00e3o n\u00e3o armazena nada. Nenhum conte\u00fado de p\u00e1gina, nenhuma chave de API em nenhum servidor \u2014 tudo fica no seu dispositivo.',
+  options_ai_privacy_transfer:       '<strong>Transfer\u00eancia de dados:</strong> O conte\u00fado sai do seu dispositivo e \u00e9 processado pelo provedor de IA (OpenAI, Google ou xAI).',
+  options_ai_privacy_personal:       '<strong>Informa\u00e7\u00f5es pessoais:</strong> Evite recortar p\u00e1ginas com dados sens\u00edveis de sa\u00fade, financeiros ou credenciais privadas.',
+  options_ai_privacy_responsibility: '<strong>Sua responsabilidade:</strong> Voc\u00ea \u00e9 respons\u00e1vel por garantir a conformidade com LGPD, GDPR, CCPA e outras leis de dados.',
+  options_ai_privacy_policies:       'Pol\u00edticas de privacidade:',
+
+  options_provider_hint_sent_only: 'Enviado apenas para',
+  options_get_key:                 'Obter chave \u2197',
+  options_get_key_free:            'Obter chave gratuita \u2197',
   options_library_heading: 'Biblioteca de prompts',
   options_library_desc: 'Navegue, pesquise e gerencie seus templates de prompt.',
   options_search_placeholder: 'Pesquisar templates…',

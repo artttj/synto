@@ -51,6 +51,18 @@ const hi: Record<string, string> = {
   options_system_prompt_placeholder: 'आप एक सहायक सहायक हैं…',
   options_ai_heading: 'AI कनेक्शन',
   options_ai_desc: 'API keys आपके डिवाइस पर लोकली स्टोर होती हैं और यह एक्सटेंशन उन्हें कहीं ट्रांसमिट नहीं करता।',
+
+  options_ai_privacy_title:          'गोपनीयता और डेटा नोटिस',
+  options_ai_privacy_intro:          '<strong>ChatGPT से पूछें</strong>, <strong>Gemini से पूछें</strong>, या <strong>Grok से पूछें</strong> का उपयोग करते समय, आपकी क्लिप की गई सामग्री सीधे आपके चुने हुए AI प्रदाता को भेजी जाती है। कृपया ध्यान दें:',
+  options_ai_privacy_no_storage:     '<strong>कोई स्टोरेज नहीं:</strong> यह एक्सटेंशन कुछ भी स्टोर नहीं करता। कोई पेज सामग्री नहीं, किसी सर्वर पर कोई API key नहीं \u2014 सब कुछ आपके डिवाइस पर रहता है।',
+  options_ai_privacy_transfer:       '<strong>डेटा ट्रांसफर:</strong> सामग्री आपके डिवाइस से निकलती है और AI प्रदाता (OpenAI, Google, या xAI) द्वारा संसाधित होती है।',
+  options_ai_privacy_personal:       '<strong>व्यक्तिगत जानकारी:</strong> संवेदनशील स्वास्थ्य, वित्तीय, या निजी क्रेडेंशियल वाले पेज क्लिप करने से बचें।',
+  options_ai_privacy_responsibility: '<strong>आपकी जिम्मेदारी:</strong> GDPR, CCPA और अन्य डेटा कानूनों का अनुपालन सुनिश्चित करना आपकी जिम्मेदारी है।',
+  options_ai_privacy_policies:       'गोपनीयता नीतियाँ:',
+
+  options_provider_hint_sent_only: 'केवल यहाँ भेजा जाता है',
+  options_get_key:                 'key प्राप्त करें \u2197',
+  options_get_key_free:            'मुफ़्त key प्राप्त करें \u2197',
   options_library_heading: 'प्रॉम्प्ट लाइब्रेरी',
   options_library_desc: 'अपने प्रॉम्प्ट टेम्पलेट ब्राउज़, खोज और प्रबंधित करें।',
   options_search_placeholder: 'टेम्पलेट खोजें…',

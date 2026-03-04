@@ -51,6 +51,18 @@ const it: Record<string, string> = {
   options_system_prompt_placeholder: 'Sei un assistente utile…',
   options_ai_heading: 'Connessioni IA',
   options_ai_desc: 'Le chiavi API sono memorizzate localmente sul dispositivo e non vengono mai trasmesse da questa estensione.',
+
+  options_ai_privacy_title:          'Avviso sulla privacy e sui dati',
+  options_ai_privacy_intro:          "Quando si usa <strong>Chiedi a ChatGPT</strong>, <strong>Chiedi a Gemini</strong> o <strong>Chiedi a Grok</strong>, il contenuto estratto viene inviato direttamente al provider IA scelto. Si prega di notare:",
+  options_ai_privacy_no_storage:     "<strong>Nessuna memorizzazione:</strong> Questa estensione non memorizza nulla. Nessun contenuto di pagina, nessuna chiave API su alcun server \u2014 tutto rimane sul tuo dispositivo.",
+  options_ai_privacy_transfer:       "<strong>Trasferimento dati:</strong> Il contenuto lascia il tuo dispositivo e viene elaborato dal provider IA (OpenAI, Google o xAI).",
+  options_ai_privacy_personal:       "<strong>Informazioni personali:</strong> Evita di catturare pagine con dati sanitari, finanziari o credenziali private sensibili.",
+  options_ai_privacy_responsibility: "<strong>Tua responsabilit\u00e0:</strong> Sei responsabile di garantire la conformit\u00e0 al GDPR, CCPA e alle altre leggi sui dati.",
+  options_ai_privacy_policies:       'Informative sulla privacy:',
+
+  options_provider_hint_sent_only: 'Inviato solo a',
+  options_get_key:                 'Ottieni chiave \u2197',
+  options_get_key_free:            'Ottieni chiave gratuita \u2197',
   options_library_heading: 'Libreria prompt',
   options_library_desc: 'Sfoglia, cerca e gestisci i tuoi template di prompt.',
   options_search_placeholder: 'Cerca template…',

@@ -56,6 +56,18 @@ const es: Record<string, string> = {
   options_ai_heading: 'Conexiones de IA',
   options_ai_desc:    'Las claves API se guardan localmente en tu dispositivo y esta extensi\u00f3n nunca las transmite.',
 
+  options_ai_privacy_title:          'Aviso de privacidad y datos',
+  options_ai_privacy_intro:          'Al usar <strong>Preguntar a ChatGPT</strong>, <strong>Preguntar a Gemini</strong> o <strong>Preguntar a Grok</strong>, el contenido recortado se env\u00eda directamente a tu proveedor de IA. Ten en cuenta:',
+  options_ai_privacy_no_storage:     '<strong>Sin almacenamiento:</strong> Esta extensi\u00f3n no almacena nada. Sin contenido de p\u00e1gina, sin claves API en ning\u00fan servidor \u2014 todo permanece en tu dispositivo.',
+  options_ai_privacy_transfer:       '<strong>Transferencia de datos:</strong> El contenido sale de tu dispositivo y es procesado por el proveedor de IA (OpenAI, Google o xAI).',
+  options_ai_privacy_personal:       '<strong>Informaci\u00f3n personal:</strong> Evita recortar p\u00e1ginas con datos sensibles de salud, financieros o credenciales privadas.',
+  options_ai_privacy_responsibility: '<strong>Tu responsabilidad:</strong> Eres responsable de garantizar el cumplimiento del RGPD, CCPA y otras leyes de datos.',
+  options_ai_privacy_policies:       'Pol\u00edticas de privacidad:',
+
+  options_provider_hint_sent_only: 'Solo se env\u00eda a',
+  options_get_key:                 'Obtener clave \u2197',
+  options_get_key_free:            'Obtener clave gratis \u2197',
+
   options_library_heading:    'Biblioteca de prompts',
   options_library_desc:       'Explora, busca y administra tus plantillas de prompt.',
   options_search_placeholder: 'Buscar plantillas\u2026',

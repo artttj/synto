@@ -56,6 +56,18 @@ const en: Record<string, string> = {
   options_ai_heading: 'AI Connections',
   options_ai_desc:    'API keys are stored locally on your device and are never transmitted by this extension.',
 
+  options_ai_privacy_title:          'Privacy & Data Notice',
+  options_ai_privacy_intro:          'When using <strong>Ask ChatGPT</strong>, <strong>Ask Gemini</strong>, or <strong>Ask Grok</strong>, your clipped content is sent directly to your chosen AI provider. Please note:',
+  options_ai_privacy_no_storage:     '<strong>No Storage:</strong> This extension stores nothing. No page content, no API keys on any server \u2014 everything stays on your device.',
+  options_ai_privacy_transfer:       '<strong>Data Transfer:</strong> Content leaves your device and is processed by the AI provider (OpenAI, Google, or xAI).',
+  options_ai_privacy_personal:       '<strong>Personal Info:</strong> Avoid clipping pages with sensitive health, financial, or private credentials.',
+  options_ai_privacy_responsibility: '<strong>Your Responsibility:</strong> You are responsible for ensuring compliance with GDPR, CCPA, and other data laws.',
+  options_ai_privacy_policies:       'Privacy Policies:',
+
+  options_provider_hint_sent_only: 'Sent only to',
+  options_get_key:                 'Get key \u2197',
+  options_get_key_free:            'Get free key \u2197',
+
   options_library_heading:    'Prompt Library',
   options_library_desc:       'Browse, search, and manage your prompt templates.',
   options_search_placeholder: 'Search templates\u2026',

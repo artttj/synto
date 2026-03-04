@@ -56,6 +56,18 @@ const fr: Record<string, string> = {
   options_ai_heading: 'Connexions IA',
   options_ai_desc:    'Les cl\u00e9s API sont stock\u00e9es localement sur votre appareil et ne sont jamais transmises par cette extension.',
 
+  options_ai_privacy_title:          'Avis de confidentialit\u00e9 et donn\u00e9es',
+  options_ai_privacy_intro:          "En utilisant <strong>Demander \u00e0 ChatGPT</strong>, <strong>Demander \u00e0 Gemini</strong> ou <strong>Demander \u00e0 Grok</strong>, votre contenu extrait est envoy\u00e9 directement \u00e0 votre fournisseur d\u2019IA. Veuillez noter\u00a0:",
+  options_ai_privacy_no_storage:     "<strong>Pas de stockage\u00a0:</strong> Cette extension ne stocke rien. Pas de contenu de page, pas de cl\u00e9s API sur un serveur \u2014 tout reste sur votre appareil.",
+  options_ai_privacy_transfer:       "<strong>Transfert de donn\u00e9es\u00a0:</strong> Le contenu quitte votre appareil et est trait\u00e9 par le fournisseur d\u2019IA (OpenAI, Google ou xAI).",
+  options_ai_privacy_personal:       "<strong>Informations personnelles\u00a0:</strong> \u00c9vitez de capturer des pages contenant des donn\u00e9es de sant\u00e9, financi\u00e8res ou des identifiants priv\u00e9s sensibles.",
+  options_ai_privacy_responsibility: "<strong>Votre responsabilit\u00e9\u00a0:</strong> Vous \u00eates responsable du respect du RGPD, du CCPA et des autres lois sur les donn\u00e9es.",
+  options_ai_privacy_policies:       'Politiques de confidentialit\u00e9\u00a0:',
+
+  options_provider_hint_sent_only: 'Envoy\u00e9 uniquement \u00e0',
+  options_get_key:                 'Obtenir une cl\u00e9 \u2197',
+  options_get_key_free:            'Obtenir une cl\u00e9 gratuite \u2197',
+
   options_library_heading:    'Biblioth\u00e8que de prompts',
   options_library_desc:       'Parcourez, recherchez et g\u00e9rez vos mod\u00e8les de prompt.',
   options_search_placeholder: 'Rechercher des mod\u00e8les\u2026',

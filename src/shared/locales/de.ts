@@ -56,6 +56,18 @@ const de: Record<string, string> = {
   options_ai_heading: 'AI-Verbindungen',
   options_ai_desc:    'API-Schl\u00fcssel werden lokal auf Ihrem Ger\u00e4t gespeichert und nie \u00fcbertragen.',
 
+  options_ai_privacy_title:          'Datenschutz- & Datenhinweis',
+  options_ai_privacy_intro:          'Bei der Verwendung von <strong>ChatGPT fragen</strong>, <strong>Gemini fragen</strong> oder <strong>Grok fragen</strong> wird Ihr geclippter Inhalt direkt an den gew\u00e4hlten KI-Anbieter gesendet. Bitte beachten Sie:',
+  options_ai_privacy_no_storage:     '<strong>Keine Speicherung:</strong> Diese Erweiterung speichert nichts. Keine Seiteninhalte, keine API-Schl\u00fcssel auf einem Server \u2014 alles bleibt auf Ihrem Ger\u00e4t.',
+  options_ai_privacy_transfer:       '<strong>Daten\u00fcbertragung:</strong> Inhalte verlassen Ihr Ger\u00e4t und werden vom KI-Anbieter (OpenAI, Google oder xAI) verarbeitet.',
+  options_ai_privacy_personal:       '<strong>Pers\u00f6nliche Daten:</strong> Vermeiden Sie das Clippen von Seiten mit sensiblen Gesundheits-, Finanz- oder privaten Zugangsdaten.',
+  options_ai_privacy_responsibility: '<strong>Ihre Verantwortung:</strong> Sie sind daf\u00fcr verantwortlich, die Einhaltung der DSGVO, CCPA und anderer Datenschutzgesetze sicherzustellen.',
+  options_ai_privacy_policies:       'Datenschutzrichtlinien:',
+
+  options_provider_hint_sent_only: 'Wird nur gesendet an',
+  options_get_key:                 'Schl\u00fcssel holen \u2197',
+  options_get_key_free:            'Kostenlosen Schl\u00fcssel holen \u2197',
+
   options_library_heading:    'Prompt-Bibliothek',
   options_library_desc:       'Prompt-Templates durchsuchen und verwalten.',
   options_search_placeholder: 'Templates suchen\u2026',

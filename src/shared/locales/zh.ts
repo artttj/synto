@@ -51,6 +51,18 @@ const zh: Record<string, string> = {
   options_system_prompt_placeholder: '你是一个有帮助的助手…',
   options_ai_heading: 'AI 连接',
   options_ai_desc: 'API Key 仅保存在你的设备本地，本扩展不会传输这些密钥。',
+
+  options_ai_privacy_title:          '隐私与数据声明',
+  options_ai_privacy_intro:          '使用<strong>询问 ChatGPT</strong>、<strong>询问 Gemini</strong>或<strong>询问 Grok</strong>时，您剪辑的内容会直接发送给您选择的 AI 提供商。请注意：',
+  options_ai_privacy_no_storage:     '<strong>不存储：</strong>本扩展不存储任何内容。没有页面内容，没有 API Key 存储在任何服务器上 \u2014 一切都保留在您的设备上。',
+  options_ai_privacy_transfer:       '<strong>数据传输：</strong>内容会离开您的设备并由 AI 提供商（OpenAI、Google 或 xAI）处理。',
+  options_ai_privacy_personal:       '<strong>个人信息：</strong>请勿剪辑包含敏感健康、财务或私人凭据的页面。',
+  options_ai_privacy_responsibility: '<strong>您的责任：</strong>您有责任确保符合 GDPR、CCPA 及其他数据法规。',
+  options_ai_privacy_policies:       '隐私政策：',
+
+  options_provider_hint_sent_only: '仅发送至',
+  options_get_key:                 '获取密钥 \u2197',
+  options_get_key_free:            '获取免费密钥 \u2197',
   options_library_heading: '提示词库',
   options_library_desc: '浏览、搜索并管理你的提示词模板。',
   options_search_placeholder: '搜索模板…',
