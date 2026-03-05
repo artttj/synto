@@ -20,9 +20,9 @@ export const STORAGE_KEYS = {
 };
 
 export const PROVIDER_MODELS: Record<string, string[]> = {
-  openai: ['gpt-4o-mini', 'gpt-4o', 'gpt-4.1-mini', 'gpt-4.1', 'o3-mini', 'o3', 'o4-mini'],
-  gemini: ['gemini-2.0-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-pro'],
-  grok:   ['grok-3-mini', 'grok-3-mini-fast', 'grok-3', 'grok-3-fast'],
+  openai: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4.1'],
+  gemini: ['gemini-2.5-flash', 'gemini-2.5-pro'],
+  grok:   ['grok-3-mini', 'grok-3'],
 };
 
 export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
@@ -371,21 +371,13 @@ export const TOKEN_THRESHOLDS = {
   GREEN:  4000,
   YELLOW: 16000,
   MODEL_LIMITS: {
-    'gpt-4o-mini':              128000,
-    'gpt-4o':                   128000,
-    'gpt-4.1-mini':            1047576,
-    'gpt-4.1':                 1047576,
-    'o3-mini':                  200000,
-    'o3':                       200000,
-    'o4-mini':                  200000,
-    'gemini-2.0-flash':        1048576,
-    'gemini-2.5-flash-lite':   1048576,
-    'gemini-2.5-flash':        1048576,
-    'gemini-2.5-pro':          2097152,
-    'grok-3-mini':              131072,
-    'grok-3-mini-fast':         131072,
-    'grok-3':                   131072,
-    'grok-3-fast':              131072,
+    'gpt-4o-mini':    128000,
+    'gpt-4.1-mini':  1047576,
+    'gpt-4.1':       1047576,
+    'gemini-2.5-flash':  1048576,
+    'gemini-2.5-pro':    2097152,
+    'grok-3-mini':    131072,
+    'grok-3':         131072,
   },
 };
 
