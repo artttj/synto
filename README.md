@@ -81,6 +81,7 @@ The UI supports:
 - **Portuguese (Português)**
 - **Chinese (中文)**
 - **Hindi (हिन्दी)**
+- **Japanese (日本語)**
 
 Switch in Settings → General → Language. The choice is stored per browser profile and applies instantly.
 
