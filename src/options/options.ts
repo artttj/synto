@@ -3,7 +3,7 @@
  * https://github.com/artttj/synto
  */
 
-import { getTemplates, getSettings } from '../shared/storage';
+import { getTemplates, getSettings, saveSettings } from '../shared/storage';
 import {
   getOpenAIKey,
   saveOpenAIKey,
@@ -44,6 +44,15 @@ async function init(): Promise<void> {
 
   renderSettingsForm();
   renderTemplateList();
+
+  refs.languageEl!.addEventListener('change', () => {
+    const lang = refs.languageEl!.value;
+    setLocale(lang);
+    applyI18n();
+    renderTemplateList();
+    void loadApiKeyStatuses();
+    void saveSettings({ language: lang });
+  });
 
   const manifest = chrome.runtime.getManifest();
   const versionEl = document.getElementById('about-version');

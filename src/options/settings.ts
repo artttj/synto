@@ -5,7 +5,7 @@
 
 import { TEMPLATE_CATEGORIES, PROVIDER_MODELS } from '../shared/constants';
 import { saveSettings, type Settings, type Template } from '../shared/storage';
-import { setLocale, applyI18n } from '../shared/i18n';
+
 import { state } from './state';
 import { refs } from './dom';
 
@@ -84,12 +84,6 @@ export function renderSettingsForm(): void {
   initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai');
   initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', applyTheme);
   refs.languageEl!.value = state.settings.language ?? 'en';
-  refs.languageEl!.addEventListener('change', () => {
-    const lang = refs.languageEl!.value;
-    setLocale(lang);
-    applyI18n();
-    void saveSettings({ language: lang });
-  });
 
   if (refs.systemPromptEl) {
     refs.systemPromptEl.value = state.settings.systemPrompt ?? '';
