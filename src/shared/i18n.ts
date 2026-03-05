@@ -55,6 +55,10 @@ export function t(key: string): string {
   return current[key] ?? en[key] ?? key;
 }
 
+export function tOpt(key: string): string | undefined {
+  return current[key] ?? en[key];
+}
+
 export function applyI18n(root: Document | Element = document): void {
   root.querySelectorAll('[data-i18n]').forEach((el) => {
     el.textContent = t(el.getAttribute('data-i18n')!);

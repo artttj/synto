@@ -5,7 +5,7 @@
 
 import { TEMPLATE_CATEGORIES } from '../shared/constants';
 import { type Template, saveSettings } from '../shared/storage';
-import { t } from '../shared/i18n';
+import { t, tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
 import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
@@ -149,8 +149,8 @@ function renderTemplateCards(): void {
   container.innerHTML = '';
 
   for (const tpl of getTemplatesForIntent(activeIntent)) {
-    const displayLabel = t('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
-    const displayName  = t('template_name_'  + tpl.id) ?? tpl.name;
+    const displayLabel = tOpt('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
+    const displayName  = tOpt('template_name_'  + tpl.id) ?? tpl.name;
 
     const btn = document.createElement('button');
     btn.type = 'button';

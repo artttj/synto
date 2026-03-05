@@ -5,7 +5,7 @@
 
 import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants';
 import { saveTemplates, type Template } from '../shared/storage';
-import { t } from '../shared/i18n';
+import { t, tOpt } from '../shared/i18n';
 import { state } from './state';
 import { refs } from './dom';
 import { escHtml } from './utils';
@@ -122,7 +122,7 @@ export function renderTemplateList(): void {
 
     list.forEach((tpl) => {
       const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === tpl.id);
-      const displayName = t('template_name_' + tpl.id) || tpl.name;
+      const displayName = tOpt('template_name_' + tpl.id) ?? tpl.name;
       const previewText =
         tpl.prompt.replace(/\n/g, ' ').slice(0, 90) +
         (tpl.prompt.length > 90 ? '\u2026' : '');
