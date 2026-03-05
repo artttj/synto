@@ -137,6 +137,8 @@ const en: Record<string, string> = {
   options_no_results:                 'No templates yet.',
   options_no_results_search:          'No templates matching\u00a0"{q}"',
 
+  hint_add_template: 'Add your first template',
+
   status_connected:       'Connected',
   status_not_configured:  'Not Configured',
 

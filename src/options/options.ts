@@ -82,6 +82,17 @@ async function init(): Promise<void> {
 
   wireTemplateList();
 
+  const HINT_KEY = 'apc_hint_fab';
+
+  async function dismissFabHint(): Promise<void> {
+    refs.fabHint?.classList.add('hidden');
+    await chrome.storage.local.set({ [HINT_KEY]: true });
+  }
+
+  refs.btnNewTemplate!.addEventListener('click', dismissFabHint, { once: true });
+
+  const { [HINT_KEY]: hintSeen } = await chrome.storage.local.get(HINT_KEY);
+
   function navigateToTab(tabId: string) {
     document.querySelectorAll('.nav-item').forEach((n) => n.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach((p) => p.classList.add('hidden'));
@@ -89,7 +100,9 @@ async function init(): Promise<void> {
     if (navBtn) navBtn.classList.add('active');
     const panel = document.getElementById(`tab-${tabId}`);
     if (panel) panel.classList.remove('hidden');
-    refs.btnNewTemplate!.classList.toggle('hidden', tabId !== 'prompt-library');
+    const isLibrary = tabId === 'prompt-library';
+    refs.btnNewTemplate!.classList.toggle('hidden', !isLibrary);
+    refs.fabHint?.classList.toggle('hidden', !isLibrary || !!hintSeen);
   }
 
   document.querySelectorAll('.nav-item').forEach((btn) => {

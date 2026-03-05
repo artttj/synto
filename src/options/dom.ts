@@ -16,6 +16,7 @@ export const refs: {
   templateSearch: HTMLInputElement | null;
   templateList: HTMLElement | null;
   btnNewTemplate: HTMLElement | null;
+  fabHint: HTMLElement | null;
   modalOverlay: HTMLElement | null;
   modalTitle: HTMLElement | null;
   modalName: HTMLInputElement | null;
@@ -40,6 +41,7 @@ export const refs: {
   templateSearch: null,
   templateList: null,
   btnNewTemplate: null,
+  fabHint: null,
   modalOverlay: null,
   modalTitle: null,
   modalName: null,
@@ -67,6 +69,7 @@ export function resolveRefs(): void {
   refs.templateSearch = $('template-search') as HTMLInputElement;
   refs.templateList = $('template-list')!;
   refs.btnNewTemplate = $('btn-new-template')!;
+  refs.fabHint        = $('fab-hint');
   refs.modalOverlay = $('modal-overlay')!;
   refs.modalTitle = $('modal-title')!;
   refs.modalName = $('modal-name') as HTMLInputElement;

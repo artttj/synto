@@ -137,6 +137,8 @@ const es: Record<string, string> = {
   options_no_results:                 'A\u00fan no hay plantillas.',
   options_no_results_search:          'No hay plantillas que coincidan con\u00a0"{q}"',
 
+  hint_add_template: 'Crea tu primera plantilla',
+
   status_connected:       'Conectado',
   status_not_configured:  'Sin configurar',
 

@@ -129,6 +129,8 @@ const hi: Record<string, string> = {
   options_delete_confirm: 'क्या यह टेम्पलेट हटाना है?',
   options_no_results: 'अभी कोई टेम्पलेट नहीं है।',
   options_no_results_search: '"{q}" से मेल खाते टेम्पलेट नहीं मिले',
+  hint_add_template: '\u0905\u092a\u0928\u093e \u092a\u0939\u0932\u093e \u091f\u0947\u092e\u094d\u092a\u0932\u0947\u091f \u092c\u0928\u093e\u090f\u0902',
+
   status_connected: 'कनेक्टेड',
   status_not_configured: 'कॉन्फ़िगर नहीं',
   error_no_key_openai: 'OpenAI API key नहीं है। इसे विकल्प में जोड़ें।',

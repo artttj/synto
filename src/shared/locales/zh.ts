@@ -129,6 +129,8 @@ const zh: Record<string, string> = {
   options_delete_confirm: '删除这个模板？',
   options_no_results: '暂无模板。',
   options_no_results_search: '没有匹配 “{q}” 的模板',
+  hint_add_template: '\u521b\u5efa\u60a8\u7684\u7b2c\u4e00\u4e2a\u6a21\u677f',
+
   status_connected: '已连接',
   status_not_configured: '未配置',
   error_no_key_openai: '未设置 OpenAI API Key。请在选项中添加。',

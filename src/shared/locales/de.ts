@@ -137,6 +137,8 @@ const de: Record<string, string> = {
   options_no_results:                 'Keine Templates vorhanden.',
   options_no_results_search:          'Keine Templates f\u00fcr\u00a0"{q}"',
 
+  hint_add_template: 'Erstes Template erstellen',
+
   status_connected:       'Verbunden',
   status_not_configured:  'Nicht konfiguriert',
 

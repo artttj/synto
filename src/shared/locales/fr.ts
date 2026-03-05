@@ -137,6 +137,8 @@ const fr: Record<string, string> = {
   options_no_results:                 'Aucun mod\u00e8le pour le moment.',
   options_no_results_search:          'Aucun mod\u00e8le correspondant \u00e0\u00a0"{q}"',
 
+  hint_add_template: 'Cr\u00e9ez votre premier mod\u00e8le',
+
   status_connected:       'Connect\u00e9',
   status_not_configured:  'Non configur\u00e9',
 

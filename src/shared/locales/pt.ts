@@ -129,6 +129,8 @@ const pt: Record<string, string> = {
   options_delete_confirm: 'Excluir este template?',
   options_no_results: 'Nenhum template ainda.',
   options_no_results_search: 'Nenhum template correspondente a\xa0"{q}"',
+  hint_add_template: 'Crie seu primeiro template',
+
   status_connected: 'Conectado',
   status_not_configured: 'N\u00e3o configurado',
   error_no_key_openai: 'Nenhuma chave de API OpenAI. Adicione em Op\u00e7\u00f5es.',
