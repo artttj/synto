@@ -4,7 +4,7 @@
 
 ## Stop fighting with messy web pages.
 
-Synto is a simple browser extension that bridges the gap between the web and your favorite AI. It cuts out the "copy-paste loop" and helps you get structured work done without the clutter.
+[Synto](https://chromewebstore.google.com/detail/fimopaolcnmojcdilinhmhnnbnnnkhjh?utm_source=item-share-cb) is a simple browser extension that bridges the gap between the web and your favorite AI. It cuts out the "copy-paste loop" and helps you get structured work done without the clutter.
 
 - **Clean Markdown, instantly.** Turn messy websites into structured text you can use immediately. No more fixing weird formatting or broken tables.
 - **Focus on what matters.** Built-in browser AIs often get distracted by the whole page. Synto sends only what you select, so the answers stay sharp and relevant.
