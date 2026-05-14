@@ -9,6 +9,10 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
+  getOpenRouterKey,
+  getZaiKey,
+  getAnthropicKey,
+  getCustomKey,
   getHistory,
   normalizeUrl,
 } from '../shared/storage';
@@ -23,7 +27,7 @@ import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
 import { extractContent } from './extract';
 
-type Provider = 'openai' | 'gemini' | 'grok';
+type Provider = 'openai' | 'gemini' | 'grok' | 'openrouter' | 'zai' | 'anthropic' | 'custom';
 
 function isProvider(value: unknown): value is Provider {
   return typeof value === 'string' && value in PROVIDER_MODELS;
@@ -43,10 +47,16 @@ async function init(): Promise<void> {
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id ?? null;
   state.llmProvider = settings.llmProvider ?? 'openai';
   state.systemPrompt = settings.systemPrompt;
-  state.openaiModel  = settings.openaiModel;
-  state.geminiModel  = settings.geminiModel;
-  state.grokModel    = settings.grokModel;
-  state.pinnedIds    = settings.pinnedTemplateIds;
+  state.openaiModel     = settings.openaiModel;
+  state.geminiModel     = settings.geminiModel;
+  state.grokModel       = settings.grokModel;
+  state.openrouterModel = settings.openrouterModel;
+  state.zaiModel        = settings.zaiModel;
+  state.anthropicModel  = settings.anthropicModel;
+  state.customEndpoint  = settings.customEndpoint;
+  state.customModel     = settings.customModel ?? '';
+  state.customUseAuth   = settings.customUseAuth;
+  state.pinnedIds       = settings.pinnedTemplateIds;
   refs.btnProcess!.textContent = getAskLabel();
 
   renderTemplateUI();
@@ -97,9 +107,13 @@ async function init(): Promise<void> {
   }
 
   const keyGetters: Record<string, () => Promise<string>> = {
-    openai: getOpenAIKey,
-    gemini: getGeminiKey,
-    grok: getGrokKey,
+    openai:     getOpenAIKey,
+    gemini:     getGeminiKey,
+    grok:       getGrokKey,
+    openrouter: getOpenRouterKey,
+    zai:        getZaiKey,
+    anthropic:  getAnthropicKey,
+    custom:     getCustomKey,
   };
   const currentKey = await keyGetters[state.llmProvider]?.();
   if (currentKey) refs.chatNoKey?.classList.add('hidden');

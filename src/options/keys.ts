@@ -7,6 +7,10 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
+  getOpenRouterKey,
+  getZaiKey,
+  getAnthropicKey,
+  getCustomKey,
 } from '../shared/storage';
 import { t } from '../shared/i18n';
 import { refs } from './dom';
@@ -30,19 +34,28 @@ function setBadge(id: string, connected: boolean): void {
 
 
 export async function loadApiKeyStatuses(): Promise<void> {
-  const [oaiKey, gemKey, grkKey] = await Promise.all([
+  const [oaiKey, gemKey, grkKey, orKey, zaiKey, antKey, custKey] = await Promise.all([
     getOpenAIKey(),
     getGeminiKey(),
     getGrokKey(),
+    getOpenRouterKey(),
+    getZaiKey(),
+    getAnthropicKey(),
+    getCustomKey(),
   ]);
 
   setBadge('badge-openai', !!oaiKey);
   setBadge('badge-gemini', !!gemKey);
   setBadge('badge-grok', !!grkKey);
-  refs.navAiWarning!.classList.toggle(
-    'hidden',
-    !!(oaiKey && gemKey && grkKey)
-  );
+  setBadge('badge-openrouter', !!orKey);
+  setBadge('badge-zai', !!zaiKey);
+  setBadge('badge-anthropic', !!antKey);
+
+  const customEndpoint = (document.getElementById('custom-endpoint') as HTMLInputElement)?.value?.trim();
+  setBadge('badge-custom', !!customEndpoint);
+
+  const anyConfigured = !!(oaiKey || gemKey || grkKey || orKey || zaiKey || antKey || customEndpoint);
+  refs.navAiWarning!.classList.toggle('hidden', anyConfigured);
 }
 
 

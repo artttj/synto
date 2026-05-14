@@ -21,7 +21,10 @@
     "*://*/*",
     "https://api.openai.com/*",
     "https://api.x.ai/*",
-    "https://generativelanguage.googleapis.com/*"
+    "https://generativelanguage.googleapis.com/*",
+    "https://openrouter.ai/*",
+    "https://api.zai.ai/*",
+    "https://api.anthropic.com/*"
   ],
   "action": {
     "default_icon": {

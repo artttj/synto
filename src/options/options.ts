@@ -11,6 +11,14 @@ import {
   saveGeminiKey,
   getGrokKey,
   saveGrokKey,
+  getOpenRouterKey,
+  saveOpenRouterKey,
+  getZaiKey,
+  saveZaiKey,
+  getAnthropicKey,
+  saveAnthropicKey,
+  getCustomKey,
+  saveCustomKey,
 } from '../shared/storage';
 import { setLocale, applyI18n } from '../shared/i18n';
 import { resolveRefs, refs } from './dom';
@@ -87,6 +95,42 @@ async function init(): Promise<void> {
     savedId: 'grok-key-saved',
     getKey: getGrokKey,
     saveKey: saveGrokKey,
+  });
+  wireKeySection({
+    inputId: 'openrouter-key',
+    toggleId: 'btn-toggle-openrouter-key',
+    saveId: 'btn-save-openrouter-key',
+    clearId: 'btn-clear-openrouter-key',
+    savedId: 'openrouter-key-saved',
+    getKey: getOpenRouterKey,
+    saveKey: saveOpenRouterKey,
+  });
+  wireKeySection({
+    inputId: 'zai-key',
+    toggleId: 'btn-toggle-zai-key',
+    saveId: 'btn-save-zai-key',
+    clearId: 'btn-clear-zai-key',
+    savedId: 'zai-key-saved',
+    getKey: getZaiKey,
+    saveKey: saveZaiKey,
+  });
+  wireKeySection({
+    inputId: 'anthropic-key',
+    toggleId: 'btn-toggle-anthropic-key',
+    saveId: 'btn-save-anthropic-key',
+    clearId: 'btn-clear-anthropic-key',
+    savedId: 'anthropic-key-saved',
+    getKey: getAnthropicKey,
+    saveKey: saveAnthropicKey,
+  });
+  wireKeySection({
+    inputId: 'custom-key',
+    toggleId: 'btn-toggle-custom-key',
+    saveId: 'btn-save-custom',
+    clearId: 'btn-clear-custom',
+    savedId: 'custom-key-saved',
+    getKey: getCustomKey,
+    saveKey: saveCustomKey,
   });
 
   wireTemplateList();

@@ -24,6 +24,12 @@ export interface Settings {
   openaiModel: string;
   geminiModel: string;
   grokModel: string;
+  openrouterModel: string;
+  zaiModel: string;
+  anthropicModel: string;
+  customEndpoint: string;
+  customModel: string;
+  customUseAuth: boolean;
   pinnedTemplateIds: string[];
 }
 
@@ -65,6 +71,42 @@ export async function getGeminiKey(): Promise<string> {
 
 export async function saveGeminiKey(key: string): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.GEMINI_KEY]: key });
+}
+
+export async function getOpenRouterKey(): Promise<string> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.OPENROUTER_KEY);
+  return (result[STORAGE_KEYS.OPENROUTER_KEY] as string) ?? '';
+}
+
+export async function saveOpenRouterKey(key: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.OPENROUTER_KEY]: key });
+}
+
+export async function getZaiKey(): Promise<string> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.ZAI_KEY);
+  return (result[STORAGE_KEYS.ZAI_KEY] as string) ?? '';
+}
+
+export async function saveZaiKey(key: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.ZAI_KEY]: key });
+}
+
+export async function getAnthropicKey(): Promise<string> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.ANTHROPIC_KEY);
+  return (result[STORAGE_KEYS.ANTHROPIC_KEY] as string) ?? '';
+}
+
+export async function saveAnthropicKey(key: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.ANTHROPIC_KEY]: key });
+}
+
+export async function getCustomKey(): Promise<string> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.CUSTOM_KEY);
+  return (result[STORAGE_KEYS.CUSTOM_KEY] as string) ?? '';
+}
+
+export async function saveCustomKey(key: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.CUSTOM_KEY]: key });
 }
 
 export async function getTemplates(): Promise<Template[]> {
@@ -111,6 +153,12 @@ export async function getSettings(): Promise<Settings> {
     openaiModel: 'gpt-4.1-mini',
     geminiModel: 'gemini-2.5-flash',
     grokModel: 'grok-3-mini',
+    openrouterModel: 'anthropic/claude-sonnet-4-6',
+    zaiModel: 'zai-7b',
+    anthropicModel: 'claude-sonnet-4-6',
+    customEndpoint: 'http://localhost:11434',
+    customModel: '',
+    customUseAuth: false,
     pinnedTemplateIds: [],
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };

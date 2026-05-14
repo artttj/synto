@@ -21,15 +21,23 @@ export interface ExtractedContent {
 }
 
 const DEFAULT_MODELS: Record<string, string> = {
-  openai: 'gpt-4o-mini',
-  gemini: 'gemini-2.0-flash',
-  grok:   'grok-3-mini',
+  openai:     'gpt-4o-mini',
+  gemini:     'gemini-2.0-flash',
+  grok:       'grok-3-mini',
+  openrouter: 'anthropic/claude-sonnet-4-6',
+  zai:        'zai-7b',
+  anthropic:  'claude-sonnet-4-6',
+  custom:     '',
 };
 
 const PROVIDER_LABEL_KEYS: Record<string, string> = {
-  openai: 'popup_ask_chatgpt',
-  gemini: 'popup_ask_gemini',
-  grok:   'popup_ask_grok',
+  openai:     'popup_ask_chatgpt',
+  gemini:     'popup_ask_gemini',
+  grok:       'popup_ask_grok',
+  openrouter: 'popup_ask_openrouter',
+  zai:        'popup_ask_zai',
+  anthropic:  'popup_ask_anthropic',
+  custom:     'popup_ask_custom',
 };
 
 export const state: {
@@ -47,6 +55,12 @@ export const state: {
   openaiModel: string;
   geminiModel: string;
   grokModel: string;
+  openrouterModel: string;
+  zaiModel: string;
+  anthropicModel: string;
+  customEndpoint: string;
+  customModel: string;
+  customUseAuth: boolean;
   pinnedIds: string[];
 } = {
   templates: [],
@@ -60,17 +74,29 @@ export const state: {
   chatHistory: [],
   llmProvider: 'openai',
   systemPrompt: '',
-  openaiModel: DEFAULT_MODELS.openai,
-  geminiModel: DEFAULT_MODELS.gemini,
-  grokModel:   DEFAULT_MODELS.grok,
+  openaiModel:      DEFAULT_MODELS.openai,
+  geminiModel:      DEFAULT_MODELS.gemini,
+  grokModel:        DEFAULT_MODELS.grok,
+  openrouterModel:  DEFAULT_MODELS.openrouter,
+  zaiModel:         DEFAULT_MODELS.zai,
+  anthropicModel:   DEFAULT_MODELS.anthropic,
+  customEndpoint:   'http://localhost:11434',
+  customModel:      '',
+  customUseAuth:    false,
   pinnedIds: [],
 };
 
 
 export function getActiveModel(): string {
-  if (state.llmProvider === 'gemini') return state.geminiModel;
-  if (state.llmProvider === 'grok')   return state.grokModel;
-  return state.openaiModel;
+  switch (state.llmProvider) {
+    case 'gemini':     return state.geminiModel;
+    case 'grok':       return state.grokModel;
+    case 'openrouter': return state.openrouterModel;
+    case 'zai':        return state.zaiModel;
+    case 'anthropic':  return state.anthropicModel;
+    case 'custom':     return state.customModel || 'custom';
+    default:           return state.openaiModel;
+  }
 }
 
 

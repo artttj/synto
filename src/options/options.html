@@ -93,6 +93,10 @@
               <button class="seg-btn" data-value="openai">OpenAI</button>
               <button class="seg-btn" data-value="gemini">Gemini</button>
               <button class="seg-btn" data-value="grok">Grok</button>
+              <button class="seg-btn" data-value="openrouter">ORouter</button>
+              <button class="seg-btn" data-value="zai">Zai</button>
+              <button class="seg-btn" data-value="anthropic">Claude</button>
+              <button class="seg-btn" data-value="custom">Custom</button>
             </div>
           </div>
 
@@ -252,6 +256,127 @@
               <button id="btn-save-grok-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
               <button id="btn-clear-grok-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
               <span id="grok-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- OpenRouter -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">OpenRouter</div>
+              <select id="openrouter-model" class="provider-model-select setting-select setting-select--sm"></select>
+            </div>
+            <span id="badge-openrouter" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="openrouter-key" class="key-input" placeholder="sk-or-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-openrouter-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint"><span data-i18n="options_provider_hint_sent_only">Sent only to</span> <code>openrouter.ai</code> &middot; <a href="https://openrouter.ai/keys" target="_blank" data-i18n="options_get_key">Get key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-openrouter-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-openrouter-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
+              <span id="openrouter-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zai -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">Zai</div>
+              <select id="zai-model" class="provider-model-select setting-select setting-select--sm"></select>
+            </div>
+            <span id="badge-zai" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="zai-key" class="key-input" placeholder="zai-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-zai-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint"><span data-i18n="options_provider_hint_sent_only">Sent only to</span> <code>api.zai.ai</code> &middot; <a href="https://zai.ai/" target="_blank" data-i18n="options_get_key">Get key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-zai-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-zai-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
+              <span id="zai-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anthropic -->
+        <div class="provider-card">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">Anthropic</div>
+              <select id="anthropic-model" class="provider-model-select setting-select setting-select--sm"></select>
+            </div>
+            <span id="badge-anthropic" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="anthropic-key" class="key-input" placeholder="sk-ant-…" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-anthropic-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint"><span data-i18n="options_provider_hint_sent_only">Sent only to</span> <code>api.anthropic.com</code> &middot; <a href="https://console.anthropic.com/" target="_blank" data-i18n="options_get_key">Get key ↗</a></span>
+            <div class="provider-btns">
+              <button id="btn-save-anthropic-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-anthropic-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
+              <span id="anthropic-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom -->
+        <div class="provider-card" data-provider="custom">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name" data-i18n="options_custom_endpoint">Custom Endpoint</div>
+              <div class="custom-controls">
+                <input id="custom-endpoint" type="text" class="setting-input setting-input--sm" placeholder="http://localhost:11434" />
+                <input id="custom-override-model" type="text" class="setting-input setting-input--sm custom-model-input" placeholder="e.g. llama3, qwen3:1.7b" />
+              </div>
+            </div>
+            <span id="badge-custom" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="custom-key" class="key-input" placeholder="Optional API key" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-custom-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-key-row">
+            <label class="checkbox-label">
+              <input id="custom-use-auth" type="checkbox" />
+              <span data-i18n="options_custom_use_auth">Include Authorization header</span>
+            </label>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint" data-i18n="options_custom_hint">OpenAI-compatible: Ollama, LM Studio, etc.</span>
+            <div class="provider-btns">
+              <button id="btn-save-custom" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-custom" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
+              <span id="custom-key-saved" class="saved-msg hidden">&#10003;</span>
             </div>
           </div>
         </div>

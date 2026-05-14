@@ -30,6 +30,12 @@ export const refs: {
   openaiModelEl: HTMLSelectElement | null;
   geminiModelEl: HTMLSelectElement | null;
   grokModelEl: HTMLSelectElement | null;
+  openrouterModelEl: HTMLSelectElement | null;
+  zaiModelEl: HTMLSelectElement | null;
+  anthropicModelEl: HTMLSelectElement | null;
+  customEndpointEl: HTMLInputElement | null;
+  customModelEl: HTMLInputElement | null;
+  customUseAuthEl: HTMLInputElement | null;
 } = {
   defaultTplEl: null,
   providerSeg: null,
@@ -55,6 +61,12 @@ export const refs: {
   openaiModelEl: null,
   geminiModelEl: null,
   grokModelEl: null,
+  openrouterModelEl: null,
+  zaiModelEl: null,
+  anthropicModelEl: null,
+  customEndpointEl: null,
+  customModelEl: null,
+  customUseAuthEl: null,
 };
 
 
@@ -83,4 +95,10 @@ export function resolveRefs(): void {
   refs.openaiModelEl  = $('openai-model') as HTMLSelectElement;
   refs.geminiModelEl  = $('gemini-model') as HTMLSelectElement;
   refs.grokModelEl    = $('grok-model') as HTMLSelectElement;
+  refs.openrouterModelEl = $('openrouter-model') as HTMLSelectElement;
+  refs.zaiModelEl     = $('zai-model') as HTMLSelectElement;
+  refs.anthropicModelEl = $('anthropic-model') as HTMLSelectElement;
+  refs.customEndpointEl = $('custom-endpoint') as HTMLInputElement;
+  refs.customModelEl  = $('custom-override-model') as HTMLInputElement;
+  refs.customUseAuthEl = $('custom-use-auth') as HTMLInputElement;
 }

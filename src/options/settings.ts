@@ -92,6 +92,13 @@ export function renderSettingsForm(): void {
   populateModelSelect(refs.openaiModelEl!, 'openai', state.settings.openaiModel);
   populateModelSelect(refs.geminiModelEl!, 'gemini', state.settings.geminiModel);
   populateModelSelect(refs.grokModelEl!,   'grok',   state.settings.grokModel);
+  populateModelSelect(refs.openrouterModelEl!, 'openrouter', state.settings.openrouterModel);
+  populateModelSelect(refs.zaiModelEl!,     'zai',    state.settings.zaiModel);
+  populateModelSelect(refs.anthropicModelEl!, 'anthropic', state.settings.anthropicModel);
+
+  if (refs.customEndpointEl) refs.customEndpointEl.value = state.settings.customEndpoint ?? 'http://localhost:11434';
+  if (refs.customModelEl) refs.customModelEl.value = state.settings.customModel ?? '';
+  if (refs.customUseAuthEl) refs.customUseAuthEl.checked = state.settings.customUseAuth ?? false;
 }
 
 
@@ -112,6 +119,12 @@ export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): voi
       openaiModel: refs.openaiModelEl?.value ?? 'gpt-4o-mini',
       geminiModel: refs.geminiModelEl?.value ?? 'gemini-2.0-flash',
       grokModel: refs.grokModelEl?.value ?? 'grok-3-mini',
+      openrouterModel: refs.openrouterModelEl?.value ?? 'anthropic/claude-sonnet-4-6',
+      zaiModel: refs.zaiModelEl?.value ?? 'zai-7b',
+      anthropicModel: refs.anthropicModelEl?.value ?? 'claude-sonnet-4-6',
+      customEndpoint: refs.customEndpointEl?.value ?? 'http://localhost:11434',
+      customModel: refs.customModelEl?.value ?? '',
+      customUseAuth: refs.customUseAuthEl?.checked ?? false,
     });
     state.settings = await getSettingsAsync();
     flash(refs.settingsSaved!);

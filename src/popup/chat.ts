@@ -7,6 +7,10 @@ import {
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,
+  getOpenRouterKey,
+  getZaiKey,
+  getAnthropicKey,
+  getCustomKey,
   saveHistory,
   normalizeUrl,
 } from '../shared/storage';
@@ -74,13 +78,15 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
 }
 
 
-async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: { url: string; model: string; key: string }): Promise<void> {
+async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders }: { url: string; model: string; key: string; extraHeaders?: Record<string, string> }): Promise<void> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${key}`,
+    ...extraHeaders,
+  };
   const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${key}`,
-    },
+    headers,
     body: JSON.stringify({
       model,
       messages: state.chatHistory,
@@ -144,6 +150,87 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key }: {
 }
 
 
+async function streamAnthropic(bubble: HTMLDivElement, { model, key }: { model: string; key: string }): Promise<void> {
+  const systemMessage = state.chatHistory.find(m => m.role === 'system');
+  const messages = state.chatHistory.filter(m => m.role !== 'system');
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model,
+      system: systemMessage?.content || 'You are a helpful assistant.',
+      messages,
+      max_tokens: 4096,
+      stream: true,
+    }),
+  });
+
+  if (!response.ok) {
+    if (response.status === 429) {
+      const retryAfter = response.headers.get('Retry-After');
+      const hint = retryAfter ? ` Retry after ${retryAfter}s.` : ' Wait a moment and try again.';
+      throw new Error(`Rate limited (429).${hint}`);
+    }
+    const body = await response.json().catch(() => ({})) as APIErrorBody;
+    throw new Error(body.error?.message ?? `HTTP ${response.status}`);
+  }
+
+  let reply = '';
+  const reader = response.body!.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    const lines = buffer.split('\n');
+    buffer = lines.pop() ?? '';
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const data = line.slice(6).trim();
+      if (data === '[DONE]') continue;
+      try {
+        const event = JSON.parse(data);
+        if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
+          reply += event.delta.text;
+          bubble.textContent = reply;
+          refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
+        }
+      } catch {
+        // skip malformed chunks
+      }
+    }
+  }
+  buffer += decoder.decode();
+  if (buffer.startsWith('data: ')) {
+    const data = buffer.slice(6).trim();
+    if (data && data !== '[DONE]') {
+      try {
+        const event = JSON.parse(data);
+        if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
+          reply += event.delta.text;
+        }
+      } catch {
+        // skip
+      }
+    }
+  }
+
+  bubble.classList.remove('streaming');
+  // renderMarkdown sanitizes output before setting innerHTML
+  bubble.innerHTML = renderMarkdown(reply);
+  state.chatHistory.push({ role: 'assistant', content: reply });
+  addBubbleCopyButton(bubble, reply);
+}
+
+
 async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
   const key = await getOpenAIKey();
   if (!key) throw new Error(t('error_no_key_openai'));
@@ -177,13 +264,61 @@ async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
 }
 
 
+async function processWithOpenRouter(bubble: HTMLDivElement): Promise<void> {
+  const key = await getOpenRouterKey();
+  if (!key) throw new Error(t('error_no_key_openrouter'));
+  await streamOpenAICompat(bubble, {
+    url: 'https://openrouter.ai/api/v1/chat/completions',
+    model: state.openrouterModel,
+    key,
+    extraHeaders: {
+      'HTTP-Referer': chrome.runtime.getURL(''),
+      'X-Title': 'Synto',
+    },
+  });
+}
+
+
+async function processWithZai(bubble: HTMLDivElement): Promise<void> {
+  const key = await getZaiKey();
+  if (!key) throw new Error(t('error_no_key_zai'));
+  await streamOpenAICompat(bubble, {
+    url: 'https://api.zai.ai/v1/chat/completions',
+    model: state.zaiModel,
+    key,
+  });
+}
+
+
+async function processWithAnthropic(bubble: HTMLDivElement): Promise<void> {
+  const key = await getAnthropicKey();
+  if (!key) throw new Error(t('error_no_key_anthropic'));
+  await streamAnthropic(bubble, { model: state.anthropicModel, key });
+}
+
+
+async function processWithCustom(bubble: HTMLDivElement): Promise<void> {
+  const baseUrl = state.customEndpoint?.trim();
+  if (!baseUrl) throw new Error(t('error_no_custom_endpoint'));
+  const model = state.customModel?.trim();
+  if (!model) throw new Error(t('error_no_custom_model'));
+
+  const key = state.customUseAuth ? (await getCustomKey()) : '';
+  const base = baseUrl.replace(/\/+$/, '');
+  const url = base.includes('/v1/chat/completions') ? base : `${base}/v1/chat/completions`;
+  await streamOpenAICompat(bubble, { url, model, key: key || 'unused' });
+}
+
+
 async function dispatchToProvider(bubble: HTMLDivElement): Promise<void> {
-  if (state.llmProvider === 'gemini') {
-    await processWithGemini(bubble);
-  } else if (state.llmProvider === 'grok') {
-    await processWithGrok(bubble);
-  } else {
-    await processWithOpenAI(bubble);
+  switch (state.llmProvider) {
+    case 'gemini':     await processWithGemini(bubble); break;
+    case 'grok':       await processWithGrok(bubble); break;
+    case 'openrouter': await processWithOpenRouter(bubble); break;
+    case 'zai':        await processWithZai(bubble); break;
+    case 'anthropic':  await processWithAnthropic(bubble); break;
+    case 'custom':     await processWithCustom(bubble); break;
+    default:           await processWithOpenAI(bubble); break;
   }
 }
 
@@ -207,15 +342,32 @@ export async function processWithAI(): Promise<void> {
   refs.chatPanel!.classList.remove('hidden');
   setPreviewOpen(false);
 
-  const keyGetters: Record<string, () => Promise<string>> = {
-    openai: getOpenAIKey,
-    gemini: getGeminiKey,
-    grok: getGrokKey,
-  };
-  const key = await keyGetters[state.llmProvider]?.();
-  if (!key) {
-    refs.chatNoKey!.classList.remove('hidden');
-    return;
+  if (state.llmProvider === 'custom') {
+    if (!state.customEndpoint?.trim()) {
+      refs.chatNoKey!.classList.remove('hidden');
+      return;
+    }
+    if (state.customUseAuth) {
+      const customKey = await getCustomKey();
+      if (!customKey) {
+        refs.chatNoKey!.classList.remove('hidden');
+        return;
+      }
+    }
+  } else {
+    const keyGetters: Record<string, () => Promise<string>> = {
+      openai:     getOpenAIKey,
+      gemini:     getGeminiKey,
+      grok:       getGrokKey,
+      openrouter: getOpenRouterKey,
+      zai:        getZaiKey,
+      anthropic:  getAnthropicKey,
+    };
+    const key = await keyGetters[state.llmProvider]?.();
+    if (!key) {
+      refs.chatNoKey!.classList.remove('hidden');
+      return;
+    }
   }
   refs.chatNoKey!.classList.add('hidden');
 

@@ -11,18 +11,38 @@ export const MSG = {
 };
 
 export const STORAGE_KEYS = {
-  TEMPLATES:  'apc_templates',
-  SETTINGS:   'apc_settings',
-  OPENAI_KEY: 'apc_openai_key',
-  GROK_KEY:   'apc_grok_key',
-  GEMINI_KEY: 'apc_gemini_key',
-  HISTORY:    'apc_history',
+  TEMPLATES:      'apc_templates',
+  SETTINGS:       'apc_settings',
+  OPENAI_KEY:     'apc_openai_key',
+  GROK_KEY:       'apc_grok_key',
+  GEMINI_KEY:     'apc_gemini_key',
+  OPENROUTER_KEY: 'apc_openrouter_key',
+  ZAI_KEY:        'apc_zai_key',
+  ANTHROPIC_KEY:  'apc_anthropic_key',
+  CUSTOM_KEY:     'apc_custom_key',
+  HISTORY:        'apc_history',
 };
 
 export const PROVIDER_MODELS: Record<string, string[]> = {
-  openai: ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4.1'],
-  gemini: ['gemini-2.5-flash', 'gemini-2.5-pro'],
-  grok:   ['grok-3-mini', 'grok-3'],
+  openai:     ['gpt-4o-mini', 'gpt-4.1-mini', 'gpt-4.1'],
+  gemini:     ['gemini-2.5-flash', 'gemini-2.5-pro'],
+  grok:       ['grok-3-mini', 'grok-3'],
+  openrouter: [
+    'anthropic/claude-sonnet-4-6',
+    'anthropic/claude-opus-4-6',
+    'google/gemma-4-26b-a4b-it:free',
+    'meta-llama/llama-3.3-70b-instruct',
+    'deepseek/deepseek-r1:free',
+    'qwen/qwen3-next-80b-a3b-instruct:free',
+    'openai/gpt-oss-120b:free',
+  ],
+  zai:        ['zai-7b', 'zai-70b'],
+  anthropic:  ['claude-sonnet-4-6', 'claude-opus-4-6', 'claude-haiku-4-5'],
+  custom:     [
+    'gemma4', 'gemma3', 'gemini-3-flash-preview', 'gemini-2.5-flash',
+    'llama4', 'llama3.3', 'qwen3.5', 'deepseek-r1', 'deepseek-v3',
+    'phi4', 'mistral', 'kimi-k2', 'glm-5',
+  ],
 };
 
 export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
@@ -378,6 +398,18 @@ export const TOKEN_THRESHOLDS = {
     'gemini-2.5-pro':    2097152,
     'grok-3-mini':    131072,
     'grok-3':         131072,
+    'anthropic/claude-sonnet-4-6': 200000,
+    'anthropic/claude-opus-4-6':   200000,
+    'google/gemma-4-26b-a4b-it:free': 262144,
+    'meta-llama/llama-3.3-70b-instruct': 131072,
+    'deepseek/deepseek-r1:free': 131072,
+    'qwen/qwen3-next-80b-a3b-instruct:free': 131072,
+    'openai/gpt-oss-120b:free': 131072,
+    'zai-7b':  131072,
+    'zai-70b': 131072,
+    'claude-sonnet-4-6': 200000,
+    'claude-opus-4-6':   200000,
+    'claude-haiku-4-5':  200000,
   },
 };
 
