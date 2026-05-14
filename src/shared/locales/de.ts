@@ -33,6 +33,7 @@ const de: Record<string, string> = {
   popup_history_restore: 'Vorherige Unterhaltung auf dieser Seite',
   popup_history_yes:     'Wiederherstellen',
   popup_history_dismiss: 'Schlie\u00dfen',
+  popup_content_updated: 'Inhalt aktualisiert',
 
   options_brand_sub:    'Einstellungen',
   options_nav_general:  'Allgemein',
@@ -89,14 +90,13 @@ const de: Record<string, string> = {
 
   options_help_how_heading:   'So funktioniert es',
   options_help_how_step_1:    '\u00d6ffnen Sie die Erweiterung auf einer beliebigen Seite. Synto konvertiert den Inhalt in Markdown.',
-  options_help_how_step_2:    'W\u00e4hlen Sie eine Template-Kategorie (<strong>Verstehen</strong>, <strong>Entscheiden</strong>, <strong>Handeln</strong> oder <strong>Verfassen</strong>) und dann ein Preset.',
+  options_help_how_step_2:    'W\u00e4hlen Sie eine Template-Kategorie (<strong>Verstehen</strong>, <strong>Entscheiden</strong> oder <strong>Verfassen</strong>) und dann ein Preset.',
   options_help_how_step_3:    'Die Vorschau zeigt den ausgef\u00fcllten Prompt. Klicken Sie auf <strong>KI fragen</strong>, um ihn an Ihren KI-Anbieter zu senden.',
   options_help_how_step_4:    'Stellen Sie Folgefragen im Chat-Bereich unterhalb der Antwort.',
 
   options_help_categories_heading:    'Template-Kategorien',
   options_help_cat_understand_desc:   'Zusammenfassen und analysieren: Artikel, Tickets, Pull Requests.',
   options_help_cat_decide_desc:       'Optionen, Trade-offs und Empfehlungen abw\u00e4gen.',
-  options_help_cat_act_desc:          'Aktionen, Risiken und Blocker aus Diskussionen extrahieren.',
   options_help_cat_compose_desc:      'Antworten, E-Mails und Umschreibungen verfassen.',
 
   options_help_placeholders_heading:  'Platzhalter',
@@ -166,34 +166,20 @@ const de: Record<string, string> = {
 
   category_understand: 'Verstehen',
   category_decide:     'Entscheiden',
-  category_act:        'Handeln',
   category_compose:    'Verfassen',
   category_custom:     'Benutzerdefiniert',
   category_pinned:     'Angeheftet',
 
-  'template_label_eng-ticket-analysis':       'Ticket',
-  'template_label_eng-pr-review':             'Code Review',
-  'template_label_understand-structured-brief':'Briefing',
-  'template_label_decide-brief':              'Entscheidung',
-  'template_label_decide-feature-request':    'Feature',
-  'template_label_eng-action-items':          'Aktionen',
-  'template_label_extract-risks-blockers':    'Risiken',
-  'template_label_lifestyle-smart-choice':    'Empfehlung',
-  'template_label_write-compose-answer':      'Antwort',
-  'template_label_community-rewrite-comment': 'Umschreiben',
-  'template_label_write-email-helper':        'E-Mail',
+  'template_label_understand-brief':   'Brief',
+  'template_label_understand-review': 'Code Review',
+  'template_label_understand-audit':  'Audit',
+  'template_label_decide-decide':     'Entscheidung',
+  'template_label_decide-actions':    'Aktionen',
+  'template_label_decide-briefing':   'Briefing',
+  'template_label_compose-reply':     'Antwort',
 
-  'template_name_eng-ticket-analysis':        'Ticket-Analyse',
-  'template_name_eng-pr-review':              'PR Review',
-  'template_name_understand-structured-brief':'Strukturiertes Briefing',
-  'template_name_decide-brief':               'Entscheidungshilfe',
-  'template_name_decide-feature-request':     'Feature-Anfrage-Analyse',
-  'template_name_eng-action-items':           'Aktionen extrahieren',
-  'template_name_extract-risks-blockers':     'Risiken & Blocker',
-  'template_name_lifestyle-smart-choice':     'Beste Wahl',
-  'template_name_write-compose-answer':       'Antwort entwerfen',
-  'template_name_community-rewrite-comment':  'Kommentar umschreiben',
-  'template_name_write-email-helper':         'E-Mail-Assistent',
+  'template_name_understand-audit':   'SEO-Audit',
+  'template_name_decide-briefing':    'Strategie-Briefing',
 };
 
 export default de;

@@ -33,6 +33,7 @@ const ja: Record<string, string> = {
   popup_history_restore: 'このページの前回の会話',
   popup_history_yes:     '復元',
   popup_history_dismiss: '閉じる',
+  popup_content_updated: 'コンテンツを更新しました',
 
   options_brand_sub:    '設定',
   options_nav_general:  '一般',
@@ -89,14 +90,13 @@ const ja: Record<string, string> = {
 
   options_help_how_heading:   '使い方',
   options_help_how_step_1:    'どのページでも拡張機能を開きます。SyntoがコンテンツをMarkdownに変換します。',
-  options_help_how_step_2:    'テンプレートカテゴリ（<strong>理解</strong>、<strong>決断</strong>、<strong>実行</strong>、または<strong>作成</strong>）を選び、プリセットを選択します。',
+  options_help_how_step_2:    'テンプレートカテゴリ（<strong>理解</strong>、<strong>決断</strong>、または<strong>作成</strong>）を選び、プリセットを選択します。',
   options_help_how_step_3:    'プレビューに入力済みプロンプトが表示されます。<strong>AIに聞く</strong>をクリックしてAIプロバイダーに送信します。',
   options_help_how_step_4:    '回答下のチャットパネルでフォローアップの質問ができます。',
 
   options_help_categories_heading:    'テンプレートカテゴリ',
   options_help_cat_understand_desc:   '記事・チケット・プルリクエストを要約・分析します。',
   options_help_cat_decide_desc:       '選択肢・トレードオフ・推奨事項を比較検討します。',
-  options_help_cat_act_desc:          'ディスカッションからアクション・リスク・ブロッカーを抽出します。',
   options_help_cat_compose_desc:      '返信・メール・書き直しを下書きします。',
 
   options_help_placeholders_heading:  'プレースホルダー',
@@ -166,34 +166,20 @@ const ja: Record<string, string> = {
 
   category_understand: '理解',
   category_decide:     '決断',
-  category_act:        '実行',
   category_compose:    '作成',
   category_custom:     'カスタム',
   category_pinned:     'ピン留め',
 
-  'template_label_eng-ticket-analysis':       'チケット',
-  'template_label_eng-pr-review':             'コードレビュー',
-  'template_label_understand-structured-brief':'ブリーフ',
-  'template_label_decide-brief':              '決断',
-  'template_label_decide-feature-request':    '機能',
-  'template_label_eng-action-items':          'アクション',
-  'template_label_extract-risks-blockers':    'リスク',
-  'template_label_lifestyle-smart-choice':    '推薦',
-  'template_label_write-compose-answer':      '返信',
-  'template_label_community-rewrite-comment': '書き直し',
-  'template_label_write-email-helper':        'メール',
+  'template_label_understand-brief':   'ブリーフ',
+  'template_label_understand-review': 'コードレビュー',
+  'template_label_understand-audit':  '監査',
+  'template_label_decide-decide':     '決断',
+  'template_label_decide-actions':    'アクション',
+  'template_label_decide-briefing':   'ブリーフィング',
+  'template_label_compose-reply':     '返信',
 
-  'template_name_eng-ticket-analysis':        'チケット分析',
-  'template_name_eng-pr-review':              'PRレビュー',
-  'template_name_understand-structured-brief':'構造化ブリーフ',
-  'template_name_decide-brief':               '意思決定ブリーフ',
-  'template_name_decide-feature-request':     '機能リクエスト分析',
-  'template_name_eng-action-items':           'アクション抽出',
-  'template_name_extract-risks-blockers':     'リスクとブロッカー',
-  'template_name_lifestyle-smart-choice':     'スマートチョイス',
-  'template_name_write-compose-answer':       '返信下書き',
-  'template_name_community-rewrite-comment':  'コメント書き直し',
-  'template_name_write-email-helper':         'メールアシスタント',
+  'template_name_understand-audit':   'SEO監査',
+  'template_name_decide-briefing':    '戦略ブリーフィング',
 };
 
 export default ja;

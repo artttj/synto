@@ -11,6 +11,7 @@ import {
   getZaiKey,
   getAnthropicKey,
   getCustomKey,
+  getOllamaKey,
   saveHistory,
   normalizeUrl,
 } from '../shared/storage';
@@ -18,7 +19,7 @@ import { t } from '../shared/i18n';
 import { state, getAskLabel, getActiveModel, type ChatMessage } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
-import { setPreviewOpen } from './preview';
+import { setPreviewOpen, richCopy } from './preview';
 import { renderMarkdown } from './markdown';
 
 interface SSEChunk {
@@ -66,7 +67,7 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
 
   btn.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      await richCopy(text);
       btn.classList.add('copy-success');
       setTimeout(() => btn.classList.remove('copy-success'), 2000);
     } catch (err: unknown) {
@@ -74,7 +75,31 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
     }
   });
 
-  wrap.appendChild(btn);
+  const actions = document.createElement('div');
+  actions.className = 'chat-bubble-actions';
+  actions.appendChild(btn);
+
+  const insertBtn = document.createElement('button');
+  insertBtn.className = 'chat-bubble-insert';
+  insertBtn.type = 'button';
+  insertBtn.title = 'Insert into page';
+  insertBtn.setAttribute('aria-label', 'Insert into page');
+  insertBtn.insertAdjacentHTML('beforeend', '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4"/><path d="m5 11 7-7 7 7"/></svg>');
+  insertBtn.addEventListener('click', async () => {
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tab?.id) throw new Error('No active tab');
+      const resp = await chrome.tabs.sendMessage(tab.id, { type: 'INSERT_TEXT', text });
+      if (resp?.error) throw new Error(resp.error);
+      insertBtn.classList.add('copy-success');
+      setTimeout(() => insertBtn.classList.remove('copy-success'), 2000);
+    } catch (err: unknown) {
+      setError(`Insert failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  });
+
+  actions.appendChild(insertBtn);
+  wrap.appendChild(actions);
 }
 
 
@@ -297,6 +322,14 @@ async function processWithAnthropic(bubble: HTMLDivElement): Promise<void> {
 }
 
 
+function buildChatUrl(baseUrl: string): string {
+  const base = baseUrl.replace(/\/+$/, '');
+  if (base.endsWith('/chat/completions')) return base;
+  if (base.endsWith('/v1')) return `${base}/chat/completions`;
+  return `${base}/v1/chat/completions`;
+}
+
+
 async function processWithCustom(bubble: HTMLDivElement): Promise<void> {
   const baseUrl = state.customEndpoint?.trim();
   if (!baseUrl) throw new Error(t('error_no_custom_endpoint'));
@@ -304,9 +337,14 @@ async function processWithCustom(bubble: HTMLDivElement): Promise<void> {
   if (!model) throw new Error(t('error_no_custom_model'));
 
   const key = state.customUseAuth ? (await getCustomKey()) : '';
-  const base = baseUrl.replace(/\/+$/, '');
-  const url = base.includes('/v1/chat/completions') ? base : `${base}/v1/chat/completions`;
-  await streamOpenAICompat(bubble, { url, model, key: key || 'unused' });
+  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model, key: key || 'unused' });
+}
+
+
+async function processWithOllama(bubble: HTMLDivElement): Promise<void> {
+  const baseUrl = state.ollamaEndpoint?.trim() || 'https://ollama.com/v1';
+  const key = state.ollamaUseAuth ? (await getOllamaKey()) : '';
+  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model: state.ollamaModel, key: key || 'unused' });
 }
 
 
@@ -317,6 +355,7 @@ async function dispatchToProvider(bubble: HTMLDivElement): Promise<void> {
     case 'openrouter': await processWithOpenRouter(bubble); break;
     case 'zai':        await processWithZai(bubble); break;
     case 'anthropic':  await processWithAnthropic(bubble); break;
+    case 'ollama':     await processWithOllama(bubble); break;
     case 'custom':     await processWithCustom(bubble); break;
     default:           await processWithOpenAI(bubble); break;
   }
@@ -350,6 +389,14 @@ export async function processWithAI(): Promise<void> {
     if (state.customUseAuth) {
       const customKey = await getCustomKey();
       if (!customKey) {
+        refs.chatNoKey!.classList.remove('hidden');
+        return;
+      }
+    }
+  } else if (state.llmProvider === 'ollama') {
+    if (state.ollamaUseAuth) {
+      const ollamaKey = await getOllamaKey();
+      if (!ollamaKey) {
         refs.chatNoKey!.classList.remove('hidden');
         return;
       }

@@ -458,6 +458,22 @@ html[data-theme="light"] .seg-btn.active {
   font-weight: 500;
 }
 
+.save-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--c-elevated);
+  color: var(--c-success);
+  padding: 8px 20px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  transition: opacity 200ms var(--ease);
+}
+
 .hidden { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════════════════

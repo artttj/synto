@@ -3,7 +3,14 @@
  * https://github.com/artttj/synto
  */
 
-export const MSG_EXTRACT = 'EXTRACT_CONTENT';
+export const DIFF_EXPAND_SELECTORS = [
+  'button.load-diff',
+  'button[data-qa="load-diff-button"]',
+  '[data-testid="load-diff-button"]',
+  'button[data-qa*="load"]',
+  'button[aria-label*="Load diff"]',
+  'button[aria-label*="Expand"]',
+].join(',');
 
 export const STRIP_SELECTORS = [
   'script', 'style', 'noscript', 'iframe', 'canvas',
@@ -43,5 +50,8 @@ export const MAIN_SELECTORS = [
   '#pullrequest-diff', "[data-qa='pr-diff']", "[data-testid='pullrequest-diff']",
   '.diff-container',
   '.diff-files-holder', '.files-changed-inner', '.merge-request-tabs-content',
+  "[data-qa='pr-diff-viewport']", "[data-testid='pr-diff-viewport']",
+  "[aria-label='Diff content']", "[aria-label*='Pull request diff']",
+  '#unsafe-design-system-page-layout-root',
   '#centerCol', '#dp', '#ppd',
 ];

@@ -29,7 +29,7 @@ import { state } from './state';
 import {
   applyTheme,
   renderSettingsForm,
-  wireSettingsSave,
+  wireAutoSave,
   updateProviderCardVisibility,
   syncProviderSegmented,
 } from './settings';
@@ -52,7 +52,7 @@ async function init(): Promise<void> {
   state.settings = settings;
 
   setLocale(settings.language ?? 'en');
-  applyTheme(state.settings.theme ?? 'dark');
+  applyTheme(state.settings.theme ?? 'system');
   applyI18n();
 
   renderSettingsForm();
@@ -73,7 +73,7 @@ async function init(): Promise<void> {
   if (versionEl) versionEl.textContent = manifest.version;
   await loadApiKeyStatuses();
 
-  wireSettingsSave(getSettings);
+  wireAutoSave();
 
   wireKeySection({
     inputId: 'openai-key',

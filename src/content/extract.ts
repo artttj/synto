@@ -6,9 +6,10 @@
 import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors';
 import { preprocessDiffTables } from './diff';
 import { toMarkdown } from './turndown';
+import type { ExtractedContent } from '../popup/state';
 
 
-export function extractContent(mode: string) {
+export function extractContent(mode: string): ExtractedContent {
   if (mode === 'html') {
     return {
       success: true,
@@ -20,7 +21,7 @@ export function extractContent(mode: string) {
   }
 
   const selectionText = captureSelection();
-  if (selectionText) {
+  if (selectionText && selectionText.trim().length >= 20) {
     return {
       success: true,
       mode: 'markdown',
@@ -37,7 +38,7 @@ export function extractContent(mode: string) {
 }
 
 
-export function captureSelection() {
+export function captureSelection(): string {
   const sel = window.getSelection();
   if (!sel || sel.isCollapsed || sel.rangeCount === 0) return '';
 
@@ -54,17 +55,38 @@ export function captureSelection() {
 }
 
 
-function extractBody() {
+function deepClone(root: HTMLElement): HTMLElement {
+  if (!root.shadowRoot) {
+    return root.cloneNode(true) as HTMLElement;
+  }
+
+  const clone = root.cloneNode(false) as HTMLElement;
+  const shadowClone = deepClone(root.shadowRoot as unknown as HTMLElement);
+  clone.appendChild(shadowClone);
+
+  for (const child of root.childNodes) {
+    if (child.nodeType === Node.ELEMENT_NODE) {
+      clone.appendChild(deepClone(child as HTMLElement));
+    } else {
+      clone.appendChild(child.cloneNode(true));
+    }
+  }
+
+  return clone;
+}
+
+
+function extractBody(): ExtractedContent {
   const mainEl = findMainContent();
   const root = mainEl ?? document.body;
-  const clone = root.cloneNode(true) as HTMLElement;
+  const clone = deepClone(root);
 
   preprocessDiffTables(clone);
   clone.querySelectorAll(STRIP_SELECTORS).forEach((el: Element) => el.remove());
   let markdown = toMarkdown(clone.innerHTML);
 
-  if ((!markdown || markdown.trim().length < 20) && mainEl) {
-    const bodyClone = document.body.cloneNode(true) as HTMLElement;
+  if ((!markdown || markdown.trim().length < 20) && mainEl && mainEl !== document.body) {
+    const bodyClone = deepClone(document.body);
     preprocessDiffTables(bodyClone);
     bodyClone.querySelectorAll(STRIP_SELECTORS).forEach((el: Element) => el.remove());
     markdown = toMarkdown(bodyClone.innerHTML);
@@ -90,18 +112,18 @@ function extractBody() {
 }
 
 
-function findMainContent() {
+function findMainContent(): HTMLElement | null {
   for (const sel of MAIN_SELECTORS) {
     const el = document.querySelector(sel);
     if (el && el.textContent.trim().length > 150) {
-      return el;
+      return el as HTMLElement;
     }
   }
   return null;
 }
 
 
-function isDiffPage() {
+function isDiffPage(): boolean {
   return /github\.com\/.+\/(pull|commit)|bitbucket\.org\/.+\/pull-requests|gitlab\.com\/.+-\/merge_requests/i.test(
     location.href
   );

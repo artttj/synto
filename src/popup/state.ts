@@ -5,6 +5,7 @@
 
 import { type Template, type ChatMessage } from '../shared/storage';
 import { t } from '../shared/i18n';
+import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 
 export type { ChatMessage };
 
@@ -27,6 +28,7 @@ const DEFAULT_MODELS: Record<string, string> = {
   openrouter: 'anthropic/claude-sonnet-4-6',
   zai:        'zai-7b',
   anthropic:  'claude-sonnet-4-6',
+  ollama:     'kimi-k2.6',
   custom:     '',
 };
 
@@ -37,6 +39,7 @@ const PROVIDER_LABEL_KEYS: Record<string, string> = {
   openrouter: 'popup_ask_openrouter',
   zai:        'popup_ask_zai',
   anthropic:  'popup_ask_anthropic',
+  ollama:     'popup_ask_ollama',
   custom:     'popup_ask_custom',
 };
 
@@ -61,6 +64,9 @@ export const state: {
   customEndpoint: string;
   customModel: string;
   customUseAuth: boolean;
+  ollamaModel: string;
+  ollamaEndpoint: string;
+  ollamaUseAuth: boolean;
   pinnedIds: string[];
 } = {
   templates: [],
@@ -80,9 +86,12 @@ export const state: {
   openrouterModel:  DEFAULT_MODELS.openrouter,
   zaiModel:         DEFAULT_MODELS.zai,
   anthropicModel:   DEFAULT_MODELS.anthropic,
-  customEndpoint:   'http://localhost:11434',
+  customEndpoint:   CUSTOM_ENDPOINT_DEFAULT,
   customModel:      '',
   customUseAuth:    false,
+  ollamaModel:      'kimi-k2.6',
+  ollamaEndpoint:   OLLAMA_ENDPOINT_DEFAULT,
+  ollamaUseAuth:    true,
   pinnedIds: [],
 };
 
@@ -94,6 +103,7 @@ export function getActiveModel(): string {
     case 'openrouter': return state.openrouterModel;
     case 'zai':        return state.zaiModel;
     case 'anthropic':  return state.anthropicModel;
+    case 'ollama':     return state.ollamaModel;
     case 'custom':     return state.customModel || 'custom';
     default:           return state.openaiModel;
   }
@@ -101,6 +111,6 @@ export function getActiveModel(): string {
 
 
 export function getAskLabel(): string {
-  const key = PROVIDER_LABEL_KEYS[state.llmProvider];
-  return key ? t(key) : t('popup_ask_ai');
+  const model = getActiveModel();
+  return `${t('popup_ask_ai')} ${model}`;
 }

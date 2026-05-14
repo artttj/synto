@@ -33,6 +33,7 @@ const es: Record<string, string> = {
   popup_history_restore: 'Conversaci\u00f3n anterior en esta p\u00e1gina',
   popup_history_yes:     'Restaurar',
   popup_history_dismiss: 'Descartar',
+  popup_content_updated: 'Contenido actualizado',
 
   options_brand_sub:    'Configuraci\u00f3n',
   options_nav_general:  'General',
@@ -89,14 +90,13 @@ const es: Record<string, string> = {
 
   options_help_how_heading:   'C\u00f3mo funciona',
   options_help_how_step_1:    'Abre la extensi\u00f3n en cualquier p\u00e1gina. Synto convierte el contenido a Markdown.',
-  options_help_how_step_2:    'Elige una categor\u00eda de plantilla (<strong>Entender</strong>, <strong>Decidir</strong>, <strong>Actuar</strong> o <strong>Redactar</strong>), luego selecciona un preset.',
+  options_help_how_step_2:    'Elige una categor\u00eda de plantilla (<strong>Entender</strong>, <strong>Decidir</strong> o <strong>Redactar</strong>), luego selecciona un preset.',
   options_help_how_step_3:    'La vista previa muestra el prompt completo. Haz clic en <strong>Preguntar a IA</strong> para enviarlo a tu proveedor de IA.',
   options_help_how_step_4:    'Haz preguntas de seguimiento en el panel de chat debajo de la respuesta.',
 
   options_help_categories_heading:    'Categor\u00edas de plantillas',
   options_help_cat_understand_desc:   'Resumir y analizar: art\u00edculos, tickets, pull requests.',
   options_help_cat_decide_desc:       'Sopesar opciones, compensaciones y recomendaciones.',
-  options_help_cat_act_desc:          'Extraer acciones, riesgos y bloqueadores de las discusiones.',
   options_help_cat_compose_desc:      'Redactar respuestas, correos y reescrituras.',
 
   options_help_placeholders_heading:  'Marcadores de posici\u00f3n',
@@ -166,34 +166,20 @@ const es: Record<string, string> = {
 
   category_understand: 'Entender',
   category_decide:     'Decidir',
-  category_act:        'Actuar',
   category_compose:    'Redactar',
   category_custom:     'Personalizada',
   category_pinned:     'Fijadas',
 
-  'template_label_eng-ticket-analysis':       'Ticket',
-  'template_label_eng-pr-review':             'Code Review',
-  'template_label_understand-structured-brief':'Resumen',
-  'template_label_decide-brief':              'Decisi\u00f3n',
-  'template_label_decide-feature-request':    'Funci\u00f3n',
-  'template_label_eng-action-items':          'Acciones',
-  'template_label_extract-risks-blockers':    'Riesgos',
-  'template_label_lifestyle-smart-choice':    'Recomendar',
-  'template_label_write-compose-answer':      'Respuesta',
-  'template_label_community-rewrite-comment': 'Reescribir',
-  'template_label_write-email-helper':        'Correo',
+  'template_label_understand-brief':   'Resumen',
+  'template_label_understand-review': 'Code Review',
+  'template_label_understand-audit':  'Auditor\u00eda',
+  'template_label_decide-decide':     'Decidir',
+  'template_label_decide-actions':    'Acciones',
+  'template_label_decide-briefing':   'Informe',
+  'template_label_compose-reply':     'Respuesta',
 
-  'template_name_eng-ticket-analysis':        'An\u00e1lisis de ticket',
-  'template_name_eng-pr-review':              'Revisi\u00f3n de PR',
-  'template_name_understand-structured-brief':'Resumen estructurado',
-  'template_name_decide-brief':               'Resumen de decisi\u00f3n',
-  'template_name_decide-feature-request':     'An\u00e1lisis de solicitud de funci\u00f3n',
-  'template_name_eng-action-items':           'Extraer acciones',
-  'template_name_extract-risks-blockers':     'Riesgos y bloqueos',
-  'template_name_lifestyle-smart-choice':     'Elecci\u00f3n inteligente',
-  'template_name_write-compose-answer':       'Borrador de respuesta',
-  'template_name_community-rewrite-comment':  'Reescribir comentario',
-  'template_name_write-email-helper':         'Asistente de correo',
+  'template_name_understand-audit':   'Auditor\u00eda SEO',
+  'template_name_decide-briefing':    'Informe Estrat\u00e9gico',
 };
 
 export default es;

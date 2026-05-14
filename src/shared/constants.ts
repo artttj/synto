@@ -10,6 +10,7 @@ export const MSG = {
   SAVE_TEMPLATES: 'SAVE_TEMPLATES',
   INSERT_TEXT: 'INSERT_TEXT',
   SCROLL_AND_RESCAN: 'SCROLL_AND_RESCAN',
+  CONTENT_UPDATE: 'CONTENT_UPDATE',
 };
 
 export const STORAGE_KEYS = {
@@ -63,7 +64,10 @@ export const CUSTOM_ENDPOINT_DEFAULT = 'http://localhost:11434';
 
 export const OLLAMA_ENDPOINT_DEFAULT = 'https://ollama.com/v1';
 
-export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
+export const DEFAULT_SYSTEM_PROMPT =
+  'Be specific. Use plain language. No filler, no hedging, no cliches — avoid words like leverage, streamline, dive into, furthermore, moreover, in conclusion, it\'s worth noting, crucial, essential. If something is wrong, say so directly. If it\'s fine, say so briefly. Short sentences beat long ones. Active voice. Concrete examples over abstract claims. Never start with "As a [role]" or "Based on the content provided."';
+
+export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Compose'];
 
 export const DEPRECATED_TEMPLATE_IDS = new Set([
   'default-structured-brief',
@@ -73,126 +77,60 @@ export const DEPRECATED_TEMPLATE_IDS = new Set([
   'extract-key-questions',
   'lifestyle-recipe-card',
   'lifestyle-buy-decision',
+  'eng-ticket-analysis',
+  'decide-feature-request',
+  'extract-risks-blockers',
+  'lifestyle-smart-choice',
+  'write-compose-answer',
+  'community-rewrite-comment',
+  'write-email-helper',
 ]);
 
 export const DEFAULT_TEMPLATES = [
   {
-    id: "eng-ticket-analysis",
-    name: "Ticket Analysis",
-    label: "Ticket",
-    description: "Summary, criteria, risks, next steps",
-    category: "Understand",
-    isDefault: false,
-    prompt: `You are a senior product engineer. Analyze ONLY the ticket below — do not invent information. Produce a developer-ready implementation brief.
-
-Output ONLY the following markdown structure — nothing before or after:
-
-## Summary
-One crisp sentence: what is requested and why it matters.
-
-## Goals
-- 1–3 must-achieve outcomes
-
-## Acceptance Criteria
-1. Numbered, specific, testable conditions
-
-## Technical Approach
-High-level plan: steps, affected modules/APIs/DB changes, external dependencies.
-
-## Tasks
-- Task · Role (dev/qa/ux) · Estimate (S/M/L/XL) · Dependencies
-
-## Risks & Mitigations
-- Risk → mitigation (top 3 only)
-
-## Open Questions
-- Clarifications needed from author or stakeholders
-
-## Priority
-Low / Medium / High / Critical — one-sentence rationale
-
----
-
-Ticket: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "eng-pr-review",
-    name: "PR Review",
-    label: "Code Review",
-    description: "Changes, concerns, approvals, status",
-    category: "Understand",
-    isDefault: false,
-    prompt: `You are an elite code reviewer. Analyze ONLY the PR content below. Produce a concise, actionable review brief.
-
-Output ONLY this exact markdown structure — nothing before or after:
-
-## Summary
-One paragraph: what the PR actually does and its intent.
-
-## Impacted Areas
-- Key files / modules / systems changed
-
-## Findings
-
-**Bugs / Logic**
-- Issue · Severity (critical/high/medium/low) · Suggested fix
-
-**Security / Performance**
-- Issue · Severity · Suggested fix
-
-**Tests / Coverage**
-- Issue · Severity · Suggested fix
-
-**Style / Maintainability**
-- Issue · Severity · Suggested fix
-
-## Test Recommendations
-- What needs verification, missing test cases, quick smoke steps
-
-## Verdict
-Approve as-is / Approve with changes / Major rework needed / Reject — one-sentence reason.
-
-## Post-Merge Follow-ups
-- Optional cleanups / tech-debt items
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "understand-structured-brief",
-    name: "Structured Brief",
+    id: "understand-brief",
+    name: "Brief",
     label: "Brief",
-    description: "Topic, key points, conclusions, open questions",
+    description: "Key takeaway, evidence, open questions",
     category: "Understand",
     isDefault: true,
-    prompt: `You are a senior content analyst. Create a tight briefing from ONLY the source below. Do not add external facts.
+    prompt: `What's the one thing worth remembering from this? Give me the takeaway, the strongest evidence for it, and what's still unclear.
 
-Output ONLY this structure — nothing before or after:
+Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words like leverage, streamline, dive into, furthermore, moreover, in conclusion, it's worth noting, crucial, essential. Short sentences. Active voice. Concrete examples over abstract claims.
 
-## TL;DR
-One powerful sentence summary.
+Do not start with "Based on the content provided" or "As an analyst." Jump straight into the answer.
 
-## Audience
-Who this is written for (persona, role, experience level).
+Skip the summary padding — I want signal, not a recap.
 
-## Key Takeaways
-- 3–5 sharp, memorable bullets
+---
 
-## Evidence & Context
-- 3–5 strongest claims, quotes, or data points from the source
+{content}`,
+  },
 
-## Conclusions
-What was resolved, concluded, or recommended? Write "None yet" if unclear.
+  {
+    id: "understand-review",
+    name: "Code Review",
+    label: "Review",
+    description: "Bugs, security, performance — real problems only",
+    category: "Understand",
+    isDefault: false,
+    prompt: `Review this diff thoroughly. Check for these specific categories:
 
-## Open Questions
-What remains unclear, unresolved, or worth challenging?
+**Correctness**: Logic errors, off-by-ones, null handling, edge cases, race conditions.
+**Security**: Injection, auth gaps, exposed secrets, XSS, path traversal.
+**Performance**: N+1 queries, unbounded loops, memory leaks, large payloads.
+**Type safety**: Type mismatches, unsafe casts, missing null checks.
+**Error handling**: Missing catch blocks, swallowed errors, unhandled promise rejections.
+
+For each real issue found, rate severity:
+- **CRITICAL** — security vuln or data loss risk, must fix before merge
+- **HIGH** — bug likely to cause problems, should fix
+- **MEDIUM** — quality issue, fix recommended
+- **LOW** — minor, optional
+
+If the code is fine, say so in one sentence. Don't narrate what the code does — I can read it myself. Skip style nits unless they hide real problems.
+
+Be specific. Use plain language. No filler. Point to exact lines when possible. Concrete fixes, not "consider refactoring."
 
 ---
 
@@ -202,59 +140,30 @@ Source: [{title}]({url})
   },
 
   {
-    id: "decide-brief",
-    name: "Decision Brief",
-    label: "Decision",
-    description: "Options, trade-offs, recommendation",
-    category: "Decide",
+    id: "understand-audit",
+    name: "SEO Audit",
+    label: "Audit",
+    description: "Content gaps, structure, search visibility",
+    category: "Understand",
     isDefault: false,
-    prompt: `You're helping a friend decide. Read the content, figure out what it is, and respond accordingly.
+    prompt: `Audit this page for search visibility and content quality. Check these areas:
 
-If it's a movie, show, book, album, or anything creative: be a sharp critic. Pick a side — worth it or skip it. No hedging, no "it depends." Use "I" statements. Mediocre means no. End with a VERDICT that includes a star rating using ⭐ and ☆ and a score like 3.5/5.
+**Title & Meta**: Does the title tag exist, is it under 60 chars, does it contain the primary keyword naturally? Meta description — present, under 160 chars, compelling enough to click?
 
-If it's a restaurant, menu, or food: be a helpful friend who knows food. Point out the best dishes, flag healthy or light options, mention anything to avoid. No harsh criticism — just honest, useful picks. End with a VERDICT.
+**Headings**: Single H1? Logical H2/H3 hierarchy? Keywords in headings without stuffing?
 
-For anything else: make a clear call. Pick the best option and say why in two sentences. No sitting on the fence. End with a VERDICT.
+**Content Quality**: Thin content flags (under 300 words of body text)? Duplicate or boilerplate content? Readability — is it written for humans or search engines?
 
-Talk like a person. Short sentences. No jargon, no filler, no review clichés. Nothing before or after the analysis and VERDICT.
+**Structure**: Internal links with descriptive anchor text? Broken or redirecting links? Images with alt text? Proper use of lists and tables for structured data?
 
----
+**Technical Signals**: Schema markup opportunities missed? Canonical issues? Orphan pages (no internal links pointing to it)?
 
-{content}`,
-  },
+For each issue, give me:
+1. **What's wrong** — specific, not "improve SEO"
+2. **Why it matters** — the search signal it affects
+3. **How to fix it** — one concrete action
 
-  {
-    id: "decide-feature-request",
-    name: "Feature Request Analysis",
-    label: "Feature",
-    description: "Problem, trade-offs, alternatives",
-    category: "Decide",
-    isDefault: false,
-    prompt: `You are a senior product engineer specializing in requirements distillation. Analyze ONLY the feature request below.
-
-Output ONLY this structure — nothing before or after:
-
-## Core Problem
-One sentence: the real user pain or goal.
-
-## User Stories
-- As a [role], I want [feature] so that [benefit]
-(3–4 stories)
-
-## Acceptance Criteria
-1. Numbered, testable conditions
-
-## Edge Cases & Non-Functional
-- Important boundaries, performance, security, accessibility needs
-
-## MVP Scope
-- In: …
-- Out / Later: …
-
-## Effort Sketch
-Frontend: S / M / L
-Backend: S / M / L
-Infra / Other: S / M / L
+Skip things that are already working well. Focus on real problems that affect ranking or click-through.
 
 ---
 
@@ -264,68 +173,46 @@ Source: [{title}]({url})
   },
 
   {
-    id: "eng-action-items",
-    name: "Extract Actions",
+    id: "decide-decide",
+    name: "Decide",
+    label: "Decide",
+    description: "Pick a side — options, trade-offs, verdict",
+    category: "Decide",
+    isDefault: false,
+    prompt: `Pick a side. What's the best option and why?
+
+If the content is creative (movie, book, album, game) — be a sharp critic. Love it or hate it, no middle ground. Use "I" statements. Mediocre means no. Back your take with specific details, not vague praise or generic criticism. End with VERDICT including a star rating (⭐ and ☆) and a score like 3.5/5.
+
+If it's a choice between options — name the winner in two sentences, then explain the trade-off you're accepting. No hedging, no "it depends." End with VERDICT.
+
+If it's a purchase or product — best pick, what trade-off you're accepting, and who should skip it. End with VERDICT.
+
+Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words like leverage, streamline, dive into, furthermore, moreover, crucial, essential. Short sentences. Active voice. Never start with "Based on the content" or "As a [role]."
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "decide-actions",
+    name: "Actions",
     label: "Actions",
-    description: "Actions, next steps, blockers",
-    category: "Act",
+    description: "Concrete tasks, owners, deadlines, blockers",
+    category: "Decide",
     isDefault: false,
-    prompt: `Extract every concrete action item from the content below. Output ONLY a numbered list — no introduction, no extra sentences.
+    prompt: `Extract every concrete action from this content. For each action, give me:
 
-Format each item:
-1. **Action**: clear verb phrase
-   **Owner**: role or person (infer if not explicit)
-   **Due**: date / ASAP / none
-   **Priority**: High / Medium / Low
-   **Evidence**: short quote supporting this action
+1. **What** — clear verb phrase (e.g. "Fix the login timeout", not "Look into login")
+2. **Who** — the person or role responsible (infer if not explicit)
+3. **When** — deadline or urgency (ASAP / this week / no deadline)
+4. **Evidence** — short quote from the source that backs this action
 
----
+Also flag real blockers and risks — things that would actually derail the work. Skip theoretical risks. Only include things that a reasonable person would add to their task list.
 
-Source: [{title}]({url})
+Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words like leverage, streamline, crucial, essential. Short sentences. Active voice. Never start with "Based on the content provided" or "Here are the action items."
 
-{content}`,
-  },
-
-  {
-    id: "extract-risks-blockers",
-    name: "Risks & Blockers",
-    label: "Risks",
-    description: "Risks, blockers, assumptions",
-    category: "Act",
-    isDefault: false,
-    prompt: `Identify the most important risks and blockers from the content below. Output ONLY up to 8 items in this exact format — nothing else:
-
-- **Title**: short name
-  **Description**: 1–2 sentences
-  **Likelihood**: Low / Medium / High
-  **Impact**: Low / Medium / High / Critical
-  **Mitigation**: concrete next step
-  **Owner**: who should handle this
-  **Escalation**: if stalled after 3 days → who / how
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "lifestyle-smart-choice",
-    name: "Smart Choice",
-    label: "Recommend",
-    description: "Options, trade-offs, quick verdict",
-    category: "Act",
-    isDefault: false,
-    prompt: `You're helping a friend pick the best option. Read the content, figure out what it is, and respond accordingly.
-
-If it's a movie, show, book, album, or anything creative: be a sharp critic. Love it or hate it — no middle ground. Use "I" statements. Mediocre means no. End with a VERDICT that includes a star rating using ⭐ and ☆ and a score like 3.5/5.
-
-If it's a restaurant menu or food: be a helpful advisor. Pick the best dishes, flag healthy and light options, call out anything worth skipping. Practical and direct — not harsh. End with a VERDICT.
-
-For anything else: name the best option and say why. One clear pick, no hedging. End with a VERDICT.
-
-Talk like a person. Short sentences. No jargon, no filler, no review clichés. Nothing before or after the analysis and VERDICT.
+Number the list.
 
 ---
 
@@ -333,76 +220,48 @@ Talk like a person. Short sentences. No jargon, no filler, no review clichés. N
   },
 
   {
-    id: "write-compose-answer",
-    name: "Draft Reply",
+    id: "decide-briefing",
+    name: "Strategy Briefing",
+    label: "Briefing",
+    description: "Stakeholder view — what matters, what to watch, what to decide",
+    category: "Decide",
+    isDefault: false,
+    prompt: `Give me a strategy briefing on this content. I need three things:
+
+**What matters** — the 2-3 points that should be on a decision-maker's radar. Not everything — just what moves the needle. Skip operational details that are below the strategic level.
+
+**What to watch** — risks, dependencies, or market shifts that could change the picture. Only things that would materially affect a go/no-go decision or a budget allocation. Not "could potentially" — things that are actually brewing.
+
+**What to decide** — the specific decision this content is asking for, or the decision it should trigger. If no decision is needed, say so directly.
+
+Write for a busy executive who will skim this in 30 seconds. Be direct. No "it's important to note" or "stakeholders should consider." Name the thing, say why it matters, move on.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "compose-reply",
+    name: "Reply",
     label: "Reply",
-    description: "Direct reply to a question or request",
+    description: "Direct reply, rewrite, or email draft",
     category: "Compose",
     isDefault: false,
-    prompt: `Draft a short, professional-yet-friendly reply for Slack or email based ONLY on the context below. Max 5–6 sentences.
+    prompt: `Write a reply based on the context below.
 
-Output ONLY the reply body text — no labels, no extras.
+**If this looks like an email or formal message**: Write a professional email. Include a subject line (6-10 words), body (120-180 words, natural tone), and a sign-off. No corporate filler — no "I hope this finds you well", no "leveraging", no "streamlining". If scheduling is needed, suggest two specific times.
 
-Structure: Start with an acknowledgment. Then give a direct answer or next step. Then a clear call-to-action (action + owner + due if relevant). End with a warm close.
+**If this looks like a Slack or chat message**: Write a short, direct reply. 3-5 sentences. Acknowledge the ask, give the answer or next step, close with a clear action. No filler.
+
+**If this is text to rewrite**: Rewrite it to be professional and direct. Cut every word that doesn't earn its place. Remove AI-sounding language — no "furthermore", "moreover", "in conclusion", "it's worth noting", no em dashes. Two variants: one short and blunt (1-2 sentences), one warmer but still concise (2-4 sentences).
+
+Be specific. Use plain language. Active voice. Short sentences. Never start with "Based on the content provided" or "I'd be happy to help."
 
 ---
 
 {content}`,
   },
-
-  {
-    id: "community-rewrite-comment",
-    name: "Rewrite Comment",
-    label: "Rewrite",
-    description: "Professional, constructive rewrite",
-    category: "Compose",
-    isDefault: false,
-    prompt: `Rewrite the comment below to be professional, concise, and constructive while keeping the original meaning intact.
-
-Output ONLY:
-
-**Variant A – Short & direct**
-(1–2 sentences)
-
-**Variant B – Collaborative tone**
-(2–4 sentences, warmer)
-
----
-
-{content}`,
-  },
-
-  {
-    id: "write-email-helper",
-    name: "Email Helper",
-    label: "Email",
-    description: "Short professional email draft",
-    category: "Compose",
-    isDefault: false,
-    prompt: `Write a professional, friendly email using ONLY the context below.
-
-Output ONLY these four blocks — nothing before or after:
-
-**Subject**
-[6–10 words]
-
-**Body**
-(120–180 words, natural tone)
-
-**Sign-off choices**
-1. Best regards, [Name]
-2. Thanks & best, [Name]
-3. Looking forward, [Name]
-
-**Meeting proposals** (if scheduling is needed, next 1–2 business days)
-- [Day, time]
-- [Alternative day, time]
-
----
-
-{content}`,
-  },
-
 ];
 
 export const TOKEN_THRESHOLDS = {

@@ -17,7 +17,7 @@ import {
   getHistory,
   normalizeUrl,
 } from '../shared/storage';
-import { STORAGE_KEYS, PROVIDER_MODELS } from '../shared/constants';
+import { STORAGE_KEYS, PROVIDER_MODELS, MSG } from '../shared/constants';
 import { setLocale, applyI18n, t } from '../shared/i18n';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
@@ -32,6 +32,19 @@ type Provider = 'openai' | 'gemini' | 'grok' | 'openrouter' | 'zai' | 'anthropic
 
 function isProvider(value: unknown): value is Provider {
   return typeof value === 'string' && value in PROVIDER_MODELS;
+}
+
+let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+function showContentToast(message: string): void {
+  if (!refs.contentToast) return;
+  refs.contentToast.textContent = message;
+  refs.contentToast.classList.add('visible');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    refs.contentToast!.classList.remove('visible');
+    toastTimer = null;
+  }, 2000);
 }
 
 
@@ -157,6 +170,14 @@ async function init(): Promise<void> {
           document.documentElement.dataset.theme = settingsChange.theme;
         }
       }
+    }
+  });
+
+  chrome.runtime.onMessage.addListener((message: { type: string }) => {
+    if (message.type === MSG.CONTENT_UPDATE) {
+      void extractContent().then(() => {
+        showContentToast(t('popup_content_updated'));
+      });
     }
   });
 }

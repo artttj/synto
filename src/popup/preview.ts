@@ -8,6 +8,30 @@ import { t } from '../shared/i18n';
 import { state, getActiveModel } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
+import { renderMarkdown } from './markdown';
+
+
+export async function richCopy(text: string, html?: string): Promise<void> {
+  const plainText = text;
+  const htmlContent = html ?? renderMarkdown(text);
+  const styledHtml = `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;color:#222">${htmlContent}</div>`;
+  const htmlBlob = new Blob([styledHtml], { type: 'text/html' });
+  const textBlob = new Blob([plainText], { type: 'text/plain' });
+
+  if (typeof ClipboardItem !== 'undefined') {
+    try {
+      const item = new ClipboardItem({
+        'text/html': htmlBlob,
+        'text/plain': textBlob,
+      });
+      await navigator.clipboard.write([item]);
+      return;
+    } catch {
+      // Fallback to plain text
+    }
+  }
+  await navigator.clipboard.writeText(plainText);
+}
 
 
 export function updatePreviewText(): void {
@@ -38,7 +62,7 @@ export function updateTokenDisplay(text: string): void {
 
 export async function copyPreviewText(text: string, btn: HTMLButtonElement): Promise<void> {
   try {
-    await navigator.clipboard.writeText(text);
+    await richCopy(text);
     showCopySuccess(btn);
   } catch (err: unknown) {
     setError(`Copy failed: ${err instanceof Error ? err.message : String(err)}`);

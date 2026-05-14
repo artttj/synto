@@ -33,6 +33,7 @@ const fr: Record<string, string> = {
   popup_history_restore: 'Conversation pr\u00e9c\u00e9dente sur cette page',
   popup_history_yes:     'Restaurer',
   popup_history_dismiss: 'Ignorer',
+  popup_content_updated: 'Contenu mis à jour',
 
   options_brand_sub:    'Param\u00e8tres',
   options_nav_general:  'G\u00e9n\u00e9ral',
@@ -89,14 +90,13 @@ const fr: Record<string, string> = {
 
   options_help_how_heading:   'Comment \u00e7a marche',
   options_help_how_step_1:    "Ouvrez l\u2019extension sur n\u2019importe quelle page. Synto convertit le contenu en Markdown.",
-  options_help_how_step_2:    "Choisissez une cat\u00e9gorie de mod\u00e8le (<strong>Comprendre</strong>, <strong>D\u00e9cider</strong>, <strong>Agir</strong> ou <strong>R\u00e9diger</strong>), puis s\u00e9lectionnez un mod\u00e8le pr\u00e9d\u00e9fini.",
+  options_help_how_step_2:    "Choisissez une cat\u00e9gorie de mod\u00e8le (<strong>Comprendre</strong>, <strong>D\u00e9cider</strong> ou <strong>R\u00e9diger</strong>), puis s\u00e9lectionnez un mod\u00e8le pr\u00e9d\u00e9fini.",
   options_help_how_step_3:    "L\u2019aper\u00e7u affiche le prompt rempli. Cliquez sur <strong>Demander \u00e0 l\u2019IA</strong> pour l\u2019envoyer \u00e0 votre fournisseur d\u2019IA.",
   options_help_how_step_4:    'Posez des questions de suivi dans le panneau de discussion sous la r\u00e9ponse.',
 
   options_help_categories_heading:    'Cat\u00e9gories de mod\u00e8les',
   options_help_cat_understand_desc:   'R\u00e9sumer et analyser\u00a0: articles, tickets, pull requests.',
   options_help_cat_decide_desc:       'Peser les options, les compromis et les recommandations.',
-  options_help_cat_act_desc:          'Extraire les actions, risques et bloqueurs des discussions.',
   options_help_cat_compose_desc:      'R\u00e9diger des r\u00e9ponses, e-mails et reformulations.',
 
   options_help_placeholders_heading:  'Variables',
@@ -166,34 +166,20 @@ const fr: Record<string, string> = {
 
   category_understand: 'Comprendre',
   category_decide:     'D\u00e9cider',
-  category_act:        'Agir',
   category_compose:    'R\u00e9diger',
   category_custom:     'Personnalis\u00e9',
   category_pinned:     '\u00c9pingl\u00e9',
 
-  'template_label_eng-ticket-analysis':       'Ticket',
-  'template_label_eng-pr-review':             'Code Review',
-  'template_label_understand-structured-brief':'Brief',
-  'template_label_decide-brief':              'D\u00e9cision',
-  'template_label_decide-feature-request':    'Fonction',
-  'template_label_eng-action-items':          'Actions',
-  'template_label_extract-risks-blockers':    'Risques',
-  'template_label_lifestyle-smart-choice':    'Recommander',
-  'template_label_write-compose-answer':      'R\u00e9ponse',
-  'template_label_community-rewrite-comment': 'R\u00e9\u00e9crire',
-  'template_label_write-email-helper':        'E-mail',
+  'template_label_understand-brief':   'Brief',
+  'template_label_understand-review': 'Code Review',
+  'template_label_understand-audit':  'Audit',
+  'template_label_decide-decide':     'D\u00e9cision',
+  'template_label_decide-actions':    'Actions',
+  'template_label_decide-briefing':   'Briefing',
+  'template_label_compose-reply':     'R\u00e9ponse',
 
-  'template_name_eng-ticket-analysis':        'Analyse de ticket',
-  'template_name_eng-pr-review':              'Revue de PR',
-  'template_name_understand-structured-brief':'Brief structur\u00e9',
-  'template_name_decide-brief':               'Brief de d\u00e9cision',
-  'template_name_decide-feature-request':     'Analyse de demande de fonctionnalit\u00e9',
-  'template_name_eng-action-items':           'Extraire les actions',
-  'template_name_extract-risks-blockers':     'Risques et blocages',
-  'template_name_lifestyle-smart-choice':     'Choix malin',
-  'template_name_write-compose-answer':       'R\u00e9diger une r\u00e9ponse',
-  'template_name_community-rewrite-comment':  'R\u00e9\u00e9crire un commentaire',
-  'template_name_write-email-helper':         'Assistant e-mail',
+  'template_name_understand-audit':   'Audit SEO',
+  'template_name_decide-briefing':    'Briefing Strat\u00e9gique',
 };
 
 export default fr;

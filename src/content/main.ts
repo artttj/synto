@@ -3,25 +3,49 @@
  * https://github.com/artttj/synto
  */
 
-import { MSG_EXTRACT } from './selectors';
 import { MSG } from '../shared/constants';
+import { DIFF_EXPAND_SELECTORS } from './selectors';
 import { extractContent } from './extract';
 
 
 async function scrollAndRescan(): Promise<{ ok: boolean }> {
-  const scrollHeight = document.documentElement.scrollHeight;
   const viewportHeight = window.innerHeight;
   const step = Math.max(viewportHeight * 0.8, 300);
   let pos = 0;
+  let stableCount = 0;
+  const maxTime = 12000;
+  const start = Date.now();
+  const clickedButtons = new Set<HTMLElement>();
 
-  while (pos < scrollHeight) {
+  while (Date.now() - start < maxTime) {
+    const currentHeight = document.documentElement.scrollHeight;
+    if (pos >= currentHeight) {
+      stableCount++;
+      if (stableCount >= 3) break;
+    } else {
+      stableCount = 0;
+    }
     window.scrollTo(0, pos);
+
+    for (const btn of document.querySelectorAll<HTMLElement>(DIFF_EXPAND_SELECTORS)) {
+      if (btn.offsetParent !== null && !clickedButtons.has(btn)) {
+        clickedButtons.add(btn);
+        btn.click();
+      }
+    }
+
     pos += step;
-    await new Promise((r) => setTimeout(r, 250));
+    await new Promise((r) => setTimeout(r, 400));
   }
 
   window.scrollTo(0, 0);
-  await new Promise((r) => setTimeout(r, 300));
+  await new Promise((r) => setTimeout(r, 500));
+
+  try {
+    document.execCommand('selectAll');
+    await new Promise((r) => setTimeout(r, 300));
+  } catch { /* ignore */ }
+
   return { ok: true };
 }
 
@@ -88,7 +112,6 @@ function insertTextToInput(text: string): { error?: string } {
     const end = inputEl.selectionEnd ?? start;
     inputEl.value = inputEl.value.slice(0, start) + text + inputEl.value.slice(end);
     inputEl.selectionStart = inputEl.selectionEnd = start + text.length;
-    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
     inputEl.dispatchEvent(new Event('change', { bubbles: true }));
     inputEl.dispatchEvent(new InputEvent('input', { inputType: 'insertText', data: text, bubbles: true }));
     inputEl.focus();
@@ -125,8 +148,37 @@ function showToast(message: string): void {
   }, 1800);
 }
 
+
+let scrollController: AbortController | null = null;
+let scrollDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+let lastContentHash = '';
+
+function startScrollListener(): void {
+  if (scrollController) return;
+  scrollController = new AbortController();
+
+  const opts = { passive: true, signal: scrollController.signal };
+  window.addEventListener('scroll', onScroll, opts);
+  window.addEventListener('resize', onScroll, opts);
+}
+
+function onScroll(): void {
+  if (scrollDebounceTimer) clearTimeout(scrollDebounceTimer);
+  scrollDebounceTimer = setTimeout(() => {
+    const result = extractContent('markdown');
+    if (result.success) {
+      const hash = result.content.length + ':' + result.content.slice(0, 64) + result.content.slice(-64);
+      if (hash === lastContentHash) return;
+      lastContentHash = hash;
+      chrome.runtime.sendMessage({ type: MSG.CONTENT_UPDATE, ...result }).catch(() => { lastContentHash = ''; });
+    }
+  }, 800);
+}
+
+
 chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; text?: string }, _sender, sendResponse) => {
-  if (message.type === MSG_EXTRACT) {
+  if (message.type === MSG.EXTRACT_CONTENT) {
+    startScrollListener();
     try {
       sendResponse(extractContent(message.mode ?? 'markdown'));
     } catch (err: unknown) {
@@ -148,6 +200,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
 
   if (message.type === MSG.SCROLL_AND_RESCAN) {
     scrollAndRescan().then(() => {
+      startScrollListener();
       try {
         sendResponse(extractContent(message.mode ?? 'markdown'));
       } catch (err: unknown) {

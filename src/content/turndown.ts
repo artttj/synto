@@ -6,7 +6,6 @@
 import TurndownServiceModule from 'turndown';
 import { gfm } from 'turndown-plugin-gfm';
 
-// CJS/ESM interop: bundled IIFE may get module.exports as { default } or the constructor directly
 const TurndownService =
   (TurndownServiceModule as { default?: typeof TurndownServiceModule }).default ?? TurndownServiceModule;
 
@@ -14,8 +13,11 @@ function isHTMLElement(node: Node): node is HTMLElement {
   return node instanceof HTMLElement;
 }
 
-export function toMarkdown(html: string): string {
-  const td = new TurndownService({
+let td: InstanceType<typeof TurndownService> | null = null;
+
+function getTurndown(): InstanceType<typeof TurndownService> {
+  if (td) return td;
+  td = new TurndownService({
     headingStyle: 'atx',
     hr: '---',
     bulletListMarker: '-',
@@ -46,7 +48,11 @@ export function toMarkdown(html: string): string {
     replacement: (_content: string, node: Node) => node.textContent?.trim() ?? '',
   });
 
-  const raw = td.turndown(html);
+  return td;
+}
+
+export function toMarkdown(html: string): string {
+  const raw = getTurndown().turndown(html);
   return raw
     .replace(/^-\s*$/gm, '')
     .replace(/^\s*\[?\s*\]?\s*$/gm, '')

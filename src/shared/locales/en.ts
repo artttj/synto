@@ -33,6 +33,7 @@ const en: Record<string, string> = {
   popup_history_restore: 'Previous conversation on this page',
   popup_history_yes:     'Restore',
   popup_history_dismiss: 'Dismiss',
+  popup_content_updated: 'Content updated',
 
   options_brand_sub:    'Settings',
   options_nav_general:  'General',
@@ -90,14 +91,13 @@ const en: Record<string, string> = {
 
   options_help_how_heading:   'How it works',
   options_help_how_step_1:    'Open the extension on any page. Synto clips the content to Markdown.',
-  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Act</strong>, or <strong>Compose</strong>), then choose a preset.',
+  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, or <strong>Compose</strong>), then choose a preset.',
   options_help_how_step_3:    'The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.',
   options_help_how_step_4:    'Ask follow-up questions in the chat panel below the response.',
 
   options_help_categories_heading:    'Template categories',
   options_help_cat_understand_desc:   'Summarise and analyse: articles, tickets, pull requests.',
   options_help_cat_decide_desc:       'Weigh options, trade-offs, and recommendations.',
-  options_help_cat_act_desc:          'Extract actions, risks, and blockers from discussions.',
   options_help_cat_compose_desc:      'Draft replies, emails, and rewrites.',
 
   options_help_placeholders_heading:  'Placeholders',
@@ -167,34 +167,20 @@ const en: Record<string, string> = {
 
   category_understand: 'Understand',
   category_decide:     'Decide',
-  category_act:        'Act',
   category_compose:    'Compose',
   category_custom:     'Custom',
   category_pinned:     'Pinned',
 
-  'template_label_eng-ticket-analysis':       'Ticket',
-  'template_label_eng-pr-review':             'Code Review',
-  'template_label_understand-structured-brief':'Brief',
-  'template_label_decide-brief':              'Decision',
-  'template_label_decide-feature-request':    'Feature',
-  'template_label_eng-action-items':          'Actions',
-  'template_label_extract-risks-blockers':    'Risks',
-  'template_label_lifestyle-smart-choice':    'Recommend',
-  'template_label_write-compose-answer':      'Reply',
-  'template_label_community-rewrite-comment': 'Rewrite',
-  'template_label_write-email-helper':        'Email',
+  'template_label_understand-brief':   'Brief',
+  'template_label_understand-review': 'Review',
+  'template_label_understand-audit':  'Audit',
+  'template_label_decide-decide':     'Decide',
+  'template_label_decide-actions':    'Actions',
+  'template_label_decide-briefing':   'Briefing',
+  'template_label_compose-reply':     'Reply',
 
-  'template_name_eng-ticket-analysis':        'Ticket Analysis',
-  'template_name_eng-pr-review':              'PR Review',
-  'template_name_understand-structured-brief':'Structured Brief',
-  'template_name_decide-brief':               'Decision Brief',
-  'template_name_decide-feature-request':     'Feature Request Analysis',
-  'template_name_eng-action-items':           'Extract Actions',
-  'template_name_extract-risks-blockers':     'Risks & Blockers',
-  'template_name_lifestyle-smart-choice':     'Smart Choice',
-  'template_name_write-compose-answer':       'Draft Reply',
-  'template_name_community-rewrite-comment':  'Rewrite Comment',
-  'template_name_write-email-helper':         'Email Helper',
+  'template_name_understand-audit':   'SEO Audit',
+  'template_name_decide-briefing':    'Strategy Briefing',
 };
 
 export default en;

@@ -3,15 +3,18 @@
  * https://github.com/artttj/synto
  */
 
-import { TEMPLATE_CATEGORIES, PROVIDER_MODELS, CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
+import { TEMPLATE_CATEGORIES, PROVIDER_MODELS, CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT, DEFAULT_SYSTEM_PROMPT } from '../shared/constants';
 import { saveSettings, type Settings, type Template } from '../shared/storage';
+import { applyAndWatchTheme } from '../shared/theme';
 
 import { state } from './state';
 import { refs } from './dom';
 
 
+const unwatchRef = { current: null as (() => void) | null };
+
 export function applyTheme(theme: string): void {
-  document.documentElement.dataset.theme = theme;
+  applyAndWatchTheme(theme, unwatchRef);
 }
 
 
@@ -37,7 +40,7 @@ export function getSegmentedValue(container: HTMLElement): string | undefined {
 
 
 export function renderDefaultTemplateSelect(): void {
-  refs.defaultTplEl!.innerHTML = '';
+  refs.defaultTplEl!.textContent = '';
 
   const grouped: Record<string, Template[]> = {};
   for (const cat of TEMPLATE_CATEGORIES) {
@@ -68,7 +71,7 @@ export function renderDefaultTemplateSelect(): void {
 
 
 function populateModelSelect(el: HTMLSelectElement, provider: string, selectedModel: string): void {
-  el.innerHTML = '';
+  el.textContent = '';
   for (const model of (PROVIDER_MODELS[provider] ?? [])) {
     const opt = document.createElement('option');
     opt.value = model;
@@ -89,11 +92,11 @@ function onProviderChange(value: string): void {
 export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
   initSegmented(refs.aiProviderSeg!, state.settings.llmProvider ?? 'openai', onProviderChange);
-  initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', applyTheme);
+  initSegmented(refs.themeSeg!, state.settings.theme ?? 'system', applyTheme);
   refs.languageEl!.value = state.settings.language ?? 'en';
 
   if (refs.systemPromptEl) {
-    refs.systemPromptEl.value = state.settings.systemPrompt ?? '';
+    refs.systemPromptEl.value = state.settings.systemPrompt || DEFAULT_SYSTEM_PROMPT;
   }
 
   populateModelSelect(refs.openaiModelEl!, 'openai', state.settings.openaiModel);
@@ -113,36 +116,62 @@ export function renderSettingsForm(): void {
 }
 
 
-function flash(el: HTMLElement): void {
-  el.classList.remove('hidden');
-  setTimeout(() => el.classList.add('hidden'), 2000);
+let saveTimer: ReturnType<typeof setTimeout> | null = null;
+
+function showToast(): void {
+  const toast = refs.saveToast;
+  if (!toast) return;
+  toast.classList.remove('hidden');
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    toast.classList.add('hidden');
+    saveTimer = null;
+  }, 1800);
 }
 
+export function autoSaveSettings(): void {
+  const partial: Partial<Settings> = {
+    defaultTemplateId: refs.defaultTplEl!.value,
+    theme: getSegmentedValue(refs.themeSeg!) ?? 'system',
+    llmProvider: getSegmentedValue(refs.aiProviderSeg!) ?? 'openai',
+    language: refs.languageEl?.value ?? 'en',
+    systemPrompt: refs.systemPromptEl?.value ?? '',
+    openaiModel: refs.openaiModelEl?.value ?? 'gpt-4.1-mini',
+    geminiModel: refs.geminiModelEl?.value ?? 'gemini-2.5-flash',
+    grokModel: refs.grokModelEl?.value ?? 'grok-3-mini',
+    openrouterModel: refs.openrouterModelEl?.value ?? 'anthropic/claude-sonnet-4-6',
+    zaiModel: refs.zaiModelEl?.value ?? 'zai-7b',
+    anthropicModel: refs.anthropicModelEl?.value ?? 'claude-sonnet-4-6',
+    customEndpoint: refs.customEndpointEl?.value ?? CUSTOM_ENDPOINT_DEFAULT,
+    customModel: refs.customModelEl?.value ?? '',
+    customUseAuth: refs.customUseAuthEl?.checked ?? false,
+    ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
+    ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
+    ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
+  };
+  state.settings = { ...state.settings, ...partial };
+  void saveSettings(partial).then(() => showToast());
+}
 
-export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): void {
-  refs.btnSaveSettings!.addEventListener('click', async () => {
-    await saveSettings({
-      defaultTemplateId: refs.defaultTplEl!.value,
-      theme: getSegmentedValue(refs.themeSeg!) ?? 'dark',
-      llmProvider: getSegmentedValue(refs.aiProviderSeg!) ?? 'openai',
-      language: refs.languageEl?.value ?? 'en',
-      systemPrompt: refs.systemPromptEl?.value ?? '',
-      openaiModel: refs.openaiModelEl?.value ?? 'gpt-4o-mini',
-      geminiModel: refs.geminiModelEl?.value ?? 'gemini-2.0-flash',
-      grokModel: refs.grokModelEl?.value ?? 'grok-3-mini',
-      openrouterModel: refs.openrouterModelEl?.value ?? 'anthropic/claude-sonnet-4-6',
-      zaiModel: refs.zaiModelEl?.value ?? 'zai-7b',
-      anthropicModel: refs.anthropicModelEl?.value ?? 'claude-sonnet-4-6',
-      customEndpoint: refs.customEndpointEl?.value ?? CUSTOM_ENDPOINT_DEFAULT,
-      customModel: refs.customModelEl?.value ?? '',
-      customUseAuth: refs.customUseAuthEl?.checked ?? false,
-      ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
-      ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
-      ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
-    });
-    state.settings = await getSettingsAsync();
-    flash(refs.settingsSaved!);
-  });
+export function wireAutoSave(): void {
+  refs.defaultTplEl!.addEventListener('change', autoSaveSettings);
+  refs.languageEl!.addEventListener('change', autoSaveSettings);
+  refs.systemPromptEl?.addEventListener('input', autoSaveSettings);
+
+  refs.openaiModelEl?.addEventListener('change', autoSaveSettings);
+  refs.geminiModelEl?.addEventListener('change', autoSaveSettings);
+  refs.grokModelEl?.addEventListener('change', autoSaveSettings);
+  refs.openrouterModelEl?.addEventListener('change', autoSaveSettings);
+  refs.zaiModelEl?.addEventListener('change', autoSaveSettings);
+  refs.anthropicModelEl?.addEventListener('change', autoSaveSettings);
+
+  refs.ollamaModelEl?.addEventListener('input', autoSaveSettings);
+  refs.ollamaEndpointEl?.addEventListener('input', autoSaveSettings);
+  refs.ollamaUseAuthEl?.addEventListener('change', autoSaveSettings);
+
+  refs.customEndpointEl?.addEventListener('input', autoSaveSettings);
+  refs.customModelEl?.addEventListener('input', autoSaveSettings);
+  refs.customUseAuthEl?.addEventListener('change', autoSaveSettings);
 }
 
 

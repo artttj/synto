@@ -11,6 +11,7 @@ import {
   getZaiKey,
   getAnthropicKey,
   getCustomKey,
+  getOllamaKey,
 } from '../shared/storage';
 import { t } from '../shared/i18n';
 import { refs } from './dom';
@@ -34,7 +35,7 @@ function setBadge(id: string, connected: boolean): void {
 
 
 export async function loadApiKeyStatuses(): Promise<void> {
-  const [oaiKey, gemKey, grkKey, orKey, zaiKey, antKey, custKey] = await Promise.all([
+  const [oaiKey, gemKey, grkKey, orKey, zaiKey, antKey, custKey, ollKey] = await Promise.all([
     getOpenAIKey(),
     getGeminiKey(),
     getGrokKey(),
@@ -42,6 +43,7 @@ export async function loadApiKeyStatuses(): Promise<void> {
     getZaiKey(),
     getAnthropicKey(),
     getCustomKey(),
+    getOllamaKey(),
   ]);
 
   setBadge('badge-openai', !!oaiKey);
@@ -54,7 +56,10 @@ export async function loadApiKeyStatuses(): Promise<void> {
   const customEndpoint = (document.getElementById('custom-endpoint') as HTMLInputElement)?.value?.trim();
   setBadge('badge-custom', !!customEndpoint);
 
-  const anyConfigured = !!(oaiKey || gemKey || grkKey || orKey || zaiKey || antKey || customEndpoint);
+  const ollamaEndpoint = (document.getElementById('ollama-endpoint') as HTMLInputElement)?.value?.trim();
+  setBadge('badge-ollama', !!(ollKey || ollamaEndpoint));
+
+  const anyConfigured = !!(oaiKey || gemKey || grkKey || orKey || zaiKey || antKey || customEndpoint || ollKey || ollamaEndpoint);
   refs.navAiWarning!.classList.toggle('hidden', anyConfigured);
 }
 

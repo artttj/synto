@@ -35,6 +35,7 @@ export const refs = {
   chatHistoryLabel: null as HTMLElement | null,
   btnHistoryRestore: null as HTMLButtonElement | null,
   btnHistoryDismiss: null as HTMLButtonElement | null,
+  contentToast: null as HTMLElement | null,
 };
 
 
@@ -68,4 +69,5 @@ export function resolveRefs() {
   refs.chatHistoryLabel = $('chat-history-label');
   refs.btnHistoryRestore = $('btn-history-restore') as HTMLButtonElement | null;
   refs.btnHistoryDismiss = $('btn-history-dismiss') as HTMLButtonElement | null;
+  refs.contentToast = $('content-toast');
 }

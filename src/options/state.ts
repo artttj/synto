@@ -4,7 +4,7 @@
  */
 
 import { type Template, type Settings } from '../shared/storage';
-import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
+import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT, DEFAULT_SYSTEM_PROMPT } from '../shared/constants';
 
 export const state: {
   templates: Template[];
@@ -14,11 +14,11 @@ export const state: {
 } = {
   templates: [],
   settings: {
-    defaultTemplateId: 'understand-structured-brief',
-    theme: 'dark',
+    defaultTemplateId: 'understand-brief',
+    theme: 'system',
     llmProvider: 'openai',
     language: 'en',
-    systemPrompt: '',
+    systemPrompt: DEFAULT_SYSTEM_PROMPT,
     openaiModel: 'gpt-4o-mini',
     geminiModel: 'gemini-2.0-flash',
     grokModel: 'grok-3-mini',

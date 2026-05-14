@@ -10,8 +10,7 @@ export const refs: {
   aiProviderSeg: HTMLElement | null;
   themeSeg: HTMLElement | null;
   languageEl: HTMLSelectElement | null;
-  btnSaveSettings: HTMLElement | null;
-  settingsSaved: HTMLElement | null;
+  saveToast: HTMLElement | null;
   navAiWarning: HTMLElement | null;
   templateSearch: HTMLInputElement | null;
   templateList: HTMLElement | null;
@@ -48,8 +47,7 @@ export const refs: {
   aiProviderSeg: null,
   themeSeg: null,
   languageEl: null,
-  btnSaveSettings: null,
-  settingsSaved: null,
+  saveToast: null,
   navAiWarning: null,
   templateSearch: null,
   templateList: null,
@@ -89,8 +87,7 @@ export function resolveRefs(): void {
   refs.aiProviderSeg = $('ai-provider-segmented')!;
   refs.themeSeg = $('theme-segmented')!;
   refs.languageEl = $('language-select') as HTMLSelectElement;
-  refs.btnSaveSettings = $('btn-save-settings')!;
-  refs.settingsSaved = $('settings-saved')!;
+  refs.saveToast = $('save-toast')!;
   refs.navAiWarning = $('nav-ai-warning')!;
   refs.templateSearch = $('template-search') as HTMLInputElement;
   refs.templateList = $('template-list')!;

@@ -3,7 +3,7 @@
  * https://github.com/artttj/synto
  */
 
-import { STORAGE_KEYS, DEFAULT_TEMPLATES, DEPRECATED_TEMPLATE_IDS } from './constants';
+import { STORAGE_KEYS, DEFAULT_TEMPLATES, DEPRECATED_TEMPLATE_IDS, DEFAULT_SYSTEM_PROMPT } from './constants';
 
 export interface Template {
   id: string;
@@ -109,6 +109,15 @@ export async function saveCustomKey(key: string): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.CUSTOM_KEY]: key });
 }
 
+export async function getOllamaKey(): Promise<string> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.OLLAMA_KEY);
+  return (result[STORAGE_KEYS.OLLAMA_KEY] as string) ?? '';
+}
+
+export async function saveOllamaKey(key: string): Promise<void> {
+  await chrome.storage.local.set({ [STORAGE_KEYS.OLLAMA_KEY]: key });
+}
+
 export async function getTemplates(): Promise<Template[]> {
   const result = await chrome.storage.local.get(STORAGE_KEYS.TEMPLATES);
   const saved = result[STORAGE_KEYS.TEMPLATES] as Template[] | undefined;
@@ -145,11 +154,11 @@ export async function saveTemplates(templates: Template[]): Promise<void> {
 export async function getSettings(): Promise<Settings> {
   const result = await chrome.storage.sync.get(STORAGE_KEYS.SETTINGS);
   return {
-    defaultTemplateId: 'understand-structured-brief',
+    defaultTemplateId: 'understand-brief',
     theme: 'dark',
     llmProvider: 'openai',
     language: 'en',
-    systemPrompt: '',
+    systemPrompt: DEFAULT_SYSTEM_PROMPT,
     openaiModel: 'gpt-4.1-mini',
     geminiModel: 'gemini-2.5-flash',
     grokModel: 'grok-3-mini',
