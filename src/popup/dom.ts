@@ -20,6 +20,7 @@ export const refs = {
   btnCopyMd: null as HTMLButtonElement | null,
   btnPreviewCopy: null as HTMLButtonElement | null,
   btnRefreshContent: null as HTMLButtonElement | null,
+  btnScrollRescan: null as HTMLButtonElement | null,
   btnProcess: null as HTMLButtonElement | null,
   chatPanel: null as HTMLElement | null,
   chatNoKey: null as HTMLElement | null,
@@ -52,6 +53,7 @@ export function resolveRefs() {
   refs.btnCopyMd = $('btn-copy-md') as HTMLButtonElement | null;
   refs.btnPreviewCopy = $('btn-preview-copy') as HTMLButtonElement | null;
   refs.btnRefreshContent = $('btn-refresh-content') as HTMLButtonElement | null;
+  refs.btnScrollRescan = $('btn-scroll-rescan') as HTMLButtonElement | null;
   refs.btnProcess = $('btn-process') as HTMLButtonElement | null;
   refs.chatPanel = $('chat-panel');
   refs.chatNoKey = $('chat-no-key');

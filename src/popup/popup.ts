@@ -13,6 +13,7 @@ import {
   getZaiKey,
   getAnthropicKey,
   getCustomKey,
+  getOllamaKey,
   getHistory,
   normalizeUrl,
 } from '../shared/storage';
@@ -25,9 +26,9 @@ import { renderTemplateUI, wireTemplateUI } from './templates';
 import { wirePreview } from './preview';
 import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
-import { extractContent } from './extract';
+import { extractContent, scrollAndRescan } from './extract';
 
-type Provider = 'openai' | 'gemini' | 'grok' | 'openrouter' | 'zai' | 'anthropic' | 'custom';
+type Provider = 'openai' | 'gemini' | 'grok' | 'openrouter' | 'zai' | 'anthropic' | 'ollama' | 'custom';
 
 function isProvider(value: unknown): value is Provider {
   return typeof value === 'string' && value in PROVIDER_MODELS;
@@ -56,6 +57,9 @@ async function init(): Promise<void> {
   state.customEndpoint  = settings.customEndpoint;
   state.customModel     = settings.customModel ?? '';
   state.customUseAuth   = settings.customUseAuth;
+  state.ollamaModel     = settings.ollamaModel;
+  state.ollamaEndpoint  = settings.ollamaEndpoint;
+  state.ollamaUseAuth   = settings.ollamaUseAuth;
   state.pinnedIds       = settings.pinnedTemplateIds;
   refs.btnProcess!.textContent = getAskLabel();
 
@@ -75,6 +79,7 @@ async function init(): Promise<void> {
   });
 
   refs.btnRefreshContent!.addEventListener('click', () => { void extractContent(); });
+  refs.btnScrollRescan!.addEventListener('click', () => { void scrollAndRescan(); });
 
   const btnInfo = document.getElementById('btn-content-info')! as HTMLButtonElement;
   const infoPopover = document.getElementById('content-info-popover')!;
@@ -113,6 +118,7 @@ async function init(): Promise<void> {
     openrouter: getOpenRouterKey,
     zai:        getZaiKey,
     anthropic:  getAnthropicKey,
+    ollama:     getOllamaKey,
     custom:     getCustomKey,
   };
   const currentKey = await keyGetters[state.llmProvider]?.();
@@ -130,10 +136,27 @@ async function init(): Promise<void> {
         renderTemplateUI();
       });
     }
-    const providerChange = changes.llmProvider;
-    if (area === 'sync' && providerChange && !state.chatStreaming) {
-      state.llmProvider = isProvider(providerChange.newValue) ? providerChange.newValue : 'openai';
-      refs.btnProcess!.textContent = getAskLabel();
+    if (area === 'sync' && !state.chatStreaming) {
+      const settingsChange = changes[STORAGE_KEYS.SETTINGS]?.newValue;
+      if (settingsChange) {
+        state.llmProvider = settingsChange.llmProvider ?? state.llmProvider;
+        state.openaiModel = settingsChange.openaiModel ?? state.openaiModel;
+        state.geminiModel = settingsChange.geminiModel ?? state.geminiModel;
+        state.grokModel = settingsChange.grokModel ?? state.grokModel;
+        state.openrouterModel = settingsChange.openrouterModel ?? state.openrouterModel;
+        state.zaiModel = settingsChange.zaiModel ?? state.zaiModel;
+        state.anthropicModel = settingsChange.anthropicModel ?? state.anthropicModel;
+        state.ollamaModel = settingsChange.ollamaModel ?? state.ollamaModel;
+        state.ollamaEndpoint = settingsChange.ollamaEndpoint ?? state.ollamaEndpoint;
+        state.ollamaUseAuth = settingsChange.ollamaUseAuth ?? state.ollamaUseAuth;
+        state.customEndpoint = settingsChange.customEndpoint ?? state.customEndpoint;
+        state.customModel = settingsChange.customModel ?? state.customModel;
+        state.customUseAuth = settingsChange.customUseAuth ?? state.customUseAuth;
+        refs.btnProcess!.textContent = getAskLabel();
+        if (settingsChange.theme) {
+          document.documentElement.dataset.theme = settingsChange.theme;
+        }
+      }
     }
   });
 }

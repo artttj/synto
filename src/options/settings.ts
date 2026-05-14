@@ -3,7 +3,7 @@
  * https://github.com/artttj/synto
  */
 
-import { TEMPLATE_CATEGORIES, PROVIDER_MODELS } from '../shared/constants';
+import { TEMPLATE_CATEGORIES, PROVIDER_MODELS, CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 import { saveSettings, type Settings, type Template } from '../shared/storage';
 
 import { state } from './state';
@@ -79,9 +79,16 @@ function populateModelSelect(el: HTMLSelectElement, provider: string, selectedMo
 }
 
 
+function onProviderChange(value: string): void {
+  void saveSettings({ llmProvider: value });
+  state.settings.llmProvider = value;
+  syncProviderSegmented(value);
+  updateProviderCardVisibility(value);
+}
+
 export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
-  initSegmented(refs.providerSeg!, state.settings.llmProvider ?? 'openai');
+  initSegmented(refs.aiProviderSeg!, state.settings.llmProvider ?? 'openai', onProviderChange);
   initSegmented(refs.themeSeg!, state.settings.theme ?? 'dark', applyTheme);
   refs.languageEl!.value = state.settings.language ?? 'en';
 
@@ -95,10 +102,14 @@ export function renderSettingsForm(): void {
   populateModelSelect(refs.openrouterModelEl!, 'openrouter', state.settings.openrouterModel);
   populateModelSelect(refs.zaiModelEl!,     'zai',    state.settings.zaiModel);
   populateModelSelect(refs.anthropicModelEl!, 'anthropic', state.settings.anthropicModel);
+  if (refs.ollamaModelEl) refs.ollamaModelEl.value = state.settings.ollamaModel ?? 'kimi-k2.6';
 
-  if (refs.customEndpointEl) refs.customEndpointEl.value = state.settings.customEndpoint ?? 'http://localhost:11434';
+  if (refs.customEndpointEl) refs.customEndpointEl.value = state.settings.customEndpoint ?? CUSTOM_ENDPOINT_DEFAULT;
   if (refs.customModelEl) refs.customModelEl.value = state.settings.customModel ?? '';
   if (refs.customUseAuthEl) refs.customUseAuthEl.checked = state.settings.customUseAuth ?? false;
+
+  if (refs.ollamaEndpointEl) refs.ollamaEndpointEl.value = state.settings.ollamaEndpoint ?? OLLAMA_ENDPOINT_DEFAULT;
+  if (refs.ollamaUseAuthEl) refs.ollamaUseAuthEl.checked = state.settings.ollamaUseAuth ?? true;
 }
 
 
@@ -113,7 +124,7 @@ export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): voi
     await saveSettings({
       defaultTemplateId: refs.defaultTplEl!.value,
       theme: getSegmentedValue(refs.themeSeg!) ?? 'dark',
-      llmProvider: getSegmentedValue(refs.providerSeg!) ?? 'openai',
+      llmProvider: getSegmentedValue(refs.aiProviderSeg!) ?? 'openai',
       language: refs.languageEl?.value ?? 'en',
       systemPrompt: refs.systemPromptEl?.value ?? '',
       openaiModel: refs.openaiModelEl?.value ?? 'gpt-4o-mini',
@@ -122,11 +133,30 @@ export function wireSettingsSave(getSettingsAsync: () => Promise<Settings>): voi
       openrouterModel: refs.openrouterModelEl?.value ?? 'anthropic/claude-sonnet-4-6',
       zaiModel: refs.zaiModelEl?.value ?? 'zai-7b',
       anthropicModel: refs.anthropicModelEl?.value ?? 'claude-sonnet-4-6',
-      customEndpoint: refs.customEndpointEl?.value ?? 'http://localhost:11434',
+      customEndpoint: refs.customEndpointEl?.value ?? CUSTOM_ENDPOINT_DEFAULT,
       customModel: refs.customModelEl?.value ?? '',
       customUseAuth: refs.customUseAuthEl?.checked ?? false,
+      ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
+      ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
+      ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
     });
     state.settings = await getSettingsAsync();
     flash(refs.settingsSaved!);
+  });
+}
+
+
+export function updateProviderCardVisibility(active: string): void {
+  document.querySelectorAll<HTMLElement>('.provider-card[data-provider]').forEach((card) => {
+    card.classList.toggle('hidden', card.dataset.provider !== active);
+  });
+}
+
+
+export function syncProviderSegmented(value: string): void {
+  const seg = refs.aiProviderSeg;
+  if (!seg) return;
+  seg.querySelectorAll('.seg-btn').forEach((btn) => {
+    btn.classList.toggle('active', (btn as HTMLElement).dataset.value === value);
   });
 }

@@ -4,6 +4,7 @@
  */
 
 import { getTemplates, getSettings, saveSettings } from '../shared/storage';
+import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 import {
   getOpenAIKey,
   saveOpenAIKey,
@@ -19,6 +20,8 @@ import {
   saveAnthropicKey,
   getCustomKey,
   saveCustomKey,
+  getOllamaKey,
+  saveOllamaKey,
 } from '../shared/storage';
 import { setLocale, applyI18n } from '../shared/i18n';
 import { resolveRefs, refs } from './dom';
@@ -27,6 +30,8 @@ import {
   applyTheme,
   renderSettingsForm,
   wireSettingsSave,
+  updateProviderCardVisibility,
+  syncProviderSegmented,
 } from './settings';
 import { loadApiKeyStatuses, wireKeySection } from './keys';
 import {
@@ -51,6 +56,7 @@ async function init(): Promise<void> {
   applyI18n();
 
   renderSettingsForm();
+  updateProviderCardVisibility(state.settings.llmProvider ?? 'openai');
   renderTemplateList();
 
   refs.languageEl!.addEventListener('change', () => {
@@ -131,6 +137,53 @@ async function init(): Promise<void> {
     savedId: 'custom-key-saved',
     getKey: getCustomKey,
     saveKey: saveCustomKey,
+  });
+  wireKeySection({
+    inputId: 'ollama-key',
+    toggleId: 'btn-toggle-ollama-key',
+    saveId: 'btn-save-ollama',
+    clearId: 'btn-clear-ollama',
+    savedId: 'ollama-key-saved',
+    getKey: getOllamaKey,
+    saveKey: saveOllamaKey,
+  });
+
+  refs.btnSaveCustom!.addEventListener('click', async () => {
+    await saveSettings({
+      customEndpoint: refs.customEndpointEl?.value ?? CUSTOM_ENDPOINT_DEFAULT,
+      customModel: refs.customModelEl?.value ?? '',
+      customUseAuth: refs.customUseAuthEl?.checked ?? false,
+    });
+  });
+
+  refs.btnClearCustom!.addEventListener('click', async () => {
+    if (refs.customEndpointEl) refs.customEndpointEl.value = CUSTOM_ENDPOINT_DEFAULT;
+    if (refs.customModelEl) refs.customModelEl.value = '';
+    if (refs.customUseAuthEl) refs.customUseAuthEl.checked = false;
+    await saveSettings({
+      customEndpoint: CUSTOM_ENDPOINT_DEFAULT,
+      customModel: '',
+      customUseAuth: false,
+    });
+  });
+
+  refs.btnSaveOllama!.addEventListener('click', async () => {
+    await saveSettings({
+      ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
+      ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
+      ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
+    });
+  });
+
+  refs.btnClearOllama!.addEventListener('click', async () => {
+    if (refs.ollamaEndpointEl) refs.ollamaEndpointEl.value = OLLAMA_ENDPOINT_DEFAULT;
+    if (refs.ollamaModelEl) refs.ollamaModelEl.value = 'kimi-k2.6';
+    if (refs.ollamaUseAuthEl) refs.ollamaUseAuthEl.checked = true;
+    await saveSettings({
+      ollamaEndpoint: OLLAMA_ENDPOINT_DEFAULT,
+      ollamaModel: 'kimi-k2.6',
+      ollamaUseAuth: true,
+    });
   });
 
   wireTemplateList();

@@ -7,7 +7,7 @@ export const $ = (id: string): HTMLElement | null => document.getElementById(id)
 
 export const refs: {
   defaultTplEl: HTMLSelectElement | null;
-  providerSeg: HTMLElement | null;
+  aiProviderSeg: HTMLElement | null;
   themeSeg: HTMLElement | null;
   languageEl: HTMLSelectElement | null;
   btnSaveSettings: HTMLElement | null;
@@ -33,12 +33,19 @@ export const refs: {
   openrouterModelEl: HTMLSelectElement | null;
   zaiModelEl: HTMLSelectElement | null;
   anthropicModelEl: HTMLSelectElement | null;
+  ollamaModelEl: HTMLInputElement | null;
+  ollamaEndpointEl: HTMLInputElement | null;
+  ollamaUseAuthEl: HTMLInputElement | null;
   customEndpointEl: HTMLInputElement | null;
   customModelEl: HTMLInputElement | null;
   customUseAuthEl: HTMLInputElement | null;
+  btnSaveCustom: HTMLElement | null;
+  btnClearCustom: HTMLElement | null;
+  btnSaveOllama: HTMLElement | null;
+  btnClearOllama: HTMLElement | null;
 } = {
   defaultTplEl: null,
-  providerSeg: null,
+  aiProviderSeg: null,
   themeSeg: null,
   languageEl: null,
   btnSaveSettings: null,
@@ -64,15 +71,22 @@ export const refs: {
   openrouterModelEl: null,
   zaiModelEl: null,
   anthropicModelEl: null,
+  ollamaModelEl: null,
+  ollamaEndpointEl: null,
+  ollamaUseAuthEl: null,
   customEndpointEl: null,
   customModelEl: null,
   customUseAuthEl: null,
+  btnSaveCustom: null,
+  btnClearCustom: null,
+  btnSaveOllama: null,
+  btnClearOllama: null,
 };
 
 
 export function resolveRefs(): void {
   refs.defaultTplEl = $('default-template') as HTMLSelectElement;
-  refs.providerSeg = $('provider-segmented')!;
+  refs.aiProviderSeg = $('ai-provider-segmented')!;
   refs.themeSeg = $('theme-segmented')!;
   refs.languageEl = $('language-select') as HTMLSelectElement;
   refs.btnSaveSettings = $('btn-save-settings')!;
@@ -98,7 +112,14 @@ export function resolveRefs(): void {
   refs.openrouterModelEl = $('openrouter-model') as HTMLSelectElement;
   refs.zaiModelEl     = $('zai-model') as HTMLSelectElement;
   refs.anthropicModelEl = $('anthropic-model') as HTMLSelectElement;
+  refs.ollamaModelEl    = $('ollama-model') as HTMLInputElement;
+  refs.ollamaEndpointEl = $('ollama-endpoint') as HTMLInputElement;
+  refs.ollamaUseAuthEl  = $('ollama-use-auth') as HTMLInputElement;
   refs.customEndpointEl = $('custom-endpoint') as HTMLInputElement;
   refs.customModelEl  = $('custom-override-model') as HTMLInputElement;
   refs.customUseAuthEl = $('custom-use-auth') as HTMLInputElement;
+  refs.btnSaveCustom = $('btn-save-custom')!;
+  refs.btnClearCustom = $('btn-clear-custom')!;
+  refs.btnSaveOllama  = $('btn-save-ollama')!;
+  refs.btnClearOllama  = $('btn-clear-ollama')!;
 }

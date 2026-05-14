@@ -8,6 +8,7 @@ const en: Record<string, string> = {
   popup_content_tab:      'Content',
   popup_prompt_tab:       'Prompt',
   popup_refresh_content:  'Refresh content',
+  popup_scroll_rescan:    'Scroll & Rescan',
   popup_near_limit:       'Near limit',
   popup_chat_placeholder: 'Ask a follow-up\u2026',
   popup_no_key_prefix:    'No API key set. Add it in\u00a0',
@@ -23,6 +24,7 @@ const en: Record<string, string> = {
   popup_ask_openrouter:  'Ask OpenRouter',
   popup_ask_zai:         'Ask Zai',
   popup_ask_anthropic:   'Ask Claude',
+  popup_ask_ollama:     'Ask Ollama Cloud',
   popup_ask_custom:     'Ask Custom',
   popup_ask_ai:          'Ask AI',
   popup_asking:          'Asking\u2026',
@@ -73,7 +75,11 @@ const en: Record<string, string> = {
   options_get_key_free:            'Get free key \u2197',
   options_custom_endpoint:         'Custom Endpoint',
   options_custom_use_auth:         'Include Authorization header',
-  options_custom_hint:             'OpenAI-compatible: Ollama, LM Studio, etc.',
+  options_custom_hint:             'OpenAI-compatible. Use for local Ollama, LM Studio, etc.',
+
+  options_ollama_endpoint:         'Ollama Cloud Endpoint',
+  options_ollama_use_auth:         'Include Authorization header',
+  options_ollama_hint:              'Ollama Cloud & local models. OpenAI-compatible.',
 
   options_library_heading:    'Prompt Library',
   options_library_desc:       'Browse, search, and manage your prompt templates.',
@@ -155,6 +161,7 @@ const en: Record<string, string> = {
   error_no_key_openrouter: 'No OpenRouter API key. Add it in Options.',
   error_no_key_zai:    'No Zai API key. Add it in Options.',
   error_no_key_anthropic: 'No Anthropic API key. Add it in Options.',
+  error_no_ollama_endpoint: 'No Ollama endpoint configured. Open Settings to add one.',
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
 

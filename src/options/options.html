@@ -86,22 +86,6 @@
 
           <div class="setting-row">
             <div class="setting-label">
-              <div class="setting-title" data-i18n="options_ai_provider">AI Provider</div>
-              <div class="setting-desc" data-i18n="options_ai_provider_desc">Which service runs the analysis</div>
-            </div>
-            <div class="segmented" id="provider-segmented">
-              <button class="seg-btn" data-value="openai">OpenAI</button>
-              <button class="seg-btn" data-value="gemini">Gemini</button>
-              <button class="seg-btn" data-value="grok">Grok</button>
-              <button class="seg-btn" data-value="openrouter">ORouter</button>
-              <button class="seg-btn" data-value="zai">Zai</button>
-              <button class="seg-btn" data-value="anthropic">Claude</button>
-              <button class="seg-btn" data-value="custom">Custom</button>
-            </div>
-          </div>
-
-          <div class="setting-row">
-            <div class="setting-label">
               <div class="setting-title" data-i18n="options_theme">Theme</div>
               <div class="setting-desc" data-i18n="options_theme_desc">Interface colour scheme</div>
             </div>
@@ -176,8 +160,22 @@
           </p>
         </div>
 
+        <!-- Provider selector -->
+        <div class="provider-selector-row">
+          <div class="segmented segmented--wrap" id="ai-provider-segmented">
+            <button class="seg-btn" data-value="openai">OpenAI</button>
+            <button class="seg-btn" data-value="gemini">Gemini</button>
+            <button class="seg-btn" data-value="grok">Grok</button>
+            <button class="seg-btn" data-value="openrouter">ORouter</button>
+            <button class="seg-btn" data-value="zai">Zai</button>
+            <button class="seg-btn" data-value="anthropic">Claude</button>
+            <button class="seg-btn" data-value="ollama">Ollama Cloud</button>
+            <button class="seg-btn" data-value="custom">Custom</button>
+          </div>
+        </div>
+
         <!-- OpenAI -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="openai">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">OpenAI</div>
@@ -205,7 +203,7 @@
         </div>
 
         <!-- Gemini -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="gemini">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Gemini</div>
@@ -233,7 +231,7 @@
         </div>
 
         <!-- Grok -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="grok">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Grok</div>
@@ -261,7 +259,7 @@
         </div>
 
         <!-- OpenRouter -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="openrouter">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">OpenRouter</div>
@@ -289,7 +287,7 @@
         </div>
 
         <!-- Zai -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="zai">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Zai</div>
@@ -317,7 +315,7 @@
         </div>
 
         <!-- Anthropic -->
-        <div class="provider-card">
+        <div class="provider-card" data-provider="anthropic">
           <div class="provider-header">
             <div class="provider-info">
               <div class="provider-name">Anthropic</div>
@@ -340,6 +338,43 @@
               <button id="btn-save-anthropic-key" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
               <button id="btn-clear-anthropic-key" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
               <span id="anthropic-key-saved" class="saved-msg hidden">&#10003;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ollama Cloud -->
+        <div class="provider-card" data-provider="ollama">
+          <div class="provider-header">
+            <div class="provider-info">
+              <div class="provider-name">Ollama Cloud</div>
+              <div class="custom-controls">
+                <input id="ollama-model" type="text" class="setting-input setting-input--sm" value="kimi-k2.6" placeholder="e.g. kimi-k2.6, deepseek-v4-flash" />
+                <input id="ollama-endpoint" type="text" class="setting-input setting-input--sm" value="https://ollama.com/v1" placeholder="https://ollama.com/v1" />
+              </div>
+            </div>
+            <span id="badge-ollama" class="status-badge unconfigured">Not Configured</span>
+          </div>
+          <div class="provider-key-row">
+            <input type="password" id="ollama-key" class="key-input" placeholder="API key (if auth enabled)" autocomplete="off" spellcheck="false" />
+            <button id="btn-toggle-ollama-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
+                <circle cx="10" cy="10" r="2.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="provider-key-row">
+            <label class="checkbox-label">
+              <input id="ollama-use-auth" type="checkbox" checked />
+              <span data-i18n="options_ollama_use_auth">Include Authorization header</span>
+            </label>
+          </div>
+          <div class="provider-footer">
+            <span class="provider-hint" data-i18n="options_ollama_hint">Ollama Cloud & local models. OpenAI-compatible.</span>
+            <div class="provider-btns">
+              <button id="btn-save-ollama" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
+              <button id="btn-clear-ollama" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>
+              <span id="ollama-key-saved" class="saved-msg hidden">&#10003;</span>
             </div>
           </div>
         </div>
@@ -372,7 +407,7 @@
             </label>
           </div>
           <div class="provider-footer">
-            <span class="provider-hint" data-i18n="options_custom_hint">OpenAI-compatible: Ollama, LM Studio, etc.</span>
+            <span class="provider-hint" data-i18n="options_custom_hint">OpenAI-compatible. Use for local Ollama, LM Studio, etc.</span>
             <div class="provider-btns">
               <button id="btn-save-custom" class="btn btn-primary btn-sm" data-i18n="options_key_save">Save</button>
               <button id="btn-clear-custom" class="btn btn-ghost btn-sm" data-i18n="options_key_clear">Clear</button>

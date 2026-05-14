@@ -4,6 +4,7 @@
  */
 
 import { type Template, type Settings } from '../shared/storage';
+import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 
 export const state: {
   templates: Template[];
@@ -24,9 +25,12 @@ export const state: {
     openrouterModel: 'anthropic/claude-sonnet-4-6',
     zaiModel: 'zai-7b',
     anthropicModel: 'claude-sonnet-4-6',
-    customEndpoint: 'http://localhost:11434',
+    customEndpoint: CUSTOM_ENDPOINT_DEFAULT,
     customModel: '',
     customUseAuth: false,
+    ollamaModel: 'kimi-k2.6',
+    ollamaEndpoint: OLLAMA_ENDPOINT_DEFAULT,
+    ollamaUseAuth: true,
     pinnedTemplateIds: [],
   },
   editingId: null,

@@ -8,6 +8,8 @@ export const MSG = {
   COPY_TO_CLIPBOARD: 'COPY_TO_CLIPBOARD',
   GET_TEMPLATES: 'GET_TEMPLATES',
   SAVE_TEMPLATES: 'SAVE_TEMPLATES',
+  INSERT_TEXT: 'INSERT_TEXT',
+  SCROLL_AND_RESCAN: 'SCROLL_AND_RESCAN',
 };
 
 export const STORAGE_KEYS = {
@@ -20,6 +22,7 @@ export const STORAGE_KEYS = {
   ZAI_KEY:        'apc_zai_key',
   ANTHROPIC_KEY:  'apc_anthropic_key',
   CUSTOM_KEY:     'apc_custom_key',
+  OLLAMA_KEY:     'apc_ollama_key',
   HISTORY:        'apc_history',
 };
 
@@ -29,6 +32,7 @@ export const PROVIDER_MODELS: Record<string, string[]> = {
   grok:       ['grok-3-mini', 'grok-3'],
   openrouter: [
     'anthropic/claude-sonnet-4-6',
+    'anthropic/claude-opus-4-7',
     'anthropic/claude-opus-4-6',
     'google/gemma-4-26b-a4b-it:free',
     'meta-llama/llama-3.3-70b-instruct',
@@ -37,13 +41,27 @@ export const PROVIDER_MODELS: Record<string, string[]> = {
     'openai/gpt-oss-120b:free',
   ],
   zai:        ['zai-7b', 'zai-70b'],
-  anthropic:  ['claude-sonnet-4-6', 'claude-opus-4-6', 'claude-haiku-4-5'],
+  anthropic:  ['claude-sonnet-4-6', 'claude-opus-4-7', 'claude-opus-4-6', 'claude-haiku-4-5'],
+  ollama:     [
+    'kimi-k2.6', 'kimi-k2.5', 'kimi-k2-thinking', 'kimi-k2',
+    'deepseek-v4-flash', 'deepseek-v4-pro', 'deepseek-v3.2', 'deepseek-v3.1',
+    'gemma4', 'gemma3',
+    'qwen3.5', 'qwen3-coder',
+    'glm-5.1', 'glm-4.7', 'glm-4.6',
+    'minimax-m2.7', 'minimax-m2',
+    'nemotron-3-super',
+    'gemini-3-flash-preview',
+  ],
   custom:     [
     'gemma4', 'gemma3', 'gemini-3-flash-preview', 'gemini-2.5-flash',
     'llama4', 'llama3.3', 'qwen3.5', 'deepseek-r1', 'deepseek-v3',
     'phi4', 'mistral', 'kimi-k2', 'glm-5',
   ],
 };
+
+export const CUSTOM_ENDPOINT_DEFAULT = 'http://localhost:11434';
+
+export const OLLAMA_ENDPOINT_DEFAULT = 'https://ollama.com/v1';
 
 export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Act', 'Compose'];
 
@@ -399,6 +417,7 @@ export const TOKEN_THRESHOLDS = {
     'grok-3-mini':    131072,
     'grok-3':         131072,
     'anthropic/claude-sonnet-4-6': 200000,
+    'anthropic/claude-opus-4-7':   200000,
     'anthropic/claude-opus-4-6':   200000,
     'google/gemma-4-26b-a4b-it:free': 262144,
     'meta-llama/llama-3.3-70b-instruct': 131072,
@@ -408,8 +427,28 @@ export const TOKEN_THRESHOLDS = {
     'zai-7b':  131072,
     'zai-70b': 131072,
     'claude-sonnet-4-6': 200000,
+    'claude-opus-4-7':   200000,
     'claude-opus-4-6':   200000,
     'claude-haiku-4-5':  200000,
+    'kimi-k2.6':             131072,
+    'kimi-k2.5':             131072,
+    'kimi-k2-thinking':      131072,
+    'kimi-k2':               131072,
+    'deepseek-v4-flash':     131072,
+    'deepseek-v4-pro':       131072,
+    'deepseek-v3.2':         131072,
+    'deepseek-v3.1':         131072,
+    'gemma4':                 131072,
+    'gemma3':                 131072,
+    'qwen3.5':               131072,
+    'qwen3-coder':           131072,
+    'glm-5.1':               131072,
+    'glm-4.7':               131072,
+    'glm-4.6':               131072,
+    'minimax-m2.7':          131072,
+    'minimax-m2':            131072,
+    'nemotron-3-super':      131072,
+    'gemini-3-flash-preview': 1048576,
   },
 };
 

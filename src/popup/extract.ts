@@ -80,3 +80,58 @@ export async function extractContent(): Promise<void> {
     }
   }
 }
+
+
+export async function scrollAndRescan(): Promise<void> {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  if (!tab?.id || tab.url?.startsWith('chrome://') || tab.url?.startsWith('chrome-extension://')) {
+    setError('Cannot extract from this page type.');
+    return;
+  }
+
+  refs.btnScrollRescan!.disabled = true;
+  refs.btnScrollRescan!.textContent = 'Scrolling…';
+
+  try {
+    const response = await chrome.tabs.sendMessage(tab.id, {
+      type: MSG.SCROLL_AND_RESCAN,
+      mode: 'markdown',
+    }) as unknown as ExtractResponse;
+
+    if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
+
+    state.extracted = response;
+    state.rawMarkdown = response.content;
+    applyTemplateAndUpdate();
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message?.includes('Receiving end does not exist')) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ['content/content.js'],
+        });
+        const retryResponse = await chrome.tabs.sendMessage(tab.id, {
+          type: MSG.SCROLL_AND_RESCAN,
+          mode: 'markdown',
+        }) as unknown as ExtractResponse;
+
+        if (!retryResponse?.success) throw new Error(retryResponse?.error ?? 'Extraction failed.');
+
+        state.extracted = retryResponse;
+        state.rawMarkdown = retryResponse.content;
+        applyTemplateAndUpdate();
+      } catch (retryErr: unknown) {
+        setError(retryErr instanceof Error ? retryErr.message : String(retryErr));
+        disableActions();
+      }
+    } else {
+      setError(message);
+      disableActions();
+    }
+  } finally {
+    refs.btnScrollRescan!.disabled = false;
+    refs.btnScrollRescan!.textContent = 'Scroll & Rescan';
+  }
+}
