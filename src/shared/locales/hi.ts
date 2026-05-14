@@ -33,6 +33,7 @@ const hi: Record<string, string> = {
   popup_history_yes: 'पुनर्स्थापित करें',
   popup_history_dismiss: 'बंद करें',
   popup_content_updated: 'सामग्री अपडेट हुई',
+  popup_auto_rescanned: 'Diff सामग्री स्वतः विस्तारित',
   options_brand_sub: 'सेटिंग्स',
   options_nav_general: 'सामान्य',
   options_nav_ai: 'AI कनेक्शन',

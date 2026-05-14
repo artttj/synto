@@ -33,6 +33,7 @@ const pt: Record<string, string> = {
   popup_history_yes: 'Restaurar',
   popup_history_dismiss: 'Dispensar',
   popup_content_updated: 'Conteúdo atualizado',
+  popup_auto_rescanned: 'Conteúdo diff expandido automaticamente',
   options_brand_sub: 'Configura\u00e7\u00f5es',
   options_nav_general: 'Geral',
   options_nav_ai: 'Conex\u00f5es de IA',

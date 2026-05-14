@@ -19,6 +19,7 @@ export interface ExtractedContent {
   success?: boolean;
   error?: string;
   mode?: string;
+  autoRescanned?: boolean;
 }
 
 const DEFAULT_MODELS: Record<string, string> = {

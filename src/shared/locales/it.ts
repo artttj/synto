@@ -33,6 +33,7 @@ const it: Record<string, string> = {
   popup_history_yes: 'Ripristina',
   popup_history_dismiss: 'Chiudi',
   popup_content_updated: 'Contenuto aggiornato',
+  popup_auto_rescanned: 'Contenuto diff espanso automaticamente',
   options_brand_sub: 'Impostazioni',
   options_nav_general: 'Generale',
   options_nav_ai: 'Connessioni IA',

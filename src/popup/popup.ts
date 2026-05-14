@@ -36,7 +36,7 @@ function isProvider(value: unknown): value is Provider {
 
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
-function showContentToast(message: string): void {
+export function showContentToast(message: string): void {
   if (!refs.contentToast) return;
   refs.contentToast.textContent = message;
   refs.contentToast.classList.add('visible');

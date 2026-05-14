@@ -34,6 +34,7 @@ const fr: Record<string, string> = {
   popup_history_yes:     'Restaurer',
   popup_history_dismiss: 'Ignorer',
   popup_content_updated: 'Contenu mis à jour',
+  popup_auto_rescanned: 'Contenu diff étendu automatiquement',
 
   options_brand_sub:    'Param\u00e8tres',
   options_nav_general:  'G\u00e9n\u00e9ral',

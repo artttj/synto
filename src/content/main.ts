@@ -5,7 +5,7 @@
 
 import { MSG } from '../shared/constants';
 import { DIFF_EXPAND_SELECTORS } from './selectors';
-import { extractContent } from './extract';
+import { extractContent, isDiffPage } from './extract';
 
 
 async function scrollAndRescan(): Promise<{ ok: boolean }> {
@@ -179,6 +179,17 @@ function onScroll(): void {
 chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; text?: string }, _sender, sendResponse) => {
   if (message.type === MSG.EXTRACT_CONTENT) {
     startScrollListener();
+    if (isDiffPage()) {
+      scrollAndRescan().then(() => {
+        try {
+          const result = extractContent(message.mode ?? 'markdown');
+          sendResponse({ ...result, autoRescanned: true });
+        } catch (err: unknown) {
+          sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
+        }
+      });
+      return true;
+    }
     try {
       sendResponse(extractContent(message.mode ?? 'markdown'));
     } catch (err: unknown) {

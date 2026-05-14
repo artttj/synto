@@ -33,6 +33,7 @@ const zh: Record<string, string> = {
   popup_history_yes: '恢复',
   popup_history_dismiss: '关闭',
   popup_content_updated: '内容已更新',
+  popup_auto_rescanned: '已自动展开差异内容',
   options_brand_sub: '设置',
   options_nav_general: '常规',
   options_nav_ai: 'AI 连接',

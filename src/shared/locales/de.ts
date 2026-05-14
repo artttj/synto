@@ -34,6 +34,7 @@ const de: Record<string, string> = {
   popup_history_yes:     'Wiederherstellen',
   popup_history_dismiss: 'Schlie\u00dfen',
   popup_content_updated: 'Inhalt aktualisiert',
+  popup_auto_rescanned: 'Diff-Inhalt automatisch erweitert',
 
   options_brand_sub:    'Einstellungen',
   options_nav_general:  'Allgemein',

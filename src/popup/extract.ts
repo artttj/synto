@@ -5,9 +5,12 @@
 
 import { MSG } from '../shared/constants';
 import { state } from './state';
+import type { ExtractedContent } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
 import { applyTemplateAndUpdate } from './templates';
+import { t } from '../shared/i18n';
+import { showContentToast } from './popup';
 
 
 export function disableActions(): void {
@@ -16,29 +19,38 @@ export function disableActions(): void {
 }
 
 
-interface ExtractResponse {
-  success: boolean;
-  error?: string;
-  content: string;
-  selection?: string;
-  title: string;
-  url: string;
-  siteName?: string;
-  source?: string;
-  mode?: string;
+function errMsg(err: unknown): string {
+  return err instanceof Error ? err.message : String(err);
 }
 
-async function sendExtract(tabId: number): Promise<void> {
-  const response = (await chrome.tabs.sendMessage(tabId, {
-    type: MSG.EXTRACT_CONTENT,
-    mode: 'markdown',
-  })) as unknown as ExtractResponse;
+async function sendTabMessage(tabId: number, message: Record<string, string>): Promise<ExtractedContent> {
+  try {
+    const response = await chrome.tabs.sendMessage(tabId, message) as unknown as ExtractedContent;
+    if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
+    return response;
+  } catch (err: unknown) {
+    if (!errMsg(err).includes('Receiving end does not exist')) throw err;
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ['content/content.js'],
+    });
+    const retry = await chrome.tabs.sendMessage(tabId, message) as unknown as ExtractedContent;
+    if (!retry?.success) throw new Error(retry?.error ?? 'Extraction failed.');
+    return retry;
+  }
+}
 
-  if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
-
+function applyResponse(response: ExtractedContent): void {
   state.extracted = response;
   state.rawMarkdown = response.content;
   applyTemplateAndUpdate();
+}
+
+
+async function sendExtract(tabId: number): Promise<ExtractedContent> {
+  const response = await sendTabMessage(tabId, { type: MSG.EXTRACT_CONTENT, mode: 'markdown' });
+  applyResponse(response);
+  return response;
 }
 
 
@@ -60,24 +72,13 @@ export async function extractContent(): Promise<void> {
   }
 
   try {
-    await sendExtract(tab.id);
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (message?.includes('Receiving end does not exist')) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['content/content.js'],
-        });
-        await sendExtract(tab.id);
-      } catch (retryErr: unknown) {
-        setError(retryErr instanceof Error ? retryErr.message : String(retryErr));
-        disableActions();
-      }
-    } else {
-      setError(message);
-      disableActions();
+    const response = await sendExtract(tab.id);
+    if (response.autoRescanned) {
+      showContentToast(t('popup_auto_rescanned'));
     }
+  } catch (err: unknown) {
+    setError(errMsg(err));
+    disableActions();
   }
 }
 
@@ -91,47 +92,18 @@ export async function scrollAndRescan(): Promise<void> {
   }
 
   refs.btnScrollRescan!.disabled = true;
-  refs.btnScrollRescan!.textContent = 'Scrolling…';
+  refs.scrollLabelFull!.textContent = t('popup_scrolling');
+  refs.scrollLabelShort!.textContent = t('popup_scrolling');
 
   try {
-    const response = await chrome.tabs.sendMessage(tab.id, {
-      type: MSG.SCROLL_AND_RESCAN,
-      mode: 'markdown',
-    }) as unknown as ExtractResponse;
-
-    if (!response?.success) throw new Error(response?.error ?? 'Extraction failed.');
-
-    state.extracted = response;
-    state.rawMarkdown = response.content;
-    applyTemplateAndUpdate();
+    const response = await sendTabMessage(tab.id, { type: MSG.SCROLL_AND_RESCAN, mode: 'markdown' });
+    applyResponse(response);
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (message?.includes('Receiving end does not exist')) {
-      try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['content/content.js'],
-        });
-        const retryResponse = await chrome.tabs.sendMessage(tab.id, {
-          type: MSG.SCROLL_AND_RESCAN,
-          mode: 'markdown',
-        }) as unknown as ExtractResponse;
-
-        if (!retryResponse?.success) throw new Error(retryResponse?.error ?? 'Extraction failed.');
-
-        state.extracted = retryResponse;
-        state.rawMarkdown = retryResponse.content;
-        applyTemplateAndUpdate();
-      } catch (retryErr: unknown) {
-        setError(retryErr instanceof Error ? retryErr.message : String(retryErr));
-        disableActions();
-      }
-    } else {
-      setError(message);
-      disableActions();
-    }
+    setError(errMsg(err));
+    disableActions();
   } finally {
     refs.btnScrollRescan!.disabled = false;
-    refs.btnScrollRescan!.textContent = 'Scroll & Rescan';
+    refs.scrollLabelFull!.textContent = t('popup_scroll_rescan');
+    refs.scrollLabelShort!.textContent = t('popup_scroll_rescan_short');
   }
 }

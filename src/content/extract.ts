@@ -123,8 +123,8 @@ function findMainContent(): HTMLElement | null {
 }
 
 
-function isDiffPage(): boolean {
-  return /github\.com\/.+\/(pull|commit)|bitbucket\.org\/.+\/pull-requests|gitlab\.com\/.+-\/merge_requests/i.test(
+export function isDiffPage(): boolean {
+  return /github\.com\/.+\/(pull|commit|compare)|bitbucket\.org\/.+\/pull-requests|gitlab\.com\/.+-\/merge_requests/i.test(
     location.href
   );
 }

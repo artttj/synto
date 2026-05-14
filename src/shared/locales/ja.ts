@@ -34,6 +34,7 @@ const ja: Record<string, string> = {
   popup_history_yes:     '復元',
   popup_history_dismiss: '閉じる',
   popup_content_updated: 'コンテンツを更新しました',
+  popup_auto_rescanned: '差分コンテンツを自動展開しました',
 
   options_brand_sub:    '設定',
   options_nav_general:  '一般',
