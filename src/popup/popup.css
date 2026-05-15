@@ -725,15 +725,21 @@ header {
   font-size: 11px;
 }
 
-/* ── Chat bubble copy button ──────────────────────────────────────────────── */
-.chat-bubble-copy {
-  align-self: flex-end;
+/* ── Chat bubble action buttons ──────────────────────────────────────────── */
+.chat-bubble-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: 3px;
+}
+.chat-bubble-copy,
+.chat-bubble-insert {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 22px;
   height: 22px;
-  margin-top: 3px;
   background: none;
   border: 1px solid var(--c-border);
   border-radius: var(--r-sm);
@@ -742,13 +748,17 @@ header {
   opacity: 0;
   transition: opacity var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease);
 }
-.chat-bubble-wrap:hover .chat-bubble-copy { opacity: 1; }
-.chat-bubble-copy:hover { color: var(--c-text-2); border-color: var(--c-border-hi); }
+.chat-bubble-wrap:hover .chat-bubble-copy,
+.chat-bubble-wrap:hover .chat-bubble-insert { opacity: 1; }
+.chat-bubble-copy:hover,
+.chat-bubble-insert:hover { color: var(--c-text-2); border-color: var(--c-border-hi); }
 
 .chat-bubble-copy .icon-check { display: none; }
 .chat-bubble-copy.copy-success { color: var(--c-success); border-color: var(--c-success); opacity: 1; }
 .chat-bubble-copy.copy-success .icon-copy  { display: none; }
 .chat-bubble-copy.copy-success .icon-check { display: block; }
+
+.chat-bubble-insert.copy-success { color: var(--c-success); border-color: var(--c-success); opacity: 1; }
 
 /* ── Chat input row ───────────────────────────────────────────────────────── */
 .chat-input-row {
