@@ -35,6 +35,38 @@ test.describe('Popup', () => {
     await expect(seoAuditCard).toHaveText('SEO Audit');
   });
 
+  test('uses remembered template for the current hostname', async ({ context, extensionId, serviceWorker }) => {
+    await serviceWorker.evaluate(async () => {
+      await chrome.storage.local.set({
+        apc_template_usage: {
+          globalTemplateId: 'understand-brief',
+          byHost: { 'example.com': 'understand-review' },
+        },
+      });
+      await chrome.storage.sync.set({
+        apc_settings: { defaultTemplateId: 'understand-brief' },
+      });
+    });
+
+    await context.route('https://example.com/**', async (route) => {
+      await route.fulfill({
+        contentType: 'text/html',
+        body: '<!doctype html><html><head><title>Example</title></head><body><main>Example content for remembered template selection.</main></body></html>',
+      });
+    });
+
+    const page = await context.newPage();
+    await page.goto('https://example.com', { waitUntil: 'domcontentloaded' });
+
+    const popup = await context.newPage();
+    await popup.goto(`chrome-extension://${extensionId}/popup/popup.html`, { waitUntil: 'domcontentloaded' });
+
+    await expect(popup.locator('#template-cards .template-card[aria-selected="true"]')).toHaveAttribute(
+      'data-id',
+      'understand-review'
+    );
+  });
+
   test('shows template cards in Understand category', async ({ popupPage }) => {
     const cards = popupPage.locator('#template-cards .template-card');
     await expect(cards.first()).toBeVisible();

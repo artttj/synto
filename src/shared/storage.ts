@@ -217,20 +217,26 @@ export async function getTemplateUsage(): Promise<TemplateUsage> {
   };
 }
 
+let templateUsageWriteQueue: Promise<void> = Promise.resolve();
 
-export async function rememberTemplateUsage(url: string | undefined, templateId: string): Promise<void> {
-  const usage = await getTemplateUsage();
-  const host = hostFromUrl(url);
-  const next: TemplateUsage = {
-    globalTemplateId: templateId,
-    byHost: { ...usage.byHost },
-  };
+export function rememberTemplateUsage(url: string | undefined, templateId: string): Promise<void> {
+  const write = templateUsageWriteQueue.catch(() => undefined).then(async () => {
+    const usage = await getTemplateUsage();
+    const host = hostFromUrl(url);
+    const next: TemplateUsage = {
+      globalTemplateId: templateId,
+      byHost: { ...usage.byHost },
+    };
 
-  if (host) {
-    next.byHost[host] = templateId;
-  }
+    if (host) {
+      next.byHost[host] = templateId;
+    }
 
-  await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATE_USAGE]: next });
+    await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATE_USAGE]: next });
+  });
+
+  templateUsageWriteQueue = write.catch(() => undefined);
+  return write;
 }
 
 

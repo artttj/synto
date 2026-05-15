@@ -8,9 +8,11 @@ import { state } from './state';
 import type { ExtractedContent } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
-import { applyTemplateAndUpdate } from './templates';
+import { applyTemplateAndUpdate, selectTemplateForUrl, renderTemplateUI } from './templates';
 import { t } from '../shared/i18n';
 import { showContentToast } from './popup';
+
+let extractionRequestId = 0;
 
 
 export function disableActions(): void {
@@ -26,6 +28,14 @@ function errMsg(err: unknown): string {
 function isRestrictedUrl(url?: string): boolean {
   if (!url) return true;
   return url.startsWith('chrome://') || url.startsWith('chrome-extension://') || url.startsWith('about:') || url.startsWith('edge://');
+}
+
+async function getContentTab(): Promise<chrome.tabs.Tab | undefined> {
+  const [active] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (active?.id && !isRestrictedUrl(active.url)) return active;
+
+  const tabs = await chrome.tabs.query({ currentWindow: true });
+  return tabs.find((tab) => tab.id && !isRestrictedUrl(tab.url));
 }
 
 async function sendTabMessage(tabId: number, message: Record<string, string>): Promise<ExtractedContent> {
@@ -45,10 +55,17 @@ async function sendTabMessage(tabId: number, message: Record<string, string>): P
   }
 }
 
-function applyResponse(response: ExtractedContent): void {
+async function applyResponse(response: ExtractedContent, requestId: number): Promise<boolean> {
+  if (requestId !== extractionRequestId) return false;
+
   state.extracted = response;
   state.rawMarkdown = response.content;
+  await selectTemplateForUrl(response.url);
+  if (requestId !== extractionRequestId) return false;
+
+  renderTemplateUI();
   applyTemplateAndUpdate();
+  return true;
 }
 
 
@@ -57,14 +74,15 @@ function shouldExtractHtml(): boolean {
   return state.selectedTemplateId === 'audit-accessibility';
 }
 
-async function sendExtract(tabId: number): Promise<ExtractedContent> {
+async function sendExtract(tabId: number, requestId: number): Promise<ExtractedContent> {
   const mode = shouldExtractHtml() ? 'html' : 'markdown';
   const response = await sendTabMessage(tabId, { type: MSG.EXTRACT_CONTENT, mode });
-  applyResponse(response);
+  await applyResponse(response, requestId);
   return response;
 }
 
 export async function extractContent(): Promise<void> {
+  const requestId = ++extractionRequestId;
   setError(null);
   disableActions();
   refs.previewPanel!.classList.add('hidden');
@@ -73,18 +91,19 @@ export async function extractContent(): Promise<void> {
   refs.chatExportRow!.classList.add('hidden');
   refs.chatHistoryBanner!.classList.add('hidden');
 
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const tab = await getContentTab();
 
   if (!tab?.id || isRestrictedUrl(tab.url)) {
     return;
   }
 
   try {
-    const response = await sendExtract(tab.id);
-    if (response.autoRescanned) {
+    const response = await sendExtract(tab.id, requestId);
+    if (requestId === extractionRequestId && response.autoRescanned) {
       showContentToast(t('popup_auto_rescanned'));
     }
   } catch (err: unknown) {
+    if (requestId !== extractionRequestId) return;
     setError(errMsg(err));
     disableActions();
   }
@@ -92,7 +111,8 @@ export async function extractContent(): Promise<void> {
 
 
 export async function scrollAndRescan(): Promise<void> {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const requestId = ++extractionRequestId;
+  const tab = await getContentTab();
 
   if (!tab?.id || isRestrictedUrl(tab.url)) {
     return;
@@ -105,13 +125,16 @@ export async function scrollAndRescan(): Promise<void> {
   try {
     const mode = shouldExtractHtml() ? 'html' : 'markdown';
     const response = await sendTabMessage(tab.id, { type: MSG.SCROLL_AND_RESCAN, mode });
-    applyResponse(response);
+    await applyResponse(response, requestId);
   } catch (err: unknown) {
+    if (requestId !== extractionRequestId) return;
     setError(errMsg(err));
     disableActions();
   } finally {
-    refs.btnScrollRescan!.disabled = false;
-    refs.scrollLabelFull!.textContent = t('popup_scroll_rescan');
-    refs.scrollLabelShort!.textContent = t('popup_scroll_rescan_short');
+    if (requestId === extractionRequestId) {
+      refs.btnScrollRescan!.disabled = false;
+      refs.scrollLabelFull!.textContent = t('popup_scroll_rescan');
+      refs.scrollLabelShort!.textContent = t('popup_scroll_rescan_short');
+    }
   }
 }

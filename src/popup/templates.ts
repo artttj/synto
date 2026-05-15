@@ -4,7 +4,7 @@
  */
 
 import { TEMPLATE_CATEGORIES } from '../shared/constants';
-import { type Template, saveSettings } from '../shared/storage';
+import { type Template, saveSettings, rememberTemplateUsage, getRememberedTemplateId } from '../shared/storage';
 import { t, tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
@@ -94,6 +94,20 @@ export function renderTemplateUI(): void {
   renderTemplateCards();
 }
 
+export async function selectTemplateForUrl(url?: string): Promise<void> {
+  const selectedTemplateId = state.selectedTemplateId;
+  const templateId = await getRememberedTemplateId(url, state.templates, selectedTemplateId ?? undefined);
+  if (state.selectedTemplateId !== selectedTemplateId) return;
+  if (!templateId || templateId === state.selectedTemplateId) return;
+
+  state.selectedTemplateId = templateId;
+  const tpl = state.templates.find((item) => item.id === templateId);
+  if (tpl?.category) {
+    activeIntent = tpl.category;
+    intentSelection[activeIntent] = templateId;
+  }
+}
+
 function renderIntentTabs(): void {
   const container = refs.intentTabs!;
   container.innerHTML = '';
@@ -166,6 +180,7 @@ function switchIntent(intent: string): void {
   if (targetId && targetId !== state.selectedTemplateId) {
     state.selectedTemplateId = targetId;
     void saveSettings({ defaultTemplateId: targetId });
+    void rememberTemplateUsage(state.extracted?.url, targetId);
     applyTemplateAndUpdate();
   }
 
@@ -179,6 +194,7 @@ function selectCard(templateId: string): void {
   state.selectedTemplateId = templateId;
   intentSelection[activeIntent] = templateId;
   localStorage.setItem('synto_intent_sel_' + activeIntent, templateId);
+  void rememberTemplateUsage(state.extracted?.url, templateId);
   updateCardSelection();
 
   if (switchDebounce !== null) clearTimeout(switchDebounce);
