@@ -19,6 +19,7 @@ import {
 } from '../shared/storage';
 import { STORAGE_KEYS, PROVIDER_MODELS, MSG } from '../shared/constants';
 import { setLocale, applyI18n, t } from '../shared/i18n';
+import { applyAndWatchTheme } from '../shared/theme';
 import { state, getAskLabel } from './state';
 import { resolveRefs, refs } from './dom';
 import { setError } from './errors';
@@ -56,7 +57,8 @@ async function init(): Promise<void> {
   setLocale(settings.language ?? 'en');
   applyI18n();
 
-  document.documentElement.dataset.theme = settings.theme ?? 'dark';
+  const unwatchTheme = { current: null as (() => void) | null };
+  applyAndWatchTheme(settings.theme ?? 'dark', unwatchTheme);
   state.templates = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id ?? null;
   state.llmProvider = settings.llmProvider ?? 'openai';
@@ -166,7 +168,7 @@ async function init(): Promise<void> {
         state.customUseAuth = settingsChange.customUseAuth ?? state.customUseAuth;
         refs.btnProcess!.textContent = getAskLabel();
         if (settingsChange.theme) {
-          document.documentElement.dataset.theme = settingsChange.theme;
+          applyAndWatchTheme(settingsChange.theme, unwatchTheme);
         }
       }
     }
