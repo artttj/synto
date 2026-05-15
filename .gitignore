@@ -16,3 +16,8 @@ dist/
 # Test artifacts
 test-results/
 playwright-report/
+
+# Local dev only
+.claude/
+.superpowers/
+docs/superpowers/
