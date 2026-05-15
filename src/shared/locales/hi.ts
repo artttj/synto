@@ -30,7 +30,6 @@ const hi: Record<string, string> = {
   popup_ask_ai: 'AI से पूछें',
   popup_asking: 'पूछा जा रहा है…',
   popup_export_chat: '.md एक्सपोर्ट करें',
-  popup_pin: 'टेम्पलेट पिन करें',
   popup_history_restore: 'इस पेज पर पिछली बातचीत',
   popup_history_yes: 'पुनर्स्थापित करें',
   popup_history_dismiss: 'बंद करें',
@@ -161,7 +160,6 @@ const hi: Record<string, string> = {
   category_decide: 'निर्णय लें',
   category_compose: 'लिखें',
   category_custom: 'कस्टम',
-  category_pinned: 'पिन किए गए',
 
   'template_label_understand-brief':   'ब्रीफ',
   'template_label_understand-review': 'कोड रिव्यू',

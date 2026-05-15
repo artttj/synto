@@ -31,7 +31,6 @@ const ja: Record<string, string> = {
   popup_ask_ai:          'AIに聞く',
   popup_asking:          '送信中\u2026',
   popup_export_chat:     '.mdをエクスポート',
-  popup_pin:             'テンプレートをピン留め',
   popup_history_restore: 'このページの前回の会話',
   popup_history_yes:     '復元',
   popup_history_dismiss: '閉じる',
@@ -171,7 +170,6 @@ const ja: Record<string, string> = {
   category_decide:     '決断',
   category_compose:    '作成',
   category_custom:     'カスタム',
-  category_pinned:     'ピン留め',
 
   'template_label_understand-brief':   'ブリーフ',
   'template_label_understand-review': 'コードレビュー',

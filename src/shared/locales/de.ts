@@ -31,7 +31,6 @@ const de: Record<string, string> = {
   popup_ask_ai:          'KI fragen',
   popup_asking:          'Anfrage l\u00e4uft\u2026',
   popup_export_chat:     'Als .md exportieren',
-  popup_pin:             'Template anpinnen',
   popup_history_restore: 'Vorherige Unterhaltung auf dieser Seite',
   popup_history_yes:     'Wiederherstellen',
   popup_history_dismiss: 'Schlie\u00dfen',
@@ -171,7 +170,6 @@ const de: Record<string, string> = {
   category_decide:     'Entscheiden',
   category_compose:    'Verfassen',
   category_custom:     'Benutzerdefiniert',
-  category_pinned:     'Angeheftet',
 
   'template_label_understand-brief':   'Brief',
   'template_label_understand-review': 'Code Review',

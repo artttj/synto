@@ -840,28 +840,6 @@ header {
   flex-shrink: 0;
 }
 
-/* ── Template card pin button ─────────────────────────────────────────────── */
 .template-card {
   position: relative;
 }
-.card-pin-btn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 16px;
-  height: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 150ms var(--ease);
-  color: var(--c-text-3);
-  border-radius: 3px;
-}
-.template-card:hover .card-pin-btn { opacity: 1; }
-.card-pin-btn.pinned { opacity: 1; color: var(--c-warn); }
-.card-pin-btn svg { width: 10px; height: 10px; }

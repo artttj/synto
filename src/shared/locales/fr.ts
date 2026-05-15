@@ -31,7 +31,6 @@ const fr: Record<string, string> = {
   popup_ask_ai:          'Demander \u00e0 l\u2019IA',
   popup_asking:          'Demande en cours\u2026',
   popup_export_chat:     'Exporter en .md',
-  popup_pin:             '\u00c9pingler le mod\u00e8le',
   popup_history_restore: 'Conversation pr\u00e9c\u00e9dente sur cette page',
   popup_history_yes:     'Restaurer',
   popup_history_dismiss: 'Ignorer',
@@ -171,7 +170,6 @@ const fr: Record<string, string> = {
   category_decide:     'D\u00e9cider',
   category_compose:    'R\u00e9diger',
   category_custom:     'Personnalis\u00e9',
-  category_pinned:     '\u00c9pingl\u00e9',
 
   'template_label_understand-brief':   'Brief',
   'template_label_understand-review': 'Code Review',

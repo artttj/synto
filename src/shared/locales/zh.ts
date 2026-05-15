@@ -30,7 +30,6 @@ const zh: Record<string, string> = {
   popup_ask_ai: '询问 AI',
   popup_asking: '请求中…',
   popup_export_chat: '导出 .md',
-  popup_pin: '固定模板',
   popup_history_restore: '此页面有历史对话',
   popup_history_yes: '恢复',
   popup_history_dismiss: '关闭',
@@ -161,7 +160,6 @@ const zh: Record<string, string> = {
   category_decide: '决策',
   category_compose: '撰写',
   category_custom: '自定义',
-  category_pinned: '已固定',
 
   'template_label_understand-brief':   '摘要',
   'template_label_understand-review': '代码评审',

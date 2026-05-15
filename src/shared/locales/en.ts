@@ -31,7 +31,6 @@ const en: Record<string, string> = {
   popup_ask_ai:          'Ask AI',
   popup_asking:          'Asking\u2026',
   popup_export_chat:     'Export .md',
-  popup_pin:             'Pin template',
   popup_history_restore: 'Previous conversation on this page',
   popup_history_yes:     'Restore',
   popup_history_dismiss: 'Dismiss',
@@ -172,7 +171,6 @@ const en: Record<string, string> = {
   category_decide:     'Decide',
   category_compose:    'Compose',
   category_custom:     'Custom',
-  category_pinned:     'Pinned',
 
   'template_label_understand-brief':   'Brief',
   'template_label_understand-review': 'Review',

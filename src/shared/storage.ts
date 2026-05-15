@@ -30,7 +30,6 @@ export interface Settings {
   customEndpoint: string;
   customModel: string;
   customUseAuth: boolean;
-  pinnedTemplateIds: string[];
 }
 
 export interface ChatMessage {
@@ -168,7 +167,6 @@ export async function getSettings(): Promise<Settings> {
     customEndpoint: 'http://localhost:11434',
     customModel: '',
     customUseAuth: false,
-    pinnedTemplateIds: [],
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };
 }

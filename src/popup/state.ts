@@ -68,7 +68,6 @@ export const state: {
   ollamaModel: string;
   ollamaEndpoint: string;
   ollamaUseAuth: boolean;
-  pinnedIds: string[];
 } = {
   templates: [],
   selectedTemplateId: null,
@@ -93,7 +92,6 @@ export const state: {
   ollamaModel:      'kimi-k2.6',
   ollamaEndpoint:   OLLAMA_ENDPOINT_DEFAULT,
   ollamaUseAuth:    true,
-  pinnedIds: [],
 };
 
 

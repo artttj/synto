@@ -30,7 +30,6 @@ const it: Record<string, string> = {
   popup_ask_ai: "Chiedi all'IA",
   popup_asking: 'Elaborazione…',
   popup_export_chat: 'Esporta .md',
-  popup_pin: 'Fissa template',
   popup_history_restore: 'Conversazione precedente in questa pagina',
   popup_history_yes: 'Ripristina',
   popup_history_dismiss: 'Chiudi',
@@ -161,7 +160,6 @@ const it: Record<string, string> = {
   category_decide: 'Decidere',
   category_compose: 'Comporre',
   category_custom: 'Personalizzato',
-  category_pinned: 'Fissati',
 
   'template_label_understand-brief':   'Brief',
   'template_label_understand-review': 'Code Review',

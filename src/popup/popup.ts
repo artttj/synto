@@ -73,7 +73,6 @@ async function init(): Promise<void> {
   state.ollamaModel     = settings.ollamaModel;
   state.ollamaEndpoint  = settings.ollamaEndpoint;
   state.ollamaUseAuth   = settings.ollamaUseAuth;
-  state.pinnedIds       = settings.pinnedTemplateIds;
   refs.btnProcess!.textContent = getAskLabel();
 
   renderTemplateUI();

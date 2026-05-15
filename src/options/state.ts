@@ -31,7 +31,6 @@ export const state: {
     ollamaModel: 'kimi-k2.6',
     ollamaEndpoint: OLLAMA_ENDPOINT_DEFAULT,
     ollamaUseAuth: true,
-    pinnedTemplateIds: [],
   },
   editingId: null,
   searchQuery: '',
