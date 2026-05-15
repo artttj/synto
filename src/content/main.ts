@@ -65,6 +65,65 @@ function isEditableElement(el: Element): boolean {
   return false;
 }
 
+interface InsertSnapshot {
+  el: HTMLElement;
+  type: 'input' | 'textarea' | 'contenteditable';
+  prevValue: string;
+  prevSelectionStart: number | null;
+  prevSelectionEnd: number | null;
+  prevHTML: string;
+}
+
+let undoSnapshot: InsertSnapshot | null = null;
+
+function clearUndoSnapshot(): void {
+  undoSnapshot = null;
+}
+
+function captureSnapshot(el: HTMLElement): InsertSnapshot {
+  const tag = el.tagName;
+  const type = tag === 'INPUT' ? 'input' : tag === 'TEXTAREA' ? 'textarea' : 'contenteditable';
+  const snapshot: InsertSnapshot = {
+    el,
+    type,
+    prevValue: '',
+    prevSelectionStart: null,
+    prevSelectionEnd: null,
+    prevHTML: '',
+  };
+
+  if (type === 'input' || type === 'textarea') {
+    const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
+    snapshot.prevValue = inputEl.value;
+    snapshot.prevSelectionStart = inputEl.selectionStart;
+    snapshot.prevSelectionEnd = inputEl.selectionEnd;
+  } else {
+    snapshot.prevHTML = el.innerHTML;
+    snapshot.prevValue = el.innerText;
+  }
+
+  return snapshot;
+}
+
+function undoInsert(): void {
+  if (!undoSnapshot) return;
+  const { el, type, prevValue, prevSelectionStart, prevSelectionEnd, prevHTML } = undoSnapshot;
+  clearUndoSnapshot();
+
+  if (type === 'input' || type === 'textarea') {
+    const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
+    inputEl.value = prevValue;
+    inputEl.selectionStart = prevSelectionStart;
+    inputEl.selectionEnd = prevSelectionEnd;
+  } else {
+    el.innerHTML = prevHTML;
+  }
+
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+  el.focus();
+}
+
 let lastFocusedInput: HTMLElement | null = null;
 document.addEventListener('focusin', (e) => {
   const target = e.target as HTMLElement;
@@ -112,6 +171,9 @@ function insertTextToInput(text: string): { error?: string } {
   const el = findBestInput();
   if (!el) return { error: 'No input field found on this page.' };
 
+  clearUndoSnapshot();
+  undoSnapshot = captureSnapshot(el);
+
   if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
     const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
     const start = inputEl.selectionStart ?? inputEl.value.length;
@@ -138,20 +200,41 @@ function insertTextToInput(text: string): { error?: string } {
   return {};
 }
 
-function showToast(message: string): void {
+function showToast(message: string, action?: { label: string; onClick: () => void }): void {
   const existing = document.getElementById('synto-insert-toast');
   if (existing) existing.remove();
 
   const toast = document.createElement('div');
   toast.id = 'synto-insert-toast';
-  toast.textContent = message;
-  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1C1C1E;color:#fff;padding:8px 18px;border-radius:8px;font:13px/1.5 system-ui,sans-serif;z-index:2147483647;opacity:0;transition:opacity .2s;';
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1C1C1E;color:#fff;padding:8px 18px;border-radius:8px;font:13px/1.5 system-ui,sans-serif;z-index:2147483647;opacity:0;transition:opacity .2s;display:flex;align-items:center;gap:12px;';
+
+  const label = document.createElement('span');
+  label.textContent = message;
+  toast.appendChild(label);
+
+  if (action) {
+    const btn = document.createElement('button');
+    btn.textContent = action.label;
+    btn.style.cssText = 'background:rgba(255,255,255,0.15);color:#fff;border:none;padding:3px 10px;border-radius:5px;cursor:pointer;font:13px/1.5 system-ui,sans-serif;';
+    btn.addEventListener('click', () => {
+      action.onClick();
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 200);
+    });
+    toast.appendChild(btn);
+  }
+
   document.body.appendChild(toast);
   requestAnimationFrame(() => { toast.style.opacity = '1'; });
+
+  const dismissMs = action ? 5000 : 1800;
   setTimeout(() => {
     toast.style.opacity = '0';
-    setTimeout(() => toast.remove(), 200);
-  }, 1800);
+    setTimeout(() => {
+      toast.remove();
+      if (action) clearUndoSnapshot();
+    }, 200);
+  }, dismissMs);
 }
 
 
@@ -209,7 +292,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
     if (result.error) {
       sendResponse({ error: result.error });
     } else {
-      showToast('Inserted into input field.');
+      showToast('Inserted', { label: 'Undo', onClick: undoInsert });
       sendResponse({ ok: true });
     }
     return true;
