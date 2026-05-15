@@ -1,95 +1,22 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('../shared/tokens.css');
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   TOKEN SYSTEM — Dark (default)
-═══════════════════════════════════════════════════════════════════════════ */
+/* Options-specific overrides */
 :root {
-  --c-bg:        #161616;
-  --c-sidebar:   #111111;
-  --c-surface:   #1E1E1E;
-  --c-elevated:  #282828;
-  --c-inset:     #1A1A1A;
-
-  --c-border:    rgba(255,255,255,0.06);
-  --c-border-hi: rgba(255,255,255,0.12);
-
-  --c-accent:     #E8E8E8;
-  --c-accent-hi:  #FFFFFF;
-  --c-accent-lo:  #C0C0C0;
-  --c-accent-dim: rgba(255,255,255,0.04);
-
-  --c-btn-bg:   #E8E8E8;
-  --c-btn-text: #111111;
-
-  --c-text:   #E8E8E8;
-  --c-text-2: #A0A0A0;
-  --c-text-3: #585858;
-
-  --c-success:   #3DB87A;
-  --c-success-bg: rgba(61,184,122,0.10);
-  --c-success-bd: rgba(61,184,122,0.25);
-  --c-warn:      #D4954A;
-  --c-warn-bg:   rgba(212,149,74,0.08);
-  --c-warn-bd:   rgba(212,149,74,0.20);
-  --c-error:     #E05E5E;
-  --c-error-bg:  rgba(224,94,94,0.08);
-  --c-error-bd:  rgba(224,94,94,0.30);
-
-  --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --t:    160ms;
-
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 12px;
-  --r-xl: 16px;
-
-  --shadow-sm: 0 1px 3px  rgba(0,0,0,0.30);
-  --shadow-md: 0 2px 12px rgba(0,0,0,0.35);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.45);
-
+  --c-sidebar: #090909;
+  --c-inset: rgba(255,255,255,0.035);
   --sidebar-w: 200px;
-  --font: system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", monospace;
+  --c-success-bg: rgba(93,214,156,0.10);
+  --c-success-bd: rgba(93,214,156,0.25);
+  --c-warn-bg: rgba(232,185,49,0.10);
+  --c-warn-bd: rgba(232,185,49,0.25);
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   TOKEN SYSTEM — Light
-═══════════════════════════════════════════════════════════════════════════ */
 html[data-theme="light"] {
-  --c-bg:        #F5F5F7;
-  --c-sidebar:   #EAEAED;
-  --c-surface:   #FFFFFF;
-  --c-elevated:  #F0F0F2;
-  --c-inset:     #EBEBED;
-
-  --c-border:    rgba(0,0,0,0.07);
-  --c-border-hi: rgba(0,0,0,0.14);
-
-  --c-accent:     #111111;
-  --c-accent-hi:  #000000;
-  --c-accent-lo:  #333333;
-  --c-accent-dim: rgba(17,17,17,0.04);
-
-  --c-btn-bg:   #111111;
-  --c-btn-text: #FFFFFF;
-
-  --c-text:   #0D0D0D;
-  --c-text-2: #505060;
-  --c-text-3: #999999;
-
-  --c-success:   #2E8B57;
-  --c-success-bg: rgba(46,139,87,0.08);
-  --c-success-bd: rgba(46,139,87,0.20);
-  --c-warn:      #A0682A;
-  --c-warn-bg:   rgba(160,104,42,0.06);
-  --c-warn-bd:   rgba(160,104,42,0.18);
-  --c-error:     #C43434;
-  --c-error-bg:  rgba(196,52,52,0.06);
-  --c-error-bd:  rgba(196,52,52,0.22);
-
-  --shadow-sm: 0 1px 3px  rgba(0,0,0,0.06);
-  --shadow-md: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+  --c-sidebar: #eaeaed;
+  --c-inset: rgba(0,0,0,0.035);
+  --c-success-bg: rgba(26,158,96,0.08);
+  --c-success-bd: rgba(26,158,96,0.22);
+  --c-warn-bg: rgba(212,167,44,0.06);
+  --c-warn-bd: rgba(212,167,44,0.20);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
