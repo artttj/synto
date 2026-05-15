@@ -13,6 +13,7 @@ import {
   getCustomKey,
   getOllamaKey,
   saveHistory,
+  saveProviderHealth,
   normalizeUrl,
 } from '../shared/storage';
 import { ANTHROPIC_MAX_TOKENS } from '../shared/constants';
@@ -362,15 +363,24 @@ async function processWithOllama(bubble: HTMLDivElement, signal?: AbortSignal): 
 
 
 async function dispatchToProvider(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
-  switch (state.llmProvider) {
-    case 'gemini':     await processWithGemini(bubble, signal); break;
-    case 'grok':       await processWithGrok(bubble, signal); break;
-    case 'openrouter': await processWithOpenRouter(bubble, signal); break;
-    case 'zai':        await processWithZai(bubble, signal); break;
-    case 'anthropic':  await processWithAnthropic(bubble, signal); break;
-    case 'ollama':     await processWithOllama(bubble, signal); break;
-    case 'custom':     await processWithCustom(bubble, signal); break;
-    default:           await processWithOpenAI(bubble, signal); break;
+  try {
+    switch (state.llmProvider) {
+      case 'gemini':     await processWithGemini(bubble, signal); break;
+      case 'grok':       await processWithGrok(bubble, signal); break;
+      case 'openrouter': await processWithOpenRouter(bubble, signal); break;
+      case 'zai':        await processWithZai(bubble, signal); break;
+      case 'anthropic':  await processWithAnthropic(bubble, signal); break;
+      case 'ollama':     await processWithOllama(bubble, signal); break;
+      case 'custom':     await processWithCustom(bubble, signal); break;
+      default:           await processWithOpenAI(bubble, signal); break;
+    }
+    await saveProviderHealth(state.llmProvider, { status: 'ok', ts: Date.now() });
+  } catch (err: unknown) {
+    if (err instanceof Error && err.name !== 'AbortError') {
+      const status = err.message.includes('Rate limited') || err.message.includes('429') ? 'rate_limited' : 'error';
+      await saveProviderHealth(state.llmProvider, { status, ts: Date.now(), message: err.message });
+    }
+    throw err;
   }
 }
 
@@ -418,6 +428,7 @@ export async function processWithAI(): Promise<void> {
     if (state.customUseAuth) {
       const customKey = await getCustomKey();
       if (!customKey) {
+        await saveProviderHealth('custom', { status: 'no_key', ts: Date.now() });
         refs.chatNoKey!.classList.remove('hidden');
         return;
       }
@@ -426,6 +437,7 @@ export async function processWithAI(): Promise<void> {
     if (state.ollamaUseAuth) {
       const ollamaKey = await getOllamaKey();
       if (!ollamaKey) {
+        await saveProviderHealth('ollama', { status: 'no_key', ts: Date.now() });
         refs.chatNoKey!.classList.remove('hidden');
         return;
       }
@@ -441,6 +453,7 @@ export async function processWithAI(): Promise<void> {
     };
     const key = await keyGetters[state.llmProvider]?.();
     if (!key) {
+      await saveProviderHealth(state.llmProvider, { status: 'no_key', ts: Date.now() });
       refs.chatNoKey!.classList.remove('hidden');
       return;
     }

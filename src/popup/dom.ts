@@ -41,6 +41,7 @@ export const refs = {
   btnHistoryDismiss: null as HTMLButtonElement | null,
   contentToast: null as HTMLElement | null,
   btnChatStop: null as HTMLElement | null,
+  providerHealth: null as HTMLElement | null,
 };
 
 
@@ -78,4 +79,5 @@ export function resolveRefs() {
   refs.btnHistoryDismiss = $('btn-history-dismiss') as HTMLButtonElement | null;
   refs.contentToast = $('content-toast');
   refs.btnChatStop = $('btn-chat-stop') as HTMLButtonElement | null;
+  refs.providerHealth = $('provider-health');
 }

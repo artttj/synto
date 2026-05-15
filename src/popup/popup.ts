@@ -15,6 +15,8 @@ import {
   getCustomKey,
   getOllamaKey,
   getHistory,
+  getProviderHealth,
+  providerHealthLabel,
   normalizeUrl,
   type Settings,
 } from '../shared/storage';
@@ -31,6 +33,19 @@ import { wireKeyboard } from './keyboard';
 import { extractContent, scrollAndRescan } from './extract';
 
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+async function renderProviderHealth(): Promise<void> {
+  if (!refs.providerHealth) return;
+  const health = await getProviderHealth();
+  const entry = health[state.llmProvider];
+  if (!entry) {
+    refs.providerHealth.classList.add('hidden');
+    return;
+  }
+  refs.providerHealth.classList.remove('hidden');
+  refs.providerHealth.className = `provider-health ${entry.status}`;
+  refs.providerHealth.title = `${providerHealthLabel(entry)} — ${new Date(entry.ts).toLocaleString()}`;
+}
 
 export function showContentToast(message: string): void {
   if (!refs.contentToast) return;
@@ -71,6 +86,7 @@ async function init(): Promise<void> {
   state.ollamaEndpoint  = settings.ollamaEndpoint;
   state.ollamaUseAuth   = settings.ollamaUseAuth;
   refs.btnProcess!.textContent = getAskLabel();
+  void renderProviderHealth();
 
   renderTemplateUI();
   wireTemplateUI();
@@ -139,11 +155,16 @@ async function init(): Promise<void> {
   });
 
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local' && changes[STORAGE_KEYS.TEMPLATES]) {
-      void getTemplates().then((templates) => {
-        state.templates = templates;
-        renderTemplateUI();
-      });
+    if (area === 'local') {
+      if (changes[STORAGE_KEYS.TEMPLATES]) {
+        void getTemplates().then((templates) => {
+          state.templates = templates;
+          renderTemplateUI();
+        });
+      }
+      if (changes[STORAGE_KEYS.PROVIDER_HEALTH]) {
+        void renderProviderHealth();
+      }
     }
     if (area === 'sync' && !state.chatStreaming) {
       const settingsChange = changes[STORAGE_KEYS.SETTINGS]?.newValue as Partial<Settings> | undefined;
