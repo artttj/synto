@@ -23,6 +23,11 @@ function errMsg(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+function isRestrictedUrl(url?: string): boolean {
+  if (!url) return true;
+  return url.startsWith('chrome://') || url.startsWith('chrome-extension://') || url.startsWith('about:') || url.startsWith('edge://');
+}
+
 async function sendTabMessage(tabId: number, message: Record<string, string>): Promise<ExtractedContent> {
   try {
     const response = await chrome.tabs.sendMessage(tabId, message) as unknown as ExtractedContent;
@@ -65,9 +70,7 @@ export async function extractContent(): Promise<void> {
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (!tab?.id || tab.url?.startsWith('chrome://') || tab.url?.startsWith('chrome-extension://')) {
-    setError('Cannot extract from this page type. Navigate to a regular web page.');
-    disableActions();
+  if (!tab?.id || isRestrictedUrl(tab.url)) {
     return;
   }
 
@@ -86,8 +89,7 @@ export async function extractContent(): Promise<void> {
 export async function scrollAndRescan(): Promise<void> {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (!tab?.id || tab.url?.startsWith('chrome://') || tab.url?.startsWith('chrome-extension://')) {
-    setError('Cannot extract from this page type.');
+  if (!tab?.id || isRestrictedUrl(tab.url)) {
     return;
   }
 
