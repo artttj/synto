@@ -15,6 +15,7 @@ import {
   saveHistory,
   normalizeUrl,
 } from '../shared/storage';
+import { ANTHROPIC_MAX_TOKENS } from '../shared/constants';
 import { t } from '../shared/i18n';
 import { state, getAskLabel, getActiveModel, type ChatMessage } from './state';
 import { refs } from './dom';
@@ -24,6 +25,11 @@ import { renderMarkdown } from './markdown';
 
 interface SSEChunk {
   choices?: { delta?: { content?: string } }[];
+}
+
+interface AnthropicSSEEvent {
+  type: string;
+  delta?: { type: string; text: string };
 }
 
 interface APIErrorBody {
@@ -90,7 +96,7 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (!tab?.id) throw new Error('No active tab');
-      const resp = await chrome.tabs.sendMessage(tab.id, { type: 'INSERT_TEXT', text });
+      const resp: { error?: string } | undefined = await chrome.tabs.sendMessage(tab.id, { type: 'INSERT_TEXT', text });
       if (resp?.error) throw new Error(resp.error);
       insertBtn.classList.add('copy-success');
       setTimeout(() => insertBtn.classList.remove('copy-success'), 2000);
@@ -190,9 +196,9 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
     },
     body: JSON.stringify({
       model,
-      system: systemMessage?.content || 'You are a helpful assistant.',
+      system: systemMessage?.content ?? 'You are a helpful assistant.',
       messages,
-      max_tokens: 4096,
+      max_tokens: ANTHROPIC_MAX_TOKENS,
       stream: true,
     }),
     signal,
@@ -225,7 +231,7 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
       const data = line.slice(6).trim();
       if (data === '[DONE]') continue;
       try {
-        const event = JSON.parse(data);
+        const event = JSON.parse(data) as AnthropicSSEEvent;
         if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
           reply += event.delta.text;
           bubble.textContent = reply;
@@ -241,7 +247,7 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
     const data = buffer.slice(6).trim();
     if (data && data !== '[DONE]') {
       try {
-        const event = JSON.parse(data);
+        const event = JSON.parse(data) as AnthropicSSEEvent;
         if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
           reply += event.delta.text;
         }
@@ -252,7 +258,6 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
   }
 
   bubble.classList.remove('streaming');
-  // renderMarkdown sanitizes output before setting innerHTML
   bubble.innerHTML = renderMarkdown(reply);
   state.chatHistory.push({ role: 'assistant', content: reply });
   addBubbleCopyButton(bubble, reply);

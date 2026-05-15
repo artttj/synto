@@ -14,7 +14,7 @@ import { renderMarkdown } from './markdown';
 export async function richCopy(text: string, html?: string): Promise<void> {
   const plainText = text;
   const htmlContent = html ?? renderMarkdown(text);
-  const styledHtml = `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;color:#222">${htmlContent}</div>`;
+  const styledHtml = `<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;color:canvastext;background:canvas">${htmlContent}</div>`;
   const htmlBlob = new Blob([styledHtml], { type: 'text/html' });
   const textBlob = new Blob([plainText], { type: 'text/plain' });
 

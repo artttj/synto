@@ -31,7 +31,6 @@ import {
   renderSettingsForm,
   wireAutoSave,
   updateProviderCardVisibility,
-  syncProviderSegmented,
 } from './settings';
 import { loadApiKeyStatuses, wireKeySection } from './keys';
 import {

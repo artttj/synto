@@ -3,7 +3,9 @@
  * https://github.com/artttj/synto
  */
 
-export const $ = (id: string): HTMLElement | null => document.getElementById(id);
+import { $ } from '../shared/dom';
+
+export { $ };
 
 export const refs = {
   btnOptions: null as HTMLElement | null,
@@ -38,6 +40,7 @@ export const refs = {
   btnHistoryRestore: null as HTMLButtonElement | null,
   btnHistoryDismiss: null as HTMLButtonElement | null,
   contentToast: null as HTMLElement | null,
+  btnChatStop: null as HTMLElement | null,
 };
 
 

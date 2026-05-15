@@ -16,8 +16,9 @@ import {
   getOllamaKey,
   getHistory,
   normalizeUrl,
+  type Settings,
 } from '../shared/storage';
-import { STORAGE_KEYS, PROVIDER_MODELS, MSG } from '../shared/constants';
+import { STORAGE_KEYS, MSG } from '../shared/constants';
 import { setLocale, applyI18n, t } from '../shared/i18n';
 import { applyAndWatchTheme } from '../shared/theme';
 import { state, getAskLabel } from './state';
@@ -28,12 +29,6 @@ import { wirePreview } from './preview';
 import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
 import { extractContent, scrollAndRescan } from './extract';
-
-type Provider = 'openai' | 'gemini' | 'grok' | 'openrouter' | 'zai' | 'anthropic' | 'ollama' | 'custom';
-
-function isProvider(value: unknown): value is Provider {
-  return typeof value === 'string' && value in PROVIDER_MODELS;
-}
 
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -151,7 +146,7 @@ async function init(): Promise<void> {
       });
     }
     if (area === 'sync' && !state.chatStreaming) {
-      const settingsChange = changes[STORAGE_KEYS.SETTINGS]?.newValue;
+      const settingsChange = changes[STORAGE_KEYS.SETTINGS]?.newValue as Partial<Settings> | undefined;
       if (settingsChange) {
         state.llmProvider = settingsChange.llmProvider ?? state.llmProvider;
         state.openaiModel = settingsChange.openaiModel ?? state.openaiModel;

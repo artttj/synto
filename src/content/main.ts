@@ -42,7 +42,13 @@ async function scrollAndRescan(): Promise<{ ok: boolean }> {
   await new Promise((r) => setTimeout(r, 500));
 
   try {
-    document.execCommand('selectAll');
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      const range = document.createRange();
+      range.selectNodeContents(document.body);
+      sel.addRange(range);
+    }
     await new Promise((r) => setTimeout(r, 300));
   } catch { /* ignore */ }
 
@@ -123,10 +129,10 @@ function insertTextToInput(text: string): { error?: string } {
       range.insertNode(document.createTextNode(text));
       range.collapse(false);
     } else {
-      (el as HTMLElement).innerText += text;
+      el.innerText += text;
     }
     el.dispatchEvent(new Event('input', { bubbles: true }));
-    (el as HTMLElement).focus();
+    el.focus();
   }
 
   return {};
@@ -167,7 +173,7 @@ function onScroll(): void {
   scrollDebounceTimer = setTimeout(() => {
     const result = extractContent('markdown');
     if (result.success) {
-      const hash = result.content.length + ':' + result.content.slice(0, 64) + result.content.slice(-64);
+      const hash = `${result.content.length}:${result.content.slice(0, 64)}${result.content.slice(-64)}`;
       if (hash === lastContentHash) return;
       lastContentHash = hash;
       chrome.runtime.sendMessage({ type: MSG.CONTENT_UPDATE, ...result }).catch(() => { lastContentHash = ''; });
@@ -180,7 +186,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
   if (message.type === MSG.EXTRACT_CONTENT) {
     startScrollListener();
     if (isDiffPage()) {
-      scrollAndRescan().then(() => {
+      void scrollAndRescan().then(() => {
         try {
           const result = extractContent(message.mode ?? 'markdown');
           sendResponse({ ...result, autoRescanned: true });
@@ -210,7 +216,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
   }
 
   if (message.type === MSG.SCROLL_AND_RESCAN) {
-    scrollAndRescan().then(() => {
+    void scrollAndRescan().then(() => {
       startScrollListener();
       try {
         sendResponse(extractContent(message.mode ?? 'markdown'));

@@ -29,17 +29,14 @@ export function initSegmented(container: HTMLElement, value: string, onChange?: 
       btn.classList.add('active');
       const val = (btn as HTMLElement).dataset.value ?? '';
       onChange?.(val);
-      // Trigger auto-save for segmented controls
-      if (btn.hasAttribute('data-auto-save')) {
-        (window as unknown as { autoSaveSettings?: () => void }).autoSaveSettings?.();
-      }
+      if (btn.hasAttribute('data-auto-save')) autoSaveSettings();
     });
   });
 }
 
 
-export function getSegmentedValue(container: HTMLElement): string | undefined {
-  return container.querySelector<HTMLElement>('.seg-btn.active')?.dataset.value;
+export function getSegmentedValue(container: HTMLElement): string {
+  return container.querySelector<HTMLElement>('.seg-btn.active')?.dataset.value ?? '';
 }
 
 
@@ -169,14 +166,14 @@ export function autoSaveSettings(): void {
 }
 
 export function wireAutoSave(): void {
-  refs.settingsForm?.addEventListener('change', (e) => {
-    const target = (e.target as HTMLElement).closest<HTMLElement>('[data-auto-save]');
-    if (target) autoSaveSettings();
+  document.addEventListener('change', (e) => {
+    const el = e.target as HTMLElement | null;
+    if (el?.closest('[data-auto-save]')) autoSaveSettings();
   });
 
-  refs.settingsForm?.addEventListener('input', (e) => {
-    const target = (e.target as HTMLElement).closest<HTMLElement>('[data-auto-save]');
-    if (target) autoSaveSettings();
+  document.addEventListener('input', (e) => {
+    const el = e.target as HTMLElement | null;
+    if (el?.closest('[data-auto-save]')) autoSaveSettings();
   });
 
   refs.themeSeg!.querySelectorAll('.seg-btn').forEach((btn) => {

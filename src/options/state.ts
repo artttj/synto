@@ -20,7 +20,7 @@ export const state: {
     language: 'en',
     systemPrompt: DEFAULT_SYSTEM_PROMPT,
     openaiModel: 'gpt-4o-mini',
-    geminiModel: 'gemini-2.0-flash',
+    geminiModel: 'gemini-2.5-flash',
     grokModel: 'grok-3-mini',
     openrouterModel: 'anthropic/claude-sonnet-4-6',
     zaiModel: 'zai-7b',

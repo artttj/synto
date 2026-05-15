@@ -30,6 +30,9 @@ export interface Settings {
   customEndpoint: string;
   customModel: string;
   customUseAuth: boolean;
+  ollamaModel: string;
+  ollamaEndpoint: string;
+  ollamaUseAuth: boolean;
 }
 
 export interface ChatMessage {
@@ -167,6 +170,9 @@ export async function getSettings(): Promise<Settings> {
     customEndpoint: 'http://localhost:11434',
     customModel: '',
     customUseAuth: false,
+    ollamaModel: 'kimi-k2.6',
+    ollamaEndpoint: 'https://ollama.com/v1',
+    ollamaUseAuth: true,
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };
 }

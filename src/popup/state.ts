@@ -24,7 +24,7 @@ export interface ExtractedContent {
 
 const DEFAULT_MODELS: Record<string, string> = {
   openai:     'gpt-4o-mini',
-  gemini:     'gemini-2.0-flash',
+  gemini:     'gemini-2.5-flash',
   grok:       'grok-3-mini',
   openrouter: 'anthropic/claude-sonnet-4-6',
   zai:        'zai-7b',
@@ -33,7 +33,7 @@ const DEFAULT_MODELS: Record<string, string> = {
   custom:     '',
 };
 
-const PROVIDER_LABEL_KEYS: Record<string, string> = {
+const _PROVIDER_LABEL_KEYS: Record<string, string> = {
   openai:     'popup_ask_chatgpt',
   gemini:     'popup_ask_gemini',
   grok:       'popup_ask_grok',

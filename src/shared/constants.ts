@@ -64,6 +64,8 @@ export const CUSTOM_ENDPOINT_DEFAULT = 'http://localhost:11434';
 
 export const OLLAMA_ENDPOINT_DEFAULT = 'https://ollama.com/v1';
 
+export const ANTHROPIC_MAX_TOKENS = 4096;
+
 export const DEFAULT_SYSTEM_PROMPT =
   'Be specific. Use plain language. No filler, no hedging, no cliches — avoid words like leverage, streamline, dive into, furthermore, moreover, in conclusion, it\'s worth noting, crucial, essential. If something is wrong, say so directly. If it\'s fine, say so briefly. Short sentences beat long ones. Active voice. Concrete examples over abstract claims. Never start with "As a [role]" or "Based on the content provided."';
 

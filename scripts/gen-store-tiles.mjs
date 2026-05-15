@@ -1,3 +1,4 @@
+/* global console, document, setTimeout, process */
 /**
  * Generate Chrome Web Store promotional tiles and README screenshots.
  *

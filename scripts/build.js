@@ -94,11 +94,11 @@ async function main() {
   // ── CSS (concat tokens + surface, then minify) ─────────────────────────────
   const tokensPath = path.join(src, 'shared', 'tokens.css');
   await minifyCss(
-    [tokensPath, path.join(src, 'popup',   'popup.css')],
+    [tokensPath, path.join(src, 'popup',   'popup.css'), path.join(src, 'popup', 'popup-chat.css')],
     path.join(dist, 'popup',  'popup.css'),
   );
   await minifyCss(
-    [tokensPath, path.join(src, 'options', 'options.css')],
+    [tokensPath, path.join(src, 'options', 'options.css'), path.join(src, 'options', 'options-library.css')],
     path.join(dist, 'options','options.css'),
   );
 

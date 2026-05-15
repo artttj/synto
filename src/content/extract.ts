@@ -55,18 +55,18 @@ export function captureSelection(): string {
 }
 
 
-function deepClone(root: HTMLElement): HTMLElement {
-  if (!root.shadowRoot) {
+function deepClone(root: Node): HTMLElement {
+  if (!(root instanceof Element) || !root.shadowRoot) {
     return root.cloneNode(true) as HTMLElement;
   }
 
   const clone = root.cloneNode(false) as HTMLElement;
-  const shadowClone = deepClone(root.shadowRoot as unknown as HTMLElement);
+  const shadowClone = deepClone(root.shadowRoot);
   clone.appendChild(shadowClone);
 
   for (const child of root.childNodes) {
-    if (child.nodeType === Node.ELEMENT_NODE) {
-      clone.appendChild(deepClone(child as HTMLElement));
+    if (child instanceof Element) {
+      clone.appendChild(deepClone(child));
     } else {
       clone.appendChild(child.cloneNode(true));
     }
@@ -96,7 +96,7 @@ function extractBody(): ExtractedContent {
     const hint = isDiffPage()
       ? 'Diff content not yet loaded. Scroll to the bottom of the PR/MR to load all files, then try again.'
       : 'No meaningful content detected on this page. Try selecting text manually before clipping.';
-    return { success: false, error: hint, title: document.title, url: location.href };
+    return { success: false, error: hint, content: '', title: document.title, url: location.href };
   }
 
   return {

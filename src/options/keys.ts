@@ -36,7 +36,7 @@ function setBadge(id: string, connected: boolean): void {
 
 
 export async function loadApiKeyStatuses(): Promise<void> {
-  const [oaiKey, gemKey, grkKey, orKey, zaiKey, antKey, custKey, ollKey] = await Promise.all([
+  const [oaiKey, gemKey, grkKey, orKey, zaiKey, antKey, _custKey, ollKey] = await Promise.all([
     getOpenAIKey(),
     getGeminiKey(),
     getGrokKey(),
