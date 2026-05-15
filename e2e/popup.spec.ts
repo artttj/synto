@@ -11,13 +11,28 @@ test.describe('Popup', () => {
     await expect(popupPage.locator('#btn-help')).toBeVisible();
   });
 
-  test('shows intent tabs for template categories', async ({ popupPage }) => {
-    const tabs = popupPage.locator('#intent-tabs .intent-tab');
-    await expect(tabs).toHaveCount(4);
-    await expect(tabs.nth(0)).toContainText('Understand');
-    await expect(tabs.nth(1)).toContainText('Decide');
-    await expect(tabs.nth(2)).toContainText('Act');
-    await expect(tabs.nth(3)).toContainText('Compose');
+  test('shows concise intent tabs without horizontal scrolling', async ({ popupPage }) => {
+    await popupPage.setViewportSize({ width: 280, height: 720 });
+
+    const labels = await popupPage.locator('#intent-tabs .intent-tab').allTextContents();
+    expect(labels).toEqual(['Understand', 'Decide', 'Compose', 'Brief', 'Review', 'SEO']);
+
+    const hasOverflow = await popupPage.locator('#intent-tabs').evaluate((el) => el.scrollWidth > el.clientWidth);
+    expect(hasOverflow).toBe(false);
+
+    const clippedLabels = await popupPage.locator('#intent-tabs .intent-tab').evaluateAll((tabs) =>
+      tabs
+        .filter((tab) => tab.scrollWidth > tab.clientWidth)
+        .map((tab) => tab.textContent?.trim() ?? '')
+    );
+    expect(clippedLabels).toEqual([]);
+  });
+
+  test('labels the SEO audit template clearly', async ({ popupPage }) => {
+    await popupPage.locator('#intent-tabs .intent-tab', { hasText: 'SEO' }).click();
+    const seoAuditCard = popupPage.locator('#template-cards .template-card[data-id="audit-seo"]');
+    await expect(seoAuditCard).toBeVisible();
+    await expect(seoAuditCard).toHaveText('SEO Audit');
   });
 
   test('shows template cards in Understand category', async ({ popupPage }) => {
@@ -33,14 +48,6 @@ test.describe('Popup', () => {
 
     const cards = popupPage.locator('#template-cards .template-card');
     await expect(cards.first()).toBeVisible();
-  });
-
-  test('pin toggle adds Pinned tab', async ({ popupPage }) => {
-    const pinBtn = popupPage.locator('#template-cards .card-pin-btn').first();
-    await pinBtn.click();
-
-    const pinnedTab = popupPage.locator('#intent-tabs .intent-tab', { hasText: 'Pinned' });
-    await expect(pinnedTab).toBeVisible();
   });
 
   test('preview panel has Content and Prompt tab elements', async ({ popupPage }) => {

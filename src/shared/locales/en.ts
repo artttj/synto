@@ -93,7 +93,7 @@ const en: Record<string, string> = {
 
   options_help_how_heading:   'How it works',
   options_help_how_step_1:    'Open the extension on any page. Synto clips the content to Markdown.',
-  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Compose</strong>, <strong>Brief</strong>, <strong>Review</strong>, or <strong>Audit</strong>), then choose a preset.',
+  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Compose</strong>, <strong>Brief</strong>, <strong>Review</strong>, or <strong>SEO</strong>), then choose a preset.',
   options_help_how_step_3:    'The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.',
   options_help_how_step_4:    'Ask follow-up questions in the chat panel below the response.',
 
@@ -170,12 +170,12 @@ const en: Record<string, string> = {
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
 
-  category_understand: 'Understand — Analyze & Summarize',
-  category_decide:     'Decide — Options & Recommendations',
-  category_compose:    'Compose — Write & Rewrite',
-  category_brief:      'Brief — Project Specs',
-  category_review:     'Review — Code & Content Feedback',
-  category_audit:      'Audit — SEO, A11y, Performance',
+  category_understand: 'Understand',
+  category_decide:     'Decide',
+  category_compose:    'Compose',
+  category_brief:      'Brief',
+  category_review:     'Review',
+  category_audit:      'SEO',
   category_custom:     'Custom',
 
   'template_label_understand-brief':   'Brief',
@@ -188,7 +188,7 @@ const en: Record<string, string> = {
   'template_label_brief-template':     'Brief',
   'template_label_review-feedback':    'Feedback',
   'template_label_review-comparison':  'Comparison',
-  'template_label_audit-seo':          'SEO',
+  'template_label_audit-seo':          'SEO Audit',
   'template_label_audit-accessibility':'A11y',
   'template_label_audit-performance':  'Perf',
 
