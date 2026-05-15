@@ -21,44 +21,56 @@
 
       <nav class="sidebar-nav">
         <button class="nav-item active" data-tab="general">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="10" cy="10" r="3"/>
-            <path d="M10 2v1.5m0 13V18M2 10h1.5m13 0H18M4.4 4.4l1.1 1.1m9 9 1.1 1.1M4.4 15.6l1.1-1.1m9-9 1.1-1.1"/>
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="21" x2="4" y2="14"/>
+            <line x1="4" y1="10" x2="4" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12" y2="3"/>
+            <line x1="20" y1="21" x2="20" y2="16"/>
+            <line x1="20" y1="12" x2="20" y2="3"/>
+            <line x1="1" y1="14" x2="7" y2="14"/>
+            <line x1="9" y1="8" x2="15" y2="8"/>
+            <line x1="17" y1="16" x2="23" y2="16"/>
           </svg>
           <span data-i18n="options_nav_general">General</span>
         </button>
 
         <button class="nav-item" data-tab="ai-connections">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="11" width="5" height="6" rx="1"/>
-            <rect x="8" y="6" width="5" height="11" rx="1"/>
-            <rect x="13" y="3" width="4" height="14" rx="1"/>
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="7" height="9" x="3" y="3" rx="1"/>
+            <rect width="7" height="5" x="14" y="3" rx="1"/>
+            <rect width="7" height="9" x="14" y="12" rx="1"/>
+            <rect width="7" height="5" x="3" y="16" rx="1"/>
           </svg>
           <span data-i18n="options_nav_ai">AI Connections</span>
           <span id="nav-ai-warning" class="nav-warning hidden" title="Some API keys are not configured">!</span>
         </button>
 
         <button class="nav-item" data-tab="prompt-library">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M4 5h12M4 9h12M4 13h7"/>
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <line x1="10" y1="9" x2="8" y2="9"/>
           </svg>
           <span data-i18n="options_nav_library">Prompt Library</span>
         </button>
 
         <button class="nav-item" data-tab="help">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="10" cy="10" r="8"/>
-            <path d="M7.5 7.5a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/>
-            <circle cx="10" cy="14.5" r="0.6" fill="currentColor" stroke="none"/>
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <path d="M12 17h.01"/>
           </svg>
           <span data-i18n="options_nav_help">Help</span>
         </button>
 
         <button class="nav-item" data-tab="about">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="10" cy="10" r="8"/>
-            <path d="M10 6v1.5m0 6V14"/>
-            <circle cx="10" cy="9" r="0.8" fill="currentColor"/>
+          <svg class="nav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4"/>
+            <path d="M12 8h.01"/>
           </svg>
           <span data-i18n="options_nav_about">About</span>
         </button>
@@ -90,9 +102,24 @@
               <div class="setting-desc" data-i18n="options_theme_desc">Interface colour scheme</div>
             </div>
             <div class="segmented" id="theme-segmented" role="tablist" aria-label="Theme preference">
-              <button class="seg-btn" data-value="system" role="tab" aria-selected="false" data-i18n="options_theme_system">System</button>
-              <button class="seg-btn" data-value="dark" role="tab" aria-selected="false" data-i18n="options_theme_dark">Dark</button>
-              <button class="seg-btn" data-value="light" role="tab" aria-selected="false" data-i18n="options_theme_light">Light</button>
+              <button class="seg-btn" data-value="system" role="tab" aria-selected="false" title="System" data-i18n-title="options_theme_system">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </button>
+              <button class="seg-btn" data-value="dark" role="tab" aria-selected="false" title="Dark" data-i18n-title="options_theme_dark">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                </svg>
+              </button>
+              <button class="seg-btn" data-value="light" role="tab" aria-selected="false" title="Light" data-i18n-title="options_theme_light">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4"/>
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -137,10 +164,10 @@
 
         <div class="privacy-notice" role="note">
           <div class="privacy-notice-title">
-            <svg class="privacy-notice-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M10 2.5L1.5 17h17L10 2.5z"/>
-              <line x1="10" y1="8" x2="10" y2="12"/>
-              <circle cx="10" cy="15" r="0.6" fill="currentColor" stroke="none"/>
+            <svg class="privacy-notice-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+              <path d="M12 8v4"/>
+              <path d="M12 16h.01"/>
             </svg>
             <span data-i18n="options_ai_privacy_title">Privacy &amp; Data Notice</span>
           </div>
@@ -185,9 +212,9 @@
           <div class="provider-key-row">
             <input type="password" id="openai-key" class="key-input" placeholder="sk-…" autocomplete="off" spellcheck="false" />
             <button id="btn-toggle-key" class="btn-eye" type="button" aria-label="Toggle key visibility">
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                <path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6-8.5-6-8.5-6z"/>
-                <circle cx="10" cy="10" r="2.5"/>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
               </svg>
             </button>
           </div>
@@ -425,9 +452,9 @@
 
         <div class="library-search-row">
           <div class="search-wrap">
-            <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="8.5" cy="8.5" r="5.5"/>
-              <path d="M15 15l3 3"/>
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.3-4.3"/>
             </svg>
             <input type="search" id="template-search" class="search-input" data-i18n-placeholder="options_search_placeholder" placeholder="Search templates…" />
           </div>
@@ -566,8 +593,9 @@
 
   <!-- FAB — shown only on Prompt Library tab -->
   <button id="btn-new-template" class="fab hidden" data-i18n-title="options_new_template_title">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
-      <path d="M10 4v12M4 10h12"/>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14"/>
+      <path d="M12 5v14"/>
     </svg>
     <span data-i18n="options_new_template">New Template</span>
   </button>
@@ -578,8 +606,9 @@
       <div class="modal-head">
         <h3 id="modal-title">New Template</h3>
         <button id="modal-close" class="modal-close" aria-label="Close">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path d="M5 5l10 10M15 5l-10 10"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
           </svg>
         </button>
       </div>

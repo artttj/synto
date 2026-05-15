@@ -1,6 +1,6 @@
 {
   "name": "synto",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "release": "node scripts/release.js",
     "release:minor": "node scripts/release.js minor",
     "release:major": "node scripts/release.js major",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "screenshots": "vitest --config vitest.e2e.config.ts test/e2e/screenshots.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
@@ -25,10 +26,14 @@
     "esbuild": "^0.24.0",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
+    "puppeteer": "^24.43.1",
+    "sharp": "^0.34.5",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.1.6"
   },
   "dependencies": {
+    "lucide": "^1.16.0",
     "turndown": "^7.2.2",
     "turndown-plugin-gfm": "^1.0.2"
   }

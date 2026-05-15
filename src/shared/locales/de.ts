@@ -92,7 +92,7 @@ const de: Record<string, string> = {
 
   options_help_how_heading:   'So funktioniert es',
   options_help_how_step_1:    '\u00d6ffnen Sie die Erweiterung auf einer beliebigen Seite. Synto konvertiert den Inhalt in Markdown.',
-  options_help_how_step_2:    'W\u00e4hlen Sie eine Template-Kategorie (<strong>Verstehen</strong>, <strong>Entscheiden</strong> oder <strong>Verfassen</strong>) und dann ein Preset.',
+  options_help_how_step_2:    'W\u00e4hlen Sie eine Template-Kategorie (<strong>Verstehen</strong>, <strong>Entscheiden</strong>, <strong>Verfassen</strong>, <strong>Brief</strong>, <strong>Review</strong> oder <strong>Audit</strong>) und dann ein Preset.',
   options_help_how_step_3:    'Die Vorschau zeigt den ausgef\u00fcllten Prompt. Klicken Sie auf <strong>KI fragen</strong>, um ihn an Ihren KI-Anbieter zu senden.',
   options_help_how_step_4:    'Stellen Sie Folgefragen im Chat-Bereich unterhalb der Antwort.',
 
@@ -100,6 +100,9 @@ const de: Record<string, string> = {
   options_help_cat_understand_desc:   'Zusammenfassen und analysieren: Artikel, Tickets, Pull Requests.',
   options_help_cat_decide_desc:       'Optionen, Trade-offs und Empfehlungen abw\u00e4gen.',
   options_help_cat_compose_desc:      'Antworten, E-Mails und Umschreibungen verfassen.',
+  options_help_cat_brief_desc:        'Projektspezifikationen: Ziele, Zielgruppe, Constraints.',
+  options_help_cat_review_desc:       'Feedback zu Code und Content mit konkreten Fixes.',
+  options_help_cat_audit_desc:        'Technische Audits: SEO, Barrierefreiheit, Performance.',
 
   options_help_placeholders_heading:  'Platzhalter',
   options_help_ph_content:            'Vollst\u00e4ndige Seite als Markdown',
@@ -172,15 +175,27 @@ const de: Record<string, string> = {
   category_custom:     'Benutzerdefiniert',
 
   'template_label_understand-brief':   'Brief',
-  'template_label_understand-review': 'Code Review',
-  'template_label_understand-audit':  'Audit',
-  'template_label_decide-decide':     'Entscheidung',
-  'template_label_decide-actions':    'Aktionen',
-  'template_label_decide-briefing':   'Briefing',
-  'template_label_compose-reply':     'Antwort',
+  'template_label_understand-review':  'Code Review',
+  'template_label_understand-audit':   'SEO Audit',
+  'template_label_decide-decide':      'Entscheidung',
+  'template_label_decide-actions':     'Action Items',
+  'template_label_decide-briefing':    'Strategie-Briefing',
+  'template_label_compose-reply':      'Antwort',
+  'template_label_brief-template':     'Brief Template',
+  'template_label_review-feedback':    'Feedback',
+  'template_label_review-comparison':  'Vergleich',
+  'template_label_audit-seo':          'SEO Audit',
+  'template_label_audit-accessibility':'Barrierefreiheits-Audit',
+  'template_label_audit-performance':  'Performance-Audit',
 
-  'template_name_understand-audit':   'SEO-Audit',
-  'template_name_decide-briefing':    'Strategie-Briefing',
+  'template_name_understand-audit':    'SEO Audit',
+  'template_name_decide-briefing':     'Strategie-Briefing',
+  'template_name_brief-template':      'Brief Template',
+  'template_name_review-feedback':     'Feedback',
+  'template_name_review-comparison':   'Vergleich',
+  'template_name_audit-seo':           'SEO Audit',
+  'template_name_audit-accessibility': 'Barrierefreiheits-Audit',
+  'template_name_audit-performance':   'Performance-Audit',
 };
 
 export default de;

@@ -47,7 +47,11 @@ function commandExists(cmd) {
 }
 
 async function minifyCss(srcPaths, destPath) {
-  const combined = srcPaths.map(p => fs.readFileSync(p, 'utf8')).join('\n');
+  const combined = srcPaths
+    .map(p => fs.readFileSync(p, 'utf8'))
+    // Strip @import lines — tokens are already concatenated by the build
+    .map(css => css.replace(/@import\s+url\([^)]*\)\s*;?\s*\n?/g, ''))
+    .join('\n');
   const result = await esbuild.transform(combined, { loader: 'css', minify: true });
   mkdirp(path.dirname(destPath));
   fs.writeFileSync(destPath, result.code);

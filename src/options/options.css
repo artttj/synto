@@ -60,8 +60,8 @@ body {
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 20px 14px 16px;
+  gap: 12px;
+  padding: 20px 16px 16px;
   border-bottom: 1px solid var(--c-border);
 }
 
@@ -90,15 +90,15 @@ body {
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  padding: 10px 8px;
-  gap: 2px;
+  padding: 12px 8px;
+  gap: 4px;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 9px 11px;
+  gap: 12px;
+  padding: 10px 12px;
   border: none;
   background: none;
   border-radius: var(--r-md);
@@ -140,7 +140,7 @@ body {
 .nav-warning {
   margin-left: auto;
   background: var(--c-warn);
-  color: #fff;
+  color: var(--c-btn-text);
   font-size: 9px;
   font-weight: 700;
   width: 15px;
@@ -163,13 +163,13 @@ body {
 
 .tab-panel {
   max-width: 760px;
-  padding: 36px 48px 80px;
+  padding: 32px 40px 64px;
 }
 
 .tab-panel.hidden { display: none; }
 
 .panel-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .panel-header h1 {
@@ -201,8 +201,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 14px 20px;
+  gap: 16px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--c-border);
 }
 
@@ -299,18 +299,19 @@ body {
 }
 
 .seg-btn {
-  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
   border-radius: calc(var(--r-md) - 3px);
   border: none;
   background: none;
   color: var(--c-text-2);
-  font-size: 12px;
-  font-family: var(--font);
-  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
   transition: color var(--t) var(--ease), background var(--t) var(--ease), box-shadow var(--t) var(--ease);
 }
+.seg-btn svg { flex-shrink: 0; }
 
 .seg-btn:hover { color: var(--c-text); }
 
@@ -401,7 +402,6 @@ html[data-theme="light"] .seg-btn.active {
   transition: opacity 200ms var(--ease);
 }
 
-.hidden { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PRIVACY NOTICE
@@ -470,7 +470,7 @@ html[data-theme="light"] .seg-btn.active {
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--r-xl);
-  padding: 20px 22px;
+  padding: 20px 24px;
   margin-bottom: 12px;
   transition: border-color var(--t) var(--ease);
 }
@@ -802,12 +802,12 @@ html[data-theme="light"] .seg-btn.active {
   gap: 6px;
   z-index: 19;
   pointer-events: none;
-  filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.45));
+  filter: drop-shadow(0 0 8px var(--c-fab-glow));
 }
 
 .fab-hint-label {
-  background: #f97316;
-  color: #fff;
+  background: var(--c-fab);
+  color: var(--c-btn-text);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -864,7 +864,7 @@ html[data-theme="light"] .seg-btn.active {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: var(--c-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1234,10 +1234,9 @@ html[data-theme="light"] .seg-btn.active {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TOUCH TARGETS — 44px for nav and segmented controls
+   TOUCH TARGETS — 44px for nav items
 ═══════════════════════════════════════════════════════════════════════════ */
-.nav-item,
-.seg-btn {
+.nav-item {
   min-height: 44px;
   min-width: 44px;
 }

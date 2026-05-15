@@ -9,8 +9,9 @@
 - **Clean Markdown, instantly.** Turn messy websites into structured text you can use immediately. No more fixing weird formatting or broken tables.
 - **Focus on what matters.** Built-in browser AIs often get distracted by the whole page. Synto sends only what you select, so the answers stay sharp and relevant.
 - **Made for work, not just chat.** Skip the back-and-forth. Go straight to PR reviews, ticket briefs, or task lists that are ready to drop into your workflow.
-- **Your keys, your price.** Connect your own OpenAI, Gemini, or Grok keys. You pay the provider directly—no markups, no middleman fees, and no "pro" subscriptions.
+- **Your keys, your price.** Bring your own API keys — you pay the provider directly, no markups, no middleman fees, and no "pro" subscriptions.
 - **Privacy by design.** Synto has no backend. Your data goes straight from your browser to the AI provider. No tracking, no storage, and no one else watching your prompts.
+- **Insert anywhere.** One-click insert AI responses directly into any input field on the page—forms, textareas, or content-editable elements.
 
 <table>
   <tr>
@@ -30,25 +31,25 @@
 
 | Provider | Get a key |
 | --- | --- |
-| OpenAI | [platform.openai.com](https://platform.openai.com/api-keys) |
-| Google Gemini | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
-| Grok (xAI) | [console.x.ai](https://console.x.ai/) |
+| OpenAI-compatible APIs | Use any provider that exposes an OpenAI-compatible endpoint |
+| Anthropic Messages API | Works with Claude models |
+| Ollama Cloud or local | [ollama.com](https://ollama.com) or self-hosted |
 
 ---
 
 ## Real-World Workflows
 
-### 🛠️ For Developers
+### For Developers
 
 - **Review PRs:** Get a summary of changes and technical risks on a heavy GitHub PR without reading every single comment.
 - **Decode Tickets:** Turn a Jira or Linear ticket with dozens of comments into a clear list of requirements and open questions.
 
-### ✍️ For Productivity
+### For Productivity
 
 - **Draft Replies:** Highlight an email thread and generate a response that actually makes sense in context.
 - **Find Action Items:** Turn long meeting notes or Notion docs into a simple list of tasks and owners.
 
-### 🍱 For Daily Life
+### For Daily Life
 
 - **Pick a Dish:** Open a restaurant menu and ask for the "top picks" or something specific like "best value" or "low carb."
 - **Compare Products:** Highlight a few product pages and get a scored comparison to help you choose.
@@ -104,7 +105,7 @@ Template prompts sent to AI are always in English regardless of the selected lan
 - **Direct Connection:** Your data travels directly from your browser to your AI provider. Synto never sees your prompts.
 - **Open Source:** The [full code is on GitHub](https://github.com/artttj/synto) for you to audit.
 
-Provider policies: [OpenAI](https://openai.com/policies/privacy-policy/), [Google AI](https://ai.google.dev/gemini-api/terms), [xAI](https://x.ai/legal/privacy-policy/).
+Provider policies vary — check your chosen provider's terms.
 
 ---
 

@@ -27,7 +27,12 @@ export function initSegmented(container: HTMLElement, value: string, onChange?: 
     btn.addEventListener('click', () => {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      onChange?.((btn as HTMLElement).dataset.value ?? '');
+      const val = (btn as HTMLElement).dataset.value ?? '';
+      onChange?.(val);
+      // Trigger auto-save for segmented controls
+      if (btn.hasAttribute('data-auto-save')) {
+        (window as unknown as { autoSaveSettings?: () => void }).autoSaveSettings?.();
+      }
     });
   });
 }
