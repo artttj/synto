@@ -9,6 +9,8 @@ const pt: Record<string, string> = {
   popup_prompt_tab: 'Prompt',
   popup_refresh_content: 'Atualizar conte\u00fado',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: 'Reescanear',
+  popup_scrolling: 'Rolar…',
   popup_near_limit: 'Perto do limite',
   popup_chat_placeholder: 'Fa\u00e7a uma pergunta de acompanhamento…',
   popup_no_key_prefix: 'Nenhuma chave de API configurada. Adicione em\xa0',

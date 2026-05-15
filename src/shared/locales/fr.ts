@@ -9,6 +9,8 @@ const fr: Record<string, string> = {
   popup_prompt_tab:       'Prompt',
   popup_refresh_content:  'Actualiser le contenu',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: 'Rebalayer',
+  popup_scrolling: 'Défilement…',
   popup_near_limit:       'Pr\u00e8s de la limite',
   popup_chat_placeholder: 'Poser une question de suivi\u2026',
   popup_no_key_prefix:    'Aucune cl\u00e9 API. Ajoutez-la dans\u00a0',

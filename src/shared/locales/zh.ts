@@ -9,6 +9,8 @@ const zh: Record<string, string> = {
   popup_prompt_tab: '提示词',
   popup_refresh_content: '刷新内容',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: '重新扫描',
+  popup_scrolling: '滚动中…',
   popup_near_limit: '接近上限',
   popup_chat_placeholder: '继续提问…',
   popup_no_key_prefix: '未设置 API Key。请在\xa0',

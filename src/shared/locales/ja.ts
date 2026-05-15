@@ -9,6 +9,8 @@ const ja: Record<string, string> = {
   popup_prompt_tab:       'プロンプト',
   popup_refresh_content:  'コンテンツを更新',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: '再取得',
+  popup_scrolling: 'スクロール中…',
   popup_near_limit:       '上限に近い',
   popup_chat_placeholder: 'フォローアップを質問\u2026',
   popup_no_key_prefix:    'APIキーが未設定です。\u00a0',

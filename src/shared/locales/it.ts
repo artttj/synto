@@ -9,6 +9,8 @@ const it: Record<string, string> = {
   popup_prompt_tab: 'Prompt',
   popup_refresh_content: 'Aggiorna contenuto',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: 'Riscansione',
+  popup_scrolling: 'Scorrimento…',
   popup_near_limit: 'Vicino al limite',
   popup_chat_placeholder: 'Fai una domanda di follow-up…',
   popup_no_key_prefix: 'Nessuna chiave API impostata. Aggiungila in\xa0',

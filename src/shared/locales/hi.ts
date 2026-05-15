@@ -9,6 +9,8 @@ const hi: Record<string, string> = {
   popup_prompt_tab: 'प्रॉम्प्ट',
   popup_refresh_content: 'सामग्री रीफ़्रेश करें',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: 'पुनहुक',
+  popup_scrolling: 'स्क्रोल…',
   popup_near_limit: 'सीमा के करीब',
   popup_chat_placeholder: 'फॉलो-अप प्रश्न पूछें…',
   popup_no_key_prefix: 'कोई API key सेट नहीं है। इसे\xa0',

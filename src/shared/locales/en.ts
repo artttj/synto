@@ -9,6 +9,8 @@ const en: Record<string, string> = {
   popup_prompt_tab:       'Prompt',
   popup_refresh_content:  'Refresh content',
   popup_scroll_rescan:    'Scroll & Rescan',
+  popup_scroll_rescan_short: 'Rescan',
+  popup_scrolling: 'Scrolling…',
   popup_near_limit:       'Near limit',
   popup_chat_placeholder: 'Ask a follow-up\u2026',
   popup_no_key_prefix:    'No API key set. Add it in\u00a0',

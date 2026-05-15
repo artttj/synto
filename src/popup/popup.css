@@ -463,6 +463,12 @@ header {
 .preview-refresh-cta:hover { color: var(--c-text-2); background: var(--c-accent-dim); }
 .preview-refresh-cta:focus-visible { outline: 1.5px solid var(--c-accent-lo); outline-offset: 1px; }
 
+#btn-scroll-rescan .hidden { display: none; }
+@media (max-width: 360px) {
+  #btn-scroll-rescan #scroll-label-full { display: none; }
+  #btn-scroll-rescan #scroll-label-short.hidden { display: inline; }
+}
+
 /* Collapsed: only row 1 visible */
 .preview-panel.collapsed .preview-tab-row { display: none; }
 .preview-panel.collapsed .preview-header  { padding-bottom: 0; gap: 0; }
