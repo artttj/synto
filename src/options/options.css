@@ -7,16 +7,16 @@
   --sidebar-w: 200px;
   --c-success-bg: rgba(93,214,156,0.10);
   --c-success-bd: rgba(93,214,156,0.25);
-  --c-warn-bg: rgba(232,185,49,0.10);
-  --c-warn-bd: rgba(232,185,49,0.25);
+  --c-warn-bg: rgba(255,255,255,0.08);
+  --c-warn-bd: rgba(255,255,255,0.20);
 }
 html[data-theme="light"] {
   --c-sidebar: #eaeaed;
   --c-inset: rgba(0,0,0,0.035);
   --c-success-bg: rgba(26,158,96,0.08);
   --c-success-bd: rgba(26,158,96,0.22);
-  --c-warn-bg: rgba(212,167,44,0.06);
-  --c-warn-bd: rgba(212,167,44,0.20);
+  --c-warn-bg: rgba(0,0,0,0.05);
+  --c-warn-bd: rgba(0,0,0,0.18);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -634,4 +634,3 @@ html[data-theme="light"] .seg-btn.active {
   gap: 8px;
   flex-shrink: 0;
 }
-

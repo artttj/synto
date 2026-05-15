@@ -253,7 +253,7 @@ header {
   transition: color var(--t) var(--ease), border-color var(--t) var(--ease);
 }
 .token-count.green  { color: var(--c-success); }
-.token-count.yellow { color: var(--c-warn);    border-color: rgba(201,135,77,0.30); }
+.token-count.yellow { color: var(--c-warn);    border-color: var(--c-border-hi); }
 .token-count.red    { color: var(--c-error);   border-color: rgba(224,94,94,0.30); }
 
 .token-warning {

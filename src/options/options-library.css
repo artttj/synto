@@ -181,6 +181,7 @@
 }
 
 .fab-hint-arrow {
+  color: var(--c-fab);
   animation: fab-hint-drop 1.7s ease-in-out infinite;
 }
 
