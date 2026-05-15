@@ -46,9 +46,9 @@ function commandExists(cmd) {
   }
 }
 
-async function minifyCss(srcPath, destPath) {
-  const css = fs.readFileSync(srcPath, 'utf8');
-  const result = await esbuild.transform(css, { loader: 'css', minify: true });
+async function minifyCss(srcPaths, destPath) {
+  const combined = srcPaths.map(p => fs.readFileSync(p, 'utf8')).join('\n');
+  const result = await esbuild.transform(combined, { loader: 'css', minify: true });
   mkdirp(path.dirname(destPath));
   fs.writeFileSync(destPath, result.code);
 }
@@ -87,13 +87,14 @@ async function main() {
     path.join(dist, 'options','options.html'),
   );
 
-  // ── CSS (minify) ──────────────────────────────────────────────────────────
+  // ── CSS (concat tokens + surface, then minify) ─────────────────────────────
+  const tokensPath = path.join(src, 'shared', 'tokens.css');
   await minifyCss(
-    path.join(src, 'popup',   'popup.css'),
+    [tokensPath, path.join(src, 'popup',   'popup.css')],
     path.join(dist, 'popup',  'popup.css'),
   );
   await minifyCss(
-    path.join(src, 'options', 'options.css'),
+    [tokensPath, path.join(src, 'options', 'options.css')],
     path.join(dist, 'options','options.css'),
   );
 
