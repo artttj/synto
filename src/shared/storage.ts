@@ -48,6 +48,60 @@ export interface HistoryEntry {
   messages: ChatMessage[];
 }
 
+export interface TemplateUsage {
+  globalTemplateId?: string;
+  byHost: Record<string, string>;
+}
+
+export type ProviderHealthStatus = 'ok' | 'no_key' | 'rate_limited' | 'error';
+
+export interface ProviderHealthEntry {
+  status: ProviderHealthStatus;
+  ts: number;
+  message?: string;
+}
+
+export type ProviderHealth = Record<string, ProviderHealthEntry>;
+
+function hostFromUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return undefined;
+  }
+}
+
+function hasTemplate(templates: Template[], templateId?: string): templateId is string {
+  return Boolean(templateId && templates.some((template) => template.id === templateId));
+}
+
+export function pickRememberedTemplateId(
+  url: string | undefined,
+  templates: Template[],
+  usage: TemplateUsage,
+  defaultTemplateId?: string
+): string {
+  const host = hostFromUrl(url);
+  const hostTemplateId = host ? usage.byHost[host] : undefined;
+
+  if (hasTemplate(templates, hostTemplateId)) return hostTemplateId;
+  if (hasTemplate(templates, defaultTemplateId)) return defaultTemplateId;
+  if (hasTemplate(templates, usage.globalTemplateId)) return usage.globalTemplateId;
+
+  return templates[0]?.id ?? defaultTemplateId ?? '';
+}
+
+export function providerHealthLabel(entry?: ProviderHealthEntry): string {
+  if (!entry) return 'No recent status';
+
+  if (entry.status === 'ok') return 'Connected';
+  if (entry.status === 'no_key') return 'No key';
+  if (entry.status === 'rate_limited') return 'Rate limited';
+  return 'Last failed';
+}
+
 export async function getOpenAIKey(): Promise<string> {
   const result = await chrome.storage.local.get(STORAGE_KEYS.OPENAI_KEY);
   return (result[STORAGE_KEYS.OPENAI_KEY] as string) ?? '';
@@ -150,6 +204,59 @@ export async function getTemplates(): Promise<Template[]> {
 
 export async function saveTemplates(templates: Template[]): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATES]: templates });
+}
+
+
+export async function getTemplateUsage(): Promise<TemplateUsage> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.TEMPLATE_USAGE);
+  const saved = result[STORAGE_KEYS.TEMPLATE_USAGE] as Partial<TemplateUsage> | undefined;
+
+  return {
+    globalTemplateId: saved?.globalTemplateId,
+    byHost: saved?.byHost ?? {},
+  };
+}
+
+
+export async function rememberTemplateUsage(url: string | undefined, templateId: string): Promise<void> {
+  const usage = await getTemplateUsage();
+  const host = hostFromUrl(url);
+  const next: TemplateUsage = {
+    globalTemplateId: templateId,
+    byHost: { ...usage.byHost },
+  };
+
+  if (host) {
+    next.byHost[host] = templateId;
+  }
+
+  await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATE_USAGE]: next });
+}
+
+
+export async function getRememberedTemplateId(
+  url: string | undefined,
+  templates: Template[],
+  defaultTemplateId?: string
+): Promise<string> {
+  return pickRememberedTemplateId(url, templates, await getTemplateUsage(), defaultTemplateId);
+}
+
+
+export async function getProviderHealth(): Promise<ProviderHealth> {
+  const result = await chrome.storage.local.get(STORAGE_KEYS.PROVIDER_HEALTH);
+  return (result[STORAGE_KEYS.PROVIDER_HEALTH] as ProviderHealth | undefined) ?? {};
+}
+
+
+export async function saveProviderHealth(provider: string, entry: ProviderHealthEntry): Promise<void> {
+  const health = await getProviderHealth();
+  await chrome.storage.local.set({
+    [STORAGE_KEYS.PROVIDER_HEALTH]: {
+      ...health,
+      [provider]: entry,
+    },
+  });
 }
 
 

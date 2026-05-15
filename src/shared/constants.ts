@@ -25,6 +25,8 @@ export const STORAGE_KEYS = {
   CUSTOM_KEY:     'apc_custom_key',
   OLLAMA_KEY:     'apc_ollama_key',
   HISTORY:        'apc_history',
+  TEMPLATE_USAGE: 'apc_template_usage',
+  PROVIDER_HEALTH: 'apc_provider_health',
 };
 
 export const PROVIDER_MODELS: Record<string, string[]> = {
