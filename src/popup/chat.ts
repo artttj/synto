@@ -40,7 +40,8 @@ export function appendBubble(role: string, text: string): HTMLDivElement {
   wrap.appendChild(div);
 
   refs.chatMessages!.appendChild(wrap);
-  refs.chatMessages!.scrollTop = refs.chatMessages!.scrollHeight;
+  // Scroll to the top of the new bubble (start of response)
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return div;
 }
 
@@ -103,7 +104,7 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
 }
 
 
-async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders }: { url: string; model: string; key: string; extraHeaders?: Record<string, string> }): Promise<void> {
+async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders, signal }: { url: string; model: string; key: string; extraHeaders?: Record<string, string>; signal?: AbortSignal }): Promise<void> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${key}`,
@@ -117,6 +118,7 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, ext
       messages: state.chatHistory,
       stream: true,
     }),
+    signal,
   });
 
   if (!response.ok) {
@@ -175,7 +177,7 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, ext
 }
 
 
-async function streamAnthropic(bubble: HTMLDivElement, { model, key }: { model: string; key: string }): Promise<void> {
+async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: { model: string; key: string; signal?: AbortSignal }): Promise<void> {
   const systemMessage = state.chatHistory.find(m => m.role === 'system');
   const messages = state.chatHistory.filter(m => m.role !== 'system');
 
@@ -193,6 +195,7 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key }: { model: 
       max_tokens: 4096,
       stream: true,
     }),
+    signal,
   });
 
   if (!response.ok) {
@@ -256,40 +259,43 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key }: { model: 
 }
 
 
-async function processWithOpenAI(bubble: HTMLDivElement): Promise<void> {
+async function processWithOpenAI(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getOpenAIKey();
   if (!key) throw new Error(t('error_no_key_openai'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.openai.com/v1/chat/completions',
     model: state.openaiModel,
     key,
+    signal,
   });
 }
 
 
-async function processWithGemini(bubble: HTMLDivElement): Promise<void> {
+async function processWithGemini(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getGeminiKey();
   if (!key) throw new Error(t('error_no_key_gemini'));
   await streamOpenAICompat(bubble, {
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     model: state.geminiModel,
     key,
+    signal,
   });
 }
 
 
-async function processWithGrok(bubble: HTMLDivElement): Promise<void> {
+async function processWithGrok(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getGrokKey();
   if (!key) throw new Error(t('error_no_key_grok'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.x.ai/v1/chat/completions',
     model: state.grokModel,
     key,
+    signal,
   });
 }
 
 
-async function processWithOpenRouter(bubble: HTMLDivElement): Promise<void> {
+async function processWithOpenRouter(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getOpenRouterKey();
   if (!key) throw new Error(t('error_no_key_openrouter'));
   await streamOpenAICompat(bubble, {
@@ -300,25 +306,27 @@ async function processWithOpenRouter(bubble: HTMLDivElement): Promise<void> {
       'HTTP-Referer': chrome.runtime.getURL(''),
       'X-Title': 'Synto',
     },
+    signal,
   });
 }
 
 
-async function processWithZai(bubble: HTMLDivElement): Promise<void> {
+async function processWithZai(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getZaiKey();
   if (!key) throw new Error(t('error_no_key_zai'));
   await streamOpenAICompat(bubble, {
     url: 'https://api.zai.ai/v1/chat/completions',
     model: state.zaiModel,
     key,
+    signal,
   });
 }
 
 
-async function processWithAnthropic(bubble: HTMLDivElement): Promise<void> {
+async function processWithAnthropic(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getAnthropicKey();
   if (!key) throw new Error(t('error_no_key_anthropic'));
-  await streamAnthropic(bubble, { model: state.anthropicModel, key });
+  await streamAnthropic(bubble, { model: state.anthropicModel, key, signal });
 }
 
 
@@ -330,37 +338,53 @@ function buildChatUrl(baseUrl: string): string {
 }
 
 
-async function processWithCustom(bubble: HTMLDivElement): Promise<void> {
+async function processWithCustom(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const baseUrl = state.customEndpoint?.trim();
   if (!baseUrl) throw new Error(t('error_no_custom_endpoint'));
   const model = state.customModel?.trim();
   if (!model) throw new Error(t('error_no_custom_model'));
 
   const key = state.customUseAuth ? (await getCustomKey()) : '';
-  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model, key: key || 'unused' });
+  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model, key: key || 'unused', signal });
 }
 
 
-async function processWithOllama(bubble: HTMLDivElement): Promise<void> {
+async function processWithOllama(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const baseUrl = state.ollamaEndpoint?.trim() || 'https://ollama.com/v1';
   const key = state.ollamaUseAuth ? (await getOllamaKey()) : '';
-  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model: state.ollamaModel, key: key || 'unused' });
+  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model: state.ollamaModel, key: key || 'unused', signal });
 }
 
 
-async function dispatchToProvider(bubble: HTMLDivElement): Promise<void> {
+async function dispatchToProvider(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   switch (state.llmProvider) {
-    case 'gemini':     await processWithGemini(bubble); break;
-    case 'grok':       await processWithGrok(bubble); break;
-    case 'openrouter': await processWithOpenRouter(bubble); break;
-    case 'zai':        await processWithZai(bubble); break;
-    case 'anthropic':  await processWithAnthropic(bubble); break;
-    case 'ollama':     await processWithOllama(bubble); break;
-    case 'custom':     await processWithCustom(bubble); break;
-    default:           await processWithOpenAI(bubble); break;
+    case 'gemini':     await processWithGemini(bubble, signal); break;
+    case 'grok':       await processWithGrok(bubble, signal); break;
+    case 'openrouter': await processWithOpenRouter(bubble, signal); break;
+    case 'zai':        await processWithZai(bubble, signal); break;
+    case 'anthropic':  await processWithAnthropic(bubble, signal); break;
+    case 'ollama':     await processWithOllama(bubble, signal); break;
+    case 'custom':     await processWithCustom(bubble, signal); break;
+    default:           await processWithOpenAI(bubble, signal); break;
   }
 }
 
+
+let abortController: AbortController | null = null;
+
+export function stopStreaming(): void {
+  if (abortController) {
+    abortController.abort();
+    abortController = null;
+  }
+  if (state.chatStreaming) {
+    state.chatStreaming = false;
+    refs.btnProcess!.disabled = false;
+    refs.btnProcess!.textContent = getAskLabel();
+    refs.btnProcess!.classList.remove('loading');
+    refs.btnChatStop?.classList.add('hidden');
+  }
+}
 
 async function persistHistory(): Promise<void> {
   const url = state.extracted?.url;
@@ -430,23 +454,36 @@ export async function processWithAI(): Promise<void> {
   refs.btnProcess!.disabled = true;
   refs.btnProcess!.textContent = t('popup_asking');
   refs.btnProcess!.classList.add('loading');
+  refs.btnChatStop?.classList.remove('hidden');
+
+  abortController = new AbortController();
 
   try {
-    await dispatchToProvider(bubble);
+    await dispatchToProvider(bubble, abortController.signal);
     refs.chatInputRow!.classList.remove('hidden');
     refs.chatExportRow!.classList.remove('hidden');
     refs.chatHistoryBanner!.classList.add('hidden');
     void persistHistory();
   } catch (err: unknown) {
-    (bubble.parentElement ?? bubble).remove();
-    state.chatHistory.pop();
-    appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
+    if (err instanceof Error && err.name === 'AbortError') {
+      bubble.textContent += '\n\n[Stopped]';
+      bubble.classList.remove('streaming');
+      state.chatHistory.push({ role: 'assistant', content: bubble.textContent });
+      addBubbleCopyButton(bubble, bubble.textContent);
+    } else {
+      (bubble.parentElement ?? bubble).remove();
+      state.chatHistory.pop();
+      appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
+    }
   } finally {
-    state.chatStreaming = false;
-    refs.btnProcess!.disabled = false;
-    refs.btnProcess!.textContent = getAskLabel();
-    refs.btnProcess!.classList.remove('loading');
-    bubble.classList.remove('streaming');
+    if (state.chatStreaming) {
+      state.chatStreaming = false;
+      refs.btnProcess!.disabled = false;
+      refs.btnProcess!.textContent = getAskLabel();
+      refs.btnProcess!.classList.remove('loading');
+      refs.btnChatStop?.classList.add('hidden');
+    }
+    abortController = null;
   }
 }
 
@@ -472,18 +509,32 @@ export async function sendFollowUp(): Promise<void> {
   state.chatStreaming = true;
   refs.btnChatSend!.disabled = true;
   refs.btnProcess!.disabled = true;
+  refs.btnChatStop?.classList.remove('hidden');
+
+  abortController = new AbortController();
 
   try {
-    await dispatchToProvider(bubble);
+    await dispatchToProvider(bubble, abortController.signal);
     void persistHistory();
   } catch (err: unknown) {
-    (bubble.parentElement ?? bubble).remove();
-    state.chatHistory.pop();
-    appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
+    if (err instanceof Error && err.name === 'AbortError') {
+      bubble.textContent += '\n\n[Stopped]';
+      bubble.classList.remove('streaming');
+      state.chatHistory.push({ role: 'assistant', content: bubble.textContent });
+      addBubbleCopyButton(bubble, bubble.textContent);
+    } else {
+      (bubble.parentElement ?? bubble).remove();
+      state.chatHistory.pop();
+      appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
+    }
   } finally {
-    state.chatStreaming = false;
-    refs.btnChatSend!.disabled = false;
-    refs.btnProcess!.disabled = false;
+    if (state.chatStreaming) {
+      state.chatStreaming = false;
+      refs.btnChatSend!.disabled = false;
+      refs.btnProcess!.disabled = false;
+      refs.btnChatStop?.classList.add('hidden');
+    }
+    abortController = null;
     bubble.classList.remove('streaming');
     refs.chatInput!.focus();
   }
@@ -544,6 +595,7 @@ function exportChat(): void {
 
 export function wireChat(): void {
   refs.btnProcess!.addEventListener('click', processWithAI);
+  refs.btnChatStop!.addEventListener('click', stopStreaming);
 
   refs.chatInput!.addEventListener('input', () => {
     autoResize(refs.chatInput!);

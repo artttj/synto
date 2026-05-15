@@ -15,6 +15,7 @@ import {
 } from '../shared/storage';
 import { t } from '../shared/i18n';
 import { refs } from './dom';
+import { showToast } from './utils';
 
 
 function flash(el: HTMLElement): void {
@@ -70,6 +71,7 @@ interface KeySectionConfig {
   saveId: string;
   clearId: string;
   savedId: string;
+  provider: string;
   getKey: () => Promise<string>;
   saveKey: (key: string) => Promise<void>;
 }
@@ -80,6 +82,7 @@ export function wireKeySection({
   saveId,
   clearId,
   savedId,
+  provider,
   getKey,
   saveKey,
 }: KeySectionConfig): void {
@@ -101,6 +104,7 @@ export function wireKeySection({
     await saveKey(inputEl.value.trim());
     await loadApiKeyStatuses();
     flash(savedEl);
+    showToast(`${provider} key saved`);
   });
 
   clearEl.addEventListener('click', async () => {
@@ -108,5 +112,6 @@ export function wireKeySection({
     await saveKey('');
     await loadApiKeyStatuses();
     flash(savedEl);
+    showToast(`${provider} key cleared`);
   });
 }

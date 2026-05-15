@@ -67,7 +67,16 @@ export const OLLAMA_ENDPOINT_DEFAULT = 'https://ollama.com/v1';
 export const DEFAULT_SYSTEM_PROMPT =
   'Be specific. Use plain language. No filler, no hedging, no cliches — avoid words like leverage, streamline, dive into, furthermore, moreover, in conclusion, it\'s worth noting, crucial, essential. If something is wrong, say so directly. If it\'s fine, say so briefly. Short sentences beat long ones. Active voice. Concrete examples over abstract claims. Never start with "As a [role]" or "Based on the content provided."';
 
-export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Compose'];
+export const TEMPLATE_CATEGORIES = ['Understand', 'Decide', 'Compose', 'Brief', 'Review', 'Audit'];
+
+export const TEMPLATE_CATEGORY_LABELS: Record<string, string> = {
+  'Understand': 'Understand',
+  'Decide': 'Decide',
+  'Compose': 'Compose',
+  'Brief': 'Brief',
+  'Review': 'Review',
+  'Audit': 'Audit',
+};
 
 export const DEPRECATED_TEMPLATE_IDS = new Set([
   'default-structured-brief',
@@ -110,7 +119,7 @@ Skip the summary padding — I want signal, not a recap.
   {
     id: "understand-review",
     name: "Code Review",
-    label: "Review",
+    label: "Code Review",
     description: "Bugs, security, performance — real problems only",
     category: "Understand",
     isDefault: false,
@@ -142,7 +151,7 @@ Source: [{title}]({url})
   {
     id: "understand-audit",
     name: "SEO Audit",
-    label: "Audit",
+    label: "SEO Audit",
     description: "Content gaps, structure, search visibility",
     category: "Understand",
     isDefault: false,
@@ -178,7 +187,7 @@ Source: [{title}]({url})
     label: "Decide",
     description: "Pick a side — options, trade-offs, verdict",
     category: "Decide",
-    isDefault: false,
+    isDefault: true,
     prompt: `Pick a side. What's the best option and why?
 
 If the content is creative (movie, book, album, game) — be a sharp critic. Love it or hate it, no middle ground. Use "I" statements. Mediocre means no. Back your take with specific details, not vague praise or generic criticism. End with VERDICT including a star rating (⭐ and ☆) and a score like 3.5/5.
@@ -197,7 +206,7 @@ Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words 
   {
     id: "decide-actions",
     name: "Actions",
-    label: "Actions",
+    label: "Action Items",
     description: "Concrete tasks, owners, deadlines, blockers",
     category: "Decide",
     isDefault: false,
@@ -222,7 +231,7 @@ Number the list.
   {
     id: "decide-briefing",
     name: "Strategy Briefing",
-    label: "Briefing",
+    label: "Strategy Briefing",
     description: "Stakeholder view — what matters, what to watch, what to decide",
     category: "Decide",
     isDefault: false,
@@ -259,6 +268,194 @@ Write for a busy executive who will skim this in 30 seconds. Be direct. No "it's
 Be specific. Use plain language. Active voice. Short sentences. Never start with "Based on the content provided" or "I'd be happy to help."
 
 ---
+
+{content}`,
+  },
+
+  {
+    id: "brief-template",
+    name: "Brief Template",
+    label: "Brief Template",
+    description: "Project brief — goals, audience, constraints",
+    category: "Brief",
+    isDefault: false,
+    prompt: `Create a project brief from this content. Give me:
+
+**Goal**: The one-sentence outcome. What does done look like?
+
+**Audience**: Who is this for? Be specific — "busy parents" beats "everyone".
+
+**Constraints**: Budget, timeline, technical limits, compliance needs. Only real constraints, not nice-to-haves.
+
+**Success criteria**: How do we know this worked? Measurable signals, not feelings.
+
+**Risks**: What could actually derail this? Skip theoretical worries — only things that would keep you up at night.
+
+Be specific. Use plain language. No filler. Short sentences. Active voice.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "review-feedback",
+    name: "Feedback",
+    label: "Feedback",
+    description: "Structured feedback — what works, what doesn't, how to fix",
+    category: "Review",
+    isDefault: false,
+    prompt: `Give structured feedback on this work. Be honest and direct.
+
+**What works**: Name 2-3 specific things that are working well. Point to concrete details, not vague praise.
+
+**What doesn't**: Name 2-3 specific problems. Explain why each one matters — the actual impact, not just "it could be better."
+
+**How to fix**: For each problem, give one concrete action. Not "consider revising" — actual moves like "cut paragraph 2" or "move the CTA above the fold."
+
+Skip the sandwich approach. Don't soften criticism with fake praise. Be kind but clear.
+
+Be specific. Use plain language. No filler. No "I think" or "in my opinion."
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "review-comparison",
+    name: "Comparison",
+    label: "Comparison",
+    description: "Side-by-side comparison — features, trade-offs, recommendation",
+    category: "Review",
+    isDefault: false,
+    prompt: `Compare these options side-by-side. Give me:
+
+**Features**: What does each one actually do? List the capabilities that matter for this decision. Skip marketing fluff.
+
+**Trade-offs**: What do you gain and lose with each option? Price vs. quality? Speed vs. durability? Name the actual tension.
+
+**Who should pick which**: For each option, say who it's best for and who should skip it. Be specific — "freelancers on a budget" not "everyone."
+
+**Recommendation**: Pick one. Say why in two sentences. No hedging.
+
+Use a table if it helps. Be direct. No "it depends" unless there's genuinely no right answer.
+
+---
+
+{content}`,
+  },
+
+  {
+    id: "audit-seo",
+    name: "SEO Audit",
+    label: "SEO Audit",
+    description: "On-page SEO — titles, headings, content gaps, technical signals",
+    category: "Audit",
+    isDefault: false,
+    prompt: `Audit this page for on-page SEO. Check:
+
+**Title tag**: Exists? Under 60 chars? Primary keyword included naturally?
+
+**Meta description**: Present? Under 160 chars? Compelling enough to click?
+
+**Headings**: Single H1? Logical H2/H3 hierarchy? Keywords without stuffing?
+
+**Content**: Thin (under 300 words)? Duplicate? Written for humans or bots?
+
+**Links**: Internal links with descriptive anchors? Broken links? Orphan page?
+
+**Images**: Alt text on all images? File names descriptive?
+
+**Technical**: Schema markup present? Canonical tag set? Mobile-friendly?
+
+For each issue found:
+1. **What's wrong** — be specific
+2. **Why it matters** — the ranking signal affected
+3. **How to fix** — one concrete action
+
+Skip what's already working. Focus on real problems.
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "audit-accessibility",
+    name: "Accessibility Audit",
+    label: "Accessibility Audit",
+    description: "WCAG compliance — contrast, keyboard nav, ARIA, screen reader support",
+    category: "Audit",
+    isDefault: false,
+    prompt: `You are an accessibility auditor. Analyze the provided HTML for WCAG 2.1 AA compliance.
+
+**Important**: The {content} below is raw HTML source code of the page. Use it to identify accessibility issues.
+
+**Visual**: Color contrast ratios (4.5:1 for text, 3:1 for UI)? Focus indicators visible? No color-only information?
+
+**Keyboard**: All interactive elements reachable via Tab? Logical focus order? No keyboard traps? Escape closes modals?
+
+**Screen reader**: Alt text on images? Form labels present? ARIA roles used correctly? Landmark regions defined?
+
+**Structure**: Semantic HTML (nav, main, article, aside)? Heading hierarchy logical? Lists use <ul>/<ol>?
+
+**Motion**: Reduced motion support? No auto-playing media? Animation can be paused?
+
+For each violation:
+1. **WCAG criterion** — e.g., "1.4.3 Contrast (Minimum)"
+2. **Impact** — who is excluded
+3. **Fix** — specific code or design change
+
+Prioritize by severity: Critical (blocks access) → Major (significant friction) → Minor (annoyance).
+
+---
+
+Source: [{title}]({url})
+
+{content}`,
+  },
+
+  {
+    id: "audit-performance",
+    name: "Performance Audit",
+    label: "Performance Audit",
+    description: "Page speed — Core Web Vitals, bundle size, image optimization",
+    category: "Audit",
+    isDefault: false,
+    prompt: `Audit this page for performance. Check:
+
+**Core Web Vitals**:
+- LCP (Largest Contentful Paint): Under 2.5s?
+- INP (Interaction to Next Paint): Under 200ms?
+- CLS (Cumulative Layout Shift): Under 0.1?
+
+**Resources**:
+- Total JS bundle size (target: <150KB gzipped for landing, <300KB for app)
+- Total CSS size (target: <30KB)
+- Images: Proper format (AVIF/WebP)? Sized correctly? Lazy-loaded below fold?
+- Fonts: Subset? font-display: swap?
+
+**Loading**:
+- Render-blocking resources?
+- Critical CSS inlined?
+- Third-party scripts async/defer?
+
+**Code**:
+- Unused JS/CSS?
+- Large dependencies that could be tree-shaken?
+- N+1 requests or waterfalls?
+
+For each issue:
+1. **What's wrong** — specific metric or resource
+2. **Impact** — ms added, KB wasted
+3. **Fix** — concrete action
+
+---
+
+Source: [{title}]({url})
 
 {content}`,
   },

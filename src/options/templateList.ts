@@ -8,7 +8,7 @@ import { saveTemplates, type Template } from '../shared/storage';
 import { t, tOpt } from '../shared/i18n';
 import { state } from './state';
 import { refs } from './dom';
-import { escHtml } from './utils';
+import { escHtml, showToast } from './utils';
 import { renderDefaultTemplateSelect } from './settings';
 
 
@@ -179,6 +179,7 @@ export async function deleteTemplate(id: string): Promise<void> {
   await saveTemplates(state.templates);
   renderTemplateList();
   renderDefaultTemplateSelect();
+  showToast('Template deleted');
 }
 
 
@@ -263,6 +264,7 @@ export function wireTemplateList(): void {
     await saveTemplates(state.templates);
     renderTemplateList();
     renderDefaultTemplateSelect();
+    showToast(state.editingId ? 'Template updated' : 'Template created');
     closeModal();
   });
 }

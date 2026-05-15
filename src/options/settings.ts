@@ -19,14 +19,13 @@ export function applyTheme(theme: string): void {
 
 
 export function initSegmented(container: HTMLElement, value: string, onChange?: (value: string) => void): void {
-  container.querySelectorAll('.seg-btn').forEach((btn) => {
+  const buttons = Array.from(container.querySelectorAll('.seg-btn'));
+  buttons.forEach((btn) => {
     if ((btn as HTMLElement).dataset.value === value) {
       btn.classList.add('active');
     }
     btn.addEventListener('click', () => {
-      container.querySelectorAll('.seg-btn').forEach((b) => {
-        b.classList.remove('active');
-      });
+      buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       onChange?.((btn as HTMLElement).dataset.value ?? '');
     });
@@ -118,9 +117,10 @@ export function renderSettingsForm(): void {
 
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
-function showToast(): void {
+export function showToast(message?: string): void {
   const toast = refs.saveToast;
   if (!toast) return;
+  if (message) toast.textContent = message;
   toast.classList.remove('hidden');
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
@@ -150,28 +150,48 @@ export function autoSaveSettings(): void {
     ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
   };
   state.settings = { ...state.settings, ...partial };
-  void saveSettings(partial).then(() => showToast());
+  void saveSettings(partial).then(() => {
+    const theme = getSegmentedValue(refs.themeSeg!);
+    const provider = getSegmentedValue(refs.aiProviderSeg!);
+    if (theme) {
+      showToast('Theme applied');
+    } else if (provider) {
+      showToast('Provider changed');
+    } else {
+      showToast('Settings saved');
+    }
+  });
 }
 
 export function wireAutoSave(): void {
-  refs.defaultTplEl!.addEventListener('change', autoSaveSettings);
-  refs.languageEl!.addEventListener('change', autoSaveSettings);
-  refs.systemPromptEl?.addEventListener('input', autoSaveSettings);
+  refs.settingsForm?.addEventListener('change', (e) => {
+    const target = (e.target as HTMLElement).closest<HTMLElement>('[data-auto-save]');
+    if (target) autoSaveSettings();
+  });
 
-  refs.openaiModelEl?.addEventListener('change', autoSaveSettings);
-  refs.geminiModelEl?.addEventListener('change', autoSaveSettings);
-  refs.grokModelEl?.addEventListener('change', autoSaveSettings);
-  refs.openrouterModelEl?.addEventListener('change', autoSaveSettings);
-  refs.zaiModelEl?.addEventListener('change', autoSaveSettings);
-  refs.anthropicModelEl?.addEventListener('change', autoSaveSettings);
+  refs.settingsForm?.addEventListener('input', (e) => {
+    const target = (e.target as HTMLElement).closest<HTMLElement>('[data-auto-save]');
+    if (target) autoSaveSettings();
+  });
 
-  refs.ollamaModelEl?.addEventListener('input', autoSaveSettings);
-  refs.ollamaEndpointEl?.addEventListener('input', autoSaveSettings);
-  refs.ollamaUseAuthEl?.addEventListener('change', autoSaveSettings);
+  refs.themeSeg!.querySelectorAll('.seg-btn').forEach((btn) => {
+    btn.setAttribute('data-auto-save', 'true');
+  });
 
-  refs.customEndpointEl?.addEventListener('input', autoSaveSettings);
-  refs.customModelEl?.addEventListener('input', autoSaveSettings);
-  refs.customUseAuthEl?.addEventListener('change', autoSaveSettings);
+  refs.aiProviderSeg!.querySelectorAll('.seg-btn').forEach((btn) => {
+    btn.setAttribute('data-auto-save', 'true');
+  });
+
+  // Wire Ollama and Custom inputs for auto-save
+  const ollamaInputs = [refs.ollamaModelEl, refs.ollamaEndpointEl, refs.ollamaUseAuthEl];
+  ollamaInputs.forEach((el) => {
+    el?.setAttribute('data-auto-save', 'true');
+  });
+
+  const customInputs = [refs.customEndpointEl, refs.customModelEl, refs.customUseAuthEl];
+  customInputs.forEach((el) => {
+    el?.setAttribute('data-auto-save', 'true');
+  });
 }
 
 

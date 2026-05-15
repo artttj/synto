@@ -38,6 +38,7 @@ import {
   renderTemplateList,
   wireTemplateList,
 } from './templateList';
+import { showToast } from './utils';
 
 
 async function init(): Promise<void> {
@@ -81,6 +82,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-key',
     clearId: 'btn-clear-key',
     savedId: 'key-saved',
+    provider: 'OpenAI',
     getKey: getOpenAIKey,
     saveKey: saveOpenAIKey,
   });
@@ -90,6 +92,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-gemini-key',
     clearId: 'btn-clear-gemini-key',
     savedId: 'gemini-key-saved',
+    provider: 'Gemini',
     getKey: getGeminiKey,
     saveKey: saveGeminiKey,
   });
@@ -99,6 +102,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-grok-key',
     clearId: 'btn-clear-grok-key',
     savedId: 'grok-key-saved',
+    provider: 'Grok',
     getKey: getGrokKey,
     saveKey: saveGrokKey,
   });
@@ -108,6 +112,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-openrouter-key',
     clearId: 'btn-clear-openrouter-key',
     savedId: 'openrouter-key-saved',
+    provider: 'OpenRouter',
     getKey: getOpenRouterKey,
     saveKey: saveOpenRouterKey,
   });
@@ -117,6 +122,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-zai-key',
     clearId: 'btn-clear-zai-key',
     savedId: 'zai-key-saved',
+    provider: 'Zai',
     getKey: getZaiKey,
     saveKey: saveZaiKey,
   });
@@ -126,6 +132,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-anthropic-key',
     clearId: 'btn-clear-anthropic-key',
     savedId: 'anthropic-key-saved',
+    provider: 'Anthropic',
     getKey: getAnthropicKey,
     saveKey: saveAnthropicKey,
   });
@@ -135,6 +142,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-custom',
     clearId: 'btn-clear-custom',
     savedId: 'custom-key-saved',
+    provider: 'Custom',
     getKey: getCustomKey,
     saveKey: saveCustomKey,
   });
@@ -144,6 +152,7 @@ async function init(): Promise<void> {
     saveId: 'btn-save-ollama',
     clearId: 'btn-clear-ollama',
     savedId: 'ollama-key-saved',
+    provider: 'Ollama',
     getKey: getOllamaKey,
     saveKey: saveOllamaKey,
   });
@@ -154,6 +163,7 @@ async function init(): Promise<void> {
       customModel: refs.customModelEl?.value ?? '',
       customUseAuth: refs.customUseAuthEl?.checked ?? false,
     });
+    showToast('Custom endpoint saved');
   });
 
   refs.btnClearCustom!.addEventListener('click', async () => {
@@ -165,6 +175,7 @@ async function init(): Promise<void> {
       customModel: '',
       customUseAuth: false,
     });
+    showToast('Custom endpoint cleared');
   });
 
   refs.btnSaveOllama!.addEventListener('click', async () => {
@@ -173,6 +184,7 @@ async function init(): Promise<void> {
       ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
       ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
     });
+    showToast('Ollama settings saved');
   });
 
   refs.btnClearOllama!.addEventListener('click', async () => {
@@ -184,6 +196,7 @@ async function init(): Promise<void> {
       ollamaModel: 'kimi-k2.6',
       ollamaUseAuth: true,
     });
+    showToast('Ollama settings cleared');
   });
 
   wireTemplateList();

@@ -52,12 +52,17 @@ function applyResponse(response: ExtractedContent): void {
 }
 
 
+function shouldExtractHtml(): boolean {
+  // Accessibility audit template needs HTML for proper analysis
+  return state.selectedTemplateId === 'audit-accessibility';
+}
+
 async function sendExtract(tabId: number): Promise<ExtractedContent> {
-  const response = await sendTabMessage(tabId, { type: MSG.EXTRACT_CONTENT, mode: 'markdown' });
+  const mode = shouldExtractHtml() ? 'html' : 'markdown';
+  const response = await sendTabMessage(tabId, { type: MSG.EXTRACT_CONTENT, mode });
   applyResponse(response);
   return response;
 }
-
 
 export async function extractContent(): Promise<void> {
   setError(null);
@@ -98,7 +103,8 @@ export async function scrollAndRescan(): Promise<void> {
   refs.scrollLabelShort!.textContent = t('popup_scrolling');
 
   try {
-    const response = await sendTabMessage(tab.id, { type: MSG.SCROLL_AND_RESCAN, mode: 'markdown' });
+    const mode = shouldExtractHtml() ? 'html' : 'markdown';
+    const response = await sendTabMessage(tab.id, { type: MSG.SCROLL_AND_RESCAN, mode });
     applyResponse(response);
   } catch (err: unknown) {
     setError(errMsg(err));

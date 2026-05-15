@@ -74,4 +74,5 @@ export function resolveRefs() {
   refs.btnHistoryRestore = $('btn-history-restore') as HTMLButtonElement | null;
   refs.btnHistoryDismiss = $('btn-history-dismiss') as HTMLButtonElement | null;
   refs.contentToast = $('content-toast');
+  refs.btnChatStop = $('btn-chat-stop') as HTMLButtonElement | null;
 }

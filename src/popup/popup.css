@@ -23,7 +23,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 14px;
+  padding: 8px 16px;
   border-bottom: 1px solid var(--c-border);
   background: var(--c-surface);
 }
@@ -31,7 +31,7 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 
 .logo-icon {
@@ -52,23 +52,23 @@ header {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 #btn-options,
 #btn-help {
-  color: var(--c-text-2);
-  background: none;
-  border: none;
-  padding: 4px;
-  cursor: pointer;
-  border-radius: var(--r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--c-text-2);
+  background: none;
+  border: none;
+  border-radius: var(--r-sm);
+  cursor: pointer;
   transition: color var(--t) var(--ease), background var(--t) var(--ease);
 }
-#btn-options { font-size: 22px; line-height: 1; padding: 2px 4px; }
 #btn-options:hover,
 #btn-help:hover { color: var(--c-text); background: var(--c-elevated); }
 
@@ -76,10 +76,10 @@ header {
    TEMPLATE SELECTOR
 ═══════════════════════════════════════════════════════════════════════════ */
 .template-ui {
-  padding: 8px 16px 6px;
+  padding: 12px 16px 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px; /* clear breathing room between nav and preset row */
+  gap: 8px;
 }
 
 /* ── Primary navigation — Understand | Decide | Act | Compose ── */
@@ -117,7 +117,7 @@ header {
   background: var(--c-surface);
   color: var(--c-text);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  box-shadow: var(--shadow-xs);
 }
 
 /* ── Preset row — cards + inline hint ── */
@@ -136,20 +136,25 @@ header {
 }
 
 .template-card {
-  padding: 4px 20px 4px 12px;
+  padding: 6px 10px;
   border: none;
   background: none;
   border-radius: var(--r-sm);
-  /* --c-text-2 not --c-text-3: readable secondary, not disabled-looking */
   color: var(--c-text-2);
   font-size: 10px;
   font-weight: 500;
   font-family: var(--font);
   cursor: pointer;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
   outline: none;
   transition: color 100ms var(--ease), background 100ms var(--ease);
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .template-card:hover { color: var(--c-text); }
@@ -199,7 +204,6 @@ header {
   border-color: var(--c-error-bd);
   color: var(--c-error);
 }
-.hidden { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CONTENT TOAST
@@ -265,16 +269,16 @@ header {
 ═══════════════════════════════════════════════════════════════════════════ */
 .preview-panel {
   border-top: 1px solid var(--c-border);
-  padding: 8px 16px 8px;
-  margin-top: 6px;   /* template-ui already has 6px padding-bottom */
+  padding: 12px 16px;
+  margin-top: 4px;
 }
 
 /* Two-row preview header */
 .preview-header {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  padding-bottom: 10px;
+  gap: 8px;
+  padding-bottom: 8px;
 }
 
 /* Row 1: full-width toggle — label left, arrow right */
@@ -365,18 +369,19 @@ header {
 }
 
 .preview-refresh-cta {
-  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
   border: none;
   background: none;
   border-radius: var(--r-sm);
   color: var(--c-text-3);
-  font-size: 10px;
-  font-weight: 500;
-  font-family: var(--font);
   cursor: pointer;
   white-space: nowrap;
   transition: color var(--t) var(--ease), background var(--t) var(--ease);
 }
+.preview-refresh-cta svg { flex-shrink: 0; }
 .preview-refresh-cta:hover { color: var(--c-text-2); background: var(--c-accent-dim); }
 .preview-refresh-cta:focus-visible { outline: 1.5px solid var(--c-accent-lo); outline-offset: 1px; }
 
@@ -418,7 +423,7 @@ header {
   background: var(--c-surface);
   color: var(--c-text);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  box-shadow: var(--shadow-xs);
 }
 
 .preview-wrap {
@@ -502,20 +507,26 @@ header {
 .btn-copy-action:disabled { opacity: 0.28; cursor: not-allowed; }
 .btn-copy-action.copy-success {
   background: var(--c-success);
-  color: #fff;
+  color: var(--c-btn-text);
   filter: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SECONDARY BUTTON — Ask AI
 ═══════════════════════════════════════════════════════════════════════════ */
+.btn-generate-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 16px 12px;
+}
+
 .btn-generate {
+  flex: 1;
   display: block;
-  width: calc(100% - 32px);
-  margin: 5px 16px 16px;
-  padding: 11px;
+  padding: 10px;
   background: var(--c-accent);
-  color: #0d0d0d;
+  color: var(--c-btn-text);
   border: none;
   border-radius: var(--r-lg);
   font-size: 13px;
@@ -535,6 +546,23 @@ header {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.65; }
 }
+
+.btn-stop {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-error);
+  color: var(--c-btn-text);
+  border: none;
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: filter var(--t) var(--ease);
+}
+.btn-stop:hover:not(.hidden) { filter: brightness(0.9); }
+.btn-stop.hidden { display: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
