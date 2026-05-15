@@ -770,3 +770,14 @@ header {
 .template-card {
   position: relative;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOUCH TARGETS — 44px for primary actions
+═══════════════════════════════════════════════════════════════════════════ */
+.btn-generate,
+.btn-copy-action,
+.btn-chat-send,
+.intent-tab {
+  min-height: 44px;
+  min-width: 44px;
+}

@@ -1232,3 +1232,12 @@ html[data-theme="light"] .seg-btn.active {
 .segmented--wrap {
   flex-wrap: wrap;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOUCH TARGETS — 44px for nav and segmented controls
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-item,
+.seg-btn {
+  min-height: 44px;
+  min-width: 44px;
+}
