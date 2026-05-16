@@ -58,6 +58,7 @@ export interface Settings {
   ollamaModel: string;
   ollamaEndpoint: string;
   ollamaUseAuth: boolean;
+  proMode: boolean;
 }
 
 export interface ChatMessage {
@@ -319,6 +320,7 @@ export async function getSettings(): Promise<Settings> {
     ollamaModel: 'kimi-k2.6:cloud',
     ollamaEndpoint: 'https://ollama.com/v1',
     ollamaUseAuth: true,
+    proMode: false,
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),
   };
 }
