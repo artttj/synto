@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "prebuild": "node scripts/validate-templates.mjs",
     "build": "node scripts/build.js",
     "zip": "node scripts/zip.js",
     "release": "node scripts/release.js",
