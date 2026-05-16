@@ -52,3 +52,21 @@ describe('proMode default', () => {
     expect(settings.proMode).toBe(true);
   });
 });
+
+describe('refreshPreviewEditability rule', () => {
+  function shouldBeEditable(proMode: boolean, previewTab: 'content' | 'prompt'): boolean {
+    return proMode && previewTab === 'prompt';
+  }
+
+  it('is editable only when proMode and prompt tab', () => {
+    expect(shouldBeEditable(true, 'prompt')).toBe(true);
+  });
+
+  it('is readonly when light mode', () => {
+    expect(shouldBeEditable(false, 'prompt')).toBe(false);
+  });
+
+  it('is readonly when content tab even in pro mode', () => {
+    expect(shouldBeEditable(true, 'content')).toBe(false);
+  });
+});

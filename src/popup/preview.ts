@@ -35,7 +35,31 @@ export async function richCopy(text: string, html?: string): Promise<void> {
 
 export function updatePreviewText(): void {
   const isPrompt = state.previewTab === 'prompt';
-  refs.previewText!.value = isPrompt ? state.finalText : state.rawMarkdown;
+  if (isPrompt) {
+    refs.previewText!.value = state.promptOverride ?? state.finalText;
+  } else {
+    refs.previewText!.value = state.rawMarkdown;
+  }
+}
+
+
+export function refreshPreviewEditability(): void {
+  const editable = state.proMode && state.previewTab === 'prompt';
+  const ta = refs.previewText;
+  if (!ta) return;
+  ta.readOnly = !editable;
+  if (editable) {
+    ta.setAttribute('data-editable', 'true');
+  } else {
+    ta.removeAttribute('data-editable');
+  }
+}
+
+
+export function renderEditedBadge(): void {
+  const badge = refs.promptEditedBadge;
+  if (!badge) return;
+  badge.classList.toggle('hidden', state.promptOverride === null);
 }
 
 
@@ -78,6 +102,7 @@ export function wirePreview(): void {
       btn.setAttribute('aria-selected', 'true');
       state.previewTab = btn.dataset.tab as 'content' | 'prompt';
       updatePreviewText();
+      refreshPreviewEditability();
       if (!state.previewOpen) setPreviewOpen(true);
     });
   });
@@ -87,4 +112,27 @@ export function wirePreview(): void {
     if (!text) return;
     await copyPreviewText(text, refs.btnPreviewCopy!);
   });
+
+  refs.previewText!.addEventListener('input', () => {
+    if (!state.proMode || state.previewTab !== 'prompt') return;
+    state.promptOverride = refs.previewText!.value;
+    renderEditedBadge();
+  });
+}
+
+
+export function applyProMode(pro: boolean): void {
+  state.proMode = pro;
+  document.body.classList.toggle('pro-mode', pro);
+  refs.btnProMode?.setAttribute('data-pro-state', pro ? 'on' : 'off');
+  refs.btnProMode?.setAttribute('title', pro ? 'Pro mode: on' : 'Pro mode: off');
+  refs.btnProMode?.setAttribute('data-i18n-title', pro ? 'popup_pro_mode_on' : 'popup_pro_mode_off');
+
+  if (!pro && state.promptOverride !== null) {
+    state.promptOverride = null;
+    renderEditedBadge();
+    updatePreviewText();
+  }
+
+  refreshPreviewEditability();
 }
