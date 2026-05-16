@@ -11,6 +11,7 @@ export const refs = {
   btnOptions: null as HTMLElement | null,
   btnHelp:    null as HTMLElement | null,
   btnTheme:   null as HTMLButtonElement | null,
+  btnProMode: null as HTMLButtonElement | null,
   templateCards: null as HTMLElement | null,
   btnTemplatesManage: null as HTMLButtonElement | null,
   errorMsg: null as HTMLElement | null,
@@ -40,6 +41,7 @@ export const refs = {
   contentToast: null as HTMLElement | null,
   btnChatStop: null as HTMLElement | null,
   providerHealth: null as HTMLElement | null,
+  promptEditedBadge: null as HTMLElement | null,
   footerProvider: null as HTMLElement | null,
   footerModel: null as HTMLElement | null,
   footerVersion: null as HTMLElement | null,
@@ -60,6 +62,7 @@ export function resolveRefs() {
   refs.btnOptions = $('btn-options');
   refs.btnHelp    = $('btn-help');
   refs.btnTheme   = $('btn-theme') as HTMLButtonElement | null;
+  refs.btnProMode = $('btn-pro-mode') as HTMLButtonElement | null;
   refs.templateCards = $('template-cards');
   refs.btnTemplatesManage = $('btn-templates-manage') as HTMLButtonElement | null;
   refs.errorMsg = $('error-msg');
@@ -89,6 +92,7 @@ export function resolveRefs() {
   refs.contentToast = $('content-toast');
   refs.btnChatStop = $('btn-chat-stop') as HTMLButtonElement | null;
   refs.providerHealth = $('provider-health');
+  refs.promptEditedBadge = $('prompt-edited-badge');
   refs.footerProvider = $('footer-provider');
   refs.footerModel = $('footer-model');
   refs.footerVersion = $('footer-version');
