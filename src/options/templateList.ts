@@ -3,48 +3,13 @@
  * https://github.com/artttj/synto
  */
 
-import { DEFAULT_TEMPLATES, TEMPLATE_CATEGORIES } from '../shared/constants';
+import { DEFAULT_TEMPLATES } from '../shared/constants';
 import { saveTemplates, type Template } from '../shared/storage';
 import { t, tOpt } from '../shared/i18n';
 import { state } from './state';
 import { refs } from './dom';
-import { escHtml, showToast } from './utils';
+import { showToast } from './utils';
 import { renderDefaultTemplateSelect } from './settings';
-
-
-function populateCategorySelect(currentCategory?: string): void {
-  const sel = refs.modalCategorySelect!;
-  sel.innerHTML = '';
-
-  const known = new Set(TEMPLATE_CATEGORIES);
-  const extra = new Set<string>();
-  for (const tpl of state.templates) {
-    if (tpl.category && !known.has(tpl.category)) extra.add(tpl.category);
-  }
-
-  const allCats = [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
-  for (const cat of allCats) {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = t('category_' + cat.toLowerCase()) || cat;
-    sel.appendChild(opt);
-  }
-
-  const newOpt = document.createElement('option');
-  newOpt.value = '__new__';
-  newOpt.textContent = t('options_new_category');
-  sel.appendChild(newOpt);
-
-  if (currentCategory && allCats.includes(currentCategory)) {
-    sel.value = currentCategory;
-  } else if (currentCategory && currentCategory !== '__new__') {
-    sel.value = allCats[0];
-  } else {
-    sel.value = allCats[0];
-  }
-
-  refs.modalCategoryInput!.classList.add('hidden');
-}
 
 
 export function openModal(templateId: string | null): void {
@@ -56,7 +21,6 @@ export function openModal(templateId: string | null): void {
   refs.modalTitle!.textContent = tpl ? t('options_edit_template') : t('options_new_template');
   refs.modalName!.value = tpl?.name ?? '';
   refs.modalPrompt!.value = tpl?.prompt ?? '{content}';
-  populateCategorySelect(tpl?.category);
   refs.modalOverlay!.classList.remove('hidden');
   refs.modalName!.focus();
 }
@@ -68,107 +32,167 @@ export function closeModal(): void {
 }
 
 
-export function renderTemplateList(): void {
-  refs.templateList!.innerHTML = '';
-  const q = state.searchQuery.toLowerCase();
-  const grouped: Record<string, Template[]> = {};
+function el(tag: string, className?: string, text?: string): HTMLElement {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
 
-  for (const cat of TEMPLATE_CATEGORIES) {
-    grouped[cat] = [];
+
+function dragHandleIcon(): SVGSVGElement {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', '14');
+  svg.setAttribute('height', '14');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2');
+  const dots = [
+    [9, 6], [15, 6], [9, 12], [15, 12], [9, 18], [15, 18],
+  ];
+  for (const [cx, cy] of dots) {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', String(cx));
+    c.setAttribute('cy', String(cy));
+    c.setAttribute('r', '1');
+    svg.appendChild(c);
   }
-  state.templates.forEach((tpl) => {
-    if (
-      q &&
-      !tpl.name.toLowerCase().includes(q) &&
-      !tpl.prompt.toLowerCase().includes(q)
-    ) {
-      return;
-    }
-    const cat = tpl.category ?? 'Custom';
-    if (!grouped[cat]) {
-      grouped[cat] = [];
-    }
-    grouped[cat].push(tpl);
-  });
+  return svg;
+}
 
-  const allCats = [...TEMPLATE_CATEGORIES, 'Custom'];
-  let totalShown = 0;
 
-  allCats.forEach((cat) => {
-    const list = grouped[cat];
-    if (!list?.length) return;
-    totalShown += list.length;
+function buildTemplateItem(tpl: Template): HTMLElement {
+  const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === tpl.id);
+  const displayName = tOpt('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
+  const previewText = tpl.prompt.replace(/\n/g, ' ').slice(0, 90) + (tpl.prompt.length > 90 ? '…' : '');
 
-    const section = document.createElement('div');
-    section.className = 'template-category open';
+  const item = el('div', 'template-item');
+  item.setAttribute('draggable', 'true');
+  item.dataset.id = tpl.id;
 
-    const displayCat = t('category_' + cat.toLowerCase()) || cat;
-    const toggle = document.createElement('button');
-    toggle.className = 'category-toggle';
-    toggle.setAttribute('type', 'button');
-    toggle.innerHTML = `
-      ${escHtml(displayCat)}
-      <span class="category-count">${list.length}</span>
-      <svg class="category-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M5 7.5l5 5 5-5"/>
-      </svg>
-    `;
-    toggle.addEventListener('click', () => {
-      section.classList.toggle('open');
-    });
+  const handle = el('span', 'drag-handle');
+  handle.setAttribute('aria-hidden', 'true');
+  handle.setAttribute('title', 'Drag to reorder');
+  handle.appendChild(dragHandleIcon());
 
-    const items = document.createElement('div');
-    items.className = 'category-items';
+  const info = el('div', 'template-item-info');
+  const nameRow = el('div', 'template-name');
+  nameRow.appendChild(document.createTextNode(displayName));
+  if (isBuiltin) {
+    nameRow.appendChild(el('span', 'template-badge', t('options_builtin')));
+  }
+  info.appendChild(nameRow);
+  info.appendChild(el('div', 'template-preview', previewText));
 
-    list.forEach((tpl) => {
-      const isBuiltin = DEFAULT_TEMPLATES.some((d) => d.id === tpl.id);
-      const displayName = tOpt('template_name_' + tpl.id) ?? tpl.name;
-      const previewText =
-        tpl.prompt.replace(/\n/g, ' ').slice(0, 90) +
-        (tpl.prompt.length > 90 ? '\u2026' : '');
+  const actions = el('div', 'template-actions');
+  const editBtn = el('button', 'btn btn-ghost btn-sm btn-edit', t('options_edit'));
+  editBtn.setAttribute('type', 'button');
+  (editBtn as HTMLButtonElement).dataset.id = tpl.id;
+  const deleteBtn = el('button', 'btn btn-danger btn-delete', t('options_delete'));
+  deleteBtn.setAttribute('type', 'button');
+  (deleteBtn as HTMLButtonElement).dataset.id = tpl.id;
+  actions.appendChild(editBtn);
+  actions.appendChild(deleteBtn);
 
-      const item = document.createElement('div');
-      item.className = 'template-item';
-      item.innerHTML = `
-        <div class="template-item-info">
-          <div class="template-name">
-            ${escHtml(displayName)}
-            ${isBuiltin ? `<span class="template-badge">${escHtml(t('options_builtin'))}</span>` : ''}
-          </div>
-          <div class="template-preview">${escHtml(previewText)}</div>
-        </div>
-        <div class="template-actions">
-          <button class="btn btn-ghost btn-sm btn-edit" data-id="${tpl.id}" type="button">${escHtml(t('options_edit'))}</button>
-          <button class="btn btn-danger btn-delete" data-id="${tpl.id}" type="button">${escHtml(t('options_delete'))}</button>
-        </div>
-      `;
-      items.appendChild(item);
-    });
+  item.appendChild(handle);
+  item.appendChild(info);
+  item.appendChild(actions);
+  return item;
+}
 
-    section.appendChild(toggle);
-    section.appendChild(items);
-    refs.templateList!.appendChild(section);
-  });
 
-  if (totalShown === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'no-results';
+export function renderTemplateList(): void {
+  const container = refs.templateList!;
+  container.replaceChildren();
+
+  const q = state.searchQuery.toLowerCase();
+  const filtered = state.templates.filter((tpl) =>
+    !q ||
+    tpl.name.toLowerCase().includes(q) ||
+    tpl.prompt.toLowerCase().includes(q)
+  );
+
+  if (filtered.length === 0) {
+    const empty = el('div', 'no-results');
     empty.textContent = q
       ? t('options_no_results_search').replace('{q}', q)
       : t('options_no_results');
-    refs.templateList!.appendChild(empty);
+    container.appendChild(empty);
+    return;
   }
 
-  refs.templateList!.querySelectorAll('.btn-edit').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      openModal((btn as HTMLElement).dataset.id!);
+  for (const tpl of filtered) container.appendChild(buildTemplateItem(tpl));
+  wireListInteractions();
+}
+
+
+function wireListInteractions(): void {
+  const container = refs.templateList!;
+
+  container.querySelectorAll<HTMLElement>('.btn-edit').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal(btn.dataset.id!);
     });
   });
-  refs.templateList!.querySelectorAll('.btn-delete').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      void deleteTemplate((btn as HTMLElement).dataset.id!);
+
+  container.querySelectorAll<HTMLElement>('.btn-delete').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      void deleteTemplate(btn.dataset.id!);
     });
   });
+
+  let dragSourceId: string | null = null;
+
+  container.querySelectorAll<HTMLElement>('.template-item').forEach((item) => {
+    item.addEventListener('dragstart', (e) => {
+      dragSourceId = item.dataset.id ?? null;
+      item.classList.add('dragging');
+      e.dataTransfer?.setData('text/plain', dragSourceId ?? '');
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+    });
+
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      container.querySelectorAll('.template-item.drop-target').forEach((n) => n.classList.remove('drop-target'));
+      dragSourceId = null;
+    });
+
+    item.addEventListener('dragover', (e) => {
+      if (!dragSourceId || item.dataset.id === dragSourceId) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+      item.classList.add('drop-target');
+    });
+
+    item.addEventListener('dragleave', () => {
+      item.classList.remove('drop-target');
+    });
+
+    item.addEventListener('drop', (e) => {
+      e.preventDefault();
+      item.classList.remove('drop-target');
+      const targetId = item.dataset.id;
+      if (!dragSourceId || !targetId || dragSourceId === targetId) return;
+      void reorderTemplates(dragSourceId, targetId);
+    });
+  });
+}
+
+
+async function reorderTemplates(sourceId: string, targetId: string): Promise<void> {
+  const next = [...state.templates];
+  const srcIdx = next.findIndex((t) => t.id === sourceId);
+  const tgtIdx = next.findIndex((t) => t.id === targetId);
+  if (srcIdx === -1 || tgtIdx === -1) return;
+  const [moved] = next.splice(srcIdx, 1);
+  next.splice(tgtIdx, 0, moved);
+  state.templates = next;
+  await saveTemplates(state.templates);
+  renderTemplateList();
+  renderDefaultTemplateSelect();
 }
 
 
@@ -217,12 +241,6 @@ export function wireTemplateList(): void {
     });
   });
 
-  refs.modalCategorySelect!.addEventListener('change', () => {
-    const isNew = refs.modalCategorySelect!.value === '__new__';
-    refs.modalCategoryInput!.classList.toggle('hidden', !isNew);
-    if (isNew) refs.modalCategoryInput!.focus();
-  });
-
   refs.modalSave!.addEventListener('click', async () => {
     const name = refs.modalName!.value.trim();
     const prompt = refs.modalPrompt!.value.trim();
@@ -236,27 +254,16 @@ export function wireTemplateList(): void {
       return;
     }
 
-    let category: string;
-    if (refs.modalCategorySelect!.value === '__new__') {
-      category = refs.modalCategoryInput!.value.trim();
-      if (!category) {
-        refs.modalCategoryInput!.focus();
-        return;
-      }
-    } else {
-      category = refs.modalCategorySelect!.value;
-    }
-
     if (state.editingId) {
       state.templates = state.templates.map((tpl) =>
-        tpl.id === state.editingId ? { ...tpl, name, category, prompt } : tpl
+        tpl.id === state.editingId ? { ...tpl, name, prompt } : tpl
       );
     } else {
       state.templates.push({
         id: crypto.randomUUID(),
         name,
-        category,
         prompt,
+        category: 'Custom',
         isDefault: false,
       });
     }

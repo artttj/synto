@@ -98,12 +98,18 @@ export const DEPRECATED_TEMPLATE_IDS = new Set([
   'community-rewrite-comment',
   'write-email-helper',
   'understand-audit',
+  'decide-decide',
+  'decide-actions',
+  'decide-briefing',
+  'brief-template',
+  'review-feedback',
+  'review-comparison',
 ]);
 
 export const DEFAULT_TEMPLATES = [
   {
     id: "understand-brief",
-    name: "Brief",
+    name: "TL;DR",
     label: "TL;DR",
     description: "Key takeaway, evidence, open questions",
     category: "Understand",
@@ -154,75 +160,6 @@ Source: [{title}]({url})
   },
 
   {
-    id: "decide-decide",
-    name: "Decide",
-    label: "Decide",
-    description: "Pick a side — options, trade-offs, verdict",
-    category: "Decide",
-    isDefault: true,
-    prompt: `Pick a side. What's the best option and why?
-
-If the content is creative (movie, book, album, game) — be a sharp critic. Love it or hate it, no middle ground. Use "I" statements. Mediocre means no. Back your take with specific details, not vague praise or generic criticism. End with VERDICT including a star rating (⭐ and ☆) and a score like 3.5/5.
-
-If it's a choice between options — name the winner in two sentences, then explain the trade-off you're accepting. No hedging, no "it depends." End with VERDICT.
-
-If it's a purchase or product — best pick, what trade-off you're accepting, and who should skip it. End with VERDICT.
-
-Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words like leverage, streamline, dive into, furthermore, moreover, crucial, essential. Short sentences. Active voice. Never start with "Based on the content" or "As a [role]."
-
----
-
-{content}`,
-  },
-
-  {
-    id: "decide-actions",
-    name: "Actions",
-    label: "Action Items",
-    description: "Concrete tasks, owners, deadlines, blockers",
-    category: "Decide",
-    isDefault: false,
-    prompt: `Extract every concrete action from this content. For each action, give me:
-
-1. **What** — clear verb phrase (e.g. "Fix the login timeout", not "Look into login")
-2. **Who** — the person or role responsible (infer if not explicit)
-3. **When** — deadline or urgency (ASAP / this week / no deadline)
-4. **Evidence** — short quote from the source that backs this action
-
-Also flag real blockers and risks — things that would actually derail the work. Skip theoretical risks. Only include things that a reasonable person would add to their task list.
-
-Be specific. Use plain language. No filler, no hedging, no cliches. Avoid words like leverage, streamline, crucial, essential. Short sentences. Active voice. Never start with "Based on the content provided" or "Here are the action items."
-
-Number the list.
-
----
-
-{content}`,
-  },
-
-  {
-    id: "decide-briefing",
-    name: "Strategy Briefing",
-    label: "Strategy",
-    description: "Stakeholder view — what matters, what to watch, what to decide",
-    category: "Decide",
-    isDefault: false,
-    prompt: `Give me a strategy briefing on this content. I need three things:
-
-**What matters** — the 2-3 points that should be on a decision-maker's radar. Not everything — just what moves the needle. Skip operational details that are below the strategic level.
-
-**What to watch** — risks, dependencies, or market shifts that could change the picture. Only things that would materially affect a go/no-go decision or a budget allocation. Not "could potentially" — things that are actually brewing.
-
-**What to decide** — the specific decision this content is asking for, or the decision it should trigger. If no decision is needed, say so directly.
-
-Write for a busy executive who will skim this in 30 seconds. Be direct. No "it's important to note" or "stakeholders should consider." Name the thing, say why it matters, move on.
-
----
-
-{content}`,
-  },
-
-  {
     id: "compose-reply",
     name: "Reply",
     label: "Reply",
@@ -238,80 +175,6 @@ Write for a busy executive who will skim this in 30 seconds. Be direct. No "it's
 **If this is text to rewrite**: Rewrite it to be professional and direct. Cut every word that doesn't earn its place. Remove AI-sounding language — no "furthermore", "moreover", "in conclusion", "it's worth noting", no em dashes. Two variants: one short and blunt (1-2 sentences), one warmer but still concise (2-4 sentences).
 
 Be specific. Use plain language. Active voice. Short sentences. Never start with "Based on the content provided" or "I'd be happy to help."
-
----
-
-{content}`,
-  },
-
-  {
-    id: "brief-template",
-    name: "Project Brief",
-    label: "Project Brief",
-    description: "Project brief — goals, audience, constraints",
-    category: "Brief",
-    isDefault: false,
-    prompt: `Create a project brief from this content. Give me:
-
-**Goal**: The one-sentence outcome. What does done look like?
-
-**Audience**: Who is this for? Be specific — "busy parents" beats "everyone".
-
-**Constraints**: Budget, timeline, technical limits, compliance needs. Only real constraints, not nice-to-haves.
-
-**Success criteria**: How do we know this worked? Measurable signals, not feelings.
-
-**Risks**: What could actually derail this? Skip theoretical worries — only things that would keep you up at night.
-
-Be specific. Use plain language. No filler. Short sentences. Active voice.
-
----
-
-{content}`,
-  },
-
-  {
-    id: "review-feedback",
-    name: "Feedback",
-    label: "Feedback",
-    description: "Structured feedback — what works, what doesn't, how to fix",
-    category: "Review",
-    isDefault: false,
-    prompt: `Give structured feedback on this work. Be honest and direct.
-
-**What works**: Name 2-3 specific things that are working well. Point to concrete details, not vague praise.
-
-**What doesn't**: Name 2-3 specific problems. Explain why each one matters — the actual impact, not just "it could be better."
-
-**How to fix**: For each problem, give one concrete action. Not "consider revising" — actual moves like "cut paragraph 2" or "move the CTA above the fold."
-
-Skip the sandwich approach. Don't soften criticism with fake praise. Be kind but clear.
-
-Be specific. Use plain language. No filler. No "I think" or "in my opinion."
-
----
-
-{content}`,
-  },
-
-  {
-    id: "review-comparison",
-    name: "Comparison",
-    label: "Comparison",
-    description: "Side-by-side comparison — features, trade-offs, recommendation",
-    category: "Review",
-    isDefault: false,
-    prompt: `Compare these options side-by-side. Give me:
-
-**Features**: What does each one actually do? List the capabilities that matter for this decision. Skip marketing fluff.
-
-**Trade-offs**: What do you gain and lose with each option? Price vs. quality? Speed vs. durability? Name the actual tension.
-
-**Who should pick which**: For each option, say who it's best for and who should skip it. Be specific — "freelancers on a budget" not "everyone."
-
-**Recommendation**: Pick one. Say why in two sentences. No hedging.
-
-Use a table if it helps. Be direct. No "it depends" unless there's genuinely no right answer.
 
 ---
 
@@ -357,7 +220,7 @@ Source: [{title}]({url})
 
   {
     id: "audit-accessibility",
-    name: "Accessibility Audit",
+    name: "Accessibility",
     label: "Accessibility",
     description: "WCAG compliance — contrast, keyboard nav, ARIA, screen reader support",
     category: "Audit",
@@ -392,7 +255,7 @@ Source: [{title}]({url})
 
   {
     id: "audit-performance",
-    name: "Performance Audit",
+    name: "Performance",
     label: "Performance",
     description: "Page speed — Core Web Vitals, bundle size, image optimization",
     category: "Audit",

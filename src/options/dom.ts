@@ -21,8 +21,6 @@ export const refs: {
   modalOverlay: HTMLElement | null;
   modalTitle: HTMLElement | null;
   modalName: HTMLInputElement | null;
-  modalCategorySelect: HTMLSelectElement | null;
-  modalCategoryInput: HTMLInputElement | null;
   modalPrompt: HTMLTextAreaElement | null;
   modalCancel: HTMLElement | null;
   modalClose: HTMLElement | null;
@@ -58,8 +56,6 @@ export const refs: {
   modalOverlay: null,
   modalTitle: null,
   modalName: null,
-  modalCategorySelect: null,
-  modalCategoryInput: null,
   modalPrompt: null,
   modalCancel: null,
   modalClose: null,
@@ -98,8 +94,6 @@ export function resolveRefs(): void {
   refs.modalOverlay = $('modal-overlay')!;
   refs.modalTitle = $('modal-title')!;
   refs.modalName = $('modal-name') as HTMLInputElement;
-  refs.modalCategorySelect = $('modal-category-select') as HTMLSelectElement;
-  refs.modalCategoryInput = $('modal-category-input') as HTMLInputElement;
   refs.modalPrompt = $('modal-prompt') as HTMLTextAreaElement;
   refs.modalCancel = $('modal-cancel')!;
   refs.modalClose = $('modal-close')!;

@@ -3,8 +3,8 @@
  * https://github.com/artttj/synto
  */
 
-import { TEMPLATE_CATEGORIES, PROVIDER_MODELS, CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT, DEFAULT_SYSTEM_PROMPT } from '../shared/constants';
-import { saveSettings, type Settings, type Template } from '../shared/storage';
+import { PROVIDER_MODELS, CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT, DEFAULT_SYSTEM_PROMPT } from '../shared/constants';
+import { saveSettings, type Settings } from '../shared/storage';
 import { applyAndWatchTheme } from '../shared/theme';
 
 import { state } from './state';
@@ -41,33 +41,15 @@ export function getSegmentedValue(container: HTMLElement): string {
 
 
 export function renderDefaultTemplateSelect(): void {
-  refs.defaultTplEl!.textContent = '';
-
-  const grouped: Record<string, Template[]> = {};
-  for (const cat of TEMPLATE_CATEGORIES) {
-    grouped[cat] = [];
-  }
-  state.templates.forEach((tpl) => {
-    const cat = tpl.category ?? 'General';
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(tpl);
-  });
-
-  [...TEMPLATE_CATEGORIES, 'Custom'].forEach((cat) => {
-    const list = grouped[cat];
-    if (!list?.length) return;
-
-    const group = document.createElement('optgroup');
-    group.label = cat;
-    list.forEach((tpl) => {
+  refs.defaultTplEl!.replaceChildren(
+    ...state.templates.map((tpl) => {
       const opt = document.createElement('option');
       opt.value = tpl.id;
       opt.textContent = tpl.name;
       opt.selected = tpl.id === state.settings.defaultTemplateId;
-      group.appendChild(opt);
-    });
-    refs.defaultTplEl!.appendChild(group);
-  });
+      return opt;
+    })
+  );
 }
 
 

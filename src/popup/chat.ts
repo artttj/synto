@@ -111,13 +111,31 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
 }
 
 
+function extractHostname(url: string | undefined): string {
+  if (!url) return '';
+  try { return new URL(url).hostname; } catch { return ''; }
+}
+
 function buildContextLine(): string {
   const url = state.extracted?.url?.trim();
   if (!url) return '';
+  const host = extractHostname(url);
   const title = state.extracted?.title?.trim();
-  return title
-    ? `Source page: ${title} (${url})`
-    : `Source page: ${url}`;
+  const parts = [`The user is analyzing a page on the website ${host || url}.`];
+  if (title) parts.push(`Page title: "${title}".`);
+  parts.push(`Page URL: ${url}.`);
+  parts.push(`Anchor your analysis to this domain. Do not assume the content is about a different product, service, or company than what ${host || 'this site'} offers.`);
+  return parts.join(' ');
+}
+
+function buildSourceBanner(): string {
+  const url = state.extracted?.url?.trim();
+  if (!url) return '';
+  const host = extractHostname(url);
+  const title = state.extracted?.title?.trim();
+  const header = host ? `[Source: ${host}` : '[Source';
+  const titlePart = title ? ` · "${title}"` : '';
+  return `${header}${titlePart}]\nURL: ${url}\n\n---\n\n`;
 }
 
 
@@ -483,7 +501,8 @@ export async function processWithAI(): Promise<void> {
   }
   refs.chatNoKey!.classList.add('hidden');
 
-  if (state.chatHistory.length === 0) {
+  const isFirstMessage = state.chatHistory.length === 0;
+  if (isFirstMessage) {
     const contextLine = buildContextLine();
     const systemContent = [state.systemPrompt, contextLine].filter(Boolean).join('\n\n');
     if (systemContent) {
@@ -491,7 +510,8 @@ export async function processWithAI(): Promise<void> {
     }
   }
 
-  state.chatHistory.push({ role: 'user', content: state.finalText });
+  const userContent = isFirstMessage ? buildSourceBanner() + state.finalText : state.finalText;
+  state.chatHistory.push({ role: 'user', content: userContent });
 
   const bubble = appendBubble('assistant', '');
   bubble.classList.add('streaming');
