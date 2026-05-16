@@ -8,7 +8,7 @@ import { resolveLocalized } from '../shared/library';
 import { tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
-import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
+import { updatePreviewText, updateTokenDisplay, setPreviewOpen, renderEditedBadge } from './preview';
 import { detectTemplateId } from './site-detect';
 
 
@@ -40,12 +40,15 @@ export function applyTemplate(extracted: ExtractedContent, templateId: string | 
 export function applyTemplateAndUpdate(): void {
   if (!state.extracted) return;
 
+  state.promptOverride = null;
+
   state.finalText = applyTemplate(state.extracted, state.selectedTemplateId);
   updateTokenDisplay(state.finalText);
   refs.btnProcess!.disabled = false;
   updatePreviewText();
+  renderEditedBadge();
 
-  if (refs.previewPanel!.classList.contains('hidden')) {
+  if (refs.previewPanel!.classList.contains('hidden') && state.proMode) {
     setPreviewOpen(true);
   }
 }
