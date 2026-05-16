@@ -47,6 +47,18 @@
   color: var(--c-text);
   white-space: pre-wrap;
 }
+.chat-bubble.assistant.streaming:empty {
+  padding: 8px 10px;
+}
+.chat-bubble.assistant.streaming:empty::after {
+  content: "▍";
+  color: var(--c-text-3);
+  font-weight: 400;
+  animation: chat-cursor-blink 1s steps(2, end) infinite;
+}
+@keyframes chat-cursor-blink {
+  50% { opacity: 0; }
+}
 .chat-bubble.assistant strong { font-weight: 600; }
 .chat-bubble.assistant em     { font-style: italic; color: var(--c-text-2); }
 .chat-bubble.assistant code {

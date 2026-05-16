@@ -585,15 +585,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--c-error);
-  color: #ffffff;
-  border: none;
+  background: var(--c-elevated);
+  color: var(--c-text-2);
+  border: 1px solid var(--c-border-hi);
   border-radius: 6px;
   cursor: pointer;
-  transition: filter var(--t) var(--ease);
+  transition: color var(--t) var(--ease), border-color var(--t) var(--ease), background var(--t) var(--ease);
   position: absolute;
   right: 0;
   top: 0;
 }
-.btn-stop:hover:not(.hidden) { filter: brightness(0.9); }
+.btn-stop:hover:not(.hidden) {
+  color: var(--c-text);
+  border-color: var(--c-text-3);
+  background: var(--c-surface);
+}
 .btn-stop.hidden { display: none; }
