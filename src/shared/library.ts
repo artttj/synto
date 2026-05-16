@@ -8,19 +8,44 @@
 
 import seedLibrary from '../../library/library.json';
 
+export type LocalizedString = string | { [locale: string]: string };
+
+export function resolveLocalized(value: LocalizedString, locale: string): string {
+  if (typeof value === 'string') return value;
+  return value[locale] ?? value.en ?? Object.values(value)[0] ?? '';
+}
+
+export interface SiteMatch {
+  hosts?: string[];
+  pathContains?: string[];
+  signals?: {
+    schemaTypes?: string[];
+    ogTypes?: string[];
+  };
+  category?: string;
+}
+
+export interface PageSignals {
+  schemaTypes: string[];
+  ogType: string | null;
+}
+
 export interface LibraryEntry {
   id: string;
-  name: string;
-  description: string;
+  name: LocalizedString;
+  description: LocalizedString;
   category: string;
   tags: string[];
   placeholders: string[];
   version: number;
-  prompt: string;
+  prompt: LocalizedString;
   author: string;
   sourceUrl: string | null;
   recommendedModel: string | null;
   license: string;
+  match?: SiteMatch;
+  useFullContent?: boolean;
+  usesWebSearch?: boolean;
 }
 
 export interface LibraryFile {
