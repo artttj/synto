@@ -4,6 +4,7 @@
  */
 
 import { type Template, saveSettings, rememberTemplateUsage, getRememberedTemplateId } from '../shared/storage';
+import { resolveLocalized } from '../shared/library';
 import { tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
@@ -15,13 +16,24 @@ export function applyTemplate(extracted: ExtractedContent, templateId: string | 
   const template = state.templates.find((tpl) => tpl.id === templateId);
   if (!template || !extracted) return '';
 
-  const sel = extracted.selection ?? extracted.content ?? '';
-  return template.prompt
-    .replace(/\{content\}/g, extracted.content ?? '')
+  const tplExt = template as Template & { useFullContent?: boolean };
+  const useFullContent = tplExt.useFullContent === true;
+
+  const content = extracted.content ?? '';
+  const sel = useFullContent ? content : (extracted.selection ?? content);
+  const category = state.detectedCategory ?? 'auto';
+
+  const promptValue = typeof template.prompt === 'string'
+    ? template.prompt
+    : resolveLocalized(template.prompt, state.language || 'en');
+
+  return promptValue
+    .replace(/\{content\}/g, content)
     .replace(/\{selection\}/g, sel)
     .replace(/\{title\}/g, extracted.title ?? '')
     .replace(/\{url\}/g, extracted.url ?? '')
-    .replace(/\{siteName\}/g, extracted.siteName ?? '');
+    .replace(/\{siteName\}/g, extracted.siteName ?? '')
+    .replace(/\{category\}/g, category);
 }
 
 
@@ -74,8 +86,10 @@ export async function selectTemplateForUrl(url?: string): Promise<void> {
 }
 
 function buildCard(tpl: Template): HTMLButtonElement {
-  const displayLabel = tOpt('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
-  const displayName  = tOpt('template_name_'  + tpl.id) ?? tpl.name;
+  const locale = state.language || 'en';
+  const resolvedName = typeof tpl.name === 'string' ? tpl.name : resolveLocalized(tpl.name, locale);
+  const displayLabel = tOpt('template_label_' + tpl.id) ?? tpl.label ?? resolvedName;
+  const displayName  = tOpt('template_name_'  + tpl.id) ?? resolvedName;
 
   const btn = document.createElement('button');
   btn.type = 'button';

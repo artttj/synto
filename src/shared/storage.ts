@@ -4,17 +4,23 @@
  */
 
 import { STORAGE_KEYS, DEPRECATED_TEMPLATE_IDS, DEFAULT_SYSTEM_PROMPT } from './constants';
-import { SEED_LIBRARY } from './library';
+import { SEED_LIBRARY, resolveLocalized, type SiteMatch } from './library';
 
-export const DEFAULT_TEMPLATES: Template[] = SEED_LIBRARY.entries.map((e) => ({
-  id: e.id,
-  name: e.name,
-  label: e.name,
-  description: e.description,
-  category: e.category,
-  isDefault: e.id === 'understand-brief',
-  prompt: e.prompt,
-}));
+export const DEFAULT_TEMPLATES: Template[] = SEED_LIBRARY.entries.map((e) => {
+  const name = resolveLocalized(e.name, 'en');
+  return {
+    id: e.id,
+    name,
+    label: name,
+    description: resolveLocalized(e.description, 'en'),
+    category: e.category,
+    isDefault: e.id === 'understand-brief',
+    prompt: resolveLocalized(e.prompt, 'en'),
+    match: e.match,
+    useFullContent: e.useFullContent,
+    usesWebSearch: e.usesWebSearch,
+  };
+});
 
 export interface Template {
   id: string;
@@ -24,6 +30,9 @@ export interface Template {
   category?: string;
   isDefault?: boolean;
   prompt: string;
+  match?: SiteMatch;
+  useFullContent?: boolean;
+  usesWebSearch?: boolean;
   fromLibrary?: {
     entryId: string;
     version: number;

@@ -90,6 +90,7 @@ async function init(): Promise<void> {
   const [templates, settings] = await Promise.all([getTemplates(), getSettings()]);
 
   setLocale(settings.language ?? 'en');
+  state.language = settings.language ?? 'en';
   applyI18n();
 
   refs.btnTheme?.setAttribute('data-theme-mode', settings.theme ?? 'dark');
