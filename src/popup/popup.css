@@ -101,22 +101,13 @@ body {
   flex-shrink: 0;
 }
 
-/* Template chips — one flat scrollable row */
+/* Template chips — wrap onto multiple rows when the popup is narrow */
 .template-cards {
   flex: 1;
   min-width: 0;
   display: flex;
-  gap: 2px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  /* Fade the right edge so overflow signals "scroll" instead of clipping */
-  -webkit-mask-image: linear-gradient(to right, black calc(100% - 16px), transparent);
-          mask-image: linear-gradient(to right, black calc(100% - 16px), transparent);
-}
-
-.template-cards::-webkit-scrollbar {
-  display: none;
+  flex-wrap: wrap;
+  gap: 4px 2px;
 }
 
 .template-card {
