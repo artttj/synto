@@ -5,7 +5,7 @@
 
 import { MSG } from '../shared/constants';
 import { DIFF_EXPAND_SELECTORS } from './selectors';
-import { extractContent, isDiffPage } from './extract';
+import { extractContent, isDiffPage, readPageSignals } from './extract';
 
 
 async function scrollAndRescan(): Promise<{ ok: boolean }> {
@@ -249,7 +249,7 @@ function onScroll(): void {
       const hash = `${result.content.length}:${result.content.slice(0, 64)}${result.content.slice(-64)}`;
       if (hash === lastContentHash) return;
       lastContentHash = hash;
-      chrome.runtime.sendMessage({ type: MSG.CONTENT_UPDATE, ...result }).catch(() => { lastContentHash = ''; });
+      chrome.runtime.sendMessage({ type: MSG.CONTENT_UPDATE, ...result, pageSignals: readPageSignals() }).catch(() => { lastContentHash = ''; });
     }
   }, 800);
 }
@@ -260,7 +260,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
     startScrollListener();
     try {
       const result = extractContent(message.mode ?? 'markdown');
-      sendResponse({ ...result, isDiffPage: isDiffPage() });
+      sendResponse({ ...result, isDiffPage: isDiffPage(), pageSignals: readPageSignals() });
     } catch (err: unknown) {
       sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
     }
@@ -283,7 +283,8 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
     void scrollAndRescan().then(() => {
       startScrollListener();
       try {
-        sendResponse(extractContent(message.mode ?? 'markdown'));
+        const result = extractContent(message.mode ?? 'markdown');
+        sendResponse({ ...result, pageSignals: readPageSignals() });
       } catch (err: unknown) {
         sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
       }

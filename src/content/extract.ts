@@ -7,6 +7,40 @@ import { STRIP_SELECTORS, MAIN_SELECTORS } from './selectors';
 import { preprocessDiffTables } from './diff';
 import { toMarkdown } from './turndown';
 import type { ExtractedContent } from '../popup/state';
+import type { PageSignals } from '../shared/library';
+
+export function readPageSignals(): PageSignals {
+  const schemaTypes: string[] = [];
+
+  const itemtypeNodes = document.querySelectorAll<HTMLElement>('[itemscope][itemtype]');
+  for (const node of itemtypeNodes) {
+    const t = node.getAttribute('itemtype');
+    if (!t) continue;
+    const tail = t.split('/').pop();
+    if (tail) schemaTypes.push(tail);
+  }
+
+  const jsonldNodes = document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]');
+  for (const node of jsonldNodes) {
+    try {
+      const parsed = JSON.parse(node.textContent ?? '');
+      const collect = (obj: unknown): void => {
+        if (!obj || typeof obj !== 'object') return;
+        const o = obj as Record<string, unknown>;
+        const t = o['@type'];
+        if (typeof t === 'string') schemaTypes.push(t);
+        else if (Array.isArray(t)) for (const s of t) if (typeof s === 'string') schemaTypes.push(s);
+        const graph = o['@graph'];
+        if (Array.isArray(graph)) for (const g of graph) collect(g);
+      };
+      collect(parsed);
+    } catch { /* ignore malformed */ }
+  }
+
+  const ogType = document.querySelector<HTMLMetaElement>('meta[property="og:type"]')?.content ?? null;
+
+  return { schemaTypes: Array.from(new Set(schemaTypes)), ogType };
+}
 
 
 export function extractContent(mode: string): ExtractedContent {

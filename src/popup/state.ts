@@ -4,6 +4,7 @@
  */
 
 import { type Template, type ChatMessage } from '../shared/storage';
+import type { PageSignals } from '../shared/library';
 import { t } from '../shared/i18n';
 import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 
@@ -20,6 +21,7 @@ export interface ExtractedContent {
   error?: string;
   mode?: string;
   isDiffPage?: boolean;
+  pageSignals?: PageSignals;
 }
 
 const DEFAULT_MODELS: Record<string, string> = {
@@ -68,6 +70,8 @@ export const state: {
   ollamaModel: string;
   ollamaEndpoint: string;
   ollamaUseAuth: boolean;
+  detectedCategory?: string;
+  language: string;
 } = {
   templates: [],
   selectedTemplateId: null,
@@ -92,6 +96,7 @@ export const state: {
   ollamaModel:      'kimi-k2.6:cloud',
   ollamaEndpoint:   OLLAMA_ENDPOINT_DEFAULT,
   ollamaUseAuth:    true,
+  language:         'en',
 };
 
 
