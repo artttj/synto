@@ -11,6 +11,7 @@ export const refs: {
   defaultTplEl: HTMLSelectElement | null;
   aiProviderSeg: HTMLElement | null;
   themeSeg: HTMLElement | null;
+  proModeEl: HTMLInputElement | null;
   languageEl: HTMLSelectElement | null;
   saveToast: HTMLElement | null;
   navAiWarning: HTMLElement | null;
@@ -53,6 +54,7 @@ export const refs: {
   defaultTplEl: null,
   aiProviderSeg: null,
   themeSeg: null,
+  proModeEl: null,
   languageEl: null,
   saveToast: null,
   navAiWarning: null,
@@ -98,6 +100,7 @@ export function resolveRefs(): void {
   refs.defaultTplEl = $('default-template') as HTMLSelectElement;
   refs.aiProviderSeg = $('ai-provider-segmented')!;
   refs.themeSeg = $('theme-segmented')!;
+  refs.proModeEl = $('opt-pro-mode') as HTMLInputElement;
   refs.languageEl = $('language-select') as HTMLSelectElement;
   refs.saveToast = $('save-toast')!;
   refs.navAiWarning = $('nav-ai-warning')!;

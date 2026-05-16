@@ -85,6 +85,7 @@ export function renderSettingsForm(): void {
   renderDefaultTemplateSelect();
   initSegmented(refs.aiProviderSeg!, state.settings.llmProvider ?? 'openai', onProviderChange);
   initSegmented(refs.themeSeg!, state.settings.theme ?? 'system', applyTheme);
+  if (refs.proModeEl) refs.proModeEl.checked = state.settings.proMode ?? false;
   refs.languageEl!.value = state.settings.language ?? 'en';
 
   if (refs.systemPromptEl) {
@@ -151,6 +152,7 @@ export function autoSaveSettings(source?: HTMLElement | null): void {
     ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6:cloud',
     ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
     ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
+    proMode: refs.proModeEl?.checked ?? false,
   };
   state.settings = { ...state.settings, ...partial };
   const message = describeChange(source);
