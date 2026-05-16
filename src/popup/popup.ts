@@ -29,7 +29,7 @@ import { state, getAskLabel, getActiveModel } from './state';
 import { resolveRefs, refs, renderFooter } from './dom';
 import { setError } from './errors';
 import { renderTemplateUI, wireTemplateUI } from './templates';
-import { wirePreview } from './preview';
+import { wirePreview, applyProMode } from './preview';
 import { wireChat, restoreHistoryEntry } from './chat';
 import { wireKeyboard } from './keyboard';
 import { extractContent, scrollAndRescan } from './extract';
@@ -112,6 +112,7 @@ async function init(): Promise<void> {
   state.ollamaModel     = settings.ollamaModel;
   state.ollamaEndpoint  = settings.ollamaEndpoint;
   state.ollamaUseAuth   = settings.ollamaUseAuth;
+  applyProMode(settings.proMode ?? false);
   refs.btnProcess!.textContent = getAskLabel();
   renderFooter(state.llmProvider, getActiveModel());
   void renderProviderHealth();
@@ -121,6 +122,12 @@ async function init(): Promise<void> {
   wirePreview();
   wireChat();
   wireKeyboard();
+
+  refs.btnProMode?.addEventListener('click', () => {
+    const next = !state.proMode;
+    applyProMode(next);
+    void saveSettings({ proMode: next });
+  });
 
   refs.btnOptions!.addEventListener('click', () => { void chrome.runtime.openOptionsPage(); });
   refs.btnHelp!.addEventListener('click', () => {
@@ -211,6 +218,9 @@ async function init(): Promise<void> {
         state.customEndpoint = settingsChange.customEndpoint ?? state.customEndpoint;
         state.customModel = settingsChange.customModel ?? state.customModel;
         state.customUseAuth = settingsChange.customUseAuth ?? state.customUseAuth;
+        if (typeof settingsChange.proMode === 'boolean' && settingsChange.proMode !== state.proMode) {
+          applyProMode(settingsChange.proMode);
+        }
         refs.btnProcess!.textContent = getAskLabel();
         renderFooter(state.llmProvider, getActiveModel());
         if (settingsChange.theme) {
