@@ -59,14 +59,16 @@
 
 ## Template Library
 
-Synto comes with 11 built-in templates. You can fully customize these or build your own in Settings using placeholders: `{content}`, `{selection}`, `{title}`, and `{url}`.
+Synto comes with 13 built-in templates. You can fully customize these or build your own in Settings using placeholders: `{content}`, `{selection}`, `{title}`, and `{url}`.
 
 | Category | Purpose |
 | --- | --- |
 | **Understand** | Key points, ticket briefs, and code reviews. |
 | **Decide** | Trade-offs, feature checks, and recommendations. |
-| **Act** | Task lists, risk assessments, and blockers. |
 | **Compose** | Professional emails, replies, and rewrites. |
+| **Brief** | Project specs: goals, audience, constraints. |
+| **Review** | Feedback on code and content with concrete fixes. |
+| **Audit** | Technical audits: SEO, accessibility, performance. |
 
 ---
 

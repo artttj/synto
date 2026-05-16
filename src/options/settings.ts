@@ -206,10 +206,19 @@ export function updateProviderCardVisibility(active: string): void {
 }
 
 
-export function syncProviderSegmented(value: string): void {
-  const seg = refs.aiProviderSeg;
-  if (!seg) return;
-  seg.querySelectorAll('.seg-btn').forEach((btn) => {
-    btn.classList.toggle('active', (btn as HTMLElement).dataset.value === value);
+export function syncSegmented(container: HTMLElement | null, value: string): void {
+  if (!container) return;
+  container.querySelectorAll('.seg-btn').forEach((btn) => {
+    const active = (btn as HTMLElement).dataset.value === value;
+    btn.classList.toggle('active', active);
+    if (btn.getAttribute('role') === 'tab') btn.setAttribute('aria-selected', String(active));
   });
+}
+
+export function syncProviderSegmented(value: string): void {
+  syncSegmented(refs.aiProviderSeg, value);
+}
+
+export function syncThemeSegmented(value: string): void {
+  syncSegmented(refs.themeSeg, value);
 }

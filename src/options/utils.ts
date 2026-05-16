@@ -20,3 +20,19 @@ export function showToast(message: string): void {
     toast.classList.add('hidden');
   }, 1800);
 }
+
+
+export function wireModalClose(
+  overlay: HTMLElement | null,
+  closeBtn: HTMLElement | null,
+  onClose: () => void,
+): void {
+  if (!overlay) return;
+  closeBtn?.addEventListener('click', onClose);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) onClose();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.classList.contains('hidden')) onClose();
+  });
+}

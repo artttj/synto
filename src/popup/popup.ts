@@ -6,6 +6,7 @@
 import {
   getTemplates,
   getSettings,
+  saveSettings,
   getOpenAIKey,
   getGeminiKey,
   getGrokKey,

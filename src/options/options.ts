@@ -3,7 +3,7 @@
  * https://github.com/artttj/synto
  */
 
-import { getTemplates, getSettings, saveSettings } from '../shared/storage';
+import { getTemplates, getSettings, saveSettings, type Settings } from '../shared/storage';
 import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT } from '../shared/constants';
 import {
   getOpenAIKey,
@@ -31,13 +31,16 @@ import {
   renderSettingsForm,
   wireAutoSave,
   updateProviderCardVisibility,
+  syncThemeSegmented,
 } from './settings';
 import { loadApiKeyStatuses, wireKeySection } from './keys';
 import {
   renderTemplateList,
   wireTemplateList,
 } from './templateList';
+import { hydrateLibraryFromCache, wireLibrary } from './library';
 import { showToast } from './utils';
+import { STORAGE_KEYS } from '../shared/constants';
 
 
 async function init(): Promise<void> {
@@ -199,6 +202,25 @@ async function init(): Promise<void> {
   });
 
   wireTemplateList();
+  wireLibrary();
+  void hydrateLibraryFromCache();
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes[STORAGE_KEYS.SETTINGS]) {
+      const next = changes[STORAGE_KEYS.SETTINGS].newValue as Settings | undefined;
+      if (next?.theme && next.theme !== state.settings.theme) {
+        state.settings = { ...state.settings, theme: next.theme };
+        applyTheme(next.theme);
+        syncThemeSegmented(next.theme);
+      }
+      if (next?.language && next.language !== state.settings.language) {
+        state.settings = { ...state.settings, language: next.language };
+        setLocale(next.language);
+        applyI18n();
+        renderTemplateList();
+      }
+    }
+  });
 
   const HINT_KEY = 'apc_hint_fab';
 

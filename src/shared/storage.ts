@@ -4,6 +4,7 @@
  */
 
 import { STORAGE_KEYS, DEFAULT_TEMPLATES, DEPRECATED_TEMPLATE_IDS, DEFAULT_SYSTEM_PROMPT } from './constants';
+import { SEED_LIBRARY } from './library';
 
 export interface Template {
   id: string;
@@ -13,6 +14,11 @@ export interface Template {
   category?: string;
   isDefault?: boolean;
   prompt: string;
+  fromLibrary?: {
+    entryId: string;
+    version: number;
+    source: 'bundled' | 'remote';
+  };
 }
 
 export interface Settings {
@@ -174,30 +180,35 @@ export async function saveOllamaKey(key: string): Promise<void> {
   await chrome.storage.local.set({ [STORAGE_KEYS.OLLAMA_KEY]: key });
 }
 
+const SEED_LIBRARY_BY_ID = new Map(SEED_LIBRARY.entries.map((e) => [e.id, e]));
+
+function stampWithLibrary(t: Template): Template {
+  if (t.fromLibrary) return t;
+  const entry = SEED_LIBRARY_BY_ID.get(t.id);
+  if (!entry) return t;
+  return { ...t, fromLibrary: { entryId: entry.id, version: 1, source: 'bundled' } };
+}
+
 export async function getTemplates(): Promise<Template[]> {
   const result = await chrome.storage.local.get(STORAGE_KEYS.TEMPLATES);
   const saved = result[STORAGE_KEYS.TEMPLATES] as Template[] | undefined;
 
   if (!saved) {
-    return DEFAULT_TEMPLATES;
+    return DEFAULT_TEMPLATES.map(stampWithLibrary);
   }
 
   const defaultsById = new Map(DEFAULT_TEMPLATES.map((t) => [t.id, t]));
   const active = saved.filter((t) => !DEPRECATED_TEMPLATE_IDS.has(t.id));
   const merged = active.map((t) => {
     const def = defaultsById.get(t.id);
-    if (!def) return t;
-    return {
-      ...t,
-      name:        def.name,
-      label:       def.label,
-      category:    def.category,
-      description: def.description,
-    };
+    const base = def
+      ? { ...t, name: def.name, label: def.label, category: def.category, description: def.description }
+      : t;
+    return stampWithLibrary(base);
   });
 
   const savedIds = new Set(merged.map((t) => t.id));
-  const missing = DEFAULT_TEMPLATES.filter((t) => !savedIds.has(t.id));
+  const missing = DEFAULT_TEMPLATES.filter((t) => !savedIds.has(t.id)).map(stampWithLibrary);
   return missing.length > 0 ? [...merged, ...missing] : merged;
 }
 

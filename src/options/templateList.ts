@@ -6,10 +6,12 @@
 import { DEFAULT_TEMPLATES } from '../shared/constants';
 import { saveTemplates, type Template } from '../shared/storage';
 import { t, tOpt } from '../shared/i18n';
+import { el } from '../shared/dom';
 import { state } from './state';
 import { refs } from './dom';
 import { showToast } from './utils';
 import { renderDefaultTemplateSelect } from './settings';
+import { openLibraryDiff, renderCurrentLibraryView } from './library';
 
 
 export function openModal(templateId: string | null): void {
@@ -29,14 +31,6 @@ export function openModal(templateId: string | null): void {
 export function closeModal(): void {
   refs.modalOverlay!.classList.add('hidden');
   state.editingId = null;
-}
-
-
-function el(tag: string, className?: string, text?: string): HTMLElement {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text !== undefined) node.textContent = text;
-  return node;
 }
 
 
@@ -81,6 +75,20 @@ function buildTemplateItem(tpl: Template): HTMLElement {
   nameRow.appendChild(document.createTextNode(displayName));
   if (isBuiltin) {
     nameRow.appendChild(el('span', 'template-badge', t('options_builtin')));
+  }
+  const updateEntry = state.updatableEntries.get(tpl.id);
+  if (updateEntry) {
+    const pill = document.createElement('button');
+    pill.type = 'button';
+    pill.className = 'update-pill';
+    pill.textContent = `↑ v${updateEntry.version}`;
+    pill.title = t('options_library_update_available');
+    pill.setAttribute('aria-label', `Update ${displayName} to v${updateEntry.version}`);
+    pill.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLibraryDiff(tpl, updateEntry);
+    });
+    nameRow.appendChild(pill);
   }
   info.appendChild(nameRow);
   info.appendChild(el('div', 'template-preview', previewText));
@@ -210,7 +218,7 @@ export async function deleteTemplate(id: string): Promise<void> {
 export function wireTemplateList(): void {
   refs.templateSearch!.addEventListener('input', (e) => {
     state.searchQuery = (e.target as HTMLInputElement).value.trim();
-    renderTemplateList();
+    renderCurrentLibraryView();
   });
 
   refs.btnNewTemplate!.addEventListener('click', () => {

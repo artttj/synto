@@ -27,6 +27,8 @@ export const STORAGE_KEYS = {
   HISTORY:        'apc_history',
   TEMPLATE_USAGE: 'apc_template_usage',
   PROVIDER_HEALTH: 'apc_provider_health',
+  LIBRARY_CACHE:  'apc_library_cache',
+  LIBRARY_DISMISS: 'apc_library_dismiss',
 };
 
 export const PROVIDER_MODELS: Record<string, string[]> = {

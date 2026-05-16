@@ -464,6 +464,27 @@
           <p data-i18n="options_library_desc">Browse, search, and manage your prompt templates.</p>
         </div>
 
+        <div class="library-toolbar">
+          <div id="library-view-seg" class="segmented" role="tablist" aria-label="Library view">
+            <button type="button" class="seg-btn active" data-value="mine" role="tab" aria-selected="true">
+              <span data-i18n="options_library_view_mine">Mine</span>
+            </button>
+            <button type="button" class="seg-btn" data-value="browse" role="tab" aria-selected="false">
+              <span data-i18n="options_library_view_browse">Browse</span>
+              <span id="library-browse-count" class="seg-count hidden"></span>
+            </button>
+          </div>
+          <button id="btn-library-refresh" type="button" class="library-refresh hidden" data-i18n-title="options_library_refresh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+              <path d="M3 21v-5h5"/>
+            </svg>
+            <span class="library-refresh-label" data-i18n="options_library_refresh">Refresh</span>
+          </button>
+        </div>
+
         <div class="library-search-row">
           <div class="search-wrap">
             <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -474,7 +495,25 @@
           </div>
         </div>
 
+        <div id="library-category-row" class="library-category-row hidden">
+          <button type="button" class="lib-chip active" data-cat="">
+            <span data-i18n="options_library_cat_all">All</span>
+          </button>
+          <button type="button" class="lib-chip" data-cat="Understand">
+            <span data-i18n="category_understand">Understand</span>
+          </button>
+          <button type="button" class="lib-chip" data-cat="Compose">
+            <span data-i18n="category_compose">Compose</span>
+          </button>
+          <button type="button" class="lib-chip" data-cat="Audit">
+            <span data-i18n="category_audit">Audit</span>
+          </button>
+        </div>
+
+        <div id="library-offline-hint" class="library-offline-hint hidden" data-i18n="options_library_offline">Offline — showing cached library.</div>
+
         <div id="template-list" class="template-list"></div>
+        <div id="library-browse-list" class="library-browse-list hidden"></div>
       </section>
 
       <!-- Tab: Help -->
@@ -658,6 +697,40 @@
       <div class="modal-actions">
         <button id="modal-cancel" class="btn btn-ghost" data-i18n="options_cancel">Cancel</button>
         <button id="modal-save" class="btn btn-primary" data-i18n="options_save_template">Save Template</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Library diff modal -->
+  <div id="lib-diff-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="lib-diff-title">
+    <div class="modal lib-diff-modal">
+      <div class="modal-head">
+        <h3 id="lib-diff-title" data-i18n="options_library_diff_title">Update prompt</h3>
+        <button id="lib-diff-close" class="modal-close" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body lib-diff-body">
+        <div id="lib-diff-meta" class="lib-diff-meta"></div>
+        <div class="lib-diff-cols">
+          <div class="lib-diff-col">
+            <div class="lib-diff-col-head" data-i18n="options_library_diff_yours">Yours</div>
+            <pre id="lib-diff-yours" class="lib-diff-pre"></pre>
+          </div>
+          <div class="lib-diff-col">
+            <div class="lib-diff-col-head" data-i18n="options_library_diff_library">Library</div>
+            <pre id="lib-diff-library" class="lib-diff-pre"></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="lib-diff-keep" class="btn btn-ghost" data-i18n="options_library_diff_keep">Keep mine</button>
+        <button id="lib-diff-apply" class="btn btn-primary" data-i18n="options_library_diff_apply">Apply update</button>
       </div>
     </div>
   </div>
