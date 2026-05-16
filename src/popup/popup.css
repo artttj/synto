@@ -592,3 +592,62 @@ body {
   background: var(--c-surface);
 }
 .btn-stop.hidden { display: none; }
+
+/* ────────────────────────────────────────────────────────────
+   Pro mode toggle — icon button (matches #btn-theme pattern)
+   ──────────────────────────────────────────────────────────── */
+
+#btn-pro-mode .pro-icon-light,
+#btn-pro-mode .pro-icon-pro {
+  display: none;
+}
+
+#btn-pro-mode[data-pro-state="off"] .pro-icon-light {
+  display: inline-block;
+}
+
+#btn-pro-mode[data-pro-state="on"] .pro-icon-pro {
+  display: inline-block;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Light mode visibility rules — hidden when body lacks .pro-mode
+   This is the single auditable block of what light mode hides.
+   ──────────────────────────────────────────────────────────── */
+
+body:not(.pro-mode) #preview-panel,
+body:not(.pro-mode) #token-count,
+body:not(.pro-mode) #token-warning {
+  display: none;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Prompt textarea — editable affordance when pro mode is on
+   ──────────────────────────────────────────────────────────── */
+
+body.pro-mode #preview-text[data-editable="true"] {
+  cursor: text;
+  caret-color: currentColor;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Edited badge on the Prompt tab
+   ──────────────────────────────────────────────────────────── */
+
+.prompt-edited-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  color: inherit;
+  opacity: 0.75;
+  vertical-align: middle;
+}
+
+.prompt-edited-badge.hidden {
+  display: none;
+}
