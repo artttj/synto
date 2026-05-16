@@ -1,18 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <radialGradient id="synto-bg" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#383d44"/>
-      <stop offset="100%" stop-color="#1a1c21"/>
-    </radialGradient>
     <mask id="synto-cross">
       <rect width="512" height="512" fill="white"/>
       <rect x="0" y="249" width="512" height="14" fill="black"/>
       <rect x="249" y="0" width="14" height="512" fill="black"/>
     </mask>
   </defs>
-  <rect width="512" height="512" fill="url(#synto-bg)"/>
+  <rect width="512" height="512" fill="#ffffff"/>
   <g mask="url(#synto-cross)">
-    <circle cx="256" cy="256" r="152" fill="none" stroke="#414750" stroke-width="55"/>
+    <circle cx="256" cy="256" r="152" fill="none" stroke="#1a1c21" stroke-width="55"/>
   </g>
-  <circle cx="256" cy="256" r="58" fill="#414750"/>
+  <circle cx="256" cy="256" r="58" fill="#1a1c21"/>
 </svg>
