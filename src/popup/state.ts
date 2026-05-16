@@ -52,6 +52,7 @@ export const state: {
   extracted: ExtractedContent | null;
   rawMarkdown: string;
   finalText: string;
+  promptOverride: string | null;
   previewOpen: boolean;
   previewTab: 'content' | 'prompt';
   chatStreaming: boolean;
@@ -72,12 +73,14 @@ export const state: {
   ollamaUseAuth: boolean;
   detectedCategory?: string;
   language: string;
+  proMode: boolean;
 } = {
   templates: [],
   selectedTemplateId: null,
   extracted: null,
   rawMarkdown: '',
   finalText: '',
+  promptOverride: null,
   previewOpen: true,
   previewTab: 'content',
   chatStreaming: false,
@@ -97,6 +100,7 @@ export const state: {
   ollamaEndpoint:   OLLAMA_ENDPOINT_DEFAULT,
   ollamaUseAuth:    true,
   language:         'en',
+  proMode:          false,
 };
 
 
@@ -116,4 +120,9 @@ export function getActiveModel(): string {
 
 export function getAskLabel(): string {
   return `${t('popup_ask_ai')} · ${getActiveModel()}`;
+}
+
+
+export function getEffectivePrompt(): string {
+  return state.promptOverride ?? state.finalText;
 }
