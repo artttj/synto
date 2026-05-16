@@ -18,7 +18,7 @@ import {
 } from '../shared/storage';
 import { ANTHROPIC_MAX_TOKENS } from '../shared/constants';
 import { t } from '../shared/i18n';
-import { state, getAskLabel, getActiveModel, type ChatMessage } from './state';
+import { state, getAskLabel, getActiveModel, getEffectivePrompt, type ChatMessage } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
 import { setPreviewOpen, richCopy } from './preview';
@@ -479,7 +479,8 @@ async function persistHistory(): Promise<void> {
 
 
 export async function processWithAI(): Promise<void> {
-  if (!state.finalText || state.chatStreaming) return;
+  const effective = getEffectivePrompt();
+  if (!effective || state.chatStreaming) return;
 
   refs.chatPanel!.classList.remove('hidden');
   setPreviewOpen(false);
@@ -533,7 +534,7 @@ export async function processWithAI(): Promise<void> {
     }
   }
 
-  const userContent = isFirstMessage ? buildSourceBanner() + state.finalText : state.finalText;
+  const userContent = isFirstMessage ? buildSourceBanner() + effective : effective;
   state.chatHistory.push({ role: 'user', content: userContent });
 
   const bubble = appendBubble('assistant', '');
