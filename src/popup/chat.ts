@@ -157,7 +157,12 @@ async function throwHttpError(response: Response): Promise<never> {
 }
 
 
-async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders, signal }: { url: string; model: string; key: string; extraHeaders?: Record<string, string>; signal?: AbortSignal }): Promise<void> {
+function activeTemplateUsesWebSearch(): boolean {
+  const tpl = state.templates.find((t) => t.id === state.selectedTemplateId);
+  return tpl?.usesWebSearch === true;
+}
+
+async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders, extraBody, signal }: { url: string; model: string; key: string; extraHeaders?: Record<string, string>; extraBody?: Record<string, unknown>; signal?: AbortSignal }): Promise<void> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${key}`,
@@ -170,6 +175,7 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, ext
       model,
       messages: state.chatHistory,
       stream: true,
+      ...extraBody,
     }),
     signal,
   });
@@ -226,6 +232,17 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
   const systemMessage = state.chatHistory.find(m => m.role === 'system');
   const messages = state.chatHistory.filter(m => m.role !== 'system');
 
+  const body: Record<string, unknown> = {
+    model,
+    system: systemMessage?.content ?? 'You are a helpful assistant.',
+    messages,
+    max_tokens: ANTHROPIC_MAX_TOKENS,
+    stream: true,
+  };
+  if (activeTemplateUsesWebSearch()) {
+    body.tools = [{ type: 'web_search_20250305', name: 'web_search' }];
+  }
+
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -233,13 +250,7 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
       'x-api-key': key,
       'anthropic-version': '2023-06-01',
     },
-    body: JSON.stringify({
-      model,
-      system: systemMessage?.content ?? 'You are a helpful assistant.',
-      messages,
-      max_tokens: ANTHROPIC_MAX_TOKENS,
-      stream: true,
-    }),
+    body: JSON.stringify(body),
     signal,
   });
 
@@ -298,10 +309,14 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
 async function processWithOpenAI(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getOpenAIKey();
   if (!key) throw new Error(t('error_no_key_openai'));
+  const extraBody = activeTemplateUsesWebSearch()
+    ? { tools: [{ type: 'web_search_preview' }] }
+    : undefined;
   await streamOpenAICompat(bubble, {
     url: 'https://api.openai.com/v1/chat/completions',
     model: state.openaiModel,
     key,
+    extraBody,
     signal,
   });
 }
@@ -310,10 +325,14 @@ async function processWithOpenAI(bubble: HTMLDivElement, signal?: AbortSignal): 
 async function processWithGemini(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getGeminiKey();
   if (!key) throw new Error(t('error_no_key_gemini'));
+  const extraBody = activeTemplateUsesWebSearch()
+    ? { tools: [{ google_search: {} }] }
+    : undefined;
   await streamOpenAICompat(bubble, {
     url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     model: state.geminiModel,
     key,
+    extraBody,
     signal,
   });
 }
@@ -322,10 +341,14 @@ async function processWithGemini(bubble: HTMLDivElement, signal?: AbortSignal): 
 async function processWithGrok(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const key = await getGrokKey();
   if (!key) throw new Error(t('error_no_key_grok'));
+  const extraBody = activeTemplateUsesWebSearch()
+    ? { search_parameters: { mode: 'auto' } }
+    : undefined;
   await streamOpenAICompat(bubble, {
     url: 'https://api.x.ai/v1/chat/completions',
     model: state.grokModel,
     key,
+    extraBody,
     signal,
   });
 }
