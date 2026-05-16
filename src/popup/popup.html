@@ -46,6 +46,26 @@
           <circle cx="12" cy="12" r="3"/>
         </svg>
       </button>
+      <button id="btn-pro-mode" type="button" data-pro-state="off" data-i18n-title="popup_pro_mode_off" title="Pro mode: off" aria-label="Toggle Pro mode">
+        <svg class="pro-icon-light" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v3"/>
+          <path d="M12 18v3"/>
+          <path d="M3 12h3"/>
+          <path d="M18 12h3"/>
+          <path d="M5.6 5.6l2.1 2.1"/>
+          <path d="M16.3 16.3l2.1 2.1"/>
+          <path d="M5.6 18.4l2.1-2.1"/>
+          <path d="M16.3 7.7l2.1-2.1"/>
+        </svg>
+        <svg class="pro-icon-pro" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="4" y1="6" x2="20" y2="6"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="18" x2="20" y2="18"/>
+          <circle cx="9" cy="6" r="2" fill="currentColor"/>
+          <circle cx="15" cy="12" r="2" fill="currentColor"/>
+          <circle cx="8" cy="18" r="2" fill="currentColor"/>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -71,7 +91,10 @@
       <div class="preview-tab-row">
         <div class="preview-tabs" role="tablist" aria-label="Preview mode">
           <button class="preview-tab active" data-tab="content" role="tab" aria-selected="true" type="button" data-i18n="popup_content_tab">Content</button>
-          <button class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button" data-i18n="popup_prompt_tab">Prompt</button>
+          <button id="tab-prompt" class="preview-tab" data-tab="prompt" role="tab" aria-selected="false" type="button">
+            <span data-i18n="popup_prompt_tab">Prompt</span>
+            <span id="prompt-edited-badge" class="prompt-edited-badge hidden" data-i18n="popup_prompt_edited">Edited</span>
+          </button>
         </div>
         <div class="preview-row-end">
           <div class="refresh-group">
