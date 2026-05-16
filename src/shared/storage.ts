@@ -97,12 +97,14 @@ export function pickRememberedTemplateId(
   url: string | undefined,
   templates: Template[],
   usage: TemplateUsage,
-  defaultTemplateId?: string
+  defaultTemplateId?: string,
+  detected?: { templateId: string }
 ): string {
   const host = hostFromUrl(url);
   const hostTemplateId = host ? usage.byHost[host] : undefined;
 
   if (hasTemplate(templates, hostTemplateId)) return hostTemplateId;
+  if (detected && hasTemplate(templates, detected.templateId)) return detected.templateId;
   if (hasTemplate(templates, defaultTemplateId)) return defaultTemplateId;
   if (hasTemplate(templates, usage.globalTemplateId)) return usage.globalTemplateId;
 
@@ -264,9 +266,10 @@ export function rememberTemplateUsage(url: string | undefined, templateId: strin
 export async function getRememberedTemplateId(
   url: string | undefined,
   templates: Template[],
-  defaultTemplateId?: string
+  defaultTemplateId?: string,
+  detected?: { templateId: string }
 ): Promise<string> {
-  return pickRememberedTemplateId(url, templates, await getTemplateUsage(), defaultTemplateId);
+  return pickRememberedTemplateId(url, templates, await getTemplateUsage(), defaultTemplateId, detected);
 }
 
 

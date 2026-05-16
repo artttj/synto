@@ -8,6 +8,7 @@ import { tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
 import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
+import { detectTemplateId } from './site-detect';
 
 
 export function applyTemplate(extracted: ExtractedContent, templateId: string | null): string {
@@ -61,7 +62,11 @@ export function renderTemplateUI(): void {
 
 export async function selectTemplateForUrl(url?: string): Promise<void> {
   const selectedTemplateId = state.selectedTemplateId;
-  const templateId = await getRememberedTemplateId(url, state.templates, selectedTemplateId ?? undefined);
+
+  const detected = detectTemplateId(url, state.templates, state.extracted?.pageSignals);
+  state.detectedCategory = detected?.category;
+
+  const templateId = await getRememberedTemplateId(url, state.templates, selectedTemplateId ?? undefined, detected);
   if (state.selectedTemplateId !== selectedTemplateId) return;
   if (!templateId || templateId === state.selectedTemplateId) return;
 
