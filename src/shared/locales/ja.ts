@@ -35,6 +35,9 @@ const ja: Record<string, string> = {
   popup_history_yes:     '復元',
   popup_history_dismiss: '閉じる',
   popup_content_updated: 'コンテンツを更新しました',
+  popup_pro_mode_on:     'Proモード: オン',
+  popup_pro_mode_off:    'Proモード: オフ',
+  popup_prompt_edited:   '編集済み',
 
   options_brand_sub:    '設定',
   options_nav_general:  '一般',
@@ -45,6 +48,8 @@ const ja: Record<string, string> = {
 
   options_general_heading:       '一般',
   options_general_desc:          '拡張機能を開いたときのデフォルト動作を設定します。',
+  options_general_pro_mode_label: 'Proモード',
+  options_general_pro_mode_help:  'ポップアップにプロンプトエディタなどの上級者向けコントロールを表示します。',
   options_default_template:      'デフォルトテンプレート',
   options_default_template_desc: 'ポップアップを開いたときに選択されるプロンプト',
   options_ai_provider:           'AIプロバイダー',

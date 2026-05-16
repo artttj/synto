@@ -35,6 +35,9 @@ const es: Record<string, string> = {
   popup_history_yes:     'Restaurar',
   popup_history_dismiss: 'Descartar',
   popup_content_updated: 'Contenido actualizado',
+  popup_pro_mode_on:     'Modo Pro: activado',
+  popup_pro_mode_off:    'Modo Pro: desactivado',
+  popup_prompt_edited:   'Editado',
 
   options_brand_sub:    'Configuraci\u00f3n',
   options_nav_general:  'General',
@@ -45,6 +48,8 @@ const es: Record<string, string> = {
 
   options_general_heading:       'General',
   options_general_desc:          'Configura el comportamiento predeterminado al abrir la extensi\u00f3n.',
+  options_general_pro_mode_label: 'Modo Pro',
+  options_general_pro_mode_help:  'Muestra el editor de prompts y otros controles avanzados en el popup.',
   options_default_template:      'Plantilla predeterminada',
   options_default_template_desc: 'Prompt preseleccionado al abrir el panel',
   options_ai_provider:           'Proveedor de IA',

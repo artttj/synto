@@ -35,6 +35,9 @@ const fr: Record<string, string> = {
   popup_history_yes:     'Restaurer',
   popup_history_dismiss: 'Ignorer',
   popup_content_updated: 'Contenu mis à jour',
+  popup_pro_mode_on:     'Mode Pro : activé',
+  popup_pro_mode_off:    'Mode Pro : désactivé',
+  popup_prompt_edited:   'Modifié',
 
   options_brand_sub:    'Param\u00e8tres',
   options_nav_general:  'G\u00e9n\u00e9ral',
@@ -45,6 +48,8 @@ const fr: Record<string, string> = {
 
   options_general_heading:       'G\u00e9n\u00e9ral',
   options_general_desc:          'Configurez le comportement par d\u00e9faut \u00e0 l\u2019ouverture de l\u2019extension.',
+  options_general_pro_mode_label: 'Mode Pro',
+  options_general_pro_mode_help:  'Affiche l\u2019\u00e9diteur de prompt et d\u2019autres commandes avanc\u00e9es dans le popup.',
   options_default_template:      'Mod\u00e8le par d\u00e9faut',
   options_default_template_desc: 'Prompt pr\u00e9s\u00e9lectionn\u00e9 \u00e0 l\u2019ouverture du panneau',
   options_ai_provider:           'Fournisseur IA',

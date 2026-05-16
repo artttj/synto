@@ -35,6 +35,9 @@ const de: Record<string, string> = {
   popup_history_yes:     'Wiederherstellen',
   popup_history_dismiss: 'Schlie\u00dfen',
   popup_content_updated: 'Inhalt aktualisiert',
+  popup_pro_mode_on:     'Pro-Modus: an',
+  popup_pro_mode_off:    'Pro-Modus: aus',
+  popup_prompt_edited:   'Bearbeitet',
   popup_restricted_page: 'Synto auf einer regulären Webseite öffnen. Browser-Seiten wie chrome:// können nicht extrahiert werden.',
 
   options_brand_sub:    'Einstellungen',
@@ -46,6 +49,8 @@ const de: Record<string, string> = {
 
   options_general_heading:       'Allgemein',
   options_general_desc:          'Standardverhalten beim \u00d6ffnen der Erweiterung festlegen.',
+  options_general_pro_mode_label: 'Pro-Modus',
+  options_general_pro_mode_help:  'Zeigt den Prompt-Editor und weitere erweiterte Steuerungen im Popup an.',
   options_default_template:      'Standard-Template',
   options_default_template_desc: 'Vorausgew\u00e4hlter Prompt beim \u00d6ffnen',
   options_ai_provider:           'AI-Anbieter',

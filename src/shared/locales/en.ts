@@ -36,6 +36,9 @@ const en: Record<string, string> = {
   popup_history_dismiss: 'Dismiss',
   popup_content_updated: 'Content updated',
   popup_restricted_page: 'Open Synto on a regular web page. Browser pages like chrome:// can’t be extracted.',
+  popup_pro_mode_on:     'Pro mode: on',
+  popup_pro_mode_off:    'Pro mode: off',
+  popup_prompt_edited:   'Edited',
 
   options_brand_sub:    'Settings',
   options_nav_general:  'General',
@@ -46,6 +49,8 @@ const en: Record<string, string> = {
 
   options_general_heading:       'General',
   options_general_desc:          'Configure default behaviour when the extension opens.',
+  options_general_pro_mode_label: 'Pro mode',
+  options_general_pro_mode_help:  'Show the prompt editor and other power-user controls in the popup.',
   options_default_template:      'Default Template',
   options_default_template_desc: 'Pre-selected prompt when the popup opens',
   options_ai_provider:           'AI Provider',
