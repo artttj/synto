@@ -59,13 +59,14 @@
 
 ## Template Library
 
-Synto ships with 14 built-in templates spanning summaries, code review, replies, audits (SEO / accessibility / performance / security / schema), and social drafts. You can fully customize these or build your own in Settings using placeholders: `{content}`, `{selection}`, `{title}`, and `{url}`.
+Synto ships with 8 built-in templates: summarize, review code, draft replies, audit pages, and personal-decision scans (menus, rental listings, terms of service). Customize them or build your own in Settings using placeholders: `{content}`, `{selection}`, `{title}`, and `{url}`.
 
 | Category | What's inside |
 | --- | --- |
-| **Understand** | TL;DR, Code Review, Thread Summary, Meeting Notes, Counter-Argument |
-| **Compose** | Reply, Diff Summary, LinkedIn Post, X Thread |
-| **Audit** | SEO, Accessibility, Performance, Security, Schema Markup |
+| **Understand** | TL;DR (auto-detects discussion threads), Code Review |
+| **Compose** | Reply |
+| **Audit** | SEO, Accessibility, Terms Red Flags |
+| **Decide** | Diet Pick (menu scan), Rental Red Flags |
 
 Prompts update over the air via `library/library.json`. When a built-in prompt is improved, you'll see an "Update available" pill next to it with a side-by-side diff before you accept the change.
 

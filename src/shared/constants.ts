@@ -106,6 +106,15 @@ export const DEPRECATED_TEMPLATE_IDS = new Set([
   'brief-template',
   'review-feedback',
   'review-comparison',
+  'understand-thread',
+  'understand-meeting',
+  'understand-counter',
+  'audit-performance',
+  'compose-diff-summary',
+  'audit-security',
+  'compose-linkedin',
+  'compose-x-thread',
+  'audit-schema',
 ]);
 
 export const TOKEN_THRESHOLDS = {
