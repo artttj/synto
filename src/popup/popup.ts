@@ -19,6 +19,7 @@ import {
   getProviderHealth,
   providerHealthLabel,
   normalizeUrl,
+  runMigrations,
   type Settings,
 } from '../shared/storage';
 import { STORAGE_KEYS, MSG } from '../shared/constants';
@@ -83,6 +84,8 @@ async function init(): Promise<void> {
 
   const unwatchTheme = { current: null as (() => void) | null };
   wireThemeToggle(unwatchTheme, 'system');
+
+  await runMigrations();
 
   const [templates, settings] = await Promise.all([getTemplates(), getSettings()]);
 

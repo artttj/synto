@@ -29,6 +29,7 @@ export const STORAGE_KEYS = {
   PROVIDER_HEALTH: 'apc_provider_health',
   LIBRARY_CACHE:  'apc_library_cache',
   LIBRARY_DISMISS: 'apc_library_dismiss',
+  MIGRATIONS:     'apc_migrations_v1',
 };
 
 export const PROVIDER_MODELS: Record<string, string[]> = {

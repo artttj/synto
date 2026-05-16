@@ -366,3 +366,43 @@ export async function saveHistory(url: string, entry: HistoryEntry): Promise<voi
 
   await chrome.storage.local.set({ [STORAGE_KEYS.HISTORY]: all });
 }
+
+
+interface MigrationFlags {
+  scanRentalToShouldI?: boolean;
+}
+
+async function migrateScanRentalToShouldI(): Promise<void> {
+  const usage = await getTemplateUsage();
+  let usageChanged = false;
+
+  if (usage.globalTemplateId === 'scan-rental') {
+    usage.globalTemplateId = 'should-i';
+    usageChanged = true;
+  }
+  for (const host of Object.keys(usage.byHost)) {
+    if (usage.byHost[host] === 'scan-rental') {
+      usage.byHost[host] = 'should-i';
+      usageChanged = true;
+    }
+  }
+  if (usageChanged) {
+    await chrome.storage.local.set({ [STORAGE_KEYS.TEMPLATE_USAGE]: usage });
+  }
+
+  const settings = await getSettings();
+  if (settings.defaultTemplateId === 'scan-rental') {
+    await saveSettings({ defaultTemplateId: 'should-i' });
+  }
+}
+
+export async function runMigrations(): Promise<void> {
+  const stored = await chrome.storage.local.get(STORAGE_KEYS.MIGRATIONS);
+  const flags: MigrationFlags = (stored[STORAGE_KEYS.MIGRATIONS] as MigrationFlags | undefined) ?? {};
+
+  if (!flags.scanRentalToShouldI) {
+    await migrateScanRentalToShouldI();
+    flags.scanRentalToShouldI = true;
+    await chrome.storage.local.set({ [STORAGE_KEYS.MIGRATIONS]: flags });
+  }
+}
