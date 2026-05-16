@@ -3,7 +3,8 @@
  * https://github.com/artttj/synto
  */
 
-import { STORAGE_KEYS, DEFAULT_TEMPLATES } from '../shared/constants';
+import { STORAGE_KEYS } from '../shared/constants';
+import { DEFAULT_TEMPLATES } from '../shared/storage';
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })

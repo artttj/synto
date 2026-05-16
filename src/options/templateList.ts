@@ -3,15 +3,14 @@
  * https://github.com/artttj/synto
  */
 
-import { DEFAULT_TEMPLATES } from '../shared/constants';
-import { saveTemplates, type Template } from '../shared/storage';
+import { DEFAULT_TEMPLATES, saveTemplates, type Template } from '../shared/storage';
 import { t, tOpt } from '../shared/i18n';
 import { el } from '../shared/dom';
 import { state } from './state';
 import { refs } from './dom';
 import { showToast } from './utils';
 import { renderDefaultTemplateSelect } from './settings';
-import { openLibraryDiff, renderCurrentLibraryView } from './library';
+import { openLibraryDiff } from './library';
 
 
 export function openModal(templateId: string | null): void {
@@ -218,7 +217,7 @@ export async function deleteTemplate(id: string): Promise<void> {
 export function wireTemplateList(): void {
   refs.templateSearch!.addEventListener('input', (e) => {
     state.searchQuery = (e.target as HTMLInputElement).value.trim();
-    renderCurrentLibraryView();
+    renderTemplateList();
   });
 
   refs.btnNewTemplate!.addEventListener('click', () => {

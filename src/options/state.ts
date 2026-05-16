@@ -7,24 +7,16 @@ import { type Template, type Settings } from '../shared/storage';
 import { CUSTOM_ENDPOINT_DEFAULT, OLLAMA_ENDPOINT_DEFAULT, DEFAULT_SYSTEM_PROMPT } from '../shared/constants';
 import { SEED_LIBRARY, type LibraryFile, type LibraryEntry } from '../shared/library';
 
-export type LibraryView = 'mine' | 'browse';
-
 export const state: {
   templates: Template[];
   settings: Settings;
   editingId: string | null;
   searchQuery: string;
-  libraryView: LibraryView;
-  libraryCategory: string;
   library: LibraryFile;
-  libraryOffline: boolean;
   updatableEntries: Map<string, LibraryEntry>;
 } = {
   templates: [],
-  libraryView: 'mine',
-  libraryCategory: '',
   library: SEED_LIBRARY,
-  libraryOffline: false,
   updatableEntries: new Map(),
   settings: {
     defaultTemplateId: 'understand-brief',

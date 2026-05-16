@@ -42,12 +42,6 @@ export const refs: {
   btnClearCustom: HTMLElement | null;
   btnSaveOllama: HTMLElement | null;
   btnClearOllama: HTMLElement | null;
-  libraryViewSeg: HTMLElement | null;
-  libraryBrowseCount: HTMLElement | null;
-  libraryBrowseList: HTMLElement | null;
-  libraryCategoryRow: HTMLElement | null;
-  libraryOfflineHint: HTMLElement | null;
-  btnLibraryRefresh: HTMLElement | null;
   libDiffOverlay: HTMLElement | null;
   libDiffMeta: HTMLElement | null;
   libDiffYours: HTMLElement | null;
@@ -90,12 +84,6 @@ export const refs: {
   btnClearCustom: null,
   btnSaveOllama: null,
   btnClearOllama: null,
-  libraryViewSeg: null,
-  libraryBrowseCount: null,
-  libraryBrowseList: null,
-  libraryCategoryRow: null,
-  libraryOfflineHint: null,
-  btnLibraryRefresh: null,
   libDiffOverlay: null,
   libDiffMeta: null,
   libDiffYours: null,
@@ -141,12 +129,6 @@ export function resolveRefs(): void {
   refs.btnClearCustom = $('btn-clear-custom')!;
   refs.btnSaveOllama  = $('btn-save-ollama')!;
   refs.btnClearOllama  = $('btn-clear-ollama')!;
-  refs.libraryViewSeg = $('library-view-seg');
-  refs.libraryBrowseCount = $('library-browse-count');
-  refs.libraryBrowseList = $('library-browse-list');
-  refs.libraryCategoryRow = $('library-category-row');
-  refs.libraryOfflineHint = $('library-offline-hint');
-  refs.btnLibraryRefresh = $('btn-library-refresh');
   refs.libDiffOverlay = $('lib-diff-overlay');
   refs.libDiffMeta = $('lib-diff-meta');
   refs.libDiffYours = $('lib-diff-yours');

@@ -3,8 +3,18 @@
  * https://github.com/artttj/synto
  */
 
-import { STORAGE_KEYS, DEFAULT_TEMPLATES, DEPRECATED_TEMPLATE_IDS, DEFAULT_SYSTEM_PROMPT } from './constants';
+import { STORAGE_KEYS, DEPRECATED_TEMPLATE_IDS, DEFAULT_SYSTEM_PROMPT } from './constants';
 import { SEED_LIBRARY } from './library';
+
+export const DEFAULT_TEMPLATES: Template[] = SEED_LIBRARY.entries.map((e) => ({
+  id: e.id,
+  name: e.name,
+  label: e.name,
+  description: e.description,
+  category: e.category,
+  isDefault: e.id === 'understand-brief',
+  prompt: e.prompt,
+}));
 
 export interface Template {
   id: string;
