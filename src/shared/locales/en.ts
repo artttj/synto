@@ -99,17 +99,15 @@ const en: Record<string, string> = {
 
   options_help_how_heading:   'How it works',
   options_help_how_step_1:    'Open the extension on any page. Synto clips the content to Markdown.',
-  options_help_how_step_2:    'Pick a template category (<strong>Understand</strong>, <strong>Decide</strong>, <strong>Compose</strong>, <strong>Brief</strong>, <strong>Review</strong>, or <strong>SEO</strong>), then choose a preset.',
+  options_help_how_step_2:    'Pick a template from the chip row. Built-in templates cover four areas: <strong>Understand</strong> (TL;DR, Code Review), <strong>Decide</strong> (Diet Pick, Should I?, Scam Check), <strong>Compose</strong> (Reply), and <strong>Audit</strong> (SEO, Accessibility, Terms Red Flags).',
   options_help_how_step_3:    'The preview shows the filled-in prompt. Click <strong>Ask AI</strong> to send it to your AI provider.',
   options_help_how_step_4:    'Ask follow-up questions in the chat panel below the response.',
 
   options_help_categories_heading:    'Template categories',
-  options_help_cat_understand_desc:   'Summarise and analyse: articles, tickets, pull requests.',
-  options_help_cat_decide_desc:       'Weigh options, trade-offs, and recommendations.',
+  options_help_cat_understand_desc:   'Summarise and analyse articles, tickets, and pull requests.',
+  options_help_cat_decide_desc:       'Verdicts on stays, products, rentals, jobs, flights. Plus Scam Check.',
   options_help_cat_compose_desc:      'Draft replies, emails, and rewrites.',
-  options_help_cat_brief_desc:        'Project specs: goals, audience, constraints.',
-  options_help_cat_review_desc:       'Feedback on code and content with concrete fixes.',
-  options_help_cat_audit_desc:        'Technical audits: SEO, accessibility, performance.',
+  options_help_cat_audit_desc:        'Technical audits: SEO, accessibility, terms of service.',
 
   options_help_placeholders_heading:  'Placeholders',
   options_help_ph_content:            'Full page as Markdown',
@@ -183,7 +181,7 @@ const en: Record<string, string> = {
   category_compose:    'Compose',
   category_brief:      'Brief',
   category_review:     'Review',
-  category_audit:      'SEO',
+  category_audit:      'Audit',
   category_custom:     'Custom',
 
   'template_label_understand-brief':   'TL;DR',
@@ -192,16 +190,14 @@ const en: Record<string, string> = {
   'template_label_audit-seo':          'SEO Audit',
   'template_label_audit-accessibility':'Accessibility',
   'template_label_pick-menu':          'Diet Pick',
-  'template_label_scan-rental':        'Rental Red Flags',
+  'template_label_should-i':           'Should I?',
   'template_label_scan-terms':         'Terms Red Flags',
+  'template_label_scam-check':         'Scam Check',
 
-  'template_name_decide-briefing':     'Strategy Briefing',
-  'template_name_brief-template':      'Project Brief',
-  'template_name_review-feedback':     'Feedback',
-  'template_name_review-comparison':   'Comparison',
   'template_name_audit-seo':           'SEO Audit',
   'template_name_audit-accessibility': 'Accessibility Audit',
-  'template_name_audit-performance':   'Performance Audit',
+  'template_name_should-i':            'Should I?',
+  'template_name_scam-check':          'Scam Check',
 };
 
 export default en;

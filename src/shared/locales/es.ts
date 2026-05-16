@@ -91,14 +91,15 @@ const es: Record<string, string> = {
 
   options_help_how_heading:   'C\u00f3mo funciona',
   options_help_how_step_1:    'Abre la extensi\u00f3n en cualquier p\u00e1gina. Synto convierte el contenido a Markdown.',
-  options_help_how_step_2:    'Elige una categor\u00eda de plantilla (<strong>Entender</strong>, <strong>Decidir</strong> o <strong>Redactar</strong>), luego selecciona un preset.',
+  options_help_how_step_2:    'Elige una plantilla de la fila. Las plantillas integradas cubren cuatro \u00e1reas: <strong>Entender</strong> (TL;DR, Code Review), <strong>Decidir</strong> (Diet Pick, \u00bfDeber\u00eda?, Scam Check), <strong>Redactar</strong> (Respuesta) y <strong>Auditar</strong> (SEO, Accesibilidad, Alertas T&amp;C).',
   options_help_how_step_3:    'La vista previa muestra el prompt completo. Haz clic en <strong>Preguntar a IA</strong> para enviarlo a tu proveedor de IA.',
   options_help_how_step_4:    'Haz preguntas de seguimiento en el panel de chat debajo de la respuesta.',
 
   options_help_categories_heading:    'Categor\u00edas de plantillas',
-  options_help_cat_understand_desc:   'Resumir y analizar: art\u00edculos, tickets, pull requests.',
-  options_help_cat_decide_desc:       'Sopesar opciones, compensaciones y recomendaciones.',
+  options_help_cat_understand_desc:   'Resumir y analizar art\u00edculos, tickets y pull requests.',
+  options_help_cat_decide_desc:       'Veredictos sobre estancias, productos, alquileres, empleos, vuelos. M\u00e1s Scam Check.',
   options_help_cat_compose_desc:      'Redactar respuestas, correos y reescrituras.',
+  options_help_cat_audit_desc:        'Auditor\u00edas t\u00e9cnicas: SEO, accesibilidad, t\u00e9rminos de servicio.',
 
   options_help_placeholders_heading:  'Marcadores de posici\u00f3n',
   options_help_ph_content:            'P\u00e1gina completa en Markdown',
@@ -168,16 +169,21 @@ const es: Record<string, string> = {
   category_understand: 'Entender',
   category_decide:     'Decidir',
   category_compose:    'Redactar',
+  category_audit:      'Auditar',
   category_custom:     'Personalizada',
 
   'template_label_understand-brief':   'Resumen',
-  'template_label_understand-review': 'Code Review',
-  'template_label_decide-decide':     'Decidir',
-  'template_label_decide-actions':    'Acciones',
-  'template_label_decide-briefing':   'Estrategia',
-  'template_label_compose-reply':     'Respuesta',
+  'template_label_understand-review':  'Code Review',
+  'template_label_compose-reply':      'Respuesta',
+  'template_label_audit-seo':          'Auditor\u00eda SEO',
+  'template_label_audit-accessibility':'Accesibilidad',
+  'template_label_pick-menu':          'Selecci\u00f3n dieta',
+  'template_label_should-i':           '\u00bfDeber\u00eda?',
+  'template_label_scan-terms':         'Alertas T&C',
+  'template_label_scam-check':         'Detector de estafas',
 
-  'template_name_decide-briefing':    'Informe Estrat\u00e9gico',
+  'template_name_should-i':            '\u00bfDeber\u00eda?',
+  'template_name_scam-check':          'Detector de estafas',
 };
 
 export default es;

@@ -91,14 +91,15 @@ const ja: Record<string, string> = {
 
   options_help_how_heading:   '使い方',
   options_help_how_step_1:    'どのページでも拡張機能を開きます。SyntoがコンテンツをMarkdownに変換します。',
-  options_help_how_step_2:    'テンプレートカテゴリ（<strong>理解</strong>、<strong>決断</strong>、または<strong>作成</strong>）を選び、プリセットを選択します。',
+  options_help_how_step_2:    'チップ列からテンプレートを選択します。組み込みテンプレートは4つの領域をカバーします：<strong>理解</strong>（TL;DR、コードレビュー）、<strong>決断</strong>（ダイエット選択、買うべき？、詐欺チェック）、<strong>作成</strong>（返信）、<strong>監査</strong>（SEO、アクセシビリティ、規約注意）。',
   options_help_how_step_3:    'プレビューに入力済みプロンプトが表示されます。<strong>AIに聞く</strong>をクリックしてAIプロバイダーに送信します。',
   options_help_how_step_4:    '回答下のチャットパネルでフォローアップの質問ができます。',
 
   options_help_categories_heading:    'テンプレートカテゴリ',
   options_help_cat_understand_desc:   '記事・チケット・プルリクエストを要約・分析します。',
-  options_help_cat_decide_desc:       '選択肢・トレードオフ・推奨事項を比較検討します。',
+  options_help_cat_decide_desc:       '宿泊・製品・賃貸・求人・フライトに関する判断。加えて詐欺チェック。',
   options_help_cat_compose_desc:      '返信・メール・書き直しを下書きします。',
+  options_help_cat_audit_desc:        '技術監査：SEO、アクセシビリティ、利用規約。',
 
   options_help_placeholders_heading:  'プレースホルダー',
   options_help_ph_content:            'Markdown形式のページ全体',
@@ -168,16 +169,21 @@ const ja: Record<string, string> = {
   category_understand: '理解',
   category_decide:     '決断',
   category_compose:    '作成',
+  category_audit:      '監査',
   category_custom:     'カスタム',
 
   'template_label_understand-brief':   '要約',
-  'template_label_understand-review': 'コードレビュー',
-  'template_label_decide-decide':     '決断',
-  'template_label_decide-actions':    'アクション',
-  'template_label_decide-briefing':   '戦略',
-  'template_label_compose-reply':     '返信',
+  'template_label_understand-review':  'コードレビュー',
+  'template_label_compose-reply':      '返信',
+  'template_label_audit-seo':          'SEO監査',
+  'template_label_audit-accessibility':'アクセシビリティ',
+  'template_label_pick-menu':          'ダイエット選択',
+  'template_label_should-i':           '買うべき？',
+  'template_label_scan-terms':         '規約注意',
+  'template_label_scam-check':         '詐欺チェック',
 
-  'template_name_decide-briefing':    '戦略ブリーフィング',
+  'template_name_should-i':            '買うべき？',
+  'template_name_scam-check':          '詐欺チェック',
 };
 
 export default ja;

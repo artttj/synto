@@ -91,14 +91,15 @@ const fr: Record<string, string> = {
 
   options_help_how_heading:   'Comment \u00e7a marche',
   options_help_how_step_1:    "Ouvrez l\u2019extension sur n\u2019importe quelle page. Synto convertit le contenu en Markdown.",
-  options_help_how_step_2:    "Choisissez une cat\u00e9gorie de mod\u00e8le (<strong>Comprendre</strong>, <strong>D\u00e9cider</strong> ou <strong>R\u00e9diger</strong>), puis s\u00e9lectionnez un mod\u00e8le pr\u00e9d\u00e9fini.",
+  options_help_how_step_2:    "Choisissez un mod\u00e8le dans la rang\u00e9e. Les mod\u00e8les int\u00e9gr\u00e9s couvrent quatre domaines\u00a0: <strong>Comprendre</strong> (TL;DR, Code Review), <strong>D\u00e9cider</strong> (Diet Pick, Dois-je\u00a0?, Scam Check), <strong>R\u00e9diger</strong> (R\u00e9ponse) et <strong>Audit</strong> (SEO, Accessibilit\u00e9, Pi\u00e8ges des CGU).",
   options_help_how_step_3:    "L\u2019aper\u00e7u affiche le prompt rempli. Cliquez sur <strong>Demander \u00e0 l\u2019IA</strong> pour l\u2019envoyer \u00e0 votre fournisseur d\u2019IA.",
   options_help_how_step_4:    'Posez des questions de suivi dans le panneau de discussion sous la r\u00e9ponse.',
 
   options_help_categories_heading:    'Cat\u00e9gories de mod\u00e8les',
-  options_help_cat_understand_desc:   'R\u00e9sumer et analyser\u00a0: articles, tickets, pull requests.',
-  options_help_cat_decide_desc:       'Peser les options, les compromis et les recommandations.',
+  options_help_cat_understand_desc:   'R\u00e9sumer et analyser articles, tickets et pull requests.',
+  options_help_cat_decide_desc:       'Verdicts sur s\u00e9jours, produits, locations, emplois, vols. Plus Scam Check.',
   options_help_cat_compose_desc:      'R\u00e9diger des r\u00e9ponses, e-mails et reformulations.',
+  options_help_cat_audit_desc:        'Audits techniques\u00a0: SEO, accessibilit\u00e9, conditions d\u2019utilisation.',
 
   options_help_placeholders_heading:  'Variables',
   options_help_ph_content:            'Page enti\u00e8re en Markdown',
@@ -168,16 +169,21 @@ const fr: Record<string, string> = {
   category_understand: 'Comprendre',
   category_decide:     'D\u00e9cider',
   category_compose:    'R\u00e9diger',
+  category_audit:      'Audit',
   category_custom:     'Personnalis\u00e9',
 
   'template_label_understand-brief':   'TL;DR',
-  'template_label_understand-review': 'Code Review',
-  'template_label_decide-decide':     'D\u00e9cision',
-  'template_label_decide-actions':    'Actions',
-  'template_label_decide-briefing':   'Strat\u00e9gie',
-  'template_label_compose-reply':     'R\u00e9ponse',
+  'template_label_understand-review':  'Code Review',
+  'template_label_compose-reply':      'R\u00e9ponse',
+  'template_label_audit-seo':          'Audit SEO',
+  'template_label_audit-accessibility':'Accessibilit\u00e9',
+  'template_label_pick-menu':          'Choix r\u00e9gime',
+  'template_label_should-i':           'Dois-je\u00a0?',
+  'template_label_scan-terms':         'Pi\u00e8ges des CGU',
+  'template_label_scam-check':         "D\u00e9tecteur d\u2019arnaque",
 
-  'template_name_decide-briefing':    'Briefing Strat\u00e9gique',
+  'template_name_should-i':            'Dois-je\u00a0?',
+  'template_name_scam-check':          "D\u00e9tecteur d\u2019arnaque",
 };
 
 export default fr;

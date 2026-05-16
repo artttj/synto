@@ -85,14 +85,15 @@ const pt: Record<string, string> = {
 
   options_help_how_heading:   'Como funciona',
   options_help_how_step_1:    'Abra a extens\u00e3o em qualquer p\u00e1gina. O Synto converte o conte\u00fado para Markdown.',
-  options_help_how_step_2:    'Escolha uma categoria de template (<strong>Entender</strong>, <strong>Decidir</strong> ou <strong>Escrever</strong>), depois selecione um preset.',
+  options_help_how_step_2:    'Escolha um template na linha. Os modelos integrados cobrem quatro áreas: <strong>Entender</strong> (TL;DR, Code Review), <strong>Decidir</strong> (Diet Pick, Vale a pena?, Scam Check), <strong>Escrever</strong> (Resposta) e <strong>Auditar</strong> (SEO, Acessibilidade, Alertas T&amp;C).',
   options_help_how_step_3:    'A pr\u00e9-visualiza\u00e7\u00e3o mostra o prompt preenchido. Clique em <strong>Perguntar \u00e0 IA</strong> para envi\u00e1-lo ao seu provedor de IA.',
   options_help_how_step_4:    'Fa\u00e7a perguntas de acompanhamento no painel de chat abaixo da resposta.',
 
   options_help_categories_heading:    'Categorias de templates',
-  options_help_cat_understand_desc:   'Resumir e analisar: artigos, tickets, pull requests.',
-  options_help_cat_decide_desc:       'Avaliar op\u00e7\u00f5es, trade-offs e recomenda\u00e7\u00f5es.',
+  options_help_cat_understand_desc:   'Resumir e analisar artigos, tickets e pull requests.',
+  options_help_cat_decide_desc:       'Veredictos sobre estadias, produtos, alugu\u00e9is, empregos, voos. Mais Scam Check.',
   options_help_cat_compose_desc:      'Redigir respostas, e-mails e reescritas.',
+  options_help_cat_audit_desc:        'Auditorias t\u00e9cnicas: SEO, acessibilidade, termos de servi\u00e7o.',
 
   options_help_placeholders_heading:  'Marcadores',
   options_help_ph_content:            'P\u00e1gina completa em Markdown',
@@ -156,18 +157,23 @@ const pt: Record<string, string> = {
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
   category_understand: 'Entender',
-  category_decide: 'Decidir',
-  category_compose: 'Redigir',
-  category_custom: 'Personalizado',
+  category_decide:     'Decidir',
+  category_compose:    'Redigir',
+  category_audit:      'Auditar',
+  category_custom:     'Personalizado',
 
   'template_label_understand-brief':   'Resumo',
-  'template_label_understand-review': 'Code Review',
-  'template_label_decide-decide':     'Decidir',
-  'template_label_decide-actions':    'A\u00e7\u00f5es',
-  'template_label_decide-briefing':   'Estrat\u00e9gia',
-  'template_label_compose-reply':     'Resposta',
+  'template_label_understand-review':  'Code Review',
+  'template_label_compose-reply':      'Resposta',
+  'template_label_audit-seo':          'Auditoria SEO',
+  'template_label_audit-accessibility':'Acessibilidade',
+  'template_label_pick-menu':          'Escolha dieta',
+  'template_label_should-i':           'Vale a pena?',
+  'template_label_scan-terms':         'Alertas T&C',
+  'template_label_scam-check':         'Detector de fraude',
 
-  'template_name_decide-briefing':    'Resumo Estrat\u00e9gico',
+  'template_name_should-i':            'Vale a pena?',
+  'template_name_scam-check':          'Detector de fraude',
 };
 
 export default pt;

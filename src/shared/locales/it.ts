@@ -85,14 +85,15 @@ const it: Record<string, string> = {
 
   options_help_how_heading:   'Come funziona',
   options_help_how_step_1:    "Apri l\u2019estensione su qualsiasi pagina. Synto converte il contenuto in Markdown.",
-  options_help_how_step_2:    "Scegli una categoria di template (<strong>Comprendere</strong>, <strong>Decidere</strong> o <strong>Scrivere</strong>), poi seleziona un preset.",
+  options_help_how_step_2:    "Scegli un template dalla riga. I template integrati coprono quattro aree: <strong>Comprendere</strong> (TL;DR, Code Review), <strong>Decidere</strong> (Diet Pick, Conviene?, Scam Check), <strong>Scrivere</strong> (Risposta) e <strong>Audit</strong> (SEO, Accessibilità, Allerte ToS).",
   options_help_how_step_3:    "L\u2019anteprima mostra il prompt compilato. Clicca su <strong>Chiedi all\u2019IA</strong> per inviarlo al tuo provider di IA.",
   options_help_how_step_4:    'Fai domande di approfondimento nel pannello chat sotto la risposta.',
 
   options_help_categories_heading:    'Categorie di template',
-  options_help_cat_understand_desc:   'Riassumere e analizzare: articoli, ticket, pull request.',
-  options_help_cat_decide_desc:       'Valutare opzioni, compromessi e raccomandazioni.',
+  options_help_cat_understand_desc:   'Riassumere e analizzare articoli, ticket e pull request.',
+  options_help_cat_decide_desc:       'Verdetti su soggiorni, prodotti, affitti, lavori, voli. Più Scam Check.',
   options_help_cat_compose_desc:      'Scrivere risposte, email e riformulazioni.',
+  options_help_cat_audit_desc:        'Audit tecnici: SEO, accessibilità, termini di servizio.',
 
   options_help_placeholders_heading:  'Segnaposto',
   options_help_ph_content:            'Pagina intera in Markdown',
@@ -156,18 +157,23 @@ const it: Record<string, string> = {
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
   category_understand: 'Comprendere',
-  category_decide: 'Decidere',
-  category_compose: 'Comporre',
-  category_custom: 'Personalizzato',
+  category_decide:     'Decidere',
+  category_compose:    'Comporre',
+  category_audit:      'Audit',
+  category_custom:     'Personalizzato',
 
   'template_label_understand-brief':   'TL;DR',
-  'template_label_understand-review': 'Code Review',
-  'template_label_decide-decide':     'Decisione',
-  'template_label_decide-actions':    'Azioni',
-  'template_label_decide-briefing':   'Strategia',
-  'template_label_compose-reply':     'Risposta',
+  'template_label_understand-review':  'Code Review',
+  'template_label_compose-reply':      'Risposta',
+  'template_label_audit-seo':          'Audit SEO',
+  'template_label_audit-accessibility':'Accessibilità',
+  'template_label_pick-menu':          'Scelta dieta',
+  'template_label_should-i':           'Conviene?',
+  'template_label_scan-terms':         'Allerte ToS',
+  'template_label_scam-check':         'Anti-truffa',
 
-  'template_name_decide-briefing':    'Briefing Strategico',
+  'template_name_should-i':            'Conviene?',
+  'template_name_scam-check':          'Anti-truffa',
 };
 
 export default it;

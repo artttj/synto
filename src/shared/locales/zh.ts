@@ -86,14 +86,15 @@ const zh: Record<string, string> = {
 
   options_help_how_heading:   '使用方法',
   options_help_how_step_1:    '在任意页面打开扩展。Synto 将内容转换为 Markdown。',
-  options_help_how_step_2:    '选择模板类别（<strong>理解</strong>、<strong>决策</strong>或<strong>写作</strong>），然后选择预设。',
+  options_help_how_step_2:    '从模板行中选择一个模板。内置模板涵盖四个领域：<strong>理解</strong>（TL;DR、代码评审）、<strong>决策</strong>（饮食选择、值得吗？、诈骗检查）、<strong>撰写</strong>（回复）和<strong>审计</strong>（SEO、无障碍、条款警告）。',
   options_help_how_step_3:    '预览显示填充后的提示词。点击<strong>询问 AI</strong>将其发送给 AI 提供商。',
   options_help_how_step_4:    '在回复下方的聊天面板中提问后续问题。',
 
   options_help_categories_heading:    '模板类别',
-  options_help_cat_understand_desc:   '摘要和分析：文章、工单、拉取请求。',
-  options_help_cat_decide_desc:       '权衡选项、利弊和建议。',
+  options_help_cat_understand_desc:   '摘要和分析文章、工单、拉取请求。',
+  options_help_cat_decide_desc:       '对住宿、产品、租赁、工作、航班的判断。还有诈骗检查。',
   options_help_cat_compose_desc:      '起草回复、邮件和改写内容。',
+  options_help_cat_audit_desc:        '技术审计：SEO、无障碍、服务条款。',
 
   options_help_placeholders_heading:  '占位符',
   options_help_ph_content:            '完整页面（Markdown 格式）',
@@ -159,18 +160,23 @@ const zh: Record<string, string> = {
   popup_manage_templates: '管理模板',
 
   category_understand: '理解',
-  category_decide: '决策',
-  category_compose: '撰写',
-  category_custom: '自定义',
+  category_decide:     '决策',
+  category_compose:    '撰写',
+  category_audit:      '审计',
+  category_custom:     '自定义',
 
   'template_label_understand-brief':   '摘要',
-  'template_label_understand-review': '代码评审',
-  'template_label_decide-decide':     '决策',
-  'template_label_decide-actions':    '行动项',
-  'template_label_decide-briefing':   '战略',
-  'template_label_compose-reply':     '回复',
+  'template_label_understand-review':  '代码评审',
+  'template_label_compose-reply':      '回复',
+  'template_label_audit-seo':          'SEO 审计',
+  'template_label_audit-accessibility':'无障碍',
+  'template_label_pick-menu':          '饮食选择',
+  'template_label_should-i':           '值得吗？',
+  'template_label_scan-terms':         '条款警告',
+  'template_label_scam-check':         '诈骗检查',
 
-  'template_name_decide-briefing':    '战略简报',
+  'template_name_should-i':            '值得吗？',
+  'template_name_scam-check':          '诈骗检查',
 };
 
 export default zh;

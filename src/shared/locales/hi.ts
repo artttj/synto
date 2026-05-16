@@ -85,14 +85,15 @@ const hi: Record<string, string> = {
 
   options_help_how_heading:   'यह कैसे काम करता है',
   options_help_how_step_1:    'किसी भी पेज पर एक्सटेंशन खोलें। Synto सामग्री को Markdown में परिवर्तित करता है।',
-  options_help_how_step_2:    'एक टेम्पलेट श्रेणी चुनें (<strong>समझें</strong>, <strong>निर्णय लें</strong> या <strong>लिखें</strong>), फिर एक प्रीसेट चुनें।',
+  options_help_how_step_2:    'चिप पंक्ति से एक टेम्पलेट चुनें। बिल्ट-इन टेम्पलेट चार क्षेत्र कवर करते हैं: <strong>समझें</strong> (TL;DR, कोड रिव्यू), <strong>निर्णय लें</strong> (डाइट चयन, क्या लें?, धोखाधड़ी जाँच), <strong>लिखें</strong> (उत्तर) और <strong>ऑडिट</strong> (SEO, सुलभता, नियम चेतावनी)।',
   options_help_how_step_3:    'पूर्वावलोकन भरा हुआ प्रॉम्प्ट दिखाता है। इसे अपने AI प्रदाता को भेजने के लिए <strong>AI से पूछें</strong> पर क्लिक करें।',
   options_help_how_step_4:    'प्रतिक्रिया के नीचे चैट पैनल में अनुवर्ती प्रश्न पूछें।',
 
   options_help_categories_heading:    'टेम्पलेट श्रेणियाँ',
-  options_help_cat_understand_desc:   'सारांश और विश्लेषण: लेख, टिकट, पुल रिक्वेस्ट।',
-  options_help_cat_decide_desc:       'विकल्पों, ट्रेड-ऑफ और सिफारिशों का मूल्यांकन करें।',
+  options_help_cat_understand_desc:   'लेख, टिकट और पुल रिक्वेस्ट का सारांश और विश्लेषण करें।',
+  options_help_cat_decide_desc:       'ठहराव, उत्पादों, किराये, नौकरियों, उड़ानों पर निर्णय। साथ ही धोखाधड़ी जाँच।',
   options_help_cat_compose_desc:      'उत्तर, ईमेल और पुनर्लेखन का मसौदा तैयार करें।',
+  options_help_cat_audit_desc:        'तकनीकी ऑडिट: SEO, सुलभता, सेवा शर्तें।',
 
   options_help_placeholders_heading:  'प्लेसहोल्डर',
   options_help_ph_content:            'Markdown के रूप में पूरा पेज',
@@ -156,18 +157,23 @@ const hi: Record<string, string> = {
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
   category_understand: 'समझें',
-  category_decide: 'निर्णय लें',
-  category_compose: 'लिखें',
-  category_custom: 'कस्टम',
+  category_decide:     'निर्णय लें',
+  category_compose:    'लिखें',
+  category_audit:      'ऑडिट',
+  category_custom:     'कस्टम',
 
   'template_label_understand-brief':   'सारांश',
-  'template_label_understand-review': 'कोड रिव्यू',
-  'template_label_decide-decide':     'निर्णय',
-  'template_label_decide-actions':    'कार्य',
-  'template_label_decide-briefing':   'रणनीति',
-  'template_label_compose-reply':     'उत्तर',
+  'template_label_understand-review':  'कोड रिव्यू',
+  'template_label_compose-reply':      'उत्तर',
+  'template_label_audit-seo':          'SEO ऑडिट',
+  'template_label_audit-accessibility':'सुलभता',
+  'template_label_pick-menu':          'डाइट चयन',
+  'template_label_should-i':           'क्या लें?',
+  'template_label_scan-terms':         'नियम चेतावनी',
+  'template_label_scam-check':         'धोखाधड़ी जाँच',
 
-  'template_name_decide-briefing':    'रणनीति ब्रीफिंग',
+  'template_name_should-i':            'क्या लें?',
+  'template_name_scam-check':          'धोखाधड़ी जाँच',
 };
 
 export default hi;
