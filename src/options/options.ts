@@ -180,7 +180,7 @@ async function init(): Promise<void> {
   refs.btnSaveOllama!.addEventListener('click', async () => {
     await saveSettings({
       ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
-      ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
+      ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6:cloud',
       ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
     });
     showToast('Ollama settings saved');
@@ -188,11 +188,11 @@ async function init(): Promise<void> {
 
   refs.btnClearOllama!.addEventListener('click', async () => {
     if (refs.ollamaEndpointEl) refs.ollamaEndpointEl.value = OLLAMA_ENDPOINT_DEFAULT;
-    if (refs.ollamaModelEl) refs.ollamaModelEl.value = 'kimi-k2.6';
+    if (refs.ollamaModelEl) refs.ollamaModelEl.value = 'kimi-k2.6:cloud';
     if (refs.ollamaUseAuthEl) refs.ollamaUseAuthEl.checked = true;
     await saveSettings({
       ollamaEndpoint: OLLAMA_ENDPOINT_DEFAULT,
-      ollamaModel: 'kimi-k2.6',
+      ollamaModel: 'kimi-k2.6:cloud',
       ollamaUseAuth: true,
     });
     showToast('Ollama settings cleared');

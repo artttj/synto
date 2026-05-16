@@ -16,7 +16,6 @@ let extractionRequestId = 0;
 
 
 export function disableActions(): void {
-  refs.btnCopyMd!.disabled = true;
   refs.btnProcess!.disabled = true;
 }
 
@@ -30,12 +29,9 @@ function isRestrictedUrl(url?: string): boolean {
   return url.startsWith('chrome://') || url.startsWith('chrome-extension://') || url.startsWith('about:') || url.startsWith('edge://');
 }
 
-async function getContentTab(): Promise<chrome.tabs.Tab | undefined> {
+async function getActiveTab(): Promise<chrome.tabs.Tab | undefined> {
   const [active] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (active?.id && !isRestrictedUrl(active.url)) return active;
-
-  const tabs = await chrome.tabs.query({ currentWindow: true });
-  return tabs.find((tab) => tab.id && !isRestrictedUrl(tab.url));
+  return active;
 }
 
 async function sendTabMessage(tabId: number, message: Record<string, string>): Promise<ExtractedContent> {
@@ -81,6 +77,13 @@ async function sendExtract(tabId: number, requestId: number): Promise<ExtractedC
   return response;
 }
 
+function clearExtractedState(): void {
+  state.extracted = null;
+  state.rawMarkdown = '';
+  state.finalText = '';
+  if (refs.previewText) refs.previewText.value = '';
+}
+
 export async function extractContent(): Promise<void> {
   const requestId = ++extractionRequestId;
   setError(null);
@@ -91,16 +94,18 @@ export async function extractContent(): Promise<void> {
   refs.chatExportRow!.classList.add('hidden');
   refs.chatHistoryBanner!.classList.add('hidden');
 
-  const tab = await getContentTab();
+  const tab = await getActiveTab();
 
   if (!tab?.id || isRestrictedUrl(tab.url)) {
+    clearExtractedState();
+    setError(t('popup_restricted_page'), 'info');
     return;
   }
 
   try {
     const response = await sendExtract(tab.id, requestId);
-    if (requestId === extractionRequestId && response.autoRescanned) {
-      showContentToast(t('popup_auto_rescanned'));
+    if (requestId === extractionRequestId) {
+      refs.btnScrollRescan?.classList.toggle('hint', Boolean(response.isDiffPage));
     }
   } catch (err: unknown) {
     if (requestId !== extractionRequestId) return;
@@ -112,9 +117,11 @@ export async function extractContent(): Promise<void> {
 
 export async function scrollAndRescan(): Promise<void> {
   const requestId = ++extractionRequestId;
-  const tab = await getContentTab();
+  const tab = await getActiveTab();
 
   if (!tab?.id || isRestrictedUrl(tab.url)) {
+    clearExtractedState();
+    setError(t('popup_restricted_page'), 'info');
     return;
   }
 

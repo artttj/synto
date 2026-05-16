@@ -46,14 +46,14 @@ export const PROVIDER_MODELS: Record<string, string[]> = {
   zai:        ['zai-7b', 'zai-70b'],
   anthropic:  ['claude-sonnet-4-6', 'claude-opus-4-7', 'claude-opus-4-6', 'claude-haiku-4-5'],
   ollama:     [
-    'kimi-k2.6', 'kimi-k2.5', 'kimi-k2-thinking', 'kimi-k2',
-    'deepseek-v4-flash', 'deepseek-v4-pro', 'deepseek-v3.2', 'deepseek-v3.1',
-    'gemma4', 'gemma3',
-    'qwen3.5', 'qwen3-coder',
-    'glm-5.1', 'glm-4.7', 'glm-4.6',
-    'minimax-m2.7', 'minimax-m2',
-    'nemotron-3-super',
-    'gemini-3-flash-preview',
+    'kimi-k2.6:cloud', 'kimi-k2.5:cloud', 'kimi-k2-thinking:cloud', 'kimi-k2:1t-cloud',
+    'deepseek-v4-flash:cloud', 'deepseek-v4-pro:cloud', 'deepseek-v3.2:cloud', 'deepseek-v3.1:671b-cloud',
+    'gemma4:31b-cloud', 'gemma3:27b-cloud',
+    'qwen3.5:397b-cloud', 'qwen3-coder:480b-cloud',
+    'glm-5.1:cloud', 'glm-4.7:cloud', 'glm-4.6:cloud',
+    'minimax-m2.7:cloud', 'minimax-m2:cloud',
+    'nemotron-3-super:cloud',
+    'gemini-3-flash-preview:cloud',
   ],
   custom:     [
     'gemma4', 'gemma3', 'gemini-3-flash-preview', 'gemini-2.5-flash',
@@ -97,13 +97,14 @@ export const DEPRECATED_TEMPLATE_IDS = new Set([
   'write-compose-answer',
   'community-rewrite-comment',
   'write-email-helper',
+  'understand-audit',
 ]);
 
 export const DEFAULT_TEMPLATES = [
   {
     id: "understand-brief",
     name: "Brief",
-    label: "Brief",
+    label: "TL;DR",
     description: "Key takeaway, evidence, open questions",
     category: "Understand",
     isDefault: true,
@@ -144,39 +145,6 @@ For each real issue found, rate severity:
 If the code is fine, say so in one sentence. Don't narrate what the code does — I can read it myself. Skip style nits unless they hide real problems.
 
 Be specific. Use plain language. No filler. Point to exact lines when possible. Concrete fixes, not "consider refactoring."
-
----
-
-Source: [{title}]({url})
-
-{content}`,
-  },
-
-  {
-    id: "understand-audit",
-    name: "SEO Audit",
-    label: "SEO Audit",
-    description: "Content gaps, structure, search visibility",
-    category: "Understand",
-    isDefault: false,
-    prompt: `Audit this page for search visibility and content quality. Check these areas:
-
-**Title & Meta**: Does the title tag exist, is it under 60 chars, does it contain the primary keyword naturally? Meta description — present, under 160 chars, compelling enough to click?
-
-**Headings**: Single H1? Logical H2/H3 hierarchy? Keywords in headings without stuffing?
-
-**Content Quality**: Thin content flags (under 300 words of body text)? Duplicate or boilerplate content? Readability — is it written for humans or search engines?
-
-**Structure**: Internal links with descriptive anchor text? Broken or redirecting links? Images with alt text? Proper use of lists and tables for structured data?
-
-**Technical Signals**: Schema markup opportunities missed? Canonical issues? Orphan pages (no internal links pointing to it)?
-
-For each issue, give me:
-1. **What's wrong** — specific, not "improve SEO"
-2. **Why it matters** — the search signal it affects
-3. **How to fix it** — one concrete action
-
-Skip things that are already working well. Focus on real problems that affect ranking or click-through.
 
 ---
 
@@ -235,7 +203,7 @@ Number the list.
   {
     id: "decide-briefing",
     name: "Strategy Briefing",
-    label: "Strategy Briefing",
+    label: "Strategy",
     description: "Stakeholder view — what matters, what to watch, what to decide",
     category: "Decide",
     isDefault: false,
@@ -278,8 +246,8 @@ Be specific. Use plain language. Active voice. Short sentences. Never start with
 
   {
     id: "brief-template",
-    name: "Brief Template",
-    label: "Brief Template",
+    name: "Project Brief",
+    label: "Project Brief",
     description: "Project brief — goals, audience, constraints",
     category: "Brief",
     isDefault: false,
@@ -390,7 +358,7 @@ Source: [{title}]({url})
   {
     id: "audit-accessibility",
     name: "Accessibility Audit",
-    label: "Accessibility Audit",
+    label: "Accessibility",
     description: "WCAG compliance — contrast, keyboard nav, ARIA, screen reader support",
     category: "Audit",
     isDefault: false,
@@ -425,7 +393,7 @@ Source: [{title}]({url})
   {
     id: "audit-performance",
     name: "Performance Audit",
-    label: "Performance Audit",
+    label: "Performance",
     description: "Page speed — Core Web Vitals, bundle size, image optimization",
     category: "Audit",
     isDefault: false,

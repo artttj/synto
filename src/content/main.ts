@@ -74,12 +74,6 @@ interface InsertSnapshot {
   prevHTML: string;
 }
 
-let undoSnapshot: InsertSnapshot | null = null;
-
-function clearUndoSnapshot(): void {
-  undoSnapshot = null;
-}
-
 function captureSnapshot(el: HTMLElement): InsertSnapshot {
   const tag = el.tagName;
   const type = tag === 'INPUT' ? 'input' : tag === 'TEXTAREA' ? 'textarea' : 'contenteditable';
@@ -105,10 +99,8 @@ function captureSnapshot(el: HTMLElement): InsertSnapshot {
   return snapshot;
 }
 
-function undoInsert(): void {
-  if (!undoSnapshot) return;
-  const { el, type, prevValue, prevSelectionStart, prevSelectionEnd, prevHTML } = undoSnapshot;
-  clearUndoSnapshot();
+function undoInsert(snapshot: InsertSnapshot): void {
+  const { el, type, prevValue, prevSelectionStart, prevSelectionEnd, prevHTML } = snapshot;
 
   if (type === 'input' || type === 'textarea') {
     const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
@@ -167,12 +159,13 @@ function findBestInput(): HTMLElement | null {
   return best;
 }
 
-function insertTextToInput(text: string): { error?: string } {
+type InsertResult = { error: string } | { snapshot: InsertSnapshot };
+
+function insertTextToInput(text: string): InsertResult {
   const el = findBestInput();
   if (!el) return { error: 'No input field found on this page.' };
 
-  clearUndoSnapshot();
-  undoSnapshot = captureSnapshot(el);
+  const snapshot = captureSnapshot(el);
 
   if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
     const inputEl = el as HTMLInputElement | HTMLTextAreaElement;
@@ -197,7 +190,7 @@ function insertTextToInput(text: string): { error?: string } {
     el.focus();
   }
 
-  return {};
+  return { snapshot };
 }
 
 function showToast(message: string, action?: { label: string; onClick: () => void }): void {
@@ -230,10 +223,7 @@ function showToast(message: string, action?: { label: string; onClick: () => voi
   const dismissMs = action ? 5000 : 1800;
   setTimeout(() => {
     toast.style.opacity = '0';
-    setTimeout(() => {
-      toast.remove();
-      if (action) clearUndoSnapshot();
-    }, 200);
+    setTimeout(() => toast.remove(), 200);
   }, dismissMs);
 }
 
@@ -268,19 +258,9 @@ function onScroll(): void {
 chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; text?: string }, _sender, sendResponse) => {
   if (message.type === MSG.EXTRACT_CONTENT) {
     startScrollListener();
-    if (isDiffPage()) {
-      void scrollAndRescan().then(() => {
-        try {
-          const result = extractContent(message.mode ?? 'markdown');
-          sendResponse({ ...result, autoRescanned: true });
-        } catch (err: unknown) {
-          sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
-        }
-      });
-      return true;
-    }
     try {
-      sendResponse(extractContent(message.mode ?? 'markdown'));
+      const result = extractContent(message.mode ?? 'markdown');
+      sendResponse({ ...result, isDiffPage: isDiffPage() });
     } catch (err: unknown) {
       sendResponse({ success: false, error: err instanceof Error ? err.message : String(err) });
     }
@@ -289,10 +269,11 @@ chrome.runtime.onMessage.addListener((message: { type: string; mode?: string; te
 
   if (message.type === MSG.INSERT_TEXT && message.text) {
     const result = insertTextToInput(message.text);
-    if (result.error) {
+    if ('error' in result) {
       sendResponse({ error: result.error });
     } else {
-      showToast('Inserted', { label: 'Undo', onClick: undoInsert });
+      const { snapshot } = result;
+      showToast('Inserted', { label: 'Undo', onClick: () => undoInsert(snapshot) });
       sendResponse({ ok: true });
     }
     return true;

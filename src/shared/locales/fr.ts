@@ -35,7 +35,6 @@ const fr: Record<string, string> = {
   popup_history_yes:     'Restaurer',
   popup_history_dismiss: 'Ignorer',
   popup_content_updated: 'Contenu mis à jour',
-  popup_auto_rescanned: 'Contenu diff étendu automatiquement',
 
   options_brand_sub:    'Param\u00e8tres',
   options_nav_general:  'G\u00e9n\u00e9ral',
@@ -171,15 +170,13 @@ const fr: Record<string, string> = {
   category_compose:    'R\u00e9diger',
   category_custom:     'Personnalis\u00e9',
 
-  'template_label_understand-brief':   'Brief',
+  'template_label_understand-brief':   'TL;DR',
   'template_label_understand-review': 'Code Review',
-  'template_label_understand-audit':  'Audit',
   'template_label_decide-decide':     'D\u00e9cision',
   'template_label_decide-actions':    'Actions',
-  'template_label_decide-briefing':   'Briefing',
+  'template_label_decide-briefing':   'Strat\u00e9gie',
   'template_label_compose-reply':     'R\u00e9ponse',
 
-  'template_name_understand-audit':   'Audit SEO',
   'template_name_decide-briefing':    'Briefing Strat\u00e9gique',
 };
 

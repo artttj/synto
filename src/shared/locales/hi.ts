@@ -34,7 +34,6 @@ const hi: Record<string, string> = {
   popup_history_yes: 'पुनर्स्थापित करें',
   popup_history_dismiss: 'बंद करें',
   popup_content_updated: 'सामग्री अपडेट हुई',
-  popup_auto_rescanned: 'Diff सामग्री स्वतः विस्तारित',
   options_brand_sub: 'सेटिंग्स',
   options_nav_general: 'सामान्य',
   options_nav_ai: 'AI कनेक्शन',
@@ -161,15 +160,13 @@ const hi: Record<string, string> = {
   category_compose: 'लिखें',
   category_custom: 'कस्टम',
 
-  'template_label_understand-brief':   'ब्रीफ',
+  'template_label_understand-brief':   'सारांश',
   'template_label_understand-review': 'कोड रिव्यू',
-  'template_label_understand-audit':  'ऑडिट',
   'template_label_decide-decide':     'निर्णय',
   'template_label_decide-actions':    'कार्य',
-  'template_label_decide-briefing':   'ब्रीफिंग',
+  'template_label_decide-briefing':   'रणनीति',
   'template_label_compose-reply':     'उत्तर',
 
-  'template_name_understand-audit':   'SEO ऑडिट',
   'template_name_decide-briefing':    'रणनीति ब्रीफिंग',
 };
 

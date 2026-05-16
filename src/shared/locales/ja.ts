@@ -35,7 +35,6 @@ const ja: Record<string, string> = {
   popup_history_yes:     '復元',
   popup_history_dismiss: '閉じる',
   popup_content_updated: 'コンテンツを更新しました',
-  popup_auto_rescanned: '差分コンテンツを自動展開しました',
 
   options_brand_sub:    '設定',
   options_nav_general:  '一般',
@@ -171,15 +170,13 @@ const ja: Record<string, string> = {
   category_compose:    '作成',
   category_custom:     'カスタム',
 
-  'template_label_understand-brief':   'ブリーフ',
+  'template_label_understand-brief':   '要約',
   'template_label_understand-review': 'コードレビュー',
-  'template_label_understand-audit':  '監査',
   'template_label_decide-decide':     '決断',
   'template_label_decide-actions':    'アクション',
-  'template_label_decide-briefing':   'ブリーフィング',
+  'template_label_decide-briefing':   '戦略',
   'template_label_compose-reply':     '返信',
 
-  'template_name_understand-audit':   'SEO監査',
   'template_name_decide-briefing':    '戦略ブリーフィング',
 };
 

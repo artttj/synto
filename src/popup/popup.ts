@@ -23,8 +23,8 @@ import {
 import { STORAGE_KEYS, MSG } from '../shared/constants';
 import { setLocale, applyI18n, t } from '../shared/i18n';
 import { applyAndWatchTheme } from '../shared/theme';
-import { state, getAskLabel } from './state';
-import { resolveRefs, refs } from './dom';
+import { state, getAskLabel, getActiveModel } from './state';
+import { resolveRefs, refs, renderFooter } from './dom';
 import { setError } from './errors';
 import { renderTemplateUI, wireTemplateUI } from './templates';
 import { wirePreview } from './preview';
@@ -59,15 +59,37 @@ export function showContentToast(message: string): void {
 }
 
 
+function wireThemeToggle(unwatchTheme: { current: (() => void) | null }, initialTheme: string): void {
+  const themeOrder = ['system', 'light', 'dark'] as const;
+  const sync = (mode: string) => {
+    refs.btnTheme?.setAttribute('data-theme-mode', mode);
+    refs.btnTheme?.setAttribute('title', `Theme: ${mode}`);
+  };
+  sync(initialTheme);
+  refs.btnTheme?.addEventListener('click', () => {
+    const current = (refs.btnTheme!.dataset.themeMode ?? 'dark') as typeof themeOrder[number];
+    const idx = themeOrder.indexOf(current);
+    const next = themeOrder[(idx + 1) % themeOrder.length];
+    sync(next);
+    applyAndWatchTheme(next, unwatchTheme);
+    void saveSettings({ theme: next });
+  });
+}
+
+
 async function init(): Promise<void> {
   resolveRefs();
+
+  const unwatchTheme = { current: null as (() => void) | null };
+  wireThemeToggle(unwatchTheme, 'system');
 
   const [templates, settings] = await Promise.all([getTemplates(), getSettings()]);
 
   setLocale(settings.language ?? 'en');
   applyI18n();
 
-  const unwatchTheme = { current: null as (() => void) | null };
+  refs.btnTheme?.setAttribute('data-theme-mode', settings.theme ?? 'dark');
+  refs.btnTheme?.setAttribute('title', `Theme: ${settings.theme ?? 'dark'}`);
   applyAndWatchTheme(settings.theme ?? 'dark', unwatchTheme);
   state.templates = templates;
   state.selectedTemplateId = settings.defaultTemplateId ?? templates[0]?.id ?? null;
@@ -86,6 +108,7 @@ async function init(): Promise<void> {
   state.ollamaEndpoint  = settings.ollamaEndpoint;
   state.ollamaUseAuth   = settings.ollamaUseAuth;
   refs.btnProcess!.textContent = getAskLabel();
+  renderFooter(state.llmProvider, getActiveModel());
   void renderProviderHealth();
 
   renderTemplateUI();
@@ -98,6 +121,7 @@ async function init(): Promise<void> {
   refs.btnHelp!.addEventListener('click', () => {
     void chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html') + '#help' });
   });
+
   refs.chatOptionsLink!.addEventListener('click', (e) => {
     e.preventDefault();
     void chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html#ai-connections') });
@@ -183,8 +207,11 @@ async function init(): Promise<void> {
         state.customModel = settingsChange.customModel ?? state.customModel;
         state.customUseAuth = settingsChange.customUseAuth ?? state.customUseAuth;
         refs.btnProcess!.textContent = getAskLabel();
+        renderFooter(state.llmProvider, getActiveModel());
         if (settingsChange.theme) {
           applyAndWatchTheme(settingsChange.theme, unwatchTheme);
+          refs.btnTheme?.setAttribute('data-theme-mode', settingsChange.theme);
+          refs.btnTheme?.setAttribute('title', `Theme: ${settingsChange.theme}`);
         }
       }
     }

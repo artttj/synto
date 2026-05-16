@@ -19,7 +19,7 @@ export interface ExtractedContent {
   success?: boolean;
   error?: string;
   mode?: string;
-  autoRescanned?: boolean;
+  isDiffPage?: boolean;
 }
 
 const DEFAULT_MODELS: Record<string, string> = {
@@ -29,7 +29,7 @@ const DEFAULT_MODELS: Record<string, string> = {
   openrouter: 'anthropic/claude-sonnet-4-6',
   zai:        'zai-7b',
   anthropic:  'claude-sonnet-4-6',
-  ollama:     'kimi-k2.6',
+  ollama:     'kimi-k2.6:cloud',
   custom:     '',
 };
 
@@ -89,7 +89,7 @@ export const state: {
   customEndpoint:   CUSTOM_ENDPOINT_DEFAULT,
   customModel:      '',
   customUseAuth:    false,
-  ollamaModel:      'kimi-k2.6',
+  ollamaModel:      'kimi-k2.6:cloud',
   ollamaEndpoint:   OLLAMA_ENDPOINT_DEFAULT,
   ollamaUseAuth:    true,
 };
@@ -110,6 +110,5 @@ export function getActiveModel(): string {
 
 
 export function getAskLabel(): string {
-  const model = getActiveModel();
-  return `${t('popup_ask_ai')} ${model}`;
+  return `${t('popup_ask_ai')} · ${getActiveModel()}`;
 }

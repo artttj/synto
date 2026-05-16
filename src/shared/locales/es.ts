@@ -35,7 +35,6 @@ const es: Record<string, string> = {
   popup_history_yes:     'Restaurar',
   popup_history_dismiss: 'Descartar',
   popup_content_updated: 'Contenido actualizado',
-  popup_auto_rescanned: 'Contenido diff expandido automáticamente',
 
   options_brand_sub:    'Configuraci\u00f3n',
   options_nav_general:  'General',
@@ -173,13 +172,11 @@ const es: Record<string, string> = {
 
   'template_label_understand-brief':   'Resumen',
   'template_label_understand-review': 'Code Review',
-  'template_label_understand-audit':  'Auditor\u00eda',
   'template_label_decide-decide':     'Decidir',
   'template_label_decide-actions':    'Acciones',
-  'template_label_decide-briefing':   'Informe',
+  'template_label_decide-briefing':   'Estrategia',
   'template_label_compose-reply':     'Respuesta',
 
-  'template_name_understand-audit':   'Auditor\u00eda SEO',
   'template_name_decide-briefing':    'Informe Estrat\u00e9gico',
 };
 

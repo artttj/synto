@@ -71,15 +71,24 @@ export function renderDefaultTemplateSelect(): void {
 }
 
 
-function populateModelSelect(el: HTMLSelectElement, provider: string, selectedModel: string): void {
-  el.textContent = '';
-  for (const model of (PROVIDER_MODELS[provider] ?? [])) {
+function buildModelOptions(provider: string, selectedModel?: string): HTMLOptionElement[] {
+  return (PROVIDER_MODELS[provider] ?? []).map((model) => {
     const opt = document.createElement('option');
     opt.value = model;
     opt.textContent = model;
-    opt.selected = model === selectedModel;
-    el.appendChild(opt);
-  }
+    if (selectedModel !== undefined) opt.selected = model === selectedModel;
+    return opt;
+  });
+}
+
+function populateModelSelect(el: HTMLSelectElement, provider: string, selectedModel: string): void {
+  el.replaceChildren(...buildModelOptions(provider, selectedModel));
+}
+
+function populateDatalist(id: string, provider: string): void {
+  const list = document.getElementById(id) as HTMLDataListElement | null;
+  if (!list) return;
+  list.replaceChildren(...buildModelOptions(provider));
 }
 
 
@@ -106,7 +115,9 @@ export function renderSettingsForm(): void {
   populateModelSelect(refs.openrouterModelEl!, 'openrouter', state.settings.openrouterModel);
   populateModelSelect(refs.zaiModelEl!,     'zai',    state.settings.zaiModel);
   populateModelSelect(refs.anthropicModelEl!, 'anthropic', state.settings.anthropicModel);
-  if (refs.ollamaModelEl) refs.ollamaModelEl.value = state.settings.ollamaModel ?? 'kimi-k2.6';
+  if (refs.ollamaModelEl) refs.ollamaModelEl.value = state.settings.ollamaModel ?? 'kimi-k2.6:cloud';
+  populateDatalist('ollama-model-list', 'ollama');
+  populateDatalist('custom-model-list', 'custom');
 
   if (refs.customEndpointEl) refs.customEndpointEl.value = state.settings.customEndpoint ?? CUSTOM_ENDPOINT_DEFAULT;
   if (refs.customModelEl) refs.customModelEl.value = state.settings.customModel ?? '';
@@ -131,7 +142,15 @@ export function showToast(message?: string): void {
   }, 1800);
 }
 
-export function autoSaveSettings(): void {
+function describeChange(source?: HTMLElement | null): string {
+  if (!source) return 'Settings saved';
+  if (refs.themeSeg?.contains(source)) return 'Theme applied';
+  if (refs.aiProviderSeg?.contains(source)) return 'Provider changed';
+  if (source === refs.languageEl) return 'Language changed';
+  return 'Settings saved';
+}
+
+export function autoSaveSettings(source?: HTMLElement | null): void {
   const partial: Partial<Settings> = {
     defaultTemplateId: refs.defaultTplEl!.value,
     theme: getSegmentedValue(refs.themeSeg!) ?? 'system',
@@ -147,33 +166,34 @@ export function autoSaveSettings(): void {
     customEndpoint: refs.customEndpointEl?.value ?? CUSTOM_ENDPOINT_DEFAULT,
     customModel: refs.customModelEl?.value ?? '',
     customUseAuth: refs.customUseAuthEl?.checked ?? false,
-    ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6',
+    ollamaModel: refs.ollamaModelEl?.value ?? 'kimi-k2.6:cloud',
     ollamaEndpoint: refs.ollamaEndpointEl?.value ?? OLLAMA_ENDPOINT_DEFAULT,
     ollamaUseAuth: refs.ollamaUseAuthEl?.checked ?? true,
   };
   state.settings = { ...state.settings, ...partial };
-  void saveSettings(partial).then(() => {
-    const theme = getSegmentedValue(refs.themeSeg!);
-    const provider = getSegmentedValue(refs.aiProviderSeg!);
-    if (theme) {
-      showToast('Theme applied');
-    } else if (provider) {
-      showToast('Provider changed');
-    } else {
-      showToast('Settings saved');
-    }
-  });
+  const message = describeChange(source);
+  void saveSettings(partial).then(() => showToast(message));
+}
+
+let autoSaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+function scheduleAutoSave(source: HTMLElement): void {
+  if (autoSaveTimer) clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    autoSaveTimer = null;
+    autoSaveSettings(source);
+  }, 200);
 }
 
 export function wireAutoSave(): void {
   document.addEventListener('change', (e) => {
     const el = e.target as HTMLElement | null;
-    if (el?.closest('[data-auto-save]')) autoSaveSettings();
+    if (el?.closest('[data-auto-save]')) autoSaveSettings(el);
   });
 
   document.addEventListener('input', (e) => {
     const el = e.target as HTMLElement | null;
-    if (el?.closest('[data-auto-save]')) autoSaveSettings();
+    if (el?.closest('[data-auto-save]')) scheduleAutoSave(el);
   });
 
   refs.themeSeg!.querySelectorAll('.seg-btn').forEach((btn) => {

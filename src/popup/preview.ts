@@ -4,7 +4,6 @@
  */
 
 import { TOKEN_THRESHOLDS, estimateTokens, tokenColorClass } from '../shared/constants';
-import { t } from '../shared/i18n';
 import { state, getActiveModel } from './state';
 import { refs } from './dom';
 import { setError } from './errors';
@@ -37,15 +36,12 @@ export async function richCopy(text: string, html?: string): Promise<void> {
 export function updatePreviewText(): void {
   const isPrompt = state.previewTab === 'prompt';
   refs.previewText!.value = isPrompt ? state.finalText : state.rawMarkdown;
-  refs.btnCopyMd!.textContent = isPrompt ? t('popup_copy_prompt') : t('popup_copy_markdown');
 }
 
 
 export function setPreviewOpen(open: boolean): void {
   state.previewOpen = open;
-  refs.previewPanel!.classList.toggle('collapsed', !open);
-  refs.previewArrow!.textContent = open ? '▴' : '▾';
-  refs.btnPreviewToggle!.setAttribute('aria-expanded', String(open));
+  refs.previewPanel!.classList.toggle('hidden', !open);
 }
 
 
@@ -63,32 +59,15 @@ export function updateTokenDisplay(text: string): void {
 export async function copyPreviewText(text: string, btn: HTMLButtonElement): Promise<void> {
   try {
     await richCopy(text);
-    showCopySuccess(btn);
+    btn.classList.add('copy-success');
+    setTimeout(() => btn.classList.remove('copy-success'), 2000);
   } catch (err: unknown) {
     setError(`Copy failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 }
 
 
-function showCopySuccess(btn: HTMLButtonElement): void {
-  const isMain = btn === refs.btnCopyMd;
-  const originalText = isMain ? btn.textContent : null;
-
-  btn.classList.add('copy-success');
-  if (isMain) btn.textContent = t('popup_copied');
-
-  setTimeout(() => {
-    btn.classList.remove('copy-success');
-    if (isMain && originalText) btn.textContent = originalText;
-  }, 2000);
-}
-
-
 export function wirePreview(): void {
-  refs.btnPreviewToggle!.addEventListener('click', () => {
-    setPreviewOpen(!state.previewOpen);
-  });
-
   document.querySelectorAll<HTMLElement>('.preview-tab').forEach((btn) => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.preview-tab').forEach((b) => {
@@ -101,12 +80,6 @@ export function wirePreview(): void {
       updatePreviewText();
       if (!state.previewOpen) setPreviewOpen(true);
     });
-  });
-
-  refs.btnCopyMd!.addEventListener('click', async () => {
-    const text = state.previewTab === 'prompt' ? state.finalText : state.rawMarkdown;
-    if (!text) return;
-    await copyPreviewText(text, refs.btnCopyMd!);
   });
 
   refs.btnPreviewCopy!.addEventListener('click', async () => {

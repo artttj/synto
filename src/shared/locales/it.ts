@@ -34,7 +34,6 @@ const it: Record<string, string> = {
   popup_history_yes: 'Ripristina',
   popup_history_dismiss: 'Chiudi',
   popup_content_updated: 'Contenuto aggiornato',
-  popup_auto_rescanned: 'Contenuto diff espanso automaticamente',
   options_brand_sub: 'Impostazioni',
   options_nav_general: 'Generale',
   options_nav_ai: 'Connessioni IA',
@@ -161,15 +160,13 @@ const it: Record<string, string> = {
   category_compose: 'Comporre',
   category_custom: 'Personalizzato',
 
-  'template_label_understand-brief':   'Brief',
+  'template_label_understand-brief':   'TL;DR',
   'template_label_understand-review': 'Code Review',
-  'template_label_understand-audit':  'Audit',
   'template_label_decide-decide':     'Decisione',
   'template_label_decide-actions':    'Azioni',
-  'template_label_decide-briefing':   'Briefing',
+  'template_label_decide-briefing':   'Strategia',
   'template_label_compose-reply':     'Risposta',
 
-  'template_name_understand-audit':   'Audit SEO',
   'template_name_decide-briefing':    'Briefing Strategico',
 };
 

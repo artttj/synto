@@ -34,7 +34,7 @@ const zh: Record<string, string> = {
   popup_history_yes: '恢复',
   popup_history_dismiss: '关闭',
   popup_content_updated: '内容已更新',
-  popup_auto_rescanned: '已自动展开差异内容',
+  popup_restricted_page: '请在普通网页上打开 Synto。chrome:// 等浏览器页面无法提取内容。',
   options_brand_sub: '设置',
   options_nav_general: '常规',
   options_nav_ai: 'AI 连接',
@@ -156,6 +156,8 @@ const zh: Record<string, string> = {
   error_no_ollama_endpoint: '未配置 Ollama 端点。请打开设置添加。',
   error_no_custom_endpoint: 'No custom endpoint URL configured. Open Settings to add one.',
   error_no_custom_model: 'No model name configured for custom endpoint. Open Settings to add one.',
+  popup_manage_templates: '管理模板',
+
   category_understand: '理解',
   category_decide: '决策',
   category_compose: '撰写',
@@ -163,13 +165,11 @@ const zh: Record<string, string> = {
 
   'template_label_understand-brief':   '摘要',
   'template_label_understand-review': '代码评审',
-  'template_label_understand-audit':  '审计',
   'template_label_decide-decide':     '决策',
   'template_label_decide-actions':    '行动项',
-  'template_label_decide-briefing':   '简报',
+  'template_label_decide-briefing':   '战略',
   'template_label_compose-reply':     '回复',
 
-  'template_name_understand-audit':   'SEO审计',
   'template_name_decide-briefing':    '战略简报',
 };
 

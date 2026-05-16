@@ -70,6 +70,12 @@ async function main() {
   for (const icon of ['icon16.png', 'icon48.png', 'icon128.png', 'logo.svg']) {
     copyFile(path.join(root, 'icons', icon), path.join(dist, 'icons', icon));
   }
+
+  // ── Fonts ─────────────────────────────────────────────────────────────────
+  mkdirp(path.join(dist, 'fonts'));
+  for (const font of ['Geist-Variable.woff2', 'GeistMono-Variable.woff2']) {
+    copyFile(path.join(src, 'fonts', font), path.join(dist, 'fonts', font));
+  }
   // Resize logo.png to 128×128 on macOS; otherwise fall back to copying source file.
   if (process.platform === 'darwin' && commandExists('sips')) {
     execFileSync('sips', [

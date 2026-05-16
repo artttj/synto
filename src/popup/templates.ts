@@ -3,9 +3,8 @@
  * https://github.com/artttj/synto
  */
 
-import { TEMPLATE_CATEGORIES } from '../shared/constants';
 import { type Template, saveSettings, rememberTemplateUsage, getRememberedTemplateId } from '../shared/storage';
-import { t, tOpt } from '../shared/i18n';
+import { tOpt } from '../shared/i18n';
 import { state, type ExtractedContent } from './state';
 import { refs } from './dom';
 import { updatePreviewText, updateTokenDisplay, setPreviewOpen } from './preview';
@@ -30,48 +29,17 @@ export function applyTemplateAndUpdate(): void {
 
   state.finalText = applyTemplate(state.extracted, state.selectedTemplateId);
   updateTokenDisplay(state.finalText);
-  refs.btnCopyMd!.disabled = false;
   refs.btnProcess!.disabled = false;
   updatePreviewText();
 
   if (refs.previewPanel!.classList.contains('hidden')) {
-    refs.previewPanel!.classList.remove('hidden');
     setPreviewOpen(true);
   }
 }
 
 
-let activeIntent: string = TEMPLATE_CATEGORIES[0];
-const intentSelection: Record<string, string> = {};
 let switchDebounce: ReturnType<typeof setTimeout> | null = null;
 
-
-function getIntentList(): string[] {
-  const known = new Set(TEMPLATE_CATEGORIES);
-  const extra = new Set<string>();
-  for (const tpl of state.templates) {
-    if (tpl.category && !known.has(tpl.category)) extra.add(tpl.category);
-  }
-  return [...TEMPLATE_CATEGORIES, ...[...extra].sort()];
-}
-
-function getTemplatesForIntent(intent: string): Template[] {
-  return state.templates.filter((tpl) => tpl.category === intent);
-}
-
-function deriveActiveIntent(): string {
-  if (state.selectedTemplateId) {
-    const tpl = state.templates.find((tpl) => tpl.id === state.selectedTemplateId);
-    if (tpl?.category) {
-      const list = getIntentList();
-      if (list.includes(tpl.category)) return tpl.category;
-    }
-  }
-  const saved = localStorage.getItem('synto_intent');
-  const list = getIntentList();
-  if (saved && list.includes(saved)) return saved;
-  return list[0] ?? TEMPLATE_CATEGORIES[0];
-}
 
 function withPreviewFade(fn: () => void): void {
   const text = refs.previewText;
@@ -88,9 +56,6 @@ function withPreviewFade(fn: () => void): void {
 
 
 export function renderTemplateUI(): void {
-  activeIntent = deriveActiveIntent();
-  intentSelection[activeIntent] = state.selectedTemplateId ?? '';
-  renderIntentTabs();
   renderTemplateCards();
 }
 
@@ -101,50 +66,28 @@ export async function selectTemplateForUrl(url?: string): Promise<void> {
   if (!templateId || templateId === state.selectedTemplateId) return;
 
   state.selectedTemplateId = templateId;
-  const tpl = state.templates.find((item) => item.id === templateId);
-  if (tpl?.category) {
-    activeIntent = tpl.category;
-    intentSelection[activeIntent] = templateId;
-  }
 }
 
-function renderIntentTabs(): void {
-  const container = refs.intentTabs!;
-  container.innerHTML = '';
+function buildCard(tpl: Template): HTMLButtonElement {
+  const displayLabel = tOpt('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
+  const displayName  = tOpt('template_name_'  + tpl.id) ?? tpl.name;
 
-  for (const intent of getIntentList()) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.setAttribute('role', 'tab');
-    btn.className = 'intent-tab' + (intent === activeIntent ? ' active' : '');
-    btn.setAttribute('aria-selected', String(intent === activeIntent));
-    btn.dataset.intent = intent;
-    btn.textContent = t('category_' + intent.toLowerCase()) || intent;
-    container.appendChild(btn);
-  }
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.setAttribute('role', 'option');
+  btn.setAttribute('aria-selected', String(tpl.id === state.selectedTemplateId));
+  btn.setAttribute('tabindex', tpl.id === state.selectedTemplateId ? '0' : '-1');
+  btn.setAttribute('aria-label', displayName);
+  btn.title = displayName;
+  btn.className = 'template-card' + (tpl.id === state.selectedTemplateId ? ' selected' : '');
+  btn.dataset.id = tpl.id;
+  btn.textContent = displayLabel;
+  return btn;
 }
 
 function renderTemplateCards(): void {
   const container = refs.templateCards!;
-  container.innerHTML = '';
-
-  for (const tpl of getTemplatesForIntent(activeIntent)) {
-    const displayLabel = tOpt('template_label_' + tpl.id) ?? tpl.label ?? tpl.name;
-    const displayName  = tOpt('template_name_'  + tpl.id) ?? tpl.name;
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.setAttribute('role', 'option');
-    btn.setAttribute('aria-selected', String(tpl.id === state.selectedTemplateId));
-    btn.setAttribute('tabindex', tpl.id === state.selectedTemplateId ? '0' : '-1');
-    btn.setAttribute('aria-label', displayName);
-    btn.title = displayName;
-    btn.className = 'template-card' + (tpl.id === state.selectedTemplateId ? ' selected' : '');
-    btn.dataset.id = tpl.id;
-    btn.textContent = displayLabel;
-
-    container.appendChild(btn);
-  }
+  container.replaceChildren(...state.templates.map(buildCard));
 }
 
 function updateCardSelection(): void {
@@ -157,43 +100,11 @@ function updateCardSelection(): void {
   }
 }
 
-function updateTabActiveState(): void {
-  const tabs = refs.intentTabs!.querySelectorAll<HTMLElement>('.intent-tab');
-  for (const tab of tabs) {
-    const active = tab.dataset.intent === activeIntent;
-    tab.classList.toggle('active', active);
-    tab.setAttribute('aria-selected', String(active));
-  }
-}
-
-
-function switchIntent(intent: string): void {
-  activeIntent = intent;
-  localStorage.setItem('synto_intent', intent);
-
-  const saved = intentSelection[intent] ?? localStorage.getItem('synto_intent_sel_' + intent);
-  const templates = getTemplatesForIntent(intent);
-  const targetId = saved && templates.find((tpl) => tpl.id === saved)
-    ? saved
-    : templates[0]?.id ?? null;
-
-  if (targetId && targetId !== state.selectedTemplateId) {
-    state.selectedTemplateId = targetId;
-    void saveSettings({ defaultTemplateId: targetId });
-    void rememberTemplateUsage(state.extracted?.url, targetId);
-    applyTemplateAndUpdate();
-  }
-
-  renderTemplateCards();
-  updateTabActiveState();
-}
 
 function selectCard(templateId: string): void {
   if (templateId === state.selectedTemplateId) return;
 
   state.selectedTemplateId = templateId;
-  intentSelection[activeIntent] = templateId;
-  localStorage.setItem('synto_intent_sel_' + activeIntent, templateId);
   void rememberTemplateUsage(state.extracted?.url, templateId);
   updateCardSelection();
 
@@ -228,12 +139,6 @@ function handleCardKeydown(e: KeyboardEvent): void {
 
 
 export function wireTemplateUI(): void {
-  refs.intentTabs!.addEventListener('click', (e) => {
-    const tab = (e.target as HTMLElement).closest<HTMLElement>('.intent-tab');
-    if (!tab?.dataset.intent) return;
-    switchIntent(tab.dataset.intent);
-  });
-
   refs.templateCards!.addEventListener('click', (e) => {
     const card = (e.target as HTMLElement).closest<HTMLElement>('.template-card');
     if (!card?.dataset.id) return;
@@ -241,4 +146,8 @@ export function wireTemplateUI(): void {
   });
 
   refs.templateCards!.addEventListener('keydown', handleCardKeydown);
+
+  refs.btnTemplatesManage?.addEventListener('click', () => {
+    void chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html') + '#prompt-library' });
+  });
 }

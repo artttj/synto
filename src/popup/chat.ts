@@ -111,6 +111,34 @@ function addBubbleCopyButton(bubble: HTMLDivElement, text: string): void {
 }
 
 
+function buildContextLine(): string {
+  const url = state.extracted?.url?.trim();
+  if (!url) return '';
+  const title = state.extracted?.title?.trim();
+  return title
+    ? `Source page: ${title} (${url})`
+    : `Source page: ${url}`;
+}
+
+
+async function throwHttpError(response: Response): Promise<never> {
+  if (response.status === 429) {
+    const retryAfter = response.headers.get('Retry-After');
+    const hint = retryAfter ? ` Retry after ${retryAfter}s.` : ' Wait a moment and try again.';
+    throw new Error(`Rate limited (429).${hint}`);
+  }
+  const text = await response.text().catch(() => '');
+  let detail = '';
+  try {
+    const body = JSON.parse(text) as APIErrorBody;
+    detail = body.error?.message ?? '';
+  } catch {
+    detail = text.slice(0, 200);
+  }
+  throw new Error(detail ? `HTTP ${response.status}: ${detail}` : `HTTP ${response.status}`);
+}
+
+
 async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, extraHeaders, signal }: { url: string; model: string; key: string; extraHeaders?: Record<string, string>; signal?: AbortSignal }): Promise<void> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -128,15 +156,7 @@ async function streamOpenAICompat(bubble: HTMLDivElement, { url, model, key, ext
     signal,
   });
 
-  if (!response.ok) {
-    if (response.status === 429) {
-      const retryAfter = response.headers.get('Retry-After');
-      const hint = retryAfter ? ` Retry after ${retryAfter}s.` : ' Wait a moment and try again.';
-      throw new Error(`Rate limited (429).${hint}`);
-    }
-    const body = await response.json().catch(() => ({})) as APIErrorBody;
-    throw new Error(body.error?.message ?? `HTTP ${response.status}`);
-  }
+  if (!response.ok) await throwHttpError(response);
 
   let reply = '';
   const reader = response.body!.getReader();
@@ -205,15 +225,7 @@ async function streamAnthropic(bubble: HTMLDivElement, { model, key, signal }: {
     signal,
   });
 
-  if (!response.ok) {
-    if (response.status === 429) {
-      const retryAfter = response.headers.get('Retry-After');
-      const hint = retryAfter ? ` Retry after ${retryAfter}s.` : ' Wait a moment and try again.';
-      throw new Error(`Rate limited (429).${hint}`);
-    }
-    const body = await response.json().catch(() => ({})) as APIErrorBody;
-    throw new Error(body.error?.message ?? `HTTP ${response.status}`);
-  }
+  if (!response.ok) await throwHttpError(response);
 
   let reply = '';
   const reader = response.body!.getReader();
@@ -358,7 +370,18 @@ async function processWithCustom(bubble: HTMLDivElement, signal?: AbortSignal): 
 async function processWithOllama(bubble: HTMLDivElement, signal?: AbortSignal): Promise<void> {
   const baseUrl = state.ollamaEndpoint?.trim() || 'https://ollama.com/v1';
   const key = state.ollamaUseAuth ? (await getOllamaKey()) : '';
-  await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model: state.ollamaModel, key: key || 'unused', signal });
+  const model = state.ollamaModel;
+  const isOllamaCloud = /(^|\/\/)ollama\.com\b/.test(baseUrl);
+  try {
+    await streamOpenAICompat(bubble, { url: buildChatUrl(baseUrl), model, key: key || 'unused', signal });
+  } catch (err: unknown) {
+    if (!(err instanceof Error) || err.name === 'AbortError') throw err;
+    const isTaggedCloud = /:[\w.-]*cloud$/i.test(model);
+    if (isOllamaCloud && !isTaggedCloud) {
+      throw new Error(`${err.message}\n\nHint: Ollama Cloud models need a ":cloud" tag. Try "${model}:cloud" in Settings → AI Connections.`);
+    }
+    throw err;
+  }
 }
 
 
@@ -460,8 +483,12 @@ export async function processWithAI(): Promise<void> {
   }
   refs.chatNoKey!.classList.add('hidden');
 
-  if (state.systemPrompt && state.chatHistory.length === 0) {
-    state.chatHistory.unshift({ role: 'system', content: state.systemPrompt });
+  if (state.chatHistory.length === 0) {
+    const contextLine = buildContextLine();
+    const systemContent = [state.systemPrompt, contextLine].filter(Boolean).join('\n\n');
+    if (systemContent) {
+      state.chatHistory.unshift({ role: 'system', content: systemContent });
+    }
   }
 
   state.chatHistory.push({ role: 'user', content: state.finalText });
@@ -519,7 +546,7 @@ export async function sendFollowUp(): Promise<void> {
   refs.chatInput!.value = '';
   autoResize(refs.chatInput!);
 
-  appendBubble('user', text);
+  const userBubble = appendBubble('user', text);
   state.chatHistory.push({ role: 'user', content: text });
 
   const bubble = appendBubble('assistant', '');
@@ -542,6 +569,7 @@ export async function sendFollowUp(): Promise<void> {
       addBubbleCopyButton(bubble, bubble.textContent);
     } else {
       (bubble.parentElement ?? bubble).remove();
+      (userBubble.parentElement ?? userBubble).remove();
       state.chatHistory.pop();
       appendBubble('error', `Error: ${err instanceof Error ? err.message : String(err)}`);
     }

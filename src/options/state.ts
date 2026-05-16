@@ -28,7 +28,7 @@ export const state: {
     customEndpoint: CUSTOM_ENDPOINT_DEFAULT,
     customModel: '',
     customUseAuth: false,
-    ollamaModel: 'kimi-k2.6',
+    ollamaModel: 'kimi-k2.6:cloud',
     ollamaEndpoint: OLLAMA_ENDPOINT_DEFAULT,
     ollamaUseAuth: true,
   },

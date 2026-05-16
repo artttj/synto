@@ -283,7 +283,7 @@ export async function getSettings(): Promise<Settings> {
     customEndpoint: 'http://localhost:11434',
     customModel: '',
     customUseAuth: false,
-    ollamaModel: 'kimi-k2.6',
+    ollamaModel: 'kimi-k2.6:cloud',
     ollamaEndpoint: 'https://ollama.com/v1',
     ollamaUseAuth: true,
     ...(result[STORAGE_KEYS.SETTINGS] as Partial<Settings> | undefined),

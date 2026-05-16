@@ -10,16 +10,14 @@ export { $ };
 export const refs = {
   btnOptions: null as HTMLElement | null,
   btnHelp:    null as HTMLElement | null,
-  intentTabs: null as HTMLElement | null,
+  btnTheme:   null as HTMLButtonElement | null,
   templateCards: null as HTMLElement | null,
+  btnTemplatesManage: null as HTMLButtonElement | null,
   errorMsg: null as HTMLElement | null,
   tokenCount: null as HTMLElement | null,
   tokenWarning: null as HTMLElement | null,
   previewPanel: null as HTMLElement | null,
   previewText: null as HTMLTextAreaElement | null,
-  btnPreviewToggle: null as HTMLElement | null,
-  previewArrow: null as HTMLElement | null,
-  btnCopyMd: null as HTMLButtonElement | null,
   btnPreviewCopy: null as HTMLButtonElement | null,
   btnRefreshContent: null as HTMLButtonElement | null,
   btnScrollRescan: null as HTMLButtonElement | null,
@@ -42,22 +40,33 @@ export const refs = {
   contentToast: null as HTMLElement | null,
   btnChatStop: null as HTMLElement | null,
   providerHealth: null as HTMLElement | null,
+  footerProvider: null as HTMLElement | null,
+  footerModel: null as HTMLElement | null,
+  footerVersion: null as HTMLElement | null,
 };
+
+
+export function renderFooter(provider: string, model: string): void {
+  if (refs.footerProvider) refs.footerProvider.textContent = provider;
+  if (refs.footerModel) refs.footerModel.textContent = model;
+  if (refs.footerVersion && !refs.footerVersion.textContent) {
+    const v = chrome.runtime.getManifest().version;
+    refs.footerVersion.textContent = `v${v}`;
+  }
+}
 
 
 export function resolveRefs() {
   refs.btnOptions = $('btn-options');
   refs.btnHelp    = $('btn-help');
-  refs.intentTabs    = $('intent-tabs');
+  refs.btnTheme   = $('btn-theme') as HTMLButtonElement | null;
   refs.templateCards = $('template-cards');
+  refs.btnTemplatesManage = $('btn-templates-manage') as HTMLButtonElement | null;
   refs.errorMsg = $('error-msg');
   refs.tokenCount = $('token-count');
   refs.tokenWarning = $('token-warning');
   refs.previewPanel = $('preview-panel');
   refs.previewText = $('preview-text') as HTMLTextAreaElement | null;
-  refs.btnPreviewToggle = $('btn-preview-toggle');
-  refs.previewArrow = $('preview-arrow');
-  refs.btnCopyMd = $('btn-copy-md') as HTMLButtonElement | null;
   refs.btnPreviewCopy = $('btn-preview-copy') as HTMLButtonElement | null;
   refs.btnRefreshContent = $('btn-refresh-content') as HTMLButtonElement | null;
   refs.btnScrollRescan = $('btn-scroll-rescan') as HTMLButtonElement | null;
@@ -80,4 +89,7 @@ export function resolveRefs() {
   refs.contentToast = $('content-toast');
   refs.btnChatStop = $('btn-chat-stop') as HTMLButtonElement | null;
   refs.providerHealth = $('provider-health');
+  refs.footerProvider = $('footer-provider');
+  refs.footerModel = $('footer-model');
+  refs.footerVersion = $('footer-version');
 }
